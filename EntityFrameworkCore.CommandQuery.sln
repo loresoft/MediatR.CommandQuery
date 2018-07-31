@@ -11,6 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.Command
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{63F0C18C-13A5-4D95-9365-47215BCDADF4}"
 	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
 		build\common.props = build\common.props
 		build\sourcelink.props = build\sourcelink.props
 		build\version.props = build\version.props

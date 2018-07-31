@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="coverlet.msbuild" Version="2.1.1" />
     <PackageReference Include="DataGenerator" Version="4.0.0.19" />
     <PackageReference Include="FluentAssertions" Version="5.4.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
