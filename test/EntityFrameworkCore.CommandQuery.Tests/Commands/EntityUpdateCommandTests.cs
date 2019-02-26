@@ -30,8 +30,6 @@ namespace EntityFrameworkCore.CommandQuery.Tests.Commands
             updateCommand.Id.Should().Be(id);
 
             updateCommand.Model.Should().NotBeNull();
-            updateCommand.Model.Updated.Should().NotBe(DateTimeOffset.MinValue);
-            updateCommand.Model.UpdatedBy.Should().Be("test@mailinator.com");
 
             updateCommand.Principal.Should().NotBeNull();
             updateCommand.Original.Should().BeNull();

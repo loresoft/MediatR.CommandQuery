@@ -26,12 +26,6 @@ namespace EntityFrameworkCore.CommandQuery.Tests.Commands
             createCommand.Should().NotBeNull();
             createCommand.Model.Should().NotBeNull();
             createCommand.Principal.Should().NotBeNull();
-
-            createCommand.Model.Created.Should().NotBe(DateTimeOffset.MinValue);
-            createCommand.Model.CreatedBy.Should().Be("test@mailinator.com");
-
-            createCommand.Model.Updated.Should().NotBe(DateTimeOffset.MinValue);
-            createCommand.Model.UpdatedBy.Should().Be("test@mailinator.com");
         }
     }
 }
