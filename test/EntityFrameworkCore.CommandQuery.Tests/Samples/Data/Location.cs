@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using EntityFrameworkCore.CommandQuery.Definitions;
 
-namespace EntityFrameworkCore.CommandQuery.Tests
+namespace EntityFrameworkCore.CommandQuery.Tests.Samples
 {
-    public class Location
+    public class Location : IHaveIdentifier<Guid>, ITrackCreated, ITrackUpdated
     {
         public Location()
         {
@@ -23,11 +22,11 @@ namespace EntityFrameworkCore.CommandQuery.Tests
         public string PostalCode { get; set; }
         public decimal? Latitude { get; set; }
         public decimal? Longitude { get; set; }
+
         public DateTimeOffset Created { get; set; }
         public string CreatedBy { get; set; }
         public DateTimeOffset Updated { get; set; }
         public string UpdatedBy { get; set; }
-        public Byte[] RowVersion { get; set; }
     }
 
 }

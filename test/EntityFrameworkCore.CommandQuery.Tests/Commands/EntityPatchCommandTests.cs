@@ -12,7 +12,7 @@ namespace EntityFrameworkCore.CommandQuery.Tests.Commands
         [Fact]
         public void ConstructorNullModel()
         {
-            Action act = () => new EntityPatchCommand<Guid, Location, LocationReadModel>(Guid.Empty, null, null);
+            Action act = () => new EntityPatchCommand<Guid, LocationReadModel>(Guid.Empty, null, null);
             act.Should().Throw<ArgumentNullException>();
         }
 
@@ -23,7 +23,7 @@ namespace EntityFrameworkCore.CommandQuery.Tests.Commands
             var jsonPatch = new JsonPatchDocument<Location>();
             jsonPatch.Replace(p => p.Name, "Test");
 
-            var updateCommand = new EntityPatchCommand<Guid, Location, LocationReadModel>(id, jsonPatch, MockPrincipal.Default);
+            var updateCommand = new EntityPatchCommand<Guid, LocationReadModel>(id, jsonPatch, MockPrincipal.Default);
             updateCommand.Should().NotBeNull();
 
             updateCommand.Id.Should().NotBe(Guid.Empty);

@@ -3,31 +3,28 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using EntityFrameworkCore.CommandQuery.Commands;
+using EntityFrameworkCore.CommandQuery.Definitions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.CommandQuery.Handlers
 {
-    public class EntityCreateCommandHandler<TContext, TEntity, TCreateModel, TReadModel>
-        : RequestHandlerBase<EntityCreateCommand<TEntity, TCreateModel, TReadModel>, TReadModel>
-        where TEntity : class, new()
+    public class EntityCreateCommandHandler<TContext, TEntity, TKey, TCreateModel, TReadModel>
+        : EntityDataContextHandlerBase<TContext, TEntity, TKey, TReadModel, EntityCreateCommand<TCreateModel, TReadModel>, TReadModel>
         where TContext : DbContext
+        where TEntity : class, IHaveIdentifier<TKey>, new()
     {
-        private readonly TContext _context;
-        private readonly IMapper _mapper;
-
-        public EntityCreateCommandHandler(ILoggerFactory loggerFactory, TContext context, IMapper mapper) : base(loggerFactory)
+        public EntityCreateCommandHandler(ILoggerFactory loggerFactory, TContext dataContext, IMapper mapper)
+            : base(loggerFactory, dataContext, mapper)
         {
-            _context = context;
-            _mapper = mapper;
         }
 
-        protected override async Task<TReadModel> Process(EntityCreateCommand<TEntity, TCreateModel, TReadModel> message, CancellationToken cancellationToken)
+        protected override async Task<TReadModel> Process(EntityCreateCommand<TCreateModel, TReadModel> message, CancellationToken cancellationToken)
         {
             // create new entity from model
-            var entity = _mapper.Map<TEntity>(message.Model);
+            var entity = Mapper.Map<TEntity>(message.Model);
 
-            var dbSet = _context
+            var dbSet = DataContext
                 .Set<TEntity>();
 
             // add to data set, id should be generated
@@ -36,12 +33,13 @@ namespace EntityFrameworkCore.CommandQuery.Handlers
                 .ConfigureAwait(false);
 
             // save to database
-            await _context
+            await DataContext
                 .SaveChangesAsync(cancellationToken)
                 .ConfigureAwait(false);
 
             // convert to read model
-            var readModel = _mapper.Map<TReadModel>(entity);
+            var readModel = await Read(entity.Id, cancellationToken)
+                .ConfigureAwait(false);
 
             return readModel;
         }

@@ -3,28 +3,26 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using EntityFrameworkCore.CommandQuery.Commands;
+using EntityFrameworkCore.CommandQuery.Definitions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.CommandQuery.Handlers
 {
-    public class EntityUpdateCommandHandler<TContext, TKey, TEntity, TUpdateModel, TReadModel>
-        : RequestHandlerBase<EntityUpdateCommand<TKey, TEntity, TUpdateModel, TReadModel>, TReadModel>
-        where TEntity : class, new()
+    public class EntityUpdateCommandHandler<TContext, TEntity, TKey, TUpdateModel, TReadModel>
+        : EntityDataContextHandlerBase<TContext, TEntity, TKey, TReadModel, EntityUpdateCommand<TKey, TUpdateModel, TReadModel>, TReadModel>
         where TContext : DbContext
+        where TEntity : class, IHaveIdentifier<TKey>, new()
     {
-        private readonly TContext _context;
-        private readonly IMapper _mapper;
-
-        public EntityUpdateCommandHandler(ILoggerFactory loggerFactory, TContext context, IMapper mapper) : base(loggerFactory)
+        public EntityUpdateCommandHandler(ILoggerFactory loggerFactory, TContext dataContext, IMapper mapper)
+            : base(loggerFactory, dataContext, mapper)
         {
-            _context = context;
-            _mapper = mapper;
+
         }
 
-        protected override async Task<TReadModel> Process(EntityUpdateCommand<TKey, TEntity, TUpdateModel, TReadModel> message, CancellationToken cancellationToken)
+        protected override async Task<TReadModel> Process(EntityUpdateCommand<TKey, TUpdateModel, TReadModel> message, CancellationToken cancellationToken)
         {
-            var dbSet = _context
+            var dbSet = DataContext
                 .Set<TEntity>();
 
             var keyValue = new object[] { message.Id };
@@ -38,18 +36,20 @@ namespace EntityFrameworkCore.CommandQuery.Handlers
                 return default(TReadModel);
 
             // save original for later pipeline processing
-            message.Original = _mapper.Map<TReadModel>(entity);
+            message.Original = await Read(entity.Id, cancellationToken)
+                .ConfigureAwait(false);
 
             // copy updates from model to entity
-            _mapper.Map(message.Model, entity);
+            Mapper.Map(message.Model, entity);
 
             // save updates
-            await _context
+            await DataContext
                 .SaveChangesAsync(cancellationToken)
                 .ConfigureAwait(false);
 
             // return read model
-            var readModel = _mapper.Map<TReadModel>(entity);
+            var readModel = await Read(entity.Id, cancellationToken)
+                .ConfigureAwait(false);
 
             return readModel;
         }

@@ -4,19 +4,15 @@ using Microsoft.AspNetCore.JsonPatch;
 
 namespace EntityFrameworkCore.CommandQuery.Commands
 {
-    public class EntityPatchCommand<TKey, TEntity, TReadModel>
+    public class EntityPatchCommand<TKey, TReadModel>
         : EntityIdentifierCommand<TKey, TReadModel>
-        where TEntity : class, new()
     {
-        public EntityPatchCommand(TKey id, JsonPatchDocument<TEntity> patch, IPrincipal principal) : base(id, principal)
+        public EntityPatchCommand(TKey id, IJsonPatchDocument patch, IPrincipal principal) : base(id, principal)
         {
-            if (patch == null)
-                throw new ArgumentNullException(nameof(patch));
-
-            Patch = patch;
+            Patch = patch ?? throw new ArgumentNullException(nameof(patch));
         }
 
-        public JsonPatchDocument<TEntity> Patch { get; }
+        public IJsonPatchDocument Patch { get; }
 
         public TReadModel Original { get; set; }
     }

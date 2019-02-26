@@ -9,24 +9,19 @@ using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.CommandQuery.Handlers
 {
-    public class EntityDeleteCommandHandler<TContext, TKey, TEntity, TReadModel>
-        : RequestHandlerBase<EntityDeleteCommand<TKey, TEntity, TReadModel>, TReadModel>
-        where TEntity : class, new()
+    public class EntityDeleteCommandHandler<TContext, TEntity, TKey, TReadModel>
+        : EntityDataContextHandlerBase<TContext, TEntity, TKey, TReadModel, EntityDeleteCommand<TKey, TReadModel>, TReadModel>
+        where TEntity : class, IHaveIdentifier<TKey>, new()
         where TContext : DbContext
     {
-        private readonly TContext _context;
-        private readonly IMapper _mapper;
-
-        public EntityDeleteCommandHandler(ILoggerFactory loggerFactory, TContext context, IMapper mapper) : base(loggerFactory)
+        public EntityDeleteCommandHandler(ILoggerFactory loggerFactory, TContext dataContext, IMapper mapper)
+            : base(loggerFactory, dataContext, mapper)
         {
-            _context = context;
-            _mapper = mapper;
         }
 
-
-        protected override async Task<TReadModel> Process(EntityDeleteCommand<TKey, TEntity, TReadModel> message, CancellationToken cancellationToken)
+        protected override async Task<TReadModel> Process(EntityDeleteCommand<TKey, TReadModel> message, CancellationToken cancellationToken)
         {
-            var dbSet = _context
+            var dbSet = DataContext
                 .Set<TEntity>();
 
             var keyValue = new object[] { message.Id };
@@ -44,12 +39,12 @@ namespace EntityFrameworkCore.CommandQuery.Handlers
             else
                 dbSet.Remove(entity);
 
-            await _context
+            await DataContext
                 .SaveChangesAsync(cancellationToken)
                 .ConfigureAwait(false);
 
             // convert deleted entity to read model
-            var model = _mapper.Map<TReadModel>(entity);
+            var model = Mapper.Map<TReadModel>(entity);
 
             return model;
         }

@@ -12,7 +12,7 @@ namespace EntityFrameworkCore.CommandQuery.Tests.Commands
         public void ConstructorWithId()
         {
             var id = Guid.NewGuid();
-            var deleteCommand = new EntityDeleteCommand<Guid, Location, LocationReadModel>(id, MockPrincipal.Default);
+            var deleteCommand = new EntityDeleteCommand<Guid, LocationReadModel>(id, MockPrincipal.Default);
 
             deleteCommand.Should().NotBeNull();
             deleteCommand.Id.Should().NotBe(Guid.Empty);

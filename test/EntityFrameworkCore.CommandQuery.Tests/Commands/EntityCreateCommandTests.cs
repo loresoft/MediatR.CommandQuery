@@ -12,7 +12,7 @@ namespace EntityFrameworkCore.CommandQuery.Tests.Commands
         [Fact]
         public void ConstructorNullModel()
         {
-            Action act = () => new EntityCreateCommand<Location, LocationCreateModel, LocationReadModel>(null, null);
+            Action act = () => new EntityCreateCommand<LocationCreateModel, LocationReadModel>(null, null);
             act.Should().Throw<ArgumentNullException>();
         }
 
@@ -22,7 +22,7 @@ namespace EntityFrameworkCore.CommandQuery.Tests.Commands
             var createModel = Generator.Default.Single<LocationCreateModel>();
             createModel.Should().NotBeNull();
 
-            var createCommand = new EntityCreateCommand<Location, LocationCreateModel, LocationReadModel>(createModel, MockPrincipal.Default);
+            var createCommand = new EntityCreateCommand<LocationCreateModel, LocationReadModel>(createModel, MockPrincipal.Default);
             createCommand.Should().NotBeNull();
             createCommand.Model.Should().NotBeNull();
             createCommand.Principal.Should().NotBeNull();

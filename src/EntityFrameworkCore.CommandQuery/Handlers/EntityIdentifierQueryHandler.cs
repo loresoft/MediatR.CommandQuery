@@ -1,44 +1,29 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using EntityFrameworkCore.CommandQuery.Definitions;
 using EntityFrameworkCore.CommandQuery.Queries;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.CommandQuery.Handlers
 {
-    public class EntityIdentifierQueryHandler<TContext, TKey, TEntity, TReadModel>
-        : RequestHandlerBase<EntityIdentifierQuery<TKey, TEntity, TReadModel>, TReadModel>
-        where TEntity : class, new()
+    public class EntityIdentifierQueryHandler<TContext, TEntity, TKey, TReadModel>
+        : EntityDataContextHandlerBase<TContext, TEntity, TKey, TReadModel, EntityIdentifierQuery<TKey, TReadModel>, TReadModel>
+        where TEntity : class, IHaveIdentifier<TKey>, new()
         where TContext : DbContext
     {
-        private readonly TContext _context;
-        private readonly IMapper _mapper;
 
-        public EntityIdentifierQueryHandler(ILoggerFactory loggerFactory, TContext context, IMapper mapper) : base(loggerFactory)
+        public EntityIdentifierQueryHandler(ILoggerFactory loggerFactory, TContext dataContext, IMapper mapper)
+            : base(loggerFactory, dataContext, mapper)
         {
-            _context = context;
-            _mapper = mapper;
         }
 
-        protected override async Task<TReadModel> Process(EntityIdentifierQuery<TKey, TEntity, TReadModel> message, CancellationToken cancellationToken)
+
+        protected override async Task<TReadModel> Process(EntityIdentifierQuery<TKey, TReadModel> message, CancellationToken cancellationToken)
         {
-            var dbSet = _context
-                .Set<TEntity>();
-
-            var keyValue = new object[] { message.Id };
-
-            // find entity by message id
-            var entity = await dbSet
-                .FindAsync(keyValue, cancellationToken)
+            var model = await Read(message.Id, cancellationToken)
                 .ConfigureAwait(false);
-
-            if (entity == null)
-                return default(TReadModel);
-
-            // return read model
-            var model = _mapper.Map<TReadModel>(entity);
 
             return model;
         }

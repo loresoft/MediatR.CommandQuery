@@ -35,7 +35,7 @@ namespace EntityFrameworkCore.CommandQuery.Handlers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Error handling request '{0}': {1}", _requestName.Value, ex.Message);
+                Logger.LogError(ex, "Error processing request '{0}': {1}", _requestName.Value, ex.Message);
                 throw;
             }
         }

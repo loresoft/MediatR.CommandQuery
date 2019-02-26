@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace EntityFrameworkCore.CommandQuery.Handlers
 {
     public class EntityListQueryHandler<TContext, TEntity, TReadModel>
-        : RequestHandlerBase<EntityListQuery<TEntity, TReadModel>, EntityListResult<TReadModel>>
+        : RequestHandlerBase<EntityListQuery<TReadModel>, EntityListResult<TReadModel>>
         where TEntity : class
         where TContext : DbContext
     {
@@ -28,7 +28,7 @@ namespace EntityFrameworkCore.CommandQuery.Handlers
             _configurationProvider = configurationProvider;
         }
 
-        protected override async Task<EntityListResult<TReadModel>> Process(EntityListQuery<TEntity, TReadModel> message, CancellationToken cancellationToken)
+        protected override async Task<EntityListResult<TReadModel>> Process(EntityListQuery<TReadModel> message, CancellationToken cancellationToken)
         {
             var entityQuery = message.Query;
 

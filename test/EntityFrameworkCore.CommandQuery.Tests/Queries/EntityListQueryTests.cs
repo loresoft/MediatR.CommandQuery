@@ -11,7 +11,7 @@ namespace EntityFrameworkCore.CommandQuery.Tests.Queries
         [Fact]
         public void ConstructorNull()
         {
-            var listQuery = new EntityListQuery<Location, LocationReadModel>(null, null);
+            var listQuery = new EntityListQuery<LocationReadModel>(null, null);
             listQuery.Should().NotBeNull();
         }
 
@@ -22,7 +22,7 @@ namespace EntityFrameworkCore.CommandQuery.Tests.Queries
             var entityQuery = new EntityQuery("name = 'blah'", 2, 10, "updated:desc");
             entityQuery.Filter = entityFilter;
 
-            var listQuery = new EntityListQuery<Location, LocationReadModel>(entityQuery, MockPrincipal.Default);
+            var listQuery = new EntityListQuery<LocationReadModel>(entityQuery, MockPrincipal.Default);
             listQuery.Should().NotBeNull();
 
             listQuery.Query.Should().NotBeNull();

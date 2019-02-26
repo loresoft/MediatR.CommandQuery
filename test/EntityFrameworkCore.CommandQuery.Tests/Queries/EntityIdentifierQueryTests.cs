@@ -14,7 +14,7 @@ namespace EntityFrameworkCore.CommandQuery.Tests.Queries
         [Fact]
         public void ConstructorNull()
         {
-            var identifierQuery = new EntityIdentifierQuery<Guid, Location, LocationReadModel>(Guid.Empty, null);
+            var identifierQuery = new EntityIdentifierQuery<Guid, LocationReadModel>(Guid.Empty, null);
             identifierQuery.Should().NotBeNull();
         }
 
@@ -22,7 +22,7 @@ namespace EntityFrameworkCore.CommandQuery.Tests.Queries
         public void ConstructorWithParameters()
         {
             var id = Guid.NewGuid();
-            var identifierQuery = new EntityIdentifierQuery<Guid, Location, LocationReadModel>(id, MockPrincipal.Default);
+            var identifierQuery = new EntityIdentifierQuery<Guid, LocationReadModel>(id, MockPrincipal.Default);
             identifierQuery.Should().NotBeNull();
 
             identifierQuery.Id.Should().NotBe(Guid.Empty);

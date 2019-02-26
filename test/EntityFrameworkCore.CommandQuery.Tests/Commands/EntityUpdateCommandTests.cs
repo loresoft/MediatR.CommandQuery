@@ -12,7 +12,7 @@ namespace EntityFrameworkCore.CommandQuery.Tests.Commands
         [Fact]
         public void ConstructorNullModel()
         {
-            Action act = () => new EntityUpdateCommand<Guid, Location, LocationUpdateModel, LocationReadModel>(Guid.Empty, null, null);
+            Action act = () => new EntityUpdateCommand<Guid, LocationUpdateModel, LocationReadModel>(Guid.Empty, null, null);
             act.Should().Throw<ArgumentNullException>();
         }
 
@@ -23,7 +23,7 @@ namespace EntityFrameworkCore.CommandQuery.Tests.Commands
             var updateModel = Generator.Default.Single<LocationUpdateModel>();
             updateModel.Should().NotBeNull();
 
-            var updateCommand = new EntityUpdateCommand<Guid, Location, LocationUpdateModel, LocationReadModel>(id, updateModel, MockPrincipal.Default);
+            var updateCommand = new EntityUpdateCommand<Guid, LocationUpdateModel, LocationReadModel>(id, updateModel, MockPrincipal.Default);
             updateCommand.Should().NotBeNull();
 
             updateCommand.Id.Should().NotBe(Guid.Empty);

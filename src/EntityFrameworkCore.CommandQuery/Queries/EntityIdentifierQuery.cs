@@ -4,9 +4,7 @@ using MediatR;
 
 namespace EntityFrameworkCore.CommandQuery.Queries
 {
-    // ReSharper disable once UnusedTypeParameter
-    public class EntityIdentifierQuery<TKey, TEntity, TReadModel> : IRequest<TReadModel>
-        where TEntity : class, new()
+    public class EntityIdentifierQuery<TKey, TReadModel> : IRequest<TReadModel>
     {
         public EntityIdentifierQuery(TKey id, IPrincipal principal)
         {

@@ -1,9 +1,9 @@
 ﻿using System;
 using EntityFrameworkCore.CommandQuery.Models;
 
-namespace EntityFrameworkCore.CommandQuery.Tests
+namespace EntityFrameworkCore.CommandQuery.Tests.Samples
 {
-    public class LocationReadModel : EntityReadModel<Guid>
+    public class LocationCreateModel : EntityCreateModel<Guid>
     {
         public string Name { get; set; }
         public string Description { get; set; }

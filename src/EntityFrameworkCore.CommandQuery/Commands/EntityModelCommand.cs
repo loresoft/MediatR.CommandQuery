@@ -4,7 +4,8 @@ using MediatR;
 
 namespace EntityFrameworkCore.CommandQuery.Commands
 {
-    public abstract class EntityModelCommand<TEntityModel, TReadModel> : IRequest<TReadModel>
+    public abstract class EntityModelCommand<TEntityModel, TReadModel>
+        : IRequest<TReadModel>
     {
         protected EntityModelCommand(TEntityModel model, IPrincipal principal)
         {
