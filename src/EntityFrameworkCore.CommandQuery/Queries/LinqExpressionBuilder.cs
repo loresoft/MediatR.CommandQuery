@@ -83,11 +83,11 @@ namespace EntityFrameworkCore.CommandQuery.Queries
 
             // use function call
             var negation = comparison.StartsWith("!") || comparison.StartsWith("not", StringComparison.OrdinalIgnoreCase) ? "!" : string.Empty;
-            if (comparison.EndsWith("StartsWith", StringComparison.OrdinalIgnoreCase))
+            if (comparison.EndsWith(EntityFilterOperators.StartsWith, StringComparison.OrdinalIgnoreCase))
                 _expression.Append($"{negation}{name}.StartsWith(@{index})");
-            else if (comparison.EndsWith("EndsWith", StringComparison.OrdinalIgnoreCase))
+            else if (comparison.EndsWith(EntityFilterOperators.EndsWith, StringComparison.OrdinalIgnoreCase))
                 _expression.Append($"{negation}{name}.EndsWith(@{index})");
-            else if (comparison.EndsWith("Contains", StringComparison.OrdinalIgnoreCase))
+            else if (comparison.EndsWith(EntityFilterOperators.Contains, StringComparison.OrdinalIgnoreCase))
                 _expression.Append($"{negation}{name}.Contains(@{index})");
             else
                 _expression.Append($"{name} {comparison} @{index}");
@@ -102,7 +102,10 @@ namespace EntityFrameworkCore.CommandQuery.Queries
             if (!hasGroup)
                 return false;
 
-            var logic = string.IsNullOrWhiteSpace(entityFilter.Logic) ? "and" : entityFilter.Logic;
+            var logic = string.IsNullOrWhiteSpace(entityFilter.Logic)
+                ? EntityFilterLogic.And
+                : entityFilter.Logic;
+
             var wroteFirst = false;
 
             _expression.Append("(");
