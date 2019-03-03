@@ -1,19 +1,15 @@
-﻿using System;
-using System.Security.Principal;
-using MediatR;
+﻿using System.Security.Principal;
 
 namespace EntityFrameworkCore.CommandQuery.Commands
 {
     public abstract class EntityIdentifierCommand<TKey, TReadModel>
-        : IRequest<TReadModel>
+        : PrincipalCommandBase<TReadModel>
     {
         protected EntityIdentifierCommand(TKey id, IPrincipal principal)
+            : base(principal)
         {
             Id = id;
-            Principal = principal;
         }
-
-        public IPrincipal Principal { get; }
 
         public TKey Id { get; }
     }

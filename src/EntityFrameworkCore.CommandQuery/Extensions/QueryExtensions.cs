@@ -9,6 +9,14 @@ namespace EntityFrameworkCore.CommandQuery.Extensions
 {
     public static class QueryExtensions
     {
+        public static IQueryable<T> Sort<T>(this IQueryable<T> query, EntitySort sort)
+        {
+            if (sort == null)
+                return query;
+
+            return Sort(query, new[] { sort });
+        }
+
         public static IQueryable<T> Sort<T>(this IQueryable<T> query, IEnumerable<EntitySort> sorts)
         {
             if (sorts == null || !sorts.Any())

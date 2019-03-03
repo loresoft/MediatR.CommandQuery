@@ -156,7 +156,7 @@ namespace EntityFrameworkCore.CommandQuery.Tests.Extensions
 
             var list = fruits
                 .AsQueryable()
-                .Sort(null)
+                .Sort((EntitySort) null)
                 .ToList();
 
             list.Should().NotBeEmpty();
