@@ -3,10 +3,8 @@ using EntityFrameworkCore.CommandQuery.Definitions;
 
 namespace EntityFrameworkCore.CommandQuery.Models
 {
-    public abstract class EntityReadModel<TKey> : IHaveIdentifier<TKey>, ITrackCreated, ITrackUpdated, ITrackConcurrency
+    public abstract class EntityReadModel<TKey> : EntityIdentifierModel<TKey>, ITrackCreated, ITrackUpdated, ITrackConcurrency
     {
-        public TKey Id { get; set; }
-
         public DateTimeOffset Created { get; set; } = DateTimeOffset.UtcNow;
 
         public string CreatedBy { get; set; }
