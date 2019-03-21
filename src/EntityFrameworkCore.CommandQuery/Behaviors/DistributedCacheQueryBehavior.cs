@@ -2,14 +2,14 @@
 using System.Threading;
 using System.Threading.Tasks;
 using EntityFrameworkCore.CommandQuery.Definitions;
-using EntityFrameworkCore.CommandQuery.Queries;
 using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.CommandQuery.Behaviors
 {
-    public class DistributedCacheQueryBehavior<TResponse> : PipelineBehaviorBase<PrincipalQueryBase<TResponse>, TResponse>
+    public class DistributedCacheQueryBehavior<TRequest, TResponse> : PipelineBehaviorBase<TRequest, TResponse>
+        where TRequest : IRequest<TResponse>
     {
         private readonly IDistributedCache _distributedCache;
         private readonly IDistributedCacheSerializer _distributedCacheSerializer;
@@ -20,12 +20,12 @@ namespace EntityFrameworkCore.CommandQuery.Behaviors
             _distributedCacheSerializer = distributedCacheSerializer ?? throw new ArgumentNullException(nameof(distributedCacheSerializer));
         }
 
-        protected override async Task<TResponse> Process(PrincipalQueryBase<TResponse> request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        protected override async Task<TResponse> Process(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
+            // cache only if implements interface
             var cacheRequest = request as ICacheQueryResult;
             if (cacheRequest == null)
-                return await next().ConfigureAwait(false); // don't cache
-
+                return await next().ConfigureAwait(false);
 
             var cacheKey = cacheRequest.GetCacheKey();
 
@@ -40,17 +40,21 @@ namespace EntityFrameworkCore.CommandQuery.Behaviors
                     .FromByteArrayAsync<TResponse>(cachedBuffer)
                     .ConfigureAwait(false);
 
+                Logger.LogTrace("Cache Hit; Key: '{cacheKey}'.", cacheKey);
+
                 return cachedItem;
             }
 
+            Logger.LogTrace("Cache Miss; Key: '{cacheKey}'.", cacheKey);
+
             // continue if not found in cache
-            var item = await next().ConfigureAwait(false);
-            if (item == null)
+            var result = await next().ConfigureAwait(false);
+            if (result == null)
                 return default(TResponse);
 
             // save to cache
             var itemBuffer = await _distributedCacheSerializer
-                .ToByteArrayAsync(item)
+                .ToByteArrayAsync(result)
                 .ConfigureAwait(false);
 
             var options = new DistributedCacheEntryOptions
@@ -63,7 +67,9 @@ namespace EntityFrameworkCore.CommandQuery.Behaviors
                 .SetAsync(cacheKey, itemBuffer, options, cancellationToken)
                 .ConfigureAwait(false);
 
-            return item;
+            Logger.LogTrace("Cache Insert; Key: '{cacheKey}'.", cacheKey);
+
+            return result;
         }
     }
 }

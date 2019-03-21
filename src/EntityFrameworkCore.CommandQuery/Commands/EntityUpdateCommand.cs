@@ -1,6 +1,4 @@
-﻿using System;
-using System.Security.Principal;
-using EntityFrameworkCore.CommandQuery.Definitions;
+﻿using System.Security.Principal;
 
 namespace EntityFrameworkCore.CommandQuery.Commands
 {

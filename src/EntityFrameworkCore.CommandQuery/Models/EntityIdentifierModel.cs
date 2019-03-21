@@ -1,5 +1,4 @@
-﻿using System;
-using EntityFrameworkCore.CommandQuery.Definitions;
+﻿using EntityFrameworkCore.CommandQuery.Definitions;
 
 namespace EntityFrameworkCore.CommandQuery.Models
 {
