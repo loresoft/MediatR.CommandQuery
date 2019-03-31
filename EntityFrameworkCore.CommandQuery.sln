@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{63F0C18C
 		build\version.props = build\version.props
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.CommandQuery.SqlServer.Tests", "test\EntityFrameworkCore.CommandQuery.SqlServer.Tests\EntityFrameworkCore.CommandQuery.SqlServer.Tests.csproj", "{88E3A397-8D0C-40D8-8999-297914CCAA8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,12 +53,25 @@ Global
 		{22432F49-0412-4979-8C05-62768A48CA2E}.Release|x64.Build.0 = Release|Any CPU
 		{22432F49-0412-4979-8C05-62768A48CA2E}.Release|x86.ActiveCfg = Release|Any CPU
 		{22432F49-0412-4979-8C05-62768A48CA2E}.Release|x86.Build.0 = Release|Any CPU
+		{88E3A397-8D0C-40D8-8999-297914CCAA8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88E3A397-8D0C-40D8-8999-297914CCAA8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88E3A397-8D0C-40D8-8999-297914CCAA8A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{88E3A397-8D0C-40D8-8999-297914CCAA8A}.Debug|x64.Build.0 = Debug|Any CPU
+		{88E3A397-8D0C-40D8-8999-297914CCAA8A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{88E3A397-8D0C-40D8-8999-297914CCAA8A}.Debug|x86.Build.0 = Debug|Any CPU
+		{88E3A397-8D0C-40D8-8999-297914CCAA8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88E3A397-8D0C-40D8-8999-297914CCAA8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88E3A397-8D0C-40D8-8999-297914CCAA8A}.Release|x64.ActiveCfg = Release|Any CPU
+		{88E3A397-8D0C-40D8-8999-297914CCAA8A}.Release|x64.Build.0 = Release|Any CPU
+		{88E3A397-8D0C-40D8-8999-297914CCAA8A}.Release|x86.ActiveCfg = Release|Any CPU
+		{88E3A397-8D0C-40D8-8999-297914CCAA8A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{22432F49-0412-4979-8C05-62768A48CA2E} = {0EE0FE20-53A5-41C9-BBAE-B2EC1B3808F8}
+		{88E3A397-8D0C-40D8-8999-297914CCAA8A} = {0EE0FE20-53A5-41C9-BBAE-B2EC1B3808F8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BCEE5756-6B14-4B7A-818B-3183A7286B3C}

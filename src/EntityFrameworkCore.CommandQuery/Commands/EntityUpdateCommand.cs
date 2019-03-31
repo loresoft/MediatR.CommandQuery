@@ -11,7 +11,5 @@ namespace EntityFrameworkCore.CommandQuery.Commands
         }
 
         public TKey Id { get; }
-
-        public TReadModel Original { get; set; }
     }
 }

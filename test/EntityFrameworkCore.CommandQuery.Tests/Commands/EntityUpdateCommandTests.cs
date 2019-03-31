@@ -32,7 +32,6 @@ namespace EntityFrameworkCore.CommandQuery.Tests.Commands
             updateCommand.Model.Should().NotBeNull();
 
             updateCommand.Principal.Should().NotBeNull();
-            updateCommand.Original.Should().BeNull();
         }
     }
 }

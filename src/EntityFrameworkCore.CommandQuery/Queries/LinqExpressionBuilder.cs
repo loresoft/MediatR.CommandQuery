@@ -12,12 +12,12 @@ namespace EntityFrameworkCore.CommandQuery.Queries
     {
         private static readonly IDictionary<string, string> _operatorMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
         {
-            {"eq", "=="},
-            {"neq", "!="},
-            {"lt", "<"},
-            {"lte", "<="},
-            {"gt", ">"},
-            {"gte", ">="}
+            { EntityFilterOperators.Equal, "==" },
+            { EntityFilterOperators.NotEqual, "!=" },
+            { EntityFilterOperators.LessThan, "<" },
+            { EntityFilterOperators.LessThanOrEqual, "<=" },
+            { EntityFilterOperators.GreaterThan, ">" },
+            { EntityFilterOperators.GreaterThanOrEqual, ">=" }
         };
 
         private readonly StringBuilder _expression = new StringBuilder();

@@ -10,7 +10,7 @@ namespace EntityFrameworkCore.CommandQuery.Handlers
     public abstract class RequestHandlerBase<TRequest, TResponse> : IRequestHandler<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
     {
-        private static readonly Lazy<string> _requestName = new Lazy<string>(() => typeof(TRequest).Name);
+        private static readonly Lazy<string> _requestName = new Lazy<string>(() => typeof(TRequest).ToString());
 
         protected RequestHandlerBase(ILoggerFactory loggerFactory)
         {

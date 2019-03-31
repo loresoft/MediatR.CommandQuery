@@ -35,10 +35,6 @@ namespace EntityFrameworkCore.CommandQuery.Handlers
             if (entity == null)
                 return default(TReadModel);
 
-            // save original for later pipeline processing
-            message.Original = await Read(entity.Id, cancellationToken)
-                .ConfigureAwait(false);
-
             // copy updates from model to entity
             Mapper.Map(message.Model, entity);
 

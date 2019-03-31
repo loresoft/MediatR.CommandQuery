@@ -32,9 +32,9 @@ namespace EntityFrameworkCore.CommandQuery.Extensions
                 builder.Append(sort.Name).Append(" ");
 
                 var isDescending = !string.IsNullOrWhiteSpace(sort.Direction)
-                    && sort.Direction.StartsWith("desc", StringComparison.OrdinalIgnoreCase);
+                    && sort.Direction.StartsWith(EntitySortDirections.Descending, StringComparison.OrdinalIgnoreCase);
 
-                builder.Append(isDescending ? "desc" : "asc");
+                builder.Append(isDescending ? EntitySortDirections.Descending : EntitySortDirections.Ascending);
             }
 
             return query.OrderBy(builder.ToString());

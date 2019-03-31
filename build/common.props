@@ -12,7 +12,7 @@
     <Product>EntityFrameworkCore.CommandQuery</Product>
     <Title>EntityFrameworkCore.CommandQuery</Title>
     <Description>CQRS framework for Entity Framework Core</Description>
-    <Copyright>Copyright © 2018 LoreSoft</Copyright>
+    <Copyright>Copyright © 2019 LoreSoft</Copyright>
     <Authors>LoreSoft</Authors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>EntityFramework; EntityFrameworkCore; CQRS; AutoMapper; MediatR</PackageTags>

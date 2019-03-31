@@ -13,7 +13,5 @@ namespace EntityFrameworkCore.CommandQuery.Commands
         }
 
         public IJsonPatchDocument Patch { get; }
-
-        public TReadModel Original { get; set; }
     }
 }

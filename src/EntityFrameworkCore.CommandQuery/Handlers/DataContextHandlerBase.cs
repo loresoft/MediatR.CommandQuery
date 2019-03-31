@@ -19,6 +19,7 @@ namespace EntityFrameworkCore.CommandQuery.Handlers
         }
 
         protected TContext DataContext { get; }
+
         protected IMapper Mapper { get; }
     }
 }

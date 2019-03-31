@@ -36,10 +36,6 @@ namespace EntityFrameworkCore.CommandQuery.Handlers
             if (entity == null)
                 return default(TReadModel);
 
-            // save original for later pipeline processing
-            message.Original = await Read(entity.Id, cancellationToken)
-                .ConfigureAwait(false);
-
             // apply json patch to entity
             var jsonPatch = new JsonPatchDocument(
                 message.Patch.GetOperations().ToList(),

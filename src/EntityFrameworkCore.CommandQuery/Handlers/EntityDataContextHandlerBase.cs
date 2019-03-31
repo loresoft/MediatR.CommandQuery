@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -12,7 +11,8 @@ using Microsoft.Extensions.Logging;
 namespace EntityFrameworkCore.CommandQuery.Handlers
 {
     public abstract class EntityDataContextHandlerBase<TContext, TEntity, TKey, TReadModel, TRequest, TResponse>
-        : DataContextHandlerBase<TContext, TRequest, TResponse> where TContext : DbContext
+        : DataContextHandlerBase<TContext, TRequest, TResponse>
+        where TContext : DbContext
         where TEntity : class, IHaveIdentifier<TKey>, new()
         where TRequest : IRequest<TResponse>
     {

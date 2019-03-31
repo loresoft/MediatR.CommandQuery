@@ -11,7 +11,7 @@ namespace EntityFrameworkCore.CommandQuery.Queries
         public const string NotEqual = "neq";
         public const string LessThan = "lt";
         public const string LessThanOrEqual = "lte";
-        public const string MoreThan = "gt";
-        public const string MoreThanOrEqual = "gte";
+        public const string GreaterThan = "gt";
+        public const string GreaterThanOrEqual = "gte";
     }
 }

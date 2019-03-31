@@ -1,12 +1,16 @@
-version: 1.0.0.{build}
+version: 2.0.0.{build}
 os: Visual Studio 2017
 
 environment:
   ASPNETCORE_ENVIRONMENT: appveyor
   COVERALLS_REPO_TOKEN:
     secure: b7oQan0UI46v0UpNxYemWB8wAjVN/P0vmFKQgZIf2hAxI6e8zoYhvcSkt5gqYTIz
+
 init:
   - git config --global core.autocrlf input
+
+services:
+  - mssql2016
 
 dotnet_csproj:
   patch: true
@@ -17,17 +21,19 @@ dotnet_csproj:
   file_version: '{version}'
   informational_version: '{version}'
 
+configuration: Release
+
 install:
-  - dotnet tool install -g coveralls.net
+  - dotnet tool install --global coveralls.net
 
 build_script:
   - dotnet pack EntityFrameworkCore.CommandQuery.sln --configuration Release --include-symbols --include-source
 
 test_script:
-  - dotnet test ".\test\EntityFrameworkCore.CommandQuery.Tests\EntityFrameworkCore.CommandQuery.Tests.csproj" --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+  - dotnet test EntityFrameworkCore.CommandQuery.sln --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude="[xunit*]*"
 
 after_test:
-  - csmacnz.coveralls.exe --opencover --input ".\test\EntityFrameworkCore.CommandQuery.Tests\coverage.opencover.xml"
+  - csmacnz.coveralls --useRelativePaths --multiple --input "opencover=test\EntityFrameworkCore.CommandQuery.Tests\coverage.opencover.xml;opencover=test\EntityFrameworkCore.CommandQuery.SqlServer.TestsTests\coverage.opencover.xml"
 
 artifacts:
 - path: artifacts\*.nupkg
