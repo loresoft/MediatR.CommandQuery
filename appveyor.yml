@@ -33,7 +33,7 @@ test_script:
   - dotnet test EntityFrameworkCore.CommandQuery.sln --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude="[xunit*]*"
 
 after_test:
-  - csmacnz.coveralls --useRelativePaths --multiple --input "opencover=test\EntityFrameworkCore.CommandQuery.Tests\coverage.opencover.xml;opencover=test\EntityFrameworkCore.CommandQuery.SqlServer.TestsTests\coverage.opencover.xml"
+  - csmacnz.coveralls --useRelativePaths --multiple --input "opencover=test\EntityFrameworkCore.CommandQuery.Tests\coverage.opencover.xml;opencover=test\EntityFrameworkCore.CommandQuery.SqlServer.Tests\coverage.opencover.xml"
 
 artifacts:
 - path: artifacts\*.nupkg
