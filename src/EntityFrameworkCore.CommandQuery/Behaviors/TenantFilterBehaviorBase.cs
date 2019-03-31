@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using EntityFrameworkCore.CommandQuery.Definitions;
 using EntityFrameworkCore.CommandQuery.Queries;
 using MediatR;
@@ -23,12 +24,12 @@ namespace EntityFrameworkCore.CommandQuery.Behaviors
         protected ITenantResolver<TKey> TenantResolver { get; }
 
 
-        protected virtual EntityFilter RewriteFilter(EntityFilter originalFilter, IPrincipal principal)
+        protected virtual async Task<EntityFilter> RewriteFilter(EntityFilter originalFilter, IPrincipal principal)
         {
             if (!_supportsTenant.Value)
                 return originalFilter;
 
-            var tenantId = TenantResolver.GetTenantId(principal);
+            var tenantId = await TenantResolver.GetTenantId(principal).ConfigureAwait(false);
             if (Equals(tenantId, default(TKey)))
                 throw new DomainException(500, "Could not find tenant for the query request.");
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using EntityFrameworkCore.CommandQuery.Definitions;
 using EntityFrameworkCore.CommandQuery.SqlServer.Tests.Constants;
 
@@ -7,9 +8,9 @@ namespace EntityFrameworkCore.CommandQuery.SqlServer.Tests
 {
     public class MockTenantResolver : ITenantResolver<Guid>
     {
-        public Guid GetTenantId(IPrincipal principal)
+        public Task<Guid> GetTenantId(IPrincipal principal)
         {
-            return TenantConstants.Test;
+            return Task.FromResult(TenantConstants.Test);
         }
     }
 }

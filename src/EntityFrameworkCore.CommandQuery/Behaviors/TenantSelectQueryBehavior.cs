@@ -23,7 +23,7 @@ namespace EntityFrameworkCore.CommandQuery.Behaviors
             RequestHandlerDelegate<IReadOnlyCollection<TEntityModel>> next)
         {
             // add tenant filter
-            request.Filter = RewriteFilter(request.Filter, request.Principal);
+            request.Filter = await RewriteFilter(request.Filter, request.Principal).ConfigureAwait(false);
 
             // continue pipeline
             return await next().ConfigureAwait(false);

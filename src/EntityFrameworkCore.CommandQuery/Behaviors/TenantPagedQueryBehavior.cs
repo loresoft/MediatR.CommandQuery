@@ -21,7 +21,7 @@ namespace EntityFrameworkCore.CommandQuery.Behaviors
             RequestHandlerDelegate<EntityPagedResult<TEntityModel>> next)
         {
             // add tenant filter
-            request.Query.Filter = RewriteFilter(request.Query.Filter, request.Principal);
+            request.Query.Filter = await RewriteFilter(request.Query.Filter, request.Principal).ConfigureAwait(false);
 
             // continue pipeline
             return await next().ConfigureAwait(false);

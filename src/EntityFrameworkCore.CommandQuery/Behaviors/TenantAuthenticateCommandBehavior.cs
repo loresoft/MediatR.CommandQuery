@@ -22,13 +22,13 @@ namespace EntityFrameworkCore.CommandQuery.Behaviors
 
         protected override async Task<TResponse> Process(EntityModelCommand<TEntityModel, TResponse> request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            Authorize(request);
+            await Authorize(request).ConfigureAwait(false);
 
             // continue pipeline
             return await next().ConfigureAwait(false);
         }
 
-        private void Authorize(EntityModelCommand<TEntityModel, TResponse> request)
+        private async Task Authorize(EntityModelCommand<TEntityModel, TResponse> request)
         {
             var principal = request.Principal;
             if (principal == null)
@@ -38,7 +38,7 @@ namespace EntityFrameworkCore.CommandQuery.Behaviors
             if (!(request.Model is IHaveTenant<TKey> tenantModel))
                 return;
 
-            var tenantId = _tenantResolver.GetTenantId(principal);
+            var tenantId = await _tenantResolver.GetTenantId(principal);
             if (Equals(tenantId, tenantModel.TenantId))
                 return;
 
