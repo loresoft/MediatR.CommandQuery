@@ -9,9 +9,7 @@
   <Import Project="sourcelink.props" Condition="'$(ProjectParentDirectoryName)' == 'src'" />
 
   <PropertyGroup Label="Package">
-    <Product>EntityFrameworkCore.CommandQuery</Product>
-    <Title>EntityFrameworkCore.CommandQuery</Title>
-    <Description>CQRS framework for Entity Framework Core</Description>
+    <Description>CQRS framework based on MediatR</Description>
     <Copyright>Copyright © 2019 LoreSoft</Copyright>
     <Authors>LoreSoft</Authors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

@@ -27,10 +27,10 @@ install:
   - dotnet tool install --global coveralls.net
 
 build_script:
-  - dotnet pack EntityFrameworkCore.CommandQuery.sln --configuration Release --include-symbols --include-source
+  - dotnet pack MediatR.CommandQuery.sln --configuration Release --include-symbols --include-source
 
 test_script:
-  - dotnet test EntityFrameworkCore.CommandQuery.sln --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude="[xunit*]*"
+  - dotnet test MediatR.CommandQuery.sln --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude="[xunit*]*"
 
 after_test:
   - csmacnz.coveralls --useRelativePaths --multiple --input "opencover=test\EntityFrameworkCore.CommandQuery.Tests\coverage.opencover.xml;opencover=test\EntityFrameworkCore.CommandQuery.SqlServer.Tests\coverage.opencover.xml"
