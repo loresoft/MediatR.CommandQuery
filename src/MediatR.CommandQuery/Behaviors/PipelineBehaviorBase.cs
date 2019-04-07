@@ -10,7 +10,6 @@ namespace MediatR.CommandQuery.Behaviors
         : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
     {
-        private static readonly Lazy<string> _requestName = new Lazy<string>(() => typeof(TRequest).ToString());
 
         protected PipelineBehaviorBase(ILoggerFactory loggerFactory)
         {
@@ -24,19 +23,20 @@ namespace MediatR.CommandQuery.Behaviors
         {
             try
             {
-                Logger.LogTrace("Processing pipeline request '{requestName}' ...", _requestName.Value);
+
+                Logger.LogTrace("Processing pipeline request '{request}' ...", request);
                 var watch = Stopwatch.StartNew();
 
                 var response = await Process(request, cancellationToken, next).ConfigureAwait(false);
 
                 watch.Stop();
-                Logger.LogTrace("Processed pipeline request '{requestName}': {elapsed} ms", _requestName.Value, watch.ElapsedMilliseconds);
+                Logger.LogTrace("Processed pipeline request '{request}': {elapsed} ms", request, watch.ElapsedMilliseconds);
 
                 return response;
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Error handling pipeline request '{requestName}': {errorMessage}", _requestName.Value, ex.Message);
+                Logger.LogError(ex, "Error handling pipeline request '{request}': {errorMessage}", request, ex.Message);
                 throw;
             }
         }
