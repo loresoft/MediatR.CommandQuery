@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28729.10
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.CommandQuery", "src\EntityFrameworkCore.CommandQuery\EntityFrameworkCore.CommandQuery.csproj", "{F50F0BC3-6E6A-44D8-8176-52EDEE24BA3D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0EE0FE20-53A5-41C9-BBAE-B2EC1B3808F8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.CommandQuery.Tests", "test\EntityFrameworkCore.CommandQuery.Tests\EntityFrameworkCore.CommandQuery.Tests.csproj", "{22432F49-0412-4979-8C05-62768A48CA2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Tests", "test\MediatR.CommandQuery.Tests\MediatR.CommandQuery.Tests.csproj", "{22432F49-0412-4979-8C05-62768A48CA2E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{63F0C18C-13A5-4D95-9365-47215BCDADF4}"
 	ProjectSection(SolutionItems) = preProject
@@ -17,11 +15,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{63F0C18C
 		build\version.props = build\version.props
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkCore.CommandQuery.SqlServer.Tests", "test\EntityFrameworkCore.CommandQuery.SqlServer.Tests\EntityFrameworkCore.CommandQuery.SqlServer.Tests.csproj", "{88E3A397-8D0C-40D8-8999-297914CCAA8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests", "test\MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests\MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.csproj", "{88E3A397-8D0C-40D8-8999-297914CCAA8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatR.CommandQuery", "src\MediatR.CommandQuery\MediatR.CommandQuery.csproj", "{5F3A61BB-966E-4575-8831-656654B810C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery", "src\MediatR.CommandQuery\MediatR.CommandQuery.csproj", "{5F3A61BB-966E-4575-8831-656654B810C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatR.CommandQuery.EntityFrameworkCore", "src\MediatR.CommandQuery.EntityFrameworkCore\MediatR.CommandQuery.EntityFrameworkCore.csproj", "{E4F35D15-9710-44F1-AD0E-667EA26448C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.EntityFrameworkCore", "src\MediatR.CommandQuery.EntityFrameworkCore\MediatR.CommandQuery.EntityFrameworkCore.csproj", "{E4F35D15-9710-44F1-AD0E-667EA26448C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatR.CommandQuery.EntityFrameworkCore.Tests", "test\MediatR.CommandQuery.EntityFrameworkCore.Tests\MediatR.CommandQuery.EntityFrameworkCore.Tests.csproj", "{AA278D3F-D266-4B98-B9A8-DA6078CCB704}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,18 +33,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F50F0BC3-6E6A-44D8-8176-52EDEE24BA3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F50F0BC3-6E6A-44D8-8176-52EDEE24BA3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F50F0BC3-6E6A-44D8-8176-52EDEE24BA3D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F50F0BC3-6E6A-44D8-8176-52EDEE24BA3D}.Debug|x64.Build.0 = Debug|Any CPU
-		{F50F0BC3-6E6A-44D8-8176-52EDEE24BA3D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F50F0BC3-6E6A-44D8-8176-52EDEE24BA3D}.Debug|x86.Build.0 = Debug|Any CPU
-		{F50F0BC3-6E6A-44D8-8176-52EDEE24BA3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F50F0BC3-6E6A-44D8-8176-52EDEE24BA3D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F50F0BC3-6E6A-44D8-8176-52EDEE24BA3D}.Release|x64.ActiveCfg = Release|Any CPU
-		{F50F0BC3-6E6A-44D8-8176-52EDEE24BA3D}.Release|x64.Build.0 = Release|Any CPU
-		{F50F0BC3-6E6A-44D8-8176-52EDEE24BA3D}.Release|x86.ActiveCfg = Release|Any CPU
-		{F50F0BC3-6E6A-44D8-8176-52EDEE24BA3D}.Release|x86.Build.0 = Release|Any CPU
 		{22432F49-0412-4979-8C05-62768A48CA2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{22432F49-0412-4979-8C05-62768A48CA2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22432F49-0412-4979-8C05-62768A48CA2E}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -93,6 +81,18 @@ Global
 		{E4F35D15-9710-44F1-AD0E-667EA26448C1}.Release|x64.Build.0 = Release|Any CPU
 		{E4F35D15-9710-44F1-AD0E-667EA26448C1}.Release|x86.ActiveCfg = Release|Any CPU
 		{E4F35D15-9710-44F1-AD0E-667EA26448C1}.Release|x86.Build.0 = Release|Any CPU
+		{AA278D3F-D266-4B98-B9A8-DA6078CCB704}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA278D3F-D266-4B98-B9A8-DA6078CCB704}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA278D3F-D266-4B98-B9A8-DA6078CCB704}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AA278D3F-D266-4B98-B9A8-DA6078CCB704}.Debug|x64.Build.0 = Debug|Any CPU
+		{AA278D3F-D266-4B98-B9A8-DA6078CCB704}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AA278D3F-D266-4B98-B9A8-DA6078CCB704}.Debug|x86.Build.0 = Debug|Any CPU
+		{AA278D3F-D266-4B98-B9A8-DA6078CCB704}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA278D3F-D266-4B98-B9A8-DA6078CCB704}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA278D3F-D266-4B98-B9A8-DA6078CCB704}.Release|x64.ActiveCfg = Release|Any CPU
+		{AA278D3F-D266-4B98-B9A8-DA6078CCB704}.Release|x64.Build.0 = Release|Any CPU
+		{AA278D3F-D266-4B98-B9A8-DA6078CCB704}.Release|x86.ActiveCfg = Release|Any CPU
+		{AA278D3F-D266-4B98-B9A8-DA6078CCB704}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +100,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{22432F49-0412-4979-8C05-62768A48CA2E} = {0EE0FE20-53A5-41C9-BBAE-B2EC1B3808F8}
 		{88E3A397-8D0C-40D8-8999-297914CCAA8A} = {0EE0FE20-53A5-41C9-BBAE-B2EC1B3808F8}
+		{AA278D3F-D266-4B98-B9A8-DA6078CCB704} = {0EE0FE20-53A5-41C9-BBAE-B2EC1B3808F8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BCEE5756-6B14-4B7A-818B-3183A7286B3C}

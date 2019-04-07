@@ -4,7 +4,7 @@ os: Visual Studio 2017
 environment:
   ASPNETCORE_ENVIRONMENT: appveyor
   COVERALLS_REPO_TOKEN:
-    secure: b7oQan0UI46v0UpNxYemWB8wAjVN/P0vmFKQgZIf2hAxI6e8zoYhvcSkt5gqYTIz
+    secure: ErwscVDMk4aMiHXzjxykyhQrXqj8bBD/wh0TS84KbmLk0g/rhajYiOy7mTAaiIEy
 
 init:
   - git config --global core.autocrlf input
@@ -33,7 +33,7 @@ test_script:
   - dotnet test MediatR.CommandQuery.sln --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude="[xunit*]*"
 
 after_test:
-  - csmacnz.coveralls --useRelativePaths --multiple --input "opencover=test\EntityFrameworkCore.CommandQuery.Tests\coverage.opencover.xml;opencover=test\EntityFrameworkCore.CommandQuery.SqlServer.Tests\coverage.opencover.xml"
+  - csmacnz.coveralls --useRelativePaths --multiple --input "opencover=test\MediatR.CommandQuery.Tests\coverage.opencover.xml;opencover=test\MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests\coverage.opencover.xml"
 
 artifacts:
 - path: artifacts\*.nupkg
