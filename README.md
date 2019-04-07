@@ -1,6 +1,9 @@
-# EntityFrameworkCore.CommandQuery
-Opinionated CQRS framework for Entity Framework Core using MediatR and AutoMapper
+# MediatR.CommandQuery
 
-[![Build status](https://ci.appveyor.com/api/projects/status/3leidssbldd2q17r?svg=true)](https://ci.appveyor.com/project/LoreSoft/entityframeworkcore-commandquery)
+CQRS framework using MediatR and AutoMapper
 
-[![Coverage Status](https://coveralls.io/repos/github/loresoft/EntityFrameworkCore.CommandQuery/badge.svg?branch=master)](https://coveralls.io/github/loresoft/EntityFrameworkCore.CommandQuery?branch=master)
+[![Build status](https://ci.appveyor.com/api/projects/status/tdk5q4dx7l0e2vkm?svg=true)](https://ci.appveyor.com/project/LoreSoft/mediatr-commandquery)
+
+[![Coverage Status](https://coveralls.io/repos/github/loresoft/MediatR.CommandQuery/badge.svg?branch=master)](https://coveralls.io/github/loresoft/MediatR.CommandQuery?branch=master)
+
+[![Nuget](https://img.shields.io/nuget/v/MediatR.CommandQuery.svg)](https://www.nuget.org/packages/MediatR.CommandQuery/)
