@@ -42,7 +42,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
                 return new EntityPagedResult<TReadModel> { Data = new List<TReadModel>() };
 
             // page the query and convert to read model
-            var result = await QueryPageed(request, query, cancellationToken)
+            var result = await QueryPaged(request, query, cancellationToken)
                 .ConfigureAwait(false);
 
             return new EntityPagedResult<TReadModel>
@@ -76,7 +76,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
                 .ConfigureAwait(false);
         }
 
-        protected virtual async Task<IReadOnlyCollection<TReadModel>> QueryPageed(EntityPagedQuery<TReadModel> request, IQueryable<TEntity> query, CancellationToken cancellationToken)
+        protected virtual async Task<IReadOnlyCollection<TReadModel>> QueryPaged(EntityPagedQuery<TReadModel> request, IQueryable<TEntity> query, CancellationToken cancellationToken)
         {
             var entityQuery = request.Query;
 
