@@ -67,6 +67,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Mapping
                 .IsRowVersion()
                 .HasColumnName("RowVersion")
                 .HasColumnType("rowversion")
+                .HasMaxLength(8)
                 .ValueGeneratedOnAddOrUpdate();
 
             // relationships

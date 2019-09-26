@@ -12,6 +12,8 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Task.M
 
             CreateMap<Models.TaskCreateModel, Data.Entities.Task>();
 
+            CreateMap<Models.TaskReadModel, Models.TaskUpdateModel>();
+
             CreateMap<Data.Entities.Task, Models.TaskUpdateModel>()
                 .ForMember(d => d.RowVersion, opt => opt.MapFrom(s => Convert.ToBase64String(s.RowVersion)));
 

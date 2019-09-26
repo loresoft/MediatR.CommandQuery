@@ -1,5 +1,5 @@
 project:
-  namespace: 'EntityFrameworkCore.CommandQuery.SqlServer.Tests'
+  namespace: 'MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests'
   directory: .\
 database:
   connectionString: Data Source=(local);Initial Catalog=Tracker;Integrated Security=True

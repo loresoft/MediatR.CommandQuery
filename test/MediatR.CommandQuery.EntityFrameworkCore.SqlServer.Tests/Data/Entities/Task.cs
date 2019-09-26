@@ -45,15 +45,15 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities
         #endregion
 
         #region Generated Relationships
+        public virtual User AssignedUser { get; set; }
+
         public virtual Priority Priority { get; set; }
 
         public virtual Status Status { get; set; }
 
-        public virtual Tenant Tenant { get; set; }
-
-        public virtual User AssignedUser { get; set; }
-
         public virtual TaskExtended TaskExtended { get; set; }
+
+        public virtual Tenant Tenant { get; set; }
 
         #endregion
 

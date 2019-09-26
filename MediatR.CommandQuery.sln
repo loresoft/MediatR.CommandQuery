@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.572
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0EE0FE20-53A5-41C9-BBAE-B2EC1B3808F8}"
 EndProject
@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.EntityFrameworkCore", "src\MediatR.CommandQuery.EntityFrameworkCore\MediatR.CommandQuery.EntityFrameworkCore.csproj", "{E4F35D15-9710-44F1-AD0E-667EA26448C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatR.CommandQuery.EntityFrameworkCore.Tests", "test\MediatR.CommandQuery.EntityFrameworkCore.Tests\MediatR.CommandQuery.EntityFrameworkCore.Tests.csproj", "{AA278D3F-D266-4B98-B9A8-DA6078CCB704}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.EntityFrameworkCore.Tests", "test\MediatR.CommandQuery.EntityFrameworkCore.Tests\MediatR.CommandQuery.EntityFrameworkCore.Tests.csproj", "{AA278D3F-D266-4B98-B9A8-DA6078CCB704}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

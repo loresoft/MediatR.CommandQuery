@@ -9,20 +9,21 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Queries
     public static partial class StatusExtensions
     {
         #region Generated Extensions
-        public static Status GetByKey(this IQueryable<Status> queryable, Guid id)
+        public static MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.Status GetByKey(this IQueryable<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.Status> queryable, Guid id)
         {
-            if (queryable is DbSet<Status> dbSet)
+            if (queryable is DbSet<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.Status> dbSet)
                 return dbSet.Find(id);
 
             return queryable.FirstOrDefault(q => q.Id == id);
         }
 
-        public static Task<Status> GetByKeyAsync(this IQueryable<Status> queryable, Guid id)
+        public static ValueTask<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.Status> GetByKeyAsync(this IQueryable<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.Status> queryable, Guid id)
         {
-            if (queryable is DbSet<Status> dbSet)
+            if (queryable is DbSet<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.Status> dbSet)
                 return dbSet.FindAsync(id);
 
-            return queryable.FirstOrDefaultAsync(q => q.Id == id);
+            var task = queryable.FirstOrDefaultAsync(q => q.Id == id);
+            return new ValueTask<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.Status>(task);
         }
 
         #endregion

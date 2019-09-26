@@ -24,15 +24,6 @@ namespace MediatR.CommandQuery.EntityFrameworkCore
             return services;
         }
 
-        public static IServiceCollection AddMapper(this IServiceCollection services)
-        {
-            // Register AutoMapper
-            services.TryAddSingleton(p => Mapper.Instance);
-            services.TryAddSingleton(p => Mapper.Instance.ConfigurationProvider);
-
-            return services;
-        }
-
         public static IServiceCollection AddValidatorsFromAssembly<T>(this IServiceCollection services)
         {
             // Register validators

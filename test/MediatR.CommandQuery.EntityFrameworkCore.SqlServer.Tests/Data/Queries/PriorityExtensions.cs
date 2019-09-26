@@ -9,20 +9,21 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Queries
     public static partial class PriorityExtensions
     {
         #region Generated Extensions
-        public static Priority GetByKey(this IQueryable<Priority> queryable, Guid id)
+        public static MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.Priority GetByKey(this IQueryable<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.Priority> queryable, Guid id)
         {
-            if (queryable is DbSet<Priority> dbSet)
+            if (queryable is DbSet<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.Priority> dbSet)
                 return dbSet.Find(id);
 
             return queryable.FirstOrDefault(q => q.Id == id);
         }
 
-        public static Task<Priority> GetByKeyAsync(this IQueryable<Priority> queryable, Guid id)
+        public static ValueTask<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.Priority> GetByKeyAsync(this IQueryable<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.Priority> queryable, Guid id)
         {
-            if (queryable is DbSet<Priority> dbSet)
+            if (queryable is DbSet<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.Priority> dbSet)
                 return dbSet.FindAsync(id);
 
-            return queryable.FirstOrDefaultAsync(q => q.Id == id);
+            var task = queryable.FirstOrDefaultAsync(q => q.Id == id);
+            return new ValueTask<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.Priority>(task);
         }
 
         #endregion

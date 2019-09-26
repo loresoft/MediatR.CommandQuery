@@ -63,12 +63,13 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Mapping
                 .IsRowVersion()
                 .HasColumnName("RowVersion")
                 .HasColumnType("rowversion")
+                .HasMaxLength(8)
                 .ValueGeneratedOnAddOrUpdate();
 
             // relationships
             builder.HasOne(t => t.Task)
                 .WithOne(t => t.TaskExtended)
-                .HasForeignKey<TaskExtended>(d => d.TaskId)
+                .HasForeignKey<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.TaskExtended>(d => d.TaskId)
                 .HasConstraintName("FK_TaskExtended_Task_TaskId");
 
             #endregion

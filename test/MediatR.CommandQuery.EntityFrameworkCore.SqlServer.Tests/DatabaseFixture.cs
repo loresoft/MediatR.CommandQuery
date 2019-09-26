@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using AutoMapper;
 using DbUp;
 using DbUp.Engine.Output;
 using KickStart;
@@ -43,8 +44,8 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests
 
             services.TryAddTransient<ITenantResolver<Guid>, MockTenantResolver>();
 
+            services.AddAutoMapper(typeof(TrackerContext).Assembly);
             services.AddMediator();
-            services.AddMapper();
             services.AddValidatorsFromAssembly<TrackerContext>();
 
             services.KickStart(config => config
@@ -52,7 +53,6 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests
                 .IncludeAssemblyFor<CommandCompleteModel>()
                 .Data("configuration", Configuration)
                 .Data("hostProcess", "test")
-                .UseAutoMapper()
                 .UseStartupTask()
             );
 
