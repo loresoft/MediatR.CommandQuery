@@ -21,7 +21,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="DataGenerator" Version="4.0.0.31" />
+    <PackageReference Include="DataGenerator" Version="5.0.0.50" />
     <PackageReference Include="dbup-sqlserver" Version="4.2.0" />
     <PackageReference Include="FluentAssertions" Version="5.9.0" />
     <PackageReference Include="KickStart.DependencyInjection" Version="8.0.0.129" />
