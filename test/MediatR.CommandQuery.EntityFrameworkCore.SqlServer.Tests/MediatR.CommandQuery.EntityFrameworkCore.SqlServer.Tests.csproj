@@ -24,7 +24,7 @@
     <PackageReference Include="DataGenerator" Version="5.0.0.50" />
     <PackageReference Include="dbup-sqlserver" Version="4.3.1" />
     <PackageReference Include="FluentAssertions" Version="5.9.0" />
-    <PackageReference Include="KickStart.DependencyInjection" Version="8.0.0.129" />
+    <PackageReference Include="KickStart.DependencyInjection" Version="8.0.0.156" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.0" />
