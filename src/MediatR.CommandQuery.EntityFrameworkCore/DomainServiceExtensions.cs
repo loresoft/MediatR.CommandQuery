@@ -132,9 +132,9 @@ namespace MediatR.CommandQuery.EntityFrameworkCore
         }
 
         public static IServiceCollection AddEntityUpdateCommand<TContext, TEntity, TKey, TReadModel, TUpdateModel>(this IServiceCollection services)
-        where TContext : DbContext
-        where TEntity : class, IHaveIdentifier<TKey>, new()
-        where TUpdateModel : class
+            where TContext : DbContext
+            where TEntity : class, IHaveIdentifier<TKey>, new()
+            where TUpdateModel : class
         {
 
             // allow query for update models
