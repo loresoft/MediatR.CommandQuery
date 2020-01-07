@@ -17,14 +17,14 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="coverlet.msbuild" Version="2.7.0">
+    <PackageReference Include="coverlet.msbuild" Version="2.8.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="DataGenerator" Version="5.0.0.50" />
     <PackageReference Include="dbup-sqlserver" Version="4.3.1" />
     <PackageReference Include="FluentAssertions" Version="5.10.0" />
-    <PackageReference Include="KickStart.DependencyInjection" Version="8.0.0.162" />
+    <PackageReference Include="KickStart.DependencyInjection" Version="8.0.0.174" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.0" />
