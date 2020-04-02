@@ -20,7 +20,7 @@ namespace MediatR.CommandQuery.Mvc
             return Ok(readModel);
         }
 
-        [HttpPost("query")]
+        [HttpPost("page")]
         public async Task<ActionResult<EntityPagedResult<TReadModel>>> Query(CancellationToken cancellationToken, EntityQuery query)
         {
             var listResult = await PagedQuery(query, cancellationToken);
@@ -28,7 +28,7 @@ namespace MediatR.CommandQuery.Mvc
             return Ok(listResult);
         }
 
-        [HttpGet("")]
+        [HttpGet("page")]
         public async Task<ActionResult<EntityPagedResult<TReadModel>>> Query(CancellationToken cancellationToken, string q = null, string sort = null, int page = 1, int size = 20)
         {
             var query = new EntityQuery(q, page, size, sort);
@@ -37,6 +37,23 @@ namespace MediatR.CommandQuery.Mvc
             return Ok(listResult);
         }
         
+        [HttpPost("query")]
+        public async Task<ActionResult<IReadOnlyCollection<TReadModel>>> Select(CancellationToken cancellationToken, EntitySelect query)
+        {
+            var results = await SelectQuery(query, cancellationToken);
+
+            return Ok(results);
+        }
+
+        [HttpGet("")]
+        public async Task<ActionResult<IReadOnlyCollection<TReadModel>>> Select(CancellationToken cancellationToken, string q = null, string sort = null)
+        {
+            var query = new EntitySelect(q, sort);
+            var results = await SelectQuery(query, cancellationToken);
+
+            return Ok(results);
+        }
+
 
         protected virtual async Task<TReadModel> GetQuery(TKey id, CancellationToken cancellationToken = default)
         {
@@ -54,9 +71,9 @@ namespace MediatR.CommandQuery.Mvc
             return result;
         }
 
-        protected virtual async Task<IReadOnlyCollection<TReadModel>> SelectQuery(EntityFilter entityFilter, EntitySort entitySort, CancellationToken cancellationToken = default)
+        protected virtual async Task<IReadOnlyCollection<TReadModel>> SelectQuery(EntitySelect entitySelect, CancellationToken cancellationToken = default)
         {
-            var command = new EntitySelectQuery<TReadModel>(User, entityFilter, entitySort);
+            var command = new EntitySelectQuery<TReadModel>(User, entitySelect);
             var result = await Mediator.Send(command, cancellationToken);
 
             return result;

@@ -42,8 +42,8 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
         protected virtual IQueryable<TEntity> BuildQuery(EntitySelectQuery<TReadModel> request, IQueryable<TEntity> query)
         {
             // build query from filter
-            if (request?.Filter != null)
-                query = query.Filter(request.Filter);
+            if (request?.Select?.Filter != null)
+                query = query.Filter(request.Select.Filter);
 
             return query;
         }
@@ -51,7 +51,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
         protected virtual async Task<IReadOnlyCollection<TReadModel>> QueryList(EntitySelectQuery<TReadModel> request, IQueryable<TEntity> query, CancellationToken cancellationToken)
         {
             return await query
-                .Sort(request.Sort)
+                .Sort(request?.Select?.Sort)
                 .ProjectTo<TReadModel>(Mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);

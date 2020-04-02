@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR.CommandQuery.Definitions;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -21,7 +20,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
         {
         }
 
-        protected virtual async Task<TReadModel> Read(TKey key, CancellationToken cancellationToken = default(CancellationToken))
+        protected virtual async Task<TReadModel> Read(TKey key, CancellationToken cancellationToken = default)
         {
             var model = await DataContext
                 .Set<TEntity>()

@@ -23,7 +23,7 @@ namespace MediatR.CommandQuery.Behaviors
             RequestHandlerDelegate<IReadOnlyCollection<TEntityModel>> next)
         {
             // add tenant filter
-            request.Filter = await RewriteFilter(request.Filter, request.Principal).ConfigureAwait(false);
+            request.Select.Filter = await RewriteFilter(request.Select.Filter, request.Principal).ConfigureAwait(false);
 
             // continue pipeline
             return await next().ConfigureAwait(false);

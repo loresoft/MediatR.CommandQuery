@@ -179,7 +179,8 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance
             mapper.Should().NotBeNull();
 
             var filter = new EntityFilter { Name = "StatusId", Value = StatusConstants.NotStarted };
-            var selectQuery = new EntitySelectQuery<TaskReadModel>(MockPrincipal.Default, filter);
+            var select = new EntitySelect(filter);
+            var selectQuery = new EntitySelectQuery<TaskReadModel>(MockPrincipal.Default, select);
 
             var selectResult = await mediator.Send(selectQuery).ConfigureAwait(false);
             selectResult.Should().NotBeNull();

@@ -50,7 +50,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests
 
             services.KickStart(config => config
                 .IncludeAssemblyFor<TrackerContext>()
-                .IncludeAssemblyFor<CommandCompleteModel>()
+                .IncludeAssemblyFor<DomainException>()
                 .Data("configuration", Configuration)
                 .Data("hostProcess", "test")
                 .UseStartupTask()

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR.CommandQuery.Commands;
@@ -33,7 +32,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
                 .ConfigureAwait(false);
 
             if (entity == null)
-                return default(TReadModel);
+                return default;
 
             // copy updates from model to entity
             Mapper.Map(request.Model, entity);

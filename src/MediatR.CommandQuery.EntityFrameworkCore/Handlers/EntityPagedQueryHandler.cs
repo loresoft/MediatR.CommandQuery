@@ -80,9 +80,13 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
         {
             var entityQuery = request.Query;
 
-            return await query
-                .Sort(entityQuery.Sort)
-                .Page(entityQuery.Page, entityQuery.PageSize)
+            var queryable = query
+                .Sort(entityQuery.Sort);
+
+            if (entityQuery.Page > 0 && entityQuery.PageSize > 0)
+                queryable = queryable.Page(entityQuery.Page, entityQuery.PageSize);
+
+            return await queryable
                 .ProjectTo<TReadModel>(Mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);

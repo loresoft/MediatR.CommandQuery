@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -34,7 +33,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
                 .ConfigureAwait(false);
 
             if (entity == null)
-                return default(TReadModel);
+                return default;
 
             // apply json patch to entity
             var jsonPatch = new JsonPatchDocument(

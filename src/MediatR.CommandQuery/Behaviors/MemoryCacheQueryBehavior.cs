@@ -37,7 +37,7 @@ namespace MediatR.CommandQuery.Behaviors
             // continue if not found in cache
             var result = await next().ConfigureAwait(false);
             if (result == null)
-                return default(TResponse);
+                return default;
 
             using (var entry = _memoryCache.CreateEntry(cacheKey))
             {

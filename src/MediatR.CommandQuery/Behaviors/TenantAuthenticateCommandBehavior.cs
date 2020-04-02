@@ -33,7 +33,7 @@ namespace MediatR.CommandQuery.Behaviors
             if (principal == null)
                 return;
 
-            // check principal tenant is same of model tenant
+            // check principal tenant is same as model tenant
             if (!(request.Model is IHaveTenant<TKey> tenantModel))
                 return;
 

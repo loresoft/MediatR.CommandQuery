@@ -30,7 +30,7 @@ namespace MediatR.CommandQuery.Behaviors
 
             if (model is ITrackCreated createdModel)
             {
-                if (createdModel.Created == default(DateTimeOffset))
+                if (createdModel.Created == default)
                     createdModel.Created = DateTimeOffset.UtcNow;
 
                 if (string.IsNullOrEmpty(createdModel.CreatedBy))
