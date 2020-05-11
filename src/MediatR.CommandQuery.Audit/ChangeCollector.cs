@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EntityChange;
+using EntityChange.Extensions;
 using MediatR.CommandQuery.Definitions;
 
 namespace MediatR.CommandQuery.Audit
@@ -59,6 +60,8 @@ namespace MediatR.CommandQuery.Audit
             TEntity previous = default;
             int index = 0;
 
+            var displayName = entityName.ToSpacedWords();
+
             foreach (var current in entityList)
             {
                 bool isLast = index == entityList.Count - 1;
@@ -77,6 +80,7 @@ namespace MediatR.CommandQuery.Audit
                 {
                     Key = current.Id,
                     Entity = entityName,
+                    DisplayName = displayName,
                     Description = description,
                     ActivityBy = current.UpdatedBy,
                     Changes = changes

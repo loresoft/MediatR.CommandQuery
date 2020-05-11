@@ -27,6 +27,14 @@ namespace MediatR.CommandQuery.Audit
         public string Entity { get; set; }
 
         /// <summary>
+        /// Gets or sets the entity display name.
+        /// </summary>
+        /// <value>
+        /// The entity display name.
+        /// </value>
+        public string DisplayName { get; set; }
+
+        /// <summary>
         /// Gets or sets the description of the entity.
         /// </summary>
         /// <value>
@@ -65,5 +73,6 @@ namespace MediatR.CommandQuery.Audit
         /// The list of changes.
         /// </value>
         public IReadOnlyCollection<ChangeRecord> Changes { get; set; }
+
     }
 }
