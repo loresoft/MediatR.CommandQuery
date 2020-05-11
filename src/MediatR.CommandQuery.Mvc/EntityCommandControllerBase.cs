@@ -15,7 +15,7 @@ namespace MediatR.CommandQuery.Mvc
 
 
         [HttpPost("")]
-        public async Task<ActionResult<TReadModel>> Create(CancellationToken cancellationToken, TCreateModel createModel)
+        public virtual async Task<ActionResult<TReadModel>> Create(CancellationToken cancellationToken, TCreateModel createModel)
         {
             var readModel = await CreateCommand(createModel, cancellationToken);
 
@@ -23,7 +23,7 @@ namespace MediatR.CommandQuery.Mvc
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<TReadModel>> Update(CancellationToken cancellationToken, TKey id, TUpdateModel updateModel)
+        public virtual async Task<ActionResult<TReadModel>> Update(CancellationToken cancellationToken, TKey id, TUpdateModel updateModel)
         {
             var readModel = await UpdateCommand(id, updateModel, cancellationToken);
 
@@ -31,7 +31,7 @@ namespace MediatR.CommandQuery.Mvc
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult<TReadModel>> Patch(CancellationToken cancellationToken, TKey id, JsonPatchDocument jsonPatch)
+        public virtual async Task<ActionResult<TReadModel>> Patch(CancellationToken cancellationToken, TKey id, JsonPatchDocument jsonPatch)
         {
             var readModel = await PatchCommand(id, jsonPatch, cancellationToken);
 
@@ -39,7 +39,7 @@ namespace MediatR.CommandQuery.Mvc
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<TReadModel>> Delete(CancellationToken cancellationToken, TKey id)
+        public virtual async Task<ActionResult<TReadModel>> Delete(CancellationToken cancellationToken, TKey id)
         {
             var readModel = await DeleteCommand(id, cancellationToken);
 

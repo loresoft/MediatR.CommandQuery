@@ -13,7 +13,7 @@ namespace MediatR.CommandQuery.Mvc
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TReadModel>> Get(CancellationToken cancellationToken, TKey id)
+        public virtual async Task<ActionResult<TReadModel>> Get(CancellationToken cancellationToken, TKey id)
         {
             var readModel = await GetQuery(id, cancellationToken);
 
@@ -21,7 +21,7 @@ namespace MediatR.CommandQuery.Mvc
         }
 
         [HttpPost("page")]
-        public async Task<ActionResult<EntityPagedResult<TReadModel>>> Query(CancellationToken cancellationToken, EntityQuery query)
+        public virtual async Task<ActionResult<EntityPagedResult<TReadModel>>> Query(CancellationToken cancellationToken, EntityQuery query)
         {
             var listResult = await PagedQuery(query, cancellationToken);
 
@@ -29,7 +29,7 @@ namespace MediatR.CommandQuery.Mvc
         }
 
         [HttpGet("page")]
-        public async Task<ActionResult<EntityPagedResult<TReadModel>>> Query(CancellationToken cancellationToken, string q = null, string sort = null, int page = 1, int size = 20)
+        public virtual async Task<ActionResult<EntityPagedResult<TReadModel>>> Query(CancellationToken cancellationToken, string q = null, string sort = null, int page = 1, int size = 20)
         {
             var query = new EntityQuery(q, page, size, sort);
             var listResult = await PagedQuery(query, cancellationToken);
@@ -38,7 +38,7 @@ namespace MediatR.CommandQuery.Mvc
         }
         
         [HttpPost("query")]
-        public async Task<ActionResult<IReadOnlyCollection<TReadModel>>> Select(CancellationToken cancellationToken, EntitySelect query)
+        public virtual async Task<ActionResult<IReadOnlyCollection<TReadModel>>> Select(CancellationToken cancellationToken, EntitySelect query)
         {
             var results = await SelectQuery(query, cancellationToken);
 
@@ -46,7 +46,7 @@ namespace MediatR.CommandQuery.Mvc
         }
 
         [HttpGet("")]
-        public async Task<ActionResult<IReadOnlyCollection<TReadModel>>> Select(CancellationToken cancellationToken, string q = null, string sort = null)
+        public virtual async Task<ActionResult<IReadOnlyCollection<TReadModel>>> Select(CancellationToken cancellationToken, string q = null, string sort = null)
         {
             var query = new EntitySelect(q, sort);
             var results = await SelectQuery(query, cancellationToken);
