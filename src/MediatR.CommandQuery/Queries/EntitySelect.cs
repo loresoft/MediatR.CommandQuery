@@ -6,7 +6,7 @@ namespace MediatR.CommandQuery.Queries
     {
         public EntitySelect()
         {
-            
+
         }
 
         public EntitySelect(string query, string sort)
@@ -20,7 +20,7 @@ namespace MediatR.CommandQuery.Queries
             Sort = new[] { entitySort };
         }
 
-        public EntitySelect(EntityFilter filter) 
+        public EntitySelect(EntityFilter filter)
             : this(filter, null)
         {
         }
@@ -34,7 +34,7 @@ namespace MediatR.CommandQuery.Queries
         public string Query { get; set; }
 
         public IEnumerable<EntitySort> Sort { get; set; }
-        
+
         public EntityFilter Filter { get; set; }
 
         public override int GetHashCode()

@@ -8,12 +8,12 @@ using MediatR.CommandQuery.Definitions;
 namespace MediatR.CommandQuery.Audit
 {
     /// <summary>
-    /// 
+    /// Service to collate changes for an entity
     /// </summary>
     /// <typeparam name="TKey">The type of the key.</typeparam>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <seealso cref="MediatR.CommandQuery.Audit.IChangeCollector{TKey, TEntity}" />
-    public class ChangeCollector<TKey, TEntity> : IChangeCollector<TKey, TEntity> 
+    public class ChangeCollector<TKey, TEntity> : IChangeCollector<TKey, TEntity>
         where TEntity : IHaveIdentifier<TKey>, ITrackUpdated, ITrackHistory
     {
         private readonly IEntityComparer _entityComparer;
@@ -51,7 +51,7 @@ namespace MediatR.CommandQuery.Audit
             var entityList = entities
                 .OrderBy(p => p.PeriodEnd)
                 .ToList();
-            
+
             if (entityList.Count == 0)
                 return Enumerable.Empty<AuditRecord<TKey>>();
 
@@ -66,7 +66,7 @@ namespace MediatR.CommandQuery.Audit
             {
                 bool isLast = index == entityList.Count - 1;
                 List<ChangeRecord> changes = null;
-                
+
                 if (previous != null)
                 {
                     changes = _entityComparer
