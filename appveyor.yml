@@ -36,7 +36,7 @@ after_test:
   - csmacnz.coveralls --useRelativePaths --multiple --input "opencover=test\MediatR.CommandQuery.Tests\coverage.opencover.xml;opencover=test\MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests\coverage.opencover.xml"
 
 artifacts:
-- path: artifacts\*.nupkg
+- path: artifacts\*.*nupkg
   name: Packages
 
 deploy:

@@ -10,7 +10,7 @@
 
   <PropertyGroup Label="Package">
     <Description>CQRS framework based on MediatR</Description>
-    <Copyright>Copyright © 2019 LoreSoft</Copyright>
+    <Copyright>Copyright © $([System.DateTime]::Now.ToString(yyyy)) LoreSoft</Copyright>
     <Authors>LoreSoft</Authors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>EntityFramework; EntityFrameworkCore; CQRS; AutoMapper; MediatR</PackageTags>
