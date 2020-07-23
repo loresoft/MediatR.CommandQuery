@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MediatR.CommandQuery.Mvc
 {
-    public abstract class EntityQueryControllerBase<TKey, TQueryModel, TReadModel> : MediatorControllerBase
+    public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : MediatorControllerBase
     {
         protected EntityQueryControllerBase(IMediator mediator) : base(mediator)
         {
@@ -21,7 +21,7 @@ namespace MediatR.CommandQuery.Mvc
         }
 
         [HttpPost("page")]
-        public virtual async Task<ActionResult<EntityPagedResult<TQueryModel>>> Page(CancellationToken cancellationToken, EntityQuery query)
+        public virtual async Task<ActionResult<EntityPagedResult<TListModel>>> Page(CancellationToken cancellationToken, EntityQuery query)
         {
             var listResult = await PagedQuery(query, cancellationToken);
 
@@ -29,7 +29,7 @@ namespace MediatR.CommandQuery.Mvc
         }
 
         [HttpGet("page")]
-        public virtual async Task<ActionResult<EntityPagedResult<TQueryModel>>> Page(CancellationToken cancellationToken, string q = null, string sort = null, int page = 1, int size = 20)
+        public virtual async Task<ActionResult<EntityPagedResult<TListModel>>> Page(CancellationToken cancellationToken, string q = null, string sort = null, int page = 1, int size = 20)
         {
             var query = new EntityQuery(q, page, size, sort);
             var listResult = await PagedQuery(query, cancellationToken);
@@ -38,7 +38,7 @@ namespace MediatR.CommandQuery.Mvc
         }
         
         [HttpPost("query")]
-        public virtual async Task<ActionResult<IReadOnlyCollection<TQueryModel>>> Query(CancellationToken cancellationToken, EntitySelect query)
+        public virtual async Task<ActionResult<IReadOnlyCollection<TListModel>>> Query(CancellationToken cancellationToken, EntitySelect query)
         {
             var results = await SelectQuery(query, cancellationToken);
 
@@ -46,7 +46,7 @@ namespace MediatR.CommandQuery.Mvc
         }
 
         [HttpGet("")]
-        public virtual async Task<ActionResult<IReadOnlyCollection<TQueryModel>>> Query(CancellationToken cancellationToken, string q = null, string sort = null)
+        public virtual async Task<ActionResult<IReadOnlyCollection<TListModel>>> Query(CancellationToken cancellationToken, string q = null, string sort = null)
         {
             var query = new EntitySelect(q, sort);
             var results = await SelectQuery(query, cancellationToken);
@@ -63,17 +63,17 @@ namespace MediatR.CommandQuery.Mvc
             return result;
         }
 
-        protected virtual async Task<EntityPagedResult<TQueryModel>> PagedQuery(EntityQuery entityQuery, CancellationToken cancellationToken = default)
+        protected virtual async Task<EntityPagedResult<TListModel>> PagedQuery(EntityQuery entityQuery, CancellationToken cancellationToken = default)
         {
-            var command = new EntityPagedQuery<TQueryModel>(User, entityQuery);
+            var command = new EntityPagedQuery<TListModel>(User, entityQuery);
             var result = await Mediator.Send(command, cancellationToken);
 
             return result;
         }
 
-        protected virtual async Task<IReadOnlyCollection<TQueryModel>> SelectQuery(EntitySelect entitySelect, CancellationToken cancellationToken = default)
+        protected virtual async Task<IReadOnlyCollection<TListModel>> SelectQuery(EntitySelect entitySelect, CancellationToken cancellationToken = default)
         {
-            var command = new EntitySelectQuery<TQueryModel>(User, entitySelect);
+            var command = new EntitySelectQuery<TListModel>(User, entitySelect);
             var result = await Mediator.Send(command, cancellationToken);
 
             return result;

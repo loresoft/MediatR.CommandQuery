@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MediatR.CommandQuery.Mvc
 {
-    public abstract class EntityCommandControllerBase<TKey, TQueryModel, TReadModel, TCreateModel, TUpdateModel>
-        : EntityQueryControllerBase<TKey, TQueryModel, TReadModel>
+    public abstract class EntityCommandControllerBase<TKey, TListModel, TReadModel, TCreateModel, TUpdateModel>
+        : EntityQueryControllerBase<TKey, TListModel, TReadModel>
     {
         protected EntityCommandControllerBase(IMediator mediator) : base(mediator)
         {
