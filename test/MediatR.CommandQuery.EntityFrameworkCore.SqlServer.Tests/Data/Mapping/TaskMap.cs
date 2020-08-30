@@ -63,6 +63,11 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Mapping
                 .HasColumnName("TenantId")
                 .HasColumnType("uniqueidentifier");
 
+            builder.Property(t => t.IsDeleted)
+                .IsRequired()
+                .HasColumnName("IsDeleted")
+                .HasColumnType("bit");
+
             builder.Property(t => t.Created)
                 .IsRequired()
                 .HasColumnName("Created")

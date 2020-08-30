@@ -170,6 +170,23 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance
         }
 
         [Fact]
+        public async Task EntityPageQuery()
+        {
+            var mediator = ServiceProvider.GetService<IMediator>();
+            mediator.Should().NotBeNull();
+
+            var mapper = ServiceProvider.GetService<IMapper>();
+            mapper.Should().NotBeNull();
+
+            var filter = new EntityFilter { Name = "StatusId", Value = StatusConstants.NotStarted };
+            var entityQuery = new EntityQuery {Filter = filter};
+            var pagedQuery = new EntityPagedQuery<TaskReadModel>(MockPrincipal.Default, entityQuery);
+
+            var selectResult = await mediator.Send(pagedQuery).ConfigureAwait(false);
+            selectResult.Should().NotBeNull();
+        }
+
+        [Fact]
         public async Task EntitySelectQuery()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -186,5 +203,47 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance
             selectResult.Should().NotBeNull();
         }
 
+        [Fact]
+        public async Task EntitySelectQueryDelete()
+        {
+            var mediator = ServiceProvider.GetService<IMediator>();
+            mediator.Should().NotBeNull();
+
+            var mapper = ServiceProvider.GetService<IMapper>();
+            mapper.Should().NotBeNull();
+
+            var filter = new EntityFilter { Name = "IsDeleted", Value = true };
+            var select = new EntitySelect(filter);
+            var selectQuery = new EntitySelectQuery<TaskReadModel>(MockPrincipal.Default, select);
+
+            var selectResult = await mediator.Send(selectQuery).ConfigureAwait(false);
+            selectResult.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task EntitySelectQueryDeleteNested()
+        {
+            var mediator = ServiceProvider.GetService<IMediator>();
+            mediator.Should().NotBeNull();
+
+            var mapper = ServiceProvider.GetService<IMapper>();
+            mapper.Should().NotBeNull();
+
+            var filter = new EntityFilter
+            {
+                Filters = new[]
+                {
+                    new EntityFilter {Name = "IsDeleted", Value = true},
+                    new EntityFilter { Name = "StatusId", Value = StatusConstants.NotStarted }
+                }
+            };
+
+
+            var select = new EntitySelect(filter);
+            var selectQuery = new EntitySelectQuery<TaskReadModel>(MockPrincipal.Default, select);
+
+            var selectResult = await mediator.Send(selectQuery).ConfigureAwait(false);
+            selectResult.Should().NotBeNull();
+        }
     }
 }

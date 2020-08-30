@@ -58,6 +58,13 @@ namespace MediatR.CommandQuery.EntityFrameworkCore
                 services.AddScoped<IPipelineBehavior<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>, TenantSelectQueryBehavior<TKey, TReadModel>>();
             }
 
+            bool supportsDeleted = typeof(TReadModel).Implements<ITrackDeleted>();
+            if (supportsDeleted)
+            {
+                services.AddScoped<IPipelineBehavior<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>, DeletedPagedQueryBehavior<TReadModel>>();
+                services.AddScoped<IPipelineBehavior<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>, DeletedSelectQueryBehavior<TReadModel>>();
+            }
+
             return services;
         }
 

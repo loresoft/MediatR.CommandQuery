@@ -4,7 +4,7 @@ using MediatR.CommandQuery.Definitions;
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Task.Models
 {
     public partial class TaskCreateModel
-        : EntityCreateModel, IHaveTenant<Guid>
+        : EntityCreateModel, IHaveTenant<Guid>, ITrackDeleted
     {
         #region Generated Properties
         public Guid StatusId { get; set; }
@@ -24,6 +24,8 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Task.M
         public Guid? AssignedId { get; set; }
 
         public Guid TenantId { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         #endregion
 

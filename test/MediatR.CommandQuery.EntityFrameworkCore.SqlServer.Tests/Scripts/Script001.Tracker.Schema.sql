@@ -70,6 +70,7 @@ CREATE TABLE [dbo].[Task] (
     [CompleteDate] datetimeoffset NULL,
     [AssignedId] uniqueidentifier NULL,
     [TenantId] uniqueidentifier NOT NULL,
+    [IsDeleted] bit NOT NULL DEFAULT (0),
     [Created] datetimeoffset NOT NULL DEFAULT (sysutcdatetime()),
     [CreatedBy] nvarchar(100) NULL,
     [Updated] datetimeoffset NOT NULL DEFAULT (sysutcdatetime()),

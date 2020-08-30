@@ -32,6 +32,8 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities
 
         public Guid TenantId { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public DateTimeOffset Created { get; set; }
 
         public string CreatedBy { get; set; }
