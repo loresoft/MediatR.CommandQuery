@@ -62,7 +62,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
                 query = query.Filter(entityQuery.Filter);
 
             // add raw query
-            if (!string.IsNullOrEmpty(entityQuery.Query))
+            if (!string.IsNullOrEmpty(entityQuery?.Query))
                 query = query.Where(entityQuery.Query);
 
 

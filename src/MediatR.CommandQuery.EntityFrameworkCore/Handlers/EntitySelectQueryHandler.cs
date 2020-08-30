@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -41,9 +42,15 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
 
         protected virtual IQueryable<TEntity> BuildQuery(EntitySelectQuery<TReadModel> request, IQueryable<TEntity> query)
         {
+            var entitySelect = request?.Select;
+
             // build query from filter
-            if (request?.Select?.Filter != null)
+            if (entitySelect?.Filter != null)
                 query = query.Filter(request.Select.Filter);
+
+            // add raw query
+            if (!string.IsNullOrEmpty(entitySelect?.Query))
+                query = query.Where(entitySelect.Query);
 
             return query;
         }
