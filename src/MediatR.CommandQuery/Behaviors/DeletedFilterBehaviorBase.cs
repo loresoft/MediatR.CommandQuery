@@ -64,10 +64,10 @@ namespace MediatR.CommandQuery.Behaviors
                 if (!string.IsNullOrEmpty(filter.Name) && filter.Name == nameof(ITrackDeleted.IsDeleted))
                     return true;
 
-                if (filter.Filters == null) 
+                if (filter.Filters == null)
                     continue;
 
-                foreach (var innerFilter in filter.Filters) 
+                foreach (var innerFilter in filter.Filters)
                     stack.Push(innerFilter);
             }
 
