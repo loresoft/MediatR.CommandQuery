@@ -21,8 +21,14 @@ namespace MediatR.CommandQuery.Queries
         }
 
         public EntitySelect(EntityFilter filter)
-            : this(filter, null)
+            : this(filter, (IEnumerable<EntitySort>)null)
         {
+        }
+
+        public EntitySelect(EntityFilter filter, EntitySort sort)
+            : this(filter, new[] { sort })
+        {
+
         }
 
         public EntitySelect(EntityFilter filter, IEnumerable<EntitySort> sort)

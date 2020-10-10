@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MediatR.CommandQuery.Queries
 {
@@ -10,7 +11,25 @@ namespace MediatR.CommandQuery.Queries
             PageSize = 20;
         }
 
-        public EntityQuery(string query, int page, int pageSize, string sort) : base(query, sort)
+        public EntityQuery(string query, int page, int pageSize, string sort)
+            : base(query, sort)
+        {
+            Page = page;
+            PageSize = pageSize;
+        }
+
+        public EntityQuery(EntityFilter filter, int page = 1, int pageSize = 20)
+            : this(filter, (IEnumerable<EntitySort>)null, page, pageSize)
+        {
+        }
+
+        public EntityQuery(EntityFilter filter, EntitySort sort, int page = 1, int pageSize = 20)
+            : this(filter, new[] { sort }, page, pageSize)
+        {
+        }
+
+        public EntityQuery(EntityFilter filter, IEnumerable<EntitySort> sort, int page = 1, int pageSize = 20)
+            : base(filter, sort)
         {
             Page = page;
             PageSize = pageSize;
@@ -24,7 +43,7 @@ namespace MediatR.CommandQuery.Queries
         public override int GetHashCode()
         {
             const int m = -1521134295;
-            
+
             int hashCode = base.GetHashCode();
             hashCode = hashCode * m + Page.GetHashCode();
             hashCode = hashCode * m + PageSize.GetHashCode();

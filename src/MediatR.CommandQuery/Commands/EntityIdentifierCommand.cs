@@ -2,8 +2,8 @@
 
 namespace MediatR.CommandQuery.Commands
 {
-    public abstract class EntityIdentifierCommand<TKey, TReadModel>
-        : PrincipalCommandBase<TReadModel>
+    public abstract class EntityIdentifierCommand<TKey, TResponse>
+        : PrincipalCommandBase<TResponse>
     {
         protected EntityIdentifierCommand(IPrincipal principal, TKey id)
             : base(principal)
