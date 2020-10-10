@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AutoMapper;
 using FluentValidation;
 using MediatR.CommandQuery.Behaviors;
 using MediatR.CommandQuery.Commands;
@@ -20,6 +19,8 @@ namespace MediatR.CommandQuery.EntityFrameworkCore
             // Register MediatR
             services.TryAddScoped<ServiceFactory>(p => p.GetService);
             services.TryAddScoped<IMediator, Mediator>();
+            services.TryAddScoped<ISender, Mediator>();
+            services.TryAddScoped<IPublisher, Mediator>();
 
             return services;
         }
