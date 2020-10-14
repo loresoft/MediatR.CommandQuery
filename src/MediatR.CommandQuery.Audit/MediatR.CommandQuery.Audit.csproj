@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="EntityChange" Version="4.1.0.71" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.9" />
   </ItemGroup>
 
   <ItemGroup>
