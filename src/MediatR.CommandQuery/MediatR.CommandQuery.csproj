@@ -12,7 +12,7 @@
     <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="3.1.8" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.8" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.8" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.2" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.5" />
   </ItemGroup>
 
 </Project>
