@@ -9,9 +9,6 @@ environment:
 init:
   - git config --global core.autocrlf input
 
-install: 
-  - choco install dotnetcore-sdk
-
 services:
   - mssql2017
 
@@ -28,6 +25,7 @@ configuration: Release
 
 install:
   - dotnet tool install --global coveralls.net
+  - choco install dotnetcore-sdk
 
 build_script:
   - dotnet pack MediatR.CommandQuery.sln --configuration Release --include-symbols --include-source
