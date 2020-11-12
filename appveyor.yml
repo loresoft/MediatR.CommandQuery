@@ -25,7 +25,7 @@ configuration: Release
 
 install:
   - dotnet tool install --global coveralls.net
-  - choco install dotnetcore-sdk
+  - choco install dotnet-5.0-sdk
 
 build_script:
   - dotnet pack MediatR.CommandQuery.sln --configuration Release --include-symbols --include-source
