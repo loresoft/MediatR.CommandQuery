@@ -2,7 +2,7 @@ project:
   namespace: 'MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests'
   directory: .\
 database:
-  connectionString: Data Source=(local);Initial Catalog=Tracker;Integrated Security=True
+  connectionString: Data Source=.\SQL2019;Initial Catalog=TrackerCommandQuery;Integrated Security=True
 data:
   context:
     name: 'TrackerContext'
