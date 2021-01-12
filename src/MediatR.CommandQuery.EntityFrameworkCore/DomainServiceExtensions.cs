@@ -3,6 +3,7 @@ using FluentValidation;
 using MediatR.CommandQuery.Behaviors;
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
+using MediatR.CommandQuery.EntityFrameworkCore.Behaviors;
 using MediatR.CommandQuery.EntityFrameworkCore.Handlers;
 using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.Queries;
@@ -135,6 +136,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore
                 services.AddTransient<IPipelineBehavior<EntityCreateCommand<TCreateModel, TReadModel>, TReadModel>, TrackChangeCommandBehavior<TCreateModel, TReadModel>>();
 
             services.AddTransient<IPipelineBehavior<EntityCreateCommand<TCreateModel, TReadModel>, TReadModel>, ValidateEntityModelCommandBehavior<TCreateModel, TReadModel>>();
+            services.AddTransient<IPipelineBehavior<EntityCreateCommand<TCreateModel, TReadModel>, TReadModel>, EntityChangeNotificationBehavior<TKey, TCreateModel, TReadModel>>();
 
             return services;
         }
@@ -166,6 +168,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore
                 services.AddTransient<IPipelineBehavior<EntityUpdateCommand<TKey, TUpdateModel, TReadModel>, TReadModel>, TrackChangeCommandBehavior<TUpdateModel, TReadModel>>();
 
             services.AddTransient<IPipelineBehavior<EntityUpdateCommand<TKey, TUpdateModel, TReadModel>, TReadModel>, ValidateEntityModelCommandBehavior<TUpdateModel, TReadModel>>();
+            services.AddTransient<IPipelineBehavior<EntityUpdateCommand<TKey, TUpdateModel, TReadModel>, TReadModel>, EntityChangeNotificationBehavior<TKey, TUpdateModel, TReadModel>>();
 
             return services;
         }
@@ -192,6 +195,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore
                 services.AddTransient<IPipelineBehavior<EntityUpsertCommand<TKey, TUpdateModel, TReadModel>, TReadModel>, TrackChangeCommandBehavior<TUpdateModel, TReadModel>>();
 
             services.AddTransient<IPipelineBehavior<EntityUpsertCommand<TKey, TUpdateModel, TReadModel>, TReadModel>, ValidateEntityModelCommandBehavior<TUpdateModel, TReadModel>>();
+            services.AddTransient<IPipelineBehavior<EntityUpsertCommand<TKey, TUpdateModel, TReadModel>, TReadModel>, EntityChangeNotificationBehavior<TKey, TUpdateModel, TReadModel>>();
 
             return services;
         }
@@ -203,6 +207,9 @@ namespace MediatR.CommandQuery.EntityFrameworkCore
             // standard crud commands
             services.TryAddTransient<IRequestHandler<EntityPatchCommand<TKey, TReadModel>, TReadModel>, EntityPatchCommandHandler<TContext, TEntity, TKey, TReadModel>>();
 
+            // pipeline registration, run in order registered
+            services.AddTransient<IPipelineBehavior<EntityPatchCommand<TKey, TReadModel>, TReadModel>, EntityChangeNotificationBehavior<TKey, TEntity, TReadModel>>();
+
             return services;
         }
 
@@ -213,6 +220,9 @@ namespace MediatR.CommandQuery.EntityFrameworkCore
 
             // standard crud commands
             services.TryAddTransient<IRequestHandler<EntityDeleteCommand<TKey, TReadModel>, TReadModel>, EntityDeleteCommandHandler<TContext, TEntity, TKey, TReadModel>>();
+
+            // pipeline registration, run in order registered
+            services.AddTransient<IPipelineBehavior<EntityDeleteCommand<TKey, TReadModel>, TReadModel>, EntityChangeNotificationBehavior<TKey, TEntity, TReadModel>>();
 
             return services;
         }

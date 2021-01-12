@@ -1,4 +1,4 @@
-version: 7.0.0.{build}
+version: 8.0.0.{build}
 os: Visual Studio 2019
 
 environment:
@@ -25,7 +25,6 @@ configuration: Release
 
 install:
   - dotnet tool install --global coveralls.net
-  - choco install dotnet-5.0-sdk
 
 build_script:
   - dotnet pack MediatR.CommandQuery.sln --configuration Release --include-symbols --include-source

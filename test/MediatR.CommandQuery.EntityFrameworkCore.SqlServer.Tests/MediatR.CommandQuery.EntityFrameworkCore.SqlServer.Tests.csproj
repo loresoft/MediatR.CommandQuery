@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
-    <PackageReference Include="coverlet.msbuild" Version="2.9.0">
+    <PackageReference Include="coverlet.msbuild" Version="3.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -25,7 +25,8 @@
     <PackageReference Include="dbup-sqlserver" Version="4.5.0" />
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="KickStart.DependencyInjection" Version="8.0.0.360" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.1" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
