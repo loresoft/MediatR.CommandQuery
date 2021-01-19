@@ -30,6 +30,20 @@ namespace MediatR.CommandQuery.Audit
         /// <summary>
         /// Collects the changes to a group of entities over time by comparing the historical version.
         /// </summary>
+        /// <param name="entities">The historical list of an entity.</param>
+        /// <param name="entityName">Name of the entity used in the log record.</param>
+        /// <param name="descriptionFunction">The entity description function.</param>
+        /// <returns>
+        /// A list of audit record of changes to the entity
+        /// </returns>
+        public IReadOnlyList<AuditRecord<TKey>> CollectGroupChanges(IEnumerable<TEntity> entities, string entityName, Func<TEntity, string> descriptionFunction = null)
+        {
+            return CollectGroupChanges(entities, entityName, g => g.Id, descriptionFunction);
+        }
+
+        /// <summary>
+        /// Collects the changes to a group of entities over time by comparing the historical version.
+        /// </summary>
         /// <typeparam name="TProperty">The type of the property to group by.</typeparam>
         /// <param name="entities">The historical list of an entity.</param>
         /// <param name="entityName">Name of the entity used in the log record.</param>
