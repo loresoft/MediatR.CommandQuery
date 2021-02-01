@@ -1,4 +1,5 @@
-﻿using System.Security.Principal;
+﻿using System;
+using System.Security.Principal;
 
 namespace MediatR.CommandQuery.Commands
 {
@@ -8,5 +9,11 @@ namespace MediatR.CommandQuery.Commands
         public EntityDeleteCommand(IPrincipal principal, TKey id) : base(principal, id)
         {
         }
+
+        public override string ToString()
+        {
+            return $"Entity Delete Command; Model: {typeof(TReadModel).Name}; {base.ToString()}";
+        }
+
     }
 }

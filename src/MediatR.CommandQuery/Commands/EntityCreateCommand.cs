@@ -10,5 +10,10 @@ namespace MediatR.CommandQuery.Commands
         public EntityCreateCommand(IPrincipal principal, TCreateModel model) : base(principal, model)
         {
         }
+
+        public override string ToString()
+        {
+            return $"Entity Create Command; Model: {typeof(TCreateModel).Name}; {base.ToString()}";
+        }
     }
 }

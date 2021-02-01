@@ -37,6 +37,13 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
             // copy updates from model to entity
             Mapper.Map(request.Model, entity);
 
+            // apply update metadata
+            if (entity is ITrackUpdated updateEntity)
+            {
+                updateEntity.Updated = request.Activated;
+                updateEntity.UpdatedBy = request.ActivatedBy;
+            }
+
             // save updates
             await DataContext
                 .SaveChangesAsync(cancellationToken)

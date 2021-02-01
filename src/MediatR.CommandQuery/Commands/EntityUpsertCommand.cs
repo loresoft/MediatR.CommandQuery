@@ -12,5 +12,11 @@ namespace MediatR.CommandQuery.Commands
         }
 
         public TKey Id { get; }
+
+        public override string ToString()
+        {
+            return $"Entity Upsert Command; Model: {typeof(TUpdateModel).Name}; Id: {Id}; {base.ToString()}";
+        }
+
     }
 }

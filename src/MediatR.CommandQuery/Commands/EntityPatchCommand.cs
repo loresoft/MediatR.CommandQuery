@@ -13,5 +13,12 @@ namespace MediatR.CommandQuery.Commands
         }
 
         public IJsonPatchDocument Patch { get; }
+
+
+        public override string ToString()
+        {
+            return $"Entity Patch Command; Model: {typeof(TReadModel).Name}; {base.ToString()}";
+        }
+
     }
 }

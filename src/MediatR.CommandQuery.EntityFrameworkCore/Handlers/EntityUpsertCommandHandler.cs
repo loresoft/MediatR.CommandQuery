@@ -37,6 +37,13 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
                 entity = new TEntity();
                 entity.Id = request.Id;
 
+                // apply create metadata
+                if (entity is ITrackCreated createdModel)
+                {
+                    createdModel.Created = request.Activated;
+                    createdModel.CreatedBy = request.ActivatedBy;
+                }
+
                 await dbSet
                     .AddAsync(entity, cancellationToken)
                     .ConfigureAwait(false);
@@ -44,6 +51,13 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
 
             // copy updates from model to entity
             Mapper.Map(request.Model, entity);
+
+            // apply update metadata
+            if (entity is ITrackUpdated updateEntity)
+            {
+                updateEntity.Updated = request.Activated;
+                updateEntity.UpdatedBy = request.ActivatedBy;
+            }
 
             // save updates
             await DataContext

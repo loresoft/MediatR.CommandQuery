@@ -20,12 +20,12 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
         {
         }
 
-        protected override async Task<TReadModel> Process(EntityPatchCommand<TKey, TReadModel> message, CancellationToken cancellationToken)
+        protected override async Task<TReadModel> Process(EntityPatchCommand<TKey, TReadModel> request, CancellationToken cancellationToken)
         {
             var dbSet = DataContext
                 .Set<TEntity>();
 
-            var keyValue = new object[] { message.Id };
+            var keyValue = new object[] { request.Id };
 
             // find entity to update by message id, not model id
             var entity = await dbSet
@@ -37,11 +37,18 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
 
             // apply json patch to entity
             var jsonPatch = new JsonPatchDocument(
-                message.Patch.GetOperations().ToList(),
-                message.Patch.ContractResolver);
+                request.Patch.GetOperations().ToList(),
+                request.Patch.ContractResolver);
 
             jsonPatch.ApplyTo(entity);
-
+            
+            // apply update metadata
+            if (entity is ITrackUpdated updateEntity)
+            {
+                updateEntity.Updated = request.Activated;
+                updateEntity.UpdatedBy = request.ActivatedBy;
+            }
+            
             await DataContext
                 .SaveChangesAsync(cancellationToken)
                 .ConfigureAwait(false);

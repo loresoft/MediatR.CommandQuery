@@ -9,8 +9,21 @@ namespace MediatR.CommandQuery.Commands
         protected PrincipalCommandBase(IPrincipal principal)
         {
             Principal = principal;
+            ActivatedBy = principal?.Identity?.Name;
+            Activated = DateTimeOffset.UtcNow;
+
         }
 
         public IPrincipal Principal { get; }
+
+        public DateTimeOffset Activated { get; }
+
+        public string ActivatedBy { get; }
+
+        public override string ToString()
+        {
+            return $"Date: {Activated}; User: {ActivatedBy}";
+        }
+
     }
 }

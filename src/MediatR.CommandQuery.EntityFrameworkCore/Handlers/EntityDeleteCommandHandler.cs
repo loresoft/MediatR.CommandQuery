@@ -30,13 +30,33 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
                 .ConfigureAwait(false);
 
             if (entity == null)
-                return default(TReadModel);
+                return default;
+
+            // apply update metadata
+            if (entity is ITrackUpdated updateEntity)
+            {
+                updateEntity.UpdatedBy = request.ActivatedBy;
+                updateEntity.Updated = request.Activated;
+            }
 
             // entity supports soft delete
             if (entity is ITrackDeleted deleteEntity)
+            {
                 deleteEntity.IsDeleted = true;
+            }
             else
+            {
+                // when history is tracked, need to update the entity with update metadata before deleting
+                if (entity is ITrackHistory && entity is ITrackUpdated)
+                {
+                    await DataContext
+                        .SaveChangesAsync(cancellationToken)
+                        .ConfigureAwait(false);
+                }
+                
+                // delete the entity
                 dbSet.Remove(entity);
+            }
 
             await DataContext
                 .SaveChangesAsync(cancellationToken)

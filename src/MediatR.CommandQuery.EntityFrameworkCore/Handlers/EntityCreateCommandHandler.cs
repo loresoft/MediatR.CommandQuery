@@ -23,6 +23,20 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
             // create new entity from model
             var entity = Mapper.Map<TEntity>(request.Model);
 
+            // apply create metadata
+            if (entity is ITrackCreated createdModel)
+            {
+                createdModel.Created = request.Activated;
+                createdModel.CreatedBy = request.ActivatedBy;
+            }
+
+            // apply update metadata
+            if (entity is ITrackUpdated updateEntity)
+            {
+                updateEntity.Updated = request.Activated;
+                updateEntity.UpdatedBy = request.ActivatedBy;
+            }
+
             var dbSet = DataContext
                 .Set<TEntity>();
 
