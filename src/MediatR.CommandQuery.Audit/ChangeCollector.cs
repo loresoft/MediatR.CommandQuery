@@ -130,17 +130,17 @@ namespace MediatR.CommandQuery.Audit
 
                 if (isLast && current.PeriodEnd < DateTime.MaxValue)
                 {
-                    auditRecord.ActivityDate = current.PeriodEnd;
+                    auditRecord.ActivityDate = new DateTimeOffset(current.PeriodEnd, TimeSpan.Zero);;
                     auditRecord.Operation = AuditOperation.Delete;
                 }
                 else if (previous == null)
                 {
-                    auditRecord.ActivityDate = current.PeriodStart;
+                    auditRecord.ActivityDate = new DateTimeOffset(current.PeriodStart, TimeSpan.Zero);
                     auditRecord.Operation = AuditOperation.Create;
                 }
                 else
                 {
-                    auditRecord.ActivityDate = current.PeriodStart;
+                    auditRecord.ActivityDate = new DateTimeOffset(current.PeriodStart, TimeSpan.Zero);
                     auditRecord.Operation = AuditOperation.Update;
                 }
 
