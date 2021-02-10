@@ -28,6 +28,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Mvc", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Audit", "src\MediatR.CommandQuery.Audit\MediatR.CommandQuery.Audit.csproj", "{CADD4D16-6114-44F6-8012-409EC0B4B880}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatR.CommandQuery.Hangfire", "src\MediatR.CommandQuery.Hangfire\MediatR.CommandQuery.Hangfire.csproj", "{7E9D6A95-BB24-47A0-8667-D3A709F5F502}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -122,6 +124,18 @@ Global
 		{CADD4D16-6114-44F6-8012-409EC0B4B880}.Release|x64.Build.0 = Release|Any CPU
 		{CADD4D16-6114-44F6-8012-409EC0B4B880}.Release|x86.ActiveCfg = Release|Any CPU
 		{CADD4D16-6114-44F6-8012-409EC0B4B880}.Release|x86.Build.0 = Release|Any CPU
+		{7E9D6A95-BB24-47A0-8667-D3A709F5F502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E9D6A95-BB24-47A0-8667-D3A709F5F502}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E9D6A95-BB24-47A0-8667-D3A709F5F502}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7E9D6A95-BB24-47A0-8667-D3A709F5F502}.Debug|x64.Build.0 = Debug|Any CPU
+		{7E9D6A95-BB24-47A0-8667-D3A709F5F502}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7E9D6A95-BB24-47A0-8667-D3A709F5F502}.Debug|x86.Build.0 = Debug|Any CPU
+		{7E9D6A95-BB24-47A0-8667-D3A709F5F502}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E9D6A95-BB24-47A0-8667-D3A709F5F502}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E9D6A95-BB24-47A0-8667-D3A709F5F502}.Release|x64.ActiveCfg = Release|Any CPU
+		{7E9D6A95-BB24-47A0-8667-D3A709F5F502}.Release|x64.Build.0 = Release|Any CPU
+		{7E9D6A95-BB24-47A0-8667-D3A709F5F502}.Release|x86.ActiveCfg = Release|Any CPU
+		{7E9D6A95-BB24-47A0-8667-D3A709F5F502}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
