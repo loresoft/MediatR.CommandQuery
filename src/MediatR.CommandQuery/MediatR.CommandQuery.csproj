@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="9.5.3" />
     <PackageReference Include="MediatR" Version="9.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="5.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="5.0.5" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.8" />
