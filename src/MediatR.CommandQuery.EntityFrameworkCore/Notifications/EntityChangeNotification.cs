@@ -9,7 +9,7 @@
         }
 
         public TEntityModel Model { get; }
-        
+
         public EntityChangeOperation Operation { get; }
     }
 }

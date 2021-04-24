@@ -1,0 +1,24 @@
+﻿using System.Threading;
+using MediatR.CommandQuery.Cosmos.Notifications;
+using MediatR.CommandQuery.Cosmos.Tests.Domain.Models;
+using Microsoft.Extensions.Logging;
+
+namespace MediatR.CommandQuery.Cosmos.Tests.Domain.Handlers
+{
+    public class TaskChangedNotificationHandler : INotificationHandler<EntityChangeNotification<TaskReadModel>>
+    {
+        private readonly ILogger<TaskChangedNotificationHandler> _logger;
+
+        public TaskChangedNotificationHandler(ILogger<TaskChangedNotificationHandler> logger)
+        {
+            _logger = logger;
+        }
+
+        public System.Threading.Tasks.Task Handle(EntityChangeNotification<TaskReadModel> notification, CancellationToken cancellationToken)
+        {
+            _logger.LogInformation("Task Changed: {id} {operation}", notification.Model?.Id, notification.Operation);
+
+            return System.Threading.Tasks.Task.CompletedTask;
+        }
+    }
+}

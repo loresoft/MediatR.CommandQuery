@@ -41,14 +41,14 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
                 request.Patch.ContractResolver);
 
             jsonPatch.ApplyTo(entity);
-            
+
             // apply update metadata
             if (entity is ITrackUpdated updateEntity)
             {
                 updateEntity.Updated = request.Activated;
                 updateEntity.UpdatedBy = request.ActivatedBy;
             }
-            
+
             await DataContext
                 .SaveChangesAsync(cancellationToken)
                 .ConfigureAwait(false);

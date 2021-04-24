@@ -24,6 +24,8 @@ dotnet_csproj:
 configuration: Release
 
 install:
+  - ps: Import-Module "$env:ProgramFiles\Azure Cosmos DB Emulator\PSModules\Microsoft.Azure.CosmosDB.Emulator"
+  - ps: Start-CosmosDbEmulator
   - dotnet tool install --global coveralls.net
 
 build_script:
@@ -33,7 +35,7 @@ test_script:
   - dotnet test MediatR.CommandQuery.sln --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude="[xunit*]*"
 
 after_test:
-  - csmacnz.coveralls --useRelativePaths --multiple --input "opencover=test\MediatR.CommandQuery.Tests\coverage.opencover.xml;opencover=test\MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests\coverage.opencover.xml"
+  - csmacnz.coveralls --useRelativePaths --multiple --input "opencover=test\MediatR.CommandQuery.Tests\coverage.opencover.xml;opencover=test\MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests\coverage.opencover.xml;opencover=test\MediatR.CommandQuery.Cosmos.Tests\coverage.opencover.xml"
 
 artifacts:
 - path: artifacts\*.*nupkg

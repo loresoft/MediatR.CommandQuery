@@ -36,7 +36,7 @@ namespace MediatR.CommandQuery.Mvc
 
             return Ok(listResult);
         }
-        
+
         [HttpPost("query")]
         public virtual async Task<ActionResult<IReadOnlyCollection<TListModel>>> Query(CancellationToken cancellationToken, EntitySelect query)
         {

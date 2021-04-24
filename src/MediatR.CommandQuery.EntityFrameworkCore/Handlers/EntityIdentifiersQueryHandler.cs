@@ -26,7 +26,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
 
         protected override async Task<IReadOnlyCollection<TReadModel>> Process(EntityIdentifiersQuery<TKey, TReadModel> request, CancellationToken cancellationToken)
         {
-            var model = await DataContext
+            var models = await DataContext
                 .Set<TEntity>()
                 .AsNoTracking()
                 .Where(p => request.Ids.Contains(p.Id))
@@ -34,7 +34,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers
                 .ToListAsync(cancellationToken)
                 .ConfigureAwait(false);
 
-            return model;
+            return models;
         }
     }
 }
