@@ -1,0 +1,56 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "11:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: FluentValidation
+    versions:
+    - 10.0.0
+    - 10.0.2
+    - 10.0.3
+    - 10.0.4
+    - 9.5.0
+    - 9.5.2
+    - 9.5.4
+  - dependency-name: Hangfire.core
+    versions:
+    - 1.7.22
+  - dependency-name: Microsoft.EntityFrameworkCore.InMemory
+    versions:
+    - 5.0.3
+    - 5.0.5
+  - dependency-name: Microsoft.EntityFrameworkCore.SqlServer
+    versions:
+    - 5.0.3
+    - 5.0.5
+  - dependency-name: Microsoft.EntityFrameworkCore
+    versions:
+    - 5.0.3
+    - 5.0.5
+  - dependency-name: Microsoft.AspNetCore.JsonPatch
+    versions:
+    - 5.0.3
+    - 5.0.5
+  - dependency-name: System.Linq.Dynamic.Core
+    versions:
+    - 1.2.9
+  - dependency-name: Microsoft.NET.Test.Sdk
+    versions:
+    - 16.9.4
+  - dependency-name: EntityChange
+    versions:
+    - 4.1.0.104
+    - 4.1.0.98
+  - dependency-name: DataGenerator
+    versions:
+    - 5.0.0.178
+  - dependency-name: AutoMapper.Extensions.Microsoft.DependencyInjection
+    versions:
+    - 8.1.1
+  - dependency-name: coverlet.msbuild
+    versions:
+    - 3.0.2
