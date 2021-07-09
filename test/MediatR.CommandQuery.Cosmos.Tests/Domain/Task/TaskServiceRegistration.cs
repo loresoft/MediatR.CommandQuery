@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Cosmos.Abstracts;
 using KickStart.DependencyInjection;
-using MediatR.CommandQuery.Cosmos.Notifications;
 using MediatR.CommandQuery.Cosmos.Tests.Domain.Handlers;
 using MediatR.CommandQuery.Cosmos.Tests.Domain.Models;
+using MediatR.CommandQuery.Notifications;
 using Microsoft.Extensions.DependencyInjection;
 
 // ReSharper disable once CheckNamespace

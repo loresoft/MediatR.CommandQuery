@@ -13,9 +13,6 @@ namespace MediatR.CommandQuery.Cosmos.Handlers
     {
         protected RepositoryHandlerBase(ILoggerFactory loggerFactory, TRepository repository, IMapper mapper) : base(loggerFactory)
         {
-            if (loggerFactory is null)
-                throw new ArgumentNullException(nameof(loggerFactory));
-
             if (mapper == null)
                 throw new ArgumentNullException(nameof(mapper));
 

@@ -3,7 +3,6 @@ using FluentValidation;
 using MediatR.CommandQuery.Behaviors;
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
-using MediatR.CommandQuery.EntityFrameworkCore.Behaviors;
 using MediatR.CommandQuery.EntityFrameworkCore.Handlers;
 using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.Queries;

@@ -1,4 +1,4 @@
-﻿namespace MediatR.CommandQuery.EntityFrameworkCore.Notifications
+﻿namespace MediatR.CommandQuery.Notifications
 {
     public class EntityChangeNotification<TEntityModel> : INotification
     {

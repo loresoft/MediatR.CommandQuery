@@ -3,7 +3,6 @@ using Cosmos.Abstracts;
 using FluentValidation;
 using MediatR.CommandQuery.Behaviors;
 using MediatR.CommandQuery.Commands;
-using MediatR.CommandQuery.Cosmos.Behaviors;
 using MediatR.CommandQuery.Cosmos.Handlers;
 using MediatR.CommandQuery.Definitions;
 using MediatR.CommandQuery.Extensions;
@@ -93,7 +92,6 @@ namespace MediatR.CommandQuery.Cosmos
 
             return services;
         }
-
 
 
         public static IServiceCollection AddEntityCommands<TRepository, TEntity, TReadModel, TCreateModel, TUpdateModel>(this IServiceCollection services)

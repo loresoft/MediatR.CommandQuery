@@ -1,6 +1,6 @@
 ﻿using System.Threading;
-using MediatR.CommandQuery.Cosmos.Notifications;
 using MediatR.CommandQuery.Cosmos.Tests.Domain.Models;
+using MediatR.CommandQuery.Notifications;
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Cosmos.Tests.Domain.Handlers

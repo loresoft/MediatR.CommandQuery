@@ -1,11 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using MediatR.CommandQuery.Behaviors;
 using MediatR.CommandQuery.Commands;
-using MediatR.CommandQuery.EntityFrameworkCore.Notifications;
+using MediatR.CommandQuery.Notifications;
 using Microsoft.Extensions.Logging;
 
-namespace MediatR.CommandQuery.EntityFrameworkCore.Behaviors
+namespace MediatR.CommandQuery.Behaviors
 {
     public class EntityChangeNotificationBehavior<TKey, TEntityModel, TResponse>
         : PipelineBehaviorBase<PrincipalCommandBase<TResponse>, TResponse>

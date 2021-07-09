@@ -1,6 +1,6 @@
 ﻿using System.Threading;
-using MediatR.CommandQuery.EntityFrameworkCore.Notifications;
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Task.Models;
+using MediatR.CommandQuery.Notifications;
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Task.Handlers

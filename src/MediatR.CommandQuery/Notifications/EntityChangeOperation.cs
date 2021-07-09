@@ -1,4 +1,4 @@
-﻿namespace MediatR.CommandQuery.Cosmos.Notifications
+﻿namespace MediatR.CommandQuery.Notifications
 {
     public enum EntityChangeOperation
     {
