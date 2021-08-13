@@ -23,7 +23,7 @@
     </PackageReference>
     <PackageReference Include="DataGenerator" Version="5.0.0.178" />
     <PackageReference Include="dbup-sqlserver" Version="4.5.0" />
-    <PackageReference Include="FluentAssertions" Version="5.10.3" />
+    <PackageReference Include="FluentAssertions" Version="6.0.0" />
     <PackageReference Include="KickStart.DependencyInjection" Version="8.0.0.426" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.8" />
