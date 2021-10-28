@@ -9,9 +9,14 @@ namespace MediatR.CommandQuery.Handlers
     public abstract class RequestHandlerBase<TRequest, TResponse> : IRequestHandler<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
     {
+        private readonly string _name;
+
         protected RequestHandlerBase(ILoggerFactory loggerFactory)
         {
-            Logger = loggerFactory.CreateLogger(GetType());
+            var type = GetType();
+
+            Logger = loggerFactory.CreateLogger(type);
+            _name = type.Name;
         }
 
         protected ILogger Logger { get; }
@@ -20,19 +25,19 @@ namespace MediatR.CommandQuery.Handlers
         {
             try
             {
-                Logger.LogTrace("Processing request '{request}' ...", request);
+                Logger.LogTrace("Processing handler '{handler}' for request '{request}' ...", _name, request);
                 var watch = Stopwatch.StartNew();
 
                 var response = await Process(request, cancellationToken).ConfigureAwait(false);
 
                 watch.Stop();
-                Logger.LogTrace("Processed request '{requestName}': {elapsed} ms", request, watch.ElapsedMilliseconds);
+                Logger.LogTrace("Processed handler '{handler}' for request '{requestName}': {elapsed} ms", _name, request, watch.ElapsedMilliseconds);
 
                 return response;
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Error processing request '{requestName}': {errorMessage}", request, ex.Message);
+                Logger.LogError(ex, "Error processing handler '{handler}' for request '{requestName}': {errorMessage}", _name, request, ex.Message);
                 throw;
             }
         }

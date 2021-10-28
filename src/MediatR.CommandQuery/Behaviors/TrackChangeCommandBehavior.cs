@@ -11,8 +11,11 @@ namespace MediatR.CommandQuery.Behaviors
         : PipelineBehaviorBase<EntityModelCommand<TEntityModel, TResponse>, TResponse>
         where TEntityModel : class
     {
-        public TrackChangeCommandBehavior(ILoggerFactory loggerFactory) : base(loggerFactory)
+        private readonly IPrincipalReader _principalReader;
+
+        public TrackChangeCommandBehavior(ILoggerFactory loggerFactory, IPrincipalReader principalReader) : base(loggerFactory)
         {
+            _principalReader = principalReader;
         }
 
         protected override async Task<TResponse> Process(EntityModelCommand<TEntityModel, TResponse> request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
@@ -25,7 +28,7 @@ namespace MediatR.CommandQuery.Behaviors
 
         private void TrackChange(EntityModelCommand<TEntityModel, TResponse> request)
         {
-            var identityName = request.Principal?.Identity?.Name;
+            var identityName = _principalReader.GetIdentifier(request.Principal);
             var model = request.Model;
 
             if (model is ITrackCreated createdModel)

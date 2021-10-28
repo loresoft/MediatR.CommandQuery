@@ -6,6 +6,8 @@ using MediatR.CommandQuery.Definitions;
 using MediatR.CommandQuery.EntityFrameworkCore.Handlers;
 using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.Queries;
+using MediatR.CommandQuery.Services;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -101,6 +103,8 @@ namespace MediatR.CommandQuery.EntityFrameworkCore
             where TCreateModel : class
             where TUpdateModel : class
         {
+            services.TryAddSingleton<IPrincipalReader, PrincipalReader>();
+
             services
                 .AddEntityCreateCommand<TContext, TEntity, TKey, TReadModel, TCreateModel>()
                 .AddEntityUpdateCommand<TContext, TEntity, TKey, TReadModel, TUpdateModel>()

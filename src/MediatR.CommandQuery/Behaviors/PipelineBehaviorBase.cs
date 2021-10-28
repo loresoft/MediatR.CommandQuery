@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Behaviors
@@ -10,10 +11,14 @@ namespace MediatR.CommandQuery.Behaviors
         : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>
     {
+        private readonly string _name;
 
         protected PipelineBehaviorBase(ILoggerFactory loggerFactory)
         {
-            Logger = loggerFactory.CreateLogger(GetType());
+            var type = GetType();
+
+            Logger = loggerFactory.CreateLogger(type);
+            _name = type.Name;
         }
 
         protected ILogger Logger { get; }
@@ -23,20 +28,19 @@ namespace MediatR.CommandQuery.Behaviors
         {
             try
             {
-
-                Logger.LogTrace("Processing pipeline request '{request}' ...", request);
+                Logger.LogTrace("Processing behavior '{behavior}' for request '{request}' ...", _name, request);
                 var watch = Stopwatch.StartNew();
 
                 var response = await Process(request, cancellationToken, next).ConfigureAwait(false);
 
                 watch.Stop();
-                Logger.LogTrace("Processed pipeline request '{request}': {elapsed} ms", request, watch.ElapsedMilliseconds);
+                Logger.LogTrace("Processed behavior '{behavior}' for request '{request}': {elapsed} ms", _name, request, watch.ElapsedMilliseconds);
 
                 return response;
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Error handling pipeline request '{request}': {errorMessage}", request, ex.Message);
+                Logger.LogError(ex, "Error processing behavior '{behavior}' for request '{request}': {errorMessage}", _name, request, ex.Message);
                 throw;
             }
         }

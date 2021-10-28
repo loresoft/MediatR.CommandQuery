@@ -7,6 +7,8 @@ using MediatR.CommandQuery.Cosmos.Handlers;
 using MediatR.CommandQuery.Definitions;
 using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.Queries;
+using MediatR.CommandQuery.Services;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -100,6 +102,8 @@ namespace MediatR.CommandQuery.Cosmos
             where TCreateModel : class
             where TUpdateModel : class
         {
+            services.TryAddSingleton<IPrincipalReader, PrincipalReader>();
+
             services
                 .AddEntityCreateCommand<TRepository, TEntity, TReadModel, TCreateModel>()
                 .AddEntityUpdateCommand<TRepository, TEntity, TReadModel, TUpdateModel>()
