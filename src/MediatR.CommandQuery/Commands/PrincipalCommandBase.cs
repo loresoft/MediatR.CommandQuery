@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Security.Principal;
-using MediatR;
 
 namespace MediatR.CommandQuery.Commands
 {
@@ -11,7 +10,6 @@ namespace MediatR.CommandQuery.Commands
             Principal = principal;
             ActivatedBy = principal?.Identity?.Name;
             Activated = DateTimeOffset.UtcNow;
-
         }
 
         public IPrincipal Principal { get; }

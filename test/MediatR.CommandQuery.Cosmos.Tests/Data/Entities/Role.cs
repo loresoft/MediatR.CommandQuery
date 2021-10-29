@@ -3,7 +3,7 @@ using MediatR.CommandQuery.Definitions;
 
 namespace MediatR.CommandQuery.Cosmos.Tests.Data.Entities
 {
-    public partial class Role : CosmosEntity, IHaveIdentifier<string>
+    public partial class Role : CosmosEntity, IHaveIdentifier<string>, ITrackCreated, ITrackUpdated
     {
         public string Name { get; set; }
 

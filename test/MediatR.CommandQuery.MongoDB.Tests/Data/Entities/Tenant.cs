@@ -4,7 +4,7 @@ using MongoDB.Abstracts;
 
 namespace MediatR.CommandQuery.MongoDB.Tests.Data.Entities
 {
-    public class Tenant : MongoEntity, IHaveIdentifier<string>
+    public class Tenant : MongoEntity, IHaveIdentifier<string>, ITrackCreated, ITrackUpdated
     {
         public string Name { get; set; }
 

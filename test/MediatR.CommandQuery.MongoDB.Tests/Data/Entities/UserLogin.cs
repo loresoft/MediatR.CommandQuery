@@ -6,7 +6,7 @@ using MongoDB.Abstracts;
 
 namespace MediatR.CommandQuery.MongoDB.Tests.Data.Entities
 {
-    public class UserLogin : MongoEntity, IHaveIdentifier<string>
+    public class UserLogin : MongoEntity, IHaveIdentifier<string>, ITrackCreated, ITrackUpdated
     {
         public string EmailAddress { get; set; }
 

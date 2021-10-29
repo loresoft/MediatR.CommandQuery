@@ -5,7 +5,7 @@ using MediatR.CommandQuery.Definitions;
 
 namespace MediatR.CommandQuery.Cosmos.Tests.Data.Entities
 {
-    public class User : CosmosEntity, IHaveIdentifier<string>
+    public class User : CosmosEntity, IHaveIdentifier<string>, ITrackCreated, ITrackUpdated
     {
         public string EmailAddress { get; set; }
 

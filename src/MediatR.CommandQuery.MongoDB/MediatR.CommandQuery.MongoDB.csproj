@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
-    <PackageReference Include="MongoDB.Abstracts" Version="5.0.0.166" />
+    <PackageReference Include="MongoDB.Abstracts" Version="5.5.172" />
   </ItemGroup>
 
   <ItemGroup>

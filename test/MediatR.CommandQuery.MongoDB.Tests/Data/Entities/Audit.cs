@@ -6,7 +6,7 @@ using MongoDB.Abstracts;
 
 namespace MediatR.CommandQuery.MongoDB.Tests.Data.Entities
 {
-    public class Audit : MongoEntity, IHaveIdentifier<string>
+    public class Audit : MongoEntity, IHaveIdentifier<string>, ITrackCreated, ITrackUpdated
     {
         public DateTime Date { get; set; }
 

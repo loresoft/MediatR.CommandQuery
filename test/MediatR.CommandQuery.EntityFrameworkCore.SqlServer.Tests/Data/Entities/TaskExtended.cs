@@ -1,8 +1,10 @@
 using System;
 
+using MediatR.CommandQuery.Definitions;
+
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities
 {
-    public partial class TaskExtended
+    public partial class TaskExtended : ITrackCreated, ITrackUpdated
     {
         public TaskExtended()
         {

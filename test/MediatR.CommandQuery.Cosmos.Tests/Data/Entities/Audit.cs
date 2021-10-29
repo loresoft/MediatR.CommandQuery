@@ -4,7 +4,7 @@ using MediatR.CommandQuery.Definitions;
 
 namespace MediatR.CommandQuery.Cosmos.Tests.Data.Entities
 {
-    public class Audit : CosmosEntity, IHaveIdentifier<string>
+    public class Audit : CosmosEntity, IHaveIdentifier<string>, ITrackCreated, ITrackUpdated
     {
         public DateTime Date { get; set; }
 

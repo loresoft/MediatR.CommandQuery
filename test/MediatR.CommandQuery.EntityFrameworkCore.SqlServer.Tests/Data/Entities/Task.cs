@@ -3,7 +3,7 @@ using MediatR.CommandQuery.Definitions;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities
 {
-    public partial class Task : IHaveIdentifier<Guid>, IHaveTenant<Guid>
+    public partial class Task : IHaveIdentifier<Guid>, IHaveTenant<Guid>, ITrackCreated, ITrackUpdated
     {
         public Task()
         {
