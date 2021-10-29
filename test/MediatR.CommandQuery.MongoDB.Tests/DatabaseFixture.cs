@@ -28,7 +28,7 @@ namespace MediatR.CommandQuery.MongoDB.Tests
                 .AddJsonFile($"appsettings.{enviromentName}.json", true);
 
             Configuration = builder.Build();
-            ConnectionString = Configuration.GetConnectionString(ConnectionName); ;
+            ConnectionString = Configuration.GetConnectionString(ConnectionName);
 
             var services = new ServiceCollection();
             services.AddSingleton<IConfiguration>(p => Configuration);
@@ -84,16 +84,16 @@ namespace MediatR.CommandQuery.MongoDB.Tests
             var userRepository = ServiceProvider.GetRequiredService<IMongoEntityRepository<User>>();
 
             System.Threading.Tasks.Task.WaitAll(
-               priorityRepository.UpsertAsync(Constants.PriorityConstants.High),
-               priorityRepository.UpsertAsync(Constants.PriorityConstants.Normal),
-               priorityRepository.UpsertAsync(Constants.PriorityConstants.Low),
+                priorityRepository.UpsertAsync(Constants.PriorityConstants.High),
+                priorityRepository.UpsertAsync(Constants.PriorityConstants.Normal),
+                priorityRepository.UpsertAsync(Constants.PriorityConstants.Low),
 
-               statusRepository.UpsertAsync(Constants.StatusConstants.NotStarted),
-               statusRepository.UpsertAsync(Constants.StatusConstants.InProgress),
-               statusRepository.UpsertAsync(Constants.StatusConstants.Completed),
-               statusRepository.UpsertAsync(Constants.StatusConstants.Blocked),
-               statusRepository.UpsertAsync(Constants.StatusConstants.Deferred),
-               statusRepository.UpsertAsync(Constants.StatusConstants.Done),
+                statusRepository.UpsertAsync(Constants.StatusConstants.NotStarted),
+                statusRepository.UpsertAsync(Constants.StatusConstants.InProgress),
+                statusRepository.UpsertAsync(Constants.StatusConstants.Completed),
+                statusRepository.UpsertAsync(Constants.StatusConstants.Blocked),
+                statusRepository.UpsertAsync(Constants.StatusConstants.Deferred),
+                statusRepository.UpsertAsync(Constants.StatusConstants.Done),
 
                 tenantRepository.UpsertAsync(Constants.TenantConstants.Test),
 
