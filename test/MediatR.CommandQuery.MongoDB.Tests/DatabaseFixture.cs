@@ -79,31 +79,28 @@ namespace MediatR.CommandQuery.MongoDB.Tests
         private void CreateDatabase()
         {
             var priorityRepository = ServiceProvider.GetRequiredService<IMongoEntityRepository<Priority>>();
+            priorityRepository.Upsert(Constants.PriorityConstants.High);
+            priorityRepository.Upsert(Constants.PriorityConstants.Normal);
+            priorityRepository.Upsert(Constants.PriorityConstants.Low);
+
             var statusRepository = ServiceProvider.GetRequiredService<IMongoEntityRepository<Status>>();
+            statusRepository.Upsert(Constants.StatusConstants.NotStarted);
+            statusRepository.Upsert(Constants.StatusConstants.InProgress);
+            statusRepository.Upsert(Constants.StatusConstants.Completed);
+            statusRepository.Upsert(Constants.StatusConstants.Blocked);
+            statusRepository.Upsert(Constants.StatusConstants.Deferred);
+            statusRepository.Upsert(Constants.StatusConstants.Done);
+
             var tenantRepository = ServiceProvider.GetRequiredService<IMongoEntityRepository<Tenant>>();
+            tenantRepository.Upsert(Constants.TenantConstants.Test);
+
             var userRepository = ServiceProvider.GetRequiredService<IMongoEntityRepository<User>>();
-
-            System.Threading.Tasks.Task.WaitAll(
-                priorityRepository.UpsertAsync(Constants.PriorityConstants.High),
-                priorityRepository.UpsertAsync(Constants.PriorityConstants.Normal),
-                priorityRepository.UpsertAsync(Constants.PriorityConstants.Low),
-
-                statusRepository.UpsertAsync(Constants.StatusConstants.NotStarted),
-                statusRepository.UpsertAsync(Constants.StatusConstants.InProgress),
-                statusRepository.UpsertAsync(Constants.StatusConstants.Completed),
-                statusRepository.UpsertAsync(Constants.StatusConstants.Blocked),
-                statusRepository.UpsertAsync(Constants.StatusConstants.Deferred),
-                statusRepository.UpsertAsync(Constants.StatusConstants.Done),
-
-                tenantRepository.UpsertAsync(Constants.TenantConstants.Test),
-
-                userRepository.UpsertAsync(Constants.UserConstants.WilliamAdama),
-                userRepository.UpsertAsync(Constants.UserConstants.LauraRoslin),
-                userRepository.UpsertAsync(Constants.UserConstants.KaraThrace),
-                userRepository.UpsertAsync(Constants.UserConstants.LeeAdama),
-                userRepository.UpsertAsync(Constants.UserConstants.GaiusBaltar),
-                userRepository.UpsertAsync(Constants.UserConstants.SaulTigh)
-            );
+            userRepository.Upsert(Constants.UserConstants.WilliamAdama);
+            userRepository.Upsert(Constants.UserConstants.LauraRoslin);
+            userRepository.Upsert(Constants.UserConstants.KaraThrace);
+            userRepository.Upsert(Constants.UserConstants.LeeAdama);
+            userRepository.Upsert(Constants.UserConstants.GaiusBaltar);
+            userRepository.Upsert(Constants.UserConstants.SaulTigh);
         }
 
 
