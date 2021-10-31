@@ -36,7 +36,7 @@ namespace MediatR.CommandQuery.Queries
         public EntitySelect(EntityFilter filter, IEnumerable<EntitySort> sort)
         {
             Filter = filter;
-            Sort = sort.ToList();
+            Sort = sort?.ToList();
         }
 
         [JsonPropertyName("query")]
