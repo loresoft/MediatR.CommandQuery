@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Text.Json;
 
 using FluentAssertions;
@@ -77,6 +79,43 @@ namespace MediatR.CommandQuery.Tests.Queries
 
             query.Filter.Filters[1].Value.Should().BeOfType<string>();
             query.Filter.Filters[1].Value.Should().Be("test");
+
+        }
+
+        [Fact]
+        public void SerializeRoundTripFilter()
+        {
+            var filter = new EntityFilter
+            {
+                Logic = EntityFilterLogic.And,
+                Filters = new List<EntityFilter>
+                {
+                    new EntityFilter { Name = "IsDeleted", Value = true, Operator = EntityFilterOperators.Equal },
+                    new EntityFilter { Name = "StatusId", Value = "1234", Operator = EntityFilterOperators.Equal }
+                }
+            };
+
+            var json = JsonSerializer.Serialize(filter);
+            json.Should().NotBeNullOrWhiteSpace();
+            json.Should().Be("{\"logic\":\"and\",\"filters\":[{\"name\":\"IsDeleted\",\"operator\":\"eq\",\"value\":true},{\"name\":\"StatusId\",\"operator\":\"eq\",\"value\":\"1234\"}]}");
+
+            var filterDeserialize = JsonSerializer.Deserialize<EntityFilter>(json);
+            filterDeserialize.Should().NotBeNull();
+
+            filterDeserialize.Logic.Should().Be("and");
+            filterDeserialize.Filters.Should().HaveCount(2);
+
+            filterDeserialize.Filters[0].Name.Should().Be("IsDeleted");
+            filterDeserialize.Filters[0].Operator.Should().Be("eq");
+
+            filterDeserialize.Filters[0].Value.Should().BeOfType<bool>();
+            filterDeserialize.Filters[0].Value.Should().Be(true);
+
+            filterDeserialize.Filters[1].Name.Should().Be("StatusId");
+            filterDeserialize.Filters[1].Operator.Should().Be("eq");
+
+            filterDeserialize.Filters[1].Value.Should().BeOfType<string>();
+            filterDeserialize.Filters[1].Value.Should().Be("1234");
 
         }
 

@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace MediatR.CommandQuery.Queries
 {
-    public class EntityFilterCoverter : JsonConverter<EntityFilter>
+    internal sealed class EntityFilterCoverter : JsonConverter<EntityFilter>
     {
         private static readonly JsonEncodedText Name = JsonEncodedText.Encode("name");
         private static readonly JsonEncodedText Operator = JsonEncodedText.Encode("operator");
@@ -30,7 +31,9 @@ namespace MediatR.CommandQuery.Queries
 
         public override void Write(Utf8JsonWriter writer, EntityFilter value, JsonSerializerOptions options)
         {
-            throw new System.NotImplementedException();
+            writer.WriteStartObject();
+            WriteEntityFilter(writer, value, options);
+            writer.WriteEndObject();
         }
 
 
@@ -101,8 +104,39 @@ namespace MediatR.CommandQuery.Queries
                     throw new JsonException("Unexcepted end when reading JSON.");
             }
         }
+
+        internal static void WriteEntityFilter(Utf8JsonWriter writer, EntityFilter value, JsonSerializerOptions options)
+        {
+            if (value.Logic != null)
+            {
+                writer.WriteString(Logic, value.Logic);
+            }
+
+            if (value.Name != null)
+            {
+                writer.WriteString(Name, value.Name);
+            }
+
+            if (value.Operator != null)
+            {
+                writer.WriteString(Operator, value.Operator);
+            }
+
+            if (value.Value != null)
+            {
+                writer.WritePropertyName(Value);
+                JsonSerializer.Serialize(writer, value.Value, value.Value?.GetType() ?? typeof(object), options);
+            }
+
+            if (value.Filters != null)
+            {
+                writer.WritePropertyName(Filters);
+                writer.WriteStartArray();
+                foreach (var filter in value.Filters)
+                    JsonSerializer.Serialize(writer, filter, typeof(EntityFilter), options);
+
+                writer.WriteEndArray();
+            }
+        }
     }
-
-
-
 }
