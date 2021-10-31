@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+
 using AutoMapper;
 using Cosmos.Abstracts;
 using DataGenerator;
@@ -53,7 +55,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
             // Query Entity
             var entityQuery = new EntityQuery
             {
-                Sort = new[] { new EntitySort { Name = "Updated", Direction = "Descending" } },
+                Sort = new List<EntitySort> { new EntitySort { Name = "Updated", Direction = "Descending" } },
                 Filter = new EntityFilter { Name = "StatusId", Value = StatusConstants.NotStarted.Id }
             };
             var listQuery = new EntityPagedQuery<TaskReadModel>(MockPrincipal.Default, entityQuery);
@@ -234,7 +236,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
 
             var filter = new EntityFilter
             {
-                Filters = new[]
+                Filters = new List<EntityFilter>
                 {
                     new EntityFilter {Name = "IsDeleted", Value = true},
                     new EntityFilter { Name = "StatusId", Value = StatusConstants.NotStarted.Id }

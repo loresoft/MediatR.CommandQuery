@@ -1,12 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace MediatR.CommandQuery.Queries
 {
     public class EntitySort
     {
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
+        [JsonPropertyName("direction")]
         public string Direction { get; set; }
 
 

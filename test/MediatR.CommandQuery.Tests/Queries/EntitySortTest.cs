@@ -1,4 +1,3 @@
-﻿using System;
 using MediatR.CommandQuery.Queries;
 using FluentAssertions;
 using Xunit;

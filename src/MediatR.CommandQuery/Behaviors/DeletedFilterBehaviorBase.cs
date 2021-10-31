@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Security.Principal;
 using MediatR.CommandQuery.Definitions;
@@ -40,7 +40,7 @@ namespace MediatR.CommandQuery.Behaviors
             var boolFilter = new EntityFilter
             {
                 Logic = EntityFilterLogic.And,
-                Filters = new[]
+                Filters = new List<EntityFilter>()
                 {
                     deletedFilter,
                     originalFilter

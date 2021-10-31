@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace MediatR.CommandQuery.Queries
 {
@@ -35,8 +36,10 @@ namespace MediatR.CommandQuery.Queries
             PageSize = pageSize;
         }
 
+        [JsonPropertyName("page")]
         public int Page { get; set; }
 
+        [JsonPropertyName("pageSize")]
         public int PageSize { get; set; }
 
 

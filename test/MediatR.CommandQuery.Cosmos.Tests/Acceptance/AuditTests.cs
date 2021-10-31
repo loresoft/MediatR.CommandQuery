@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+
 using AutoMapper;
 using Cosmos.Abstracts;
 using DataGenerator;
@@ -50,7 +52,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
             // Query Entity
             var entityQuery = new EntityQuery
             {
-                Sort = new[] { new EntitySort { Name = "Updated", Direction = "Descending" } },
+                Sort = new List<EntitySort> { new EntitySort { Name = "Updated", Direction = "Descending" } },
                 Filter = new EntityFilter { Name = "Username", Value = "TEST" }
             };
             var listQuery = new EntityPagedQuery<AuditReadModel>(MockPrincipal.Default, entityQuery);

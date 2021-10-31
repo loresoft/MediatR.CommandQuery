@@ -1,18 +1,26 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace MediatR.CommandQuery.Queries
 {
+    [JsonConverter(typeof(EntityFilterCoverter))]
     public class EntityFilter
     {
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
+        [JsonPropertyName("operator")]
         public string Operator { get; set; }
 
+        [JsonPropertyName("value")]
         public object Value { get; set; }
 
+        [JsonPropertyName("logic")]
         public string Logic { get; set; }
 
-        public IEnumerable<EntityFilter> Filters { get; set; }
+        [JsonPropertyName("filters")]
+        public List<EntityFilter> Filters { get; set; }
 
 
         public override int GetHashCode()
@@ -34,4 +42,7 @@ namespace MediatR.CommandQuery.Queries
             return hashCode;
         }
     }
+
+
+
 }

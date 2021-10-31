@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace MediatR.CommandQuery.Queries
 {
@@ -17,7 +19,7 @@ namespace MediatR.CommandQuery.Queries
             if (entitySort == null)
                 return;
 
-            Sort = new[] { entitySort };
+            Sort = new List<EntitySort> { entitySort };
         }
 
         public EntitySelect(EntityFilter filter)
@@ -34,13 +36,16 @@ namespace MediatR.CommandQuery.Queries
         public EntitySelect(EntityFilter filter, IEnumerable<EntitySort> sort)
         {
             Filter = filter;
-            Sort = sort;
+            Sort = sort.ToList();
         }
 
+        [JsonPropertyName("query")]
         public string Query { get; set; }
 
-        public IEnumerable<EntitySort> Sort { get; set; }
+        [JsonPropertyName("sort")]
+        public List<EntitySort> Sort { get; set; }
 
+        [JsonPropertyName("filter")]
         public EntityFilter Filter { get; set; }
 
         public override int GetHashCode()

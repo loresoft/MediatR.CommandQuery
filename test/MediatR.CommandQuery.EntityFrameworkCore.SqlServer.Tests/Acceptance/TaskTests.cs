@@ -1,16 +1,24 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+
 using AutoMapper;
+
 using DataGenerator;
+
 using FluentAssertions;
+
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Constants;
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Task.Models;
 using MediatR.CommandQuery.Queries;
+
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.Extensions.DependencyInjection;
+
 using Xunit;
 using Xunit.Abstractions;
+
 using Task = System.Threading.Tasks.Task;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance
@@ -51,7 +59,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance
             // Query Entity
             var entityQuery = new EntityQuery
             {
-                Sort = new[] { new EntitySort { Name = "Updated", Direction = "Descending" } },
+                Sort = new List<EntitySort> { new EntitySort { Name = "Updated", Direction = "Descending" } },
                 Filter = new EntityFilter { Name = "StatusId", Value = StatusConstants.NotStarted }
             };
             var listQuery = new EntityPagedQuery<TaskReadModel>(MockPrincipal.Default, entityQuery);
@@ -179,7 +187,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance
             mapper.Should().NotBeNull();
 
             var filter = new EntityFilter { Name = "StatusId", Value = StatusConstants.NotStarted };
-            var entityQuery = new EntityQuery {Filter = filter};
+            var entityQuery = new EntityQuery { Filter = filter };
             var pagedQuery = new EntityPagedQuery<TaskReadModel>(MockPrincipal.Default, entityQuery);
 
             var selectResult = await mediator.Send(pagedQuery).ConfigureAwait(false);
@@ -231,7 +239,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance
 
             var filter = new EntityFilter
             {
-                Filters = new[]
+                Filters = new List<EntityFilter>
                 {
                     new EntityFilter {Name = "IsDeleted", Value = true},
                     new EntityFilter { Name = "StatusId", Value = StatusConstants.NotStarted }

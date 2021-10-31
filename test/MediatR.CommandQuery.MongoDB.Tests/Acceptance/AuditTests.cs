@@ -14,6 +14,7 @@ using Xunit;
 using Xunit.Abstractions;
 using Task = System.Threading.Tasks.Task;
 using MongoDB.Bson;
+using System.Collections.Generic;
 
 namespace MediatR.CommandQuery.MongoDB.Tests.Acceptance
 {
@@ -52,7 +53,7 @@ namespace MediatR.CommandQuery.MongoDB.Tests.Acceptance
             // Query Entity
             var entityQuery = new EntityQuery
             {
-                Sort = new[] { new EntitySort { Name = "Updated", Direction = "Descending" } },
+                Sort = new List<EntitySort> { new EntitySort { Name = "Updated", Direction = "Descending" } },
                 Filter = new EntityFilter { Name = "Username", Value = "TEST" }
             };
             var listQuery = new EntityPagedQuery<AuditReadModel>(MockPrincipal.Default, entityQuery);
