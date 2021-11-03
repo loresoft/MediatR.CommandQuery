@@ -2,15 +2,15 @@ public string WriteCode()
 {
     if (Entity.Models.Count == 0)
         return string.Empty;
-    
+
     var modelNamespace = Entity.Models.Select(m => m.ModelNamespace).FirstOrDefault();
     var readModel = string.Empty;
-    var createModel= string.Empty;
-    var updateModel= string.Empty;
+    var createModel = string.Empty;
+    var updateModel = string.Empty;
 
-    foreach(var model in Entity.Models)
+    foreach (var model in Entity.Models)
     {
-        switch(model.ModelType)
+        switch (model.ModelType)
         {
             case ModelType.Read:
                 readModel = model.ModelClass.ToSafeName();
@@ -32,10 +32,10 @@ public string WriteCode()
     CodeBuilder.AppendLine("using System;");
     CodeBuilder.AppendLine("using MediatR;");
     CodeBuilder.AppendLine("using MediatR.CommandQuery.Mvc;");
-    
+
     if (!string.IsNullOrEmpty(modelNamespace))
         CodeBuilder.AppendLine($"using {modelNamespace};");
-    
+
     CodeBuilder.AppendLine();
 
     CodeBuilder.AppendLine($"namespace {TemplateOptions.Namespace}");
@@ -53,16 +53,17 @@ public string WriteCode()
 
 private void GenerateClass(string readModel, string createModel, string updateModel)
 {
-    string className = System.IO.Path.GetFileNameWithoutExtension(TemplateOptions.FileName);
-    
+    var className = System.IO.Path.GetFileNameWithoutExtension(TemplateOptions.FileName);
+    var keyType = TemplateOptions.Parameters["keyType"];
+
     CodeBuilder.AppendLine($"public class {className}");
 
     using (CodeBuilder.Indent())
     {
         if (string.IsNullOrEmpty(updateModel))
-            CodeBuilder.AppendLine($": EntityQueryControllerBase<Guid, {readModel}>");
+            CodeBuilder.AppendLine($": EntityQueryControllerBase<{keyType}, {readModel}, {readModel}>");
         else
-            CodeBuilder.AppendLine($": EntityCommandControllerBase<Guid, {readModel}, {createModel}, {updateModel}>");
+            CodeBuilder.AppendLine($": EntityCommandControllerBase<{keyType}, {readModel}, {readModel}, {createModel}, {updateModel}>");
     }
     CodeBuilder.AppendLine("{");
 
@@ -76,7 +77,7 @@ private void GenerateClass(string readModel, string createModel, string updateMo
 }
 
 private void GenerateConstructor(string className)
-{           
+{
     CodeBuilder.AppendLine($"public {className}(IMediator mediator) : base(mediator)");
     CodeBuilder.AppendLine("{");
     CodeBuilder.AppendLine();

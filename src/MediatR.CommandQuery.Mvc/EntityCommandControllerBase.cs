@@ -1,11 +1,15 @@
-﻿using System.Threading;
+using System.Net.Mime;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR.CommandQuery.Commands;
+
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MediatR.CommandQuery.Mvc
 {
+    [Produces(MediaTypeNames.Application.Json)]
     public abstract class EntityCommandControllerBase<TKey, TListModel, TReadModel, TCreateModel, TUpdateModel>
         : EntityQueryControllerBase<TKey, TListModel, TReadModel>
     {
@@ -15,35 +19,49 @@ namespace MediatR.CommandQuery.Mvc
 
 
         [HttpPost("")]
-        public virtual async Task<ActionResult<TReadModel>> Create(CancellationToken cancellationToken, TCreateModel createModel)
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
+        public virtual async Task<ActionResult<TReadModel>> Create(CancellationToken cancellationToken, [FromBody] TCreateModel createModel)
         {
             var readModel = await CreateCommand(createModel, cancellationToken);
 
-            return Ok(readModel);
+            return readModel;
         }
 
         [HttpPut("{id}")]
-        public virtual async Task<ActionResult<TReadModel>> Update(CancellationToken cancellationToken, TKey id, TUpdateModel updateModel)
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
+        public virtual async Task<ActionResult<TReadModel>> Update(CancellationToken cancellationToken, [FromRoute] TKey id, [FromBody] TUpdateModel updateModel)
         {
             var readModel = await UpdateCommand(id, updateModel, cancellationToken);
 
-            return Ok(readModel);
+            return readModel;
         }
 
         [HttpPatch("{id}")]
-        public virtual async Task<ActionResult<TReadModel>> Patch(CancellationToken cancellationToken, TKey id, JsonPatchDocument jsonPatch)
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
+        public virtual async Task<ActionResult<TReadModel>> Patch(CancellationToken cancellationToken, [FromRoute] TKey id, [FromBody] JsonPatchDocument jsonPatch)
         {
             var readModel = await PatchCommand(id, jsonPatch, cancellationToken);
 
-            return Ok(readModel);
+            return readModel;
         }
 
         [HttpDelete("{id}")]
-        public virtual async Task<ActionResult<TReadModel>> Delete(CancellationToken cancellationToken, TKey id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
+        public virtual async Task<ActionResult<TReadModel>> Delete(CancellationToken cancellationToken, [FromRoute] TKey id)
         {
             var readModel = await DeleteCommand(id, cancellationToken);
 
-            return Ok(readModel);
+            return readModel;
         }
 
 

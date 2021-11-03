@@ -1,11 +1,17 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
+
 using MediatR.CommandQuery.Queries;
+
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MediatR.CommandQuery.Mvc
 {
+    [Produces(MediaTypeNames.Application.Json)]
     public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : MediatorControllerBase
     {
         protected EntityQueryControllerBase(IMediator mediator) : base(mediator)
@@ -13,45 +19,59 @@ namespace MediatR.CommandQuery.Mvc
         }
 
         [HttpGet("{id}")]
-        public virtual async Task<ActionResult<TReadModel>> Get(CancellationToken cancellationToken, TKey id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
+        public virtual async Task<ActionResult<TReadModel>> Get(CancellationToken cancellationToken, [FromRoute] TKey id)
         {
             var readModel = await GetQuery(id, cancellationToken);
 
-            return Ok(readModel);
+            return readModel;
         }
 
         [HttpPost("page")]
-        public virtual async Task<ActionResult<EntityPagedResult<TListModel>>> Page(CancellationToken cancellationToken, EntityQuery query)
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
+        public virtual async Task<ActionResult<EntityPagedResult<TListModel>>> Page(CancellationToken cancellationToken, [FromBody] EntityQuery query)
         {
             var listResult = await PagedQuery(query, cancellationToken);
 
-            return Ok(listResult);
+            return listResult;
         }
 
         [HttpGet("page")]
-        public virtual async Task<ActionResult<EntityPagedResult<TListModel>>> Page(CancellationToken cancellationToken, string q = null, string sort = null, int page = 1, int size = 20)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
+        public virtual async Task<ActionResult<EntityPagedResult<TListModel>>> Page(CancellationToken cancellationToken, [FromQuery] string q = null, [FromQuery] string sort = null, [FromQuery] int page = 1, [FromQuery] int size = 20)
         {
             var query = new EntityQuery(q, page, size, sort);
             var listResult = await PagedQuery(query, cancellationToken);
 
-            return Ok(listResult);
+            return listResult;
         }
 
         [HttpPost("query")]
-        public virtual async Task<ActionResult<IReadOnlyCollection<TListModel>>> Query(CancellationToken cancellationToken, EntitySelect query)
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
+        public virtual async Task<ActionResult<IReadOnlyCollection<TListModel>>> Query(CancellationToken cancellationToken, [FromBody] EntitySelect query)
         {
             var results = await SelectQuery(query, cancellationToken);
 
-            return Ok(results);
+            return results.ToList();
         }
 
         [HttpGet("")]
-        public virtual async Task<ActionResult<IReadOnlyCollection<TListModel>>> Query(CancellationToken cancellationToken, string q = null, string sort = null)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
+        public virtual async Task<ActionResult<IReadOnlyCollection<TListModel>>> Query(CancellationToken cancellationToken, [FromQuery] string q = null, [FromQuery] string sort = null)
         {
             var query = new EntitySelect(q, sort);
             var results = await SelectQuery(query, cancellationToken);
 
-            return Ok(results);
+            return results.ToList();
         }
 
 

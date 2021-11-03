@@ -1,0 +1,72 @@
+project:
+  namespace: 'Tracker.WebService'
+  directory: .\
+database:
+  provider: SqlServer
+  connectionString: 'Data Source=(local);Initial Catalog=TrackerService;Integrated Security=True;'
+data:
+  context:
+    name: '{Database.Name}Context'
+    baseClass: DbContext
+    namespace: '{Project.Namespace}.Data'
+    directory: '{Project.Directory}\Data'
+  entity:
+    namespace: '{Project.Namespace}.Data.Entities'
+    directory: '{Project.Directory}\Data\Entities'
+  mapping:
+    namespace: '{Project.Namespace}.Data.Mapping'
+    directory: '{Project.Directory}\Data\Mapping'
+  query:
+    generate: false
+model:
+  shared:
+    namespace: '{Project.Namespace}.Domain.Models'
+    directory: '{Project.Directory}\Domain\{Entity.Name}\Models'
+    exclude:
+      entities:
+        - 'UserRole'
+      properties:
+        - '\.Id$'
+        - '\.Created$'
+        - '\.CreatedBy$'
+        - '\.Updated$'
+        - '\.UpdatedBy$'
+        - '\.RowVersion$'
+  read:
+    generate: true
+    name: '{Entity.Name}ReadModel'
+    baseClass: 'EntityReadModel'
+  create:
+    generate: true
+    name: '{Entity.Name}CreateModel'
+    baseClass: 'EntityCreateModel'
+  update:
+    generate: true
+    name: '{Entity.Name}UpdateModel'
+    baseClass: EntityUpdateModel
+  mapper:
+    generate: true
+    name: '{Entity.Name}Profile'
+    baseClass: AutoMapper.Profile
+    namespace: '{Project.Namespace}.Domain.Mapping'
+    directory: '{Project.Directory}\Domain\{Entity.Name}\Mapping'
+  validator:
+    generate: true
+    name: '{Model.Name}Validator'
+    baseClass: AbstractValidator<{Model.Name}>
+    namespace: '{Project.Namespace}.Domain.Validation'
+    directory: '{Project.Directory}\Domain\{Entity.Name}\Validation'
+script:
+  entity:
+    - templatePath: '..\..\templates\DomainServiceRegistration.csx'
+      fileName: '{Entity.Name}ServiceRegistration.cs'
+      namespace: '{Project.Namespace}.Domain'
+      directory: '{Project.Directory}\Domain\{Entity.Name}'
+      parameters:
+        keyType: Guid
+    - templatePath: '..\..\templates\EntityController.csx'
+      fileName: '{Entity.Name}Controller.cs'
+      namespace: '{Project.Namespace}.Controllers'
+      directory: '{Project.Directory}\Controllers'
+      parameters:
+        keyType: Guid
