@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace MediatR.CommandQuery.Queries
@@ -10,7 +9,7 @@ namespace MediatR.CommandQuery.Queries
         public string Name { get; set; }
 
         [JsonPropertyName("direction")]
-        public string Direction { get; set; }
+        public string Direction { get; set; } = EntitySortDirections.Ascending;
 
 
         public static EntitySort Parse(string sortString)
@@ -34,13 +33,12 @@ namespace MediatR.CommandQuery.Queries
 
         public override int GetHashCode()
         {
-            const int m = -1521134295;
-            var hashCode = -2111805952;
+            return HashCode.Combine(Name, Direction);
+        }
 
-            hashCode = hashCode * m + EqualityComparer<string>.Default.GetHashCode(Name);
-            hashCode = hashCode * m + EqualityComparer<string>.Default.GetHashCode(Direction);
-
-            return hashCode;
+        public override string ToString()
+        {
+            return $"{Name}:{Direction ?? EntitySortDirections.Ascending}";
         }
     }
 }

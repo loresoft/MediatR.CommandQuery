@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+using System;
+using System.Security.Claims;
 using System.Security.Principal;
 
 using MediatR.CommandQuery.Definitions;
@@ -23,7 +24,7 @@ namespace MediatR.CommandQuery.Services
 
             var email = emailClaim?.Value;
 
-            _logger.LogTrace("Resolved principal email: {email}", email);
+            _logPrincipal(_logger, "Email", email, null);
 
             return email;
         }
@@ -32,7 +33,7 @@ namespace MediatR.CommandQuery.Services
         {
             var name = principal?.Identity?.Name;
 
-            _logger.LogTrace("Resolved principal identifier: {name}", name);
+            _logPrincipal(_logger, "Identifier", name, null);
 
             return name;
         }
@@ -41,9 +42,13 @@ namespace MediatR.CommandQuery.Services
         {
             var name = principal?.Identity?.Name;
 
-            _logger.LogTrace("Resolved principal name: {name}", name);
+            _logPrincipal(_logger, "Name", name, null);
 
             return name;
         }
+
+        private static readonly Action<ILogger, string, string, Exception> _logPrincipal
+            = LoggerMessage.Define<string, string>(LogLevel.Trace, 0, "Resolved principal claim {type}: {value}");
+
     }
 }

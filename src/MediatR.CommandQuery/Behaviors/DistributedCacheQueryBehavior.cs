@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR.CommandQuery.Definitions;
@@ -39,12 +39,12 @@ namespace MediatR.CommandQuery.Behaviors
                     .FromByteArrayAsync<TResponse>(cachedBuffer)
                     .ConfigureAwait(false);
 
-                Logger.LogTrace("Cache Hit; Key: '{cacheKey}'.", cacheKey);
+                _logCacheHit(Logger, cacheKey, null);
 
                 return cachedItem;
             }
 
-            Logger.LogTrace("Cache Miss; Key: '{cacheKey}'.", cacheKey);
+            _logCacheMiss(Logger, cacheKey, null);
 
             // continue if not found in cache
             var result = await next().ConfigureAwait(false);
@@ -66,9 +66,19 @@ namespace MediatR.CommandQuery.Behaviors
                 .SetAsync(cacheKey, itemBuffer, options, cancellationToken)
                 .ConfigureAwait(false);
 
-            Logger.LogTrace("Cache Insert; Key: '{cacheKey}'.", cacheKey);
+            _logCacheInsert(Logger, cacheKey, null);
 
             return result;
         }
+
+        private static readonly Action<ILogger, string, Exception> _logCacheHit
+            = LoggerMessage.Define<string>(LogLevel.Trace, 0, "Cache Hit; Key: '{cacheKey}'");
+
+        private static readonly Action<ILogger, string, Exception> _logCacheMiss
+            = LoggerMessage.Define<string>(LogLevel.Trace, 0, "Cache Miss; Key: '{cacheKey}'");
+
+        private static readonly Action<ILogger, string, Exception> _logCacheInsert
+            = LoggerMessage.Define<string>(LogLevel.Trace, 0, "Cache Insert; Key: '{cacheKey}'");
+
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR.CommandQuery.Definitions;
@@ -28,11 +28,11 @@ namespace MediatR.CommandQuery.Behaviors
 
             if (_memoryCache.TryGetValue(cacheKey, out TResponse cachedResult))
             {
-                Logger.LogTrace("Cache Hit; Key: '{cacheKey}'.", cacheKey);
+                _logCacheHit(Logger, cacheKey, null);
                 return cachedResult;
             }
 
-            Logger.LogTrace("Cache Miss; Key: '{cacheKey}'.", cacheKey);
+            _logCacheMiss(Logger, cacheKey, null);
 
             // continue if not found in cache
             var result = await next().ConfigureAwait(false);
@@ -45,10 +45,20 @@ namespace MediatR.CommandQuery.Behaviors
                 entry.AbsoluteExpiration = cacheRequest.AbsoluteExpiration();
                 entry.SetValue(result);
 
-                Logger.LogTrace("Cache Insert; Key: '{cacheKey}'.", cacheKey);
+                _logCacheInsert(Logger, cacheKey, null);
             }
 
             return result;
         }
+
+        private static readonly Action<ILogger, string, Exception> _logCacheHit
+            = LoggerMessage.Define<string>(LogLevel.Trace, 0, "Cache Hit; Key: '{cacheKey}'");
+
+        private static readonly Action<ILogger, string, Exception> _logCacheMiss
+            = LoggerMessage.Define<string>(LogLevel.Trace, 0, "Cache Miss; Key: '{cacheKey}'");
+
+        private static readonly Action<ILogger, string, Exception> _logCacheInsert
+            = LoggerMessage.Define<string>(LogLevel.Trace, 0, "Cache Insert; Key: '{cacheKey}'");
+
     }
 }

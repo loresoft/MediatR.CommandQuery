@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
@@ -50,19 +51,17 @@ namespace MediatR.CommandQuery.Queries
 
         public override int GetHashCode()
         {
-            const int m = -1521134295;
-            var hashCode = -1241527264;
-
-            hashCode = hashCode * m + EqualityComparer<string>.Default.GetHashCode(Query);
-
+            var hash = new HashCode();
+            hash.Add(Query);
+            
             if (Filter != null)
-                hashCode = hashCode * m + Filter.GetHashCode();
+                hash.Add(Filter.GetHashCode());
 
             if (Sort != null)
                 foreach (var s in Sort)
-                    hashCode = hashCode * m + s.GetHashCode();
+                    hash.Add(s.GetHashCode());
 
-            return hashCode;
+            return hash.ToHashCode();
         }
     }
 }

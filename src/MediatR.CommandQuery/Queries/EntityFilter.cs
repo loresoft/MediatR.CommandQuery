@@ -25,21 +25,19 @@ namespace MediatR.CommandQuery.Queries
 
         public override int GetHashCode()
         {
-            const int m = -1521134295;
-            var hashCode = -346447222;
-
-            hashCode = hashCode * m + EqualityComparer<string>.Default.GetHashCode(Name);
-            hashCode = hashCode * m + EqualityComparer<string>.Default.GetHashCode(Operator);
-            hashCode = hashCode * m + EqualityComparer<object>.Default.GetHashCode(Value);
-            hashCode = hashCode * m + EqualityComparer<string>.Default.GetHashCode(Logic);
+            var hash = new HashCode();
+            hash.Add(Name);
+            hash.Add(Operator);
+            hash.Add(Value);
+            hash.Add(Logic);
 
             if (Filters == null)
-                return hashCode;
+                return hash.ToHashCode();
 
             foreach (var filter in Filters)
-                hashCode = hashCode * m + filter.GetHashCode();
+                hash.Add(filter.GetHashCode());
 
-            return hashCode;
+            return hash.ToHashCode();
         }
     }
 

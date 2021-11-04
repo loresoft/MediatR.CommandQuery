@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,24 +28,34 @@ namespace MediatR.CommandQuery.Behaviors
         {
             try
             {
-                Logger.LogTrace("Processing behavior '{behavior}' for request '{request}' ...", _name, request);
+                _logStart(Logger, _name, request, null);
                 var watch = Stopwatch.StartNew();
 
                 var response = await Process(request, cancellationToken, next).ConfigureAwait(false);
 
                 watch.Stop();
-                Logger.LogTrace("Processed behavior '{behavior}' for request '{request}': {elapsed} ms", _name, request, watch.ElapsedMilliseconds);
+                _logFinish(Logger, _name, request, watch.ElapsedMilliseconds, null);
 
                 return response;
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Error processing behavior '{behavior}' for request '{request}': {errorMessage}", _name, request, ex.Message);
+                _logError(Logger, _name, request, ex.Message, ex);
                 throw;
             }
         }
 
         protected abstract Task<TResponse> Process(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next);
+
+
+        private static readonly Action<ILogger, string, TRequest, Exception> _logStart
+            = LoggerMessage.Define<string, TRequest>(LogLevel.Trace, 0, "Processing behavior '{behavior}' for request '{request}' ...");
+
+        private static readonly Action<ILogger, string, TRequest, long, Exception> _logFinish
+            = LoggerMessage.Define<string, TRequest, long>(LogLevel.Trace, 0, "Processed behavior '{behavior}' for request '{request}': {elapsed} ms");
+
+        private static readonly Action<ILogger, string, TRequest, string, Exception> _logError
+            = LoggerMessage.Define<string, TRequest, string>(LogLevel.Trace, 0, "Error processing behavior '{behavior}' for request '{request}': {errorMessage}");
 
     }
 }

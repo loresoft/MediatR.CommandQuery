@@ -44,14 +44,8 @@ namespace MediatR.CommandQuery.Queries
 
 
         public override int GetHashCode()
-        {
-            const int m = -1521134295;
-
-            int hashCode = base.GetHashCode();
-            hashCode = hashCode * m + Page.GetHashCode();
-            hashCode = hashCode * m + PageSize.GetHashCode();
-
-            return hashCode;
+        {            
+            return HashCode.Combine(base.GetHashCode(), Page, PageSize);
         }
     }
 }

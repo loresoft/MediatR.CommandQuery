@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 
@@ -16,13 +17,12 @@ namespace MediatR.CommandQuery.Queries
 
         public override string GetCacheKey()
         {
-            const int m = -1521134295;
-            var hashCode = -346447222;
+            var hash = new HashCode();
 
             foreach (var id in Ids)
-                hashCode = hashCode * m + EqualityComparer<TKey>.Default.GetHashCode(id);
+                hash.Add(id);
 
-            return $"{typeof(TReadModel).FullName}-{hashCode}";
+            return $"{typeof(TReadModel).FullName}-{hash.ToHashCode()}";
         }
     }
 }
