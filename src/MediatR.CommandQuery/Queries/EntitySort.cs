@@ -9,7 +9,7 @@ namespace MediatR.CommandQuery.Queries
         public string Name { get; set; }
 
         [JsonPropertyName("direction")]
-        public string Direction { get; set; } = EntitySortDirections.Ascending;
+        public string Direction { get; set; }
 
 
         public static EntitySort Parse(string sortString)
@@ -38,7 +38,10 @@ namespace MediatR.CommandQuery.Queries
 
         public override string ToString()
         {
-            return $"{Name}:{Direction ?? EntitySortDirections.Ascending}";
+            if (string.IsNullOrWhiteSpace(Direction))
+                return Name;
+
+            return $"{Name}:{Direction}";
         }
     }
 }
