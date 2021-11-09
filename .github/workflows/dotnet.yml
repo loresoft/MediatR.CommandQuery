@@ -1,0 +1,58 @@
+name: .NET
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    services:
+          mongodb:
+            image: mongo:latest
+            ports:
+            - 27017:27017
+            volumes:
+            - mongo_data:/data/db
+            - mongo_config:/data/configdb
+          sqlserver:
+            image: mcr.microsoft.com/mssql/server:2019-latest
+            ports:
+              - 1433:1433
+            env:
+              ACCEPT_EULA: 'Y'
+              SA_PASSWORD: ${{ secrets.SqlPassword }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    
+    - name: Restore Dependencies
+      run: dotnet restore
+    
+    - name: Build Project
+      run: dotnet build MediatR.CommandQuery.sln --no-restore --configuration Release
+    
+    - name: Test Project
+      run: dotnet test MediatR.CommandQuery.sln --no-build --no-restore --verbosity normal --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+      
+    - name: Create Packages
+      if: success() && github.event_name != 'pull_request'
+      run: dotnet pack MediatR.CommandQuery.sln --configuration Release --include-symbols --include-source --no-build --no-restore --output artifacts
+      
+    - name: Upload Artifacts
+      if: success() && github.event_name != 'pull_request'
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: artifacts
+        path: artifacts
