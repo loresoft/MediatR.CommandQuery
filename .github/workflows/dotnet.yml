@@ -10,21 +10,34 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+
     services:
-          mongodb:
-            image: mongo:latest
-            ports:
-            - 27017:27017
-            volumes:
-            - mongo_data:/data/db
-            - mongo_config:/data/configdb
-          sqlserver:
-            image: mcr.microsoft.com/mssql/server:2019-latest
-            ports:
-              - 1433:1433
-            env:
-              ACCEPT_EULA: 'Y'
-              SA_PASSWORD: ${{ secrets.SqlPassword }}
+      mongodb:
+        image: mongo:latest
+        ports:
+        - 27017:27017
+        volumes:
+        - mongo_data:/data/db
+        - mongo_config:/data/configdb
+
+      cosmosdb:
+        image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator
+        ports:
+        - 8081:8081
+        - 10251:10251
+        - 10252:10252
+        - 10253:10253
+        - 10254:10254
+        env:
+          AZURE_COSMOS_EMULATOR_PARTITION_COUNT: 10
+
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        ports:
+          - 1433:1433
+        env:
+          ACCEPT_EULA: 'Y'
+          SA_PASSWORD: ${{ secrets.SQL_PASSWORD }}
 
     steps:
     - name: Checkout
@@ -44,7 +57,7 @@ jobs:
       run: dotnet build MediatR.CommandQuery.sln --no-restore --configuration Release
     
     - name: Test Project
-      run: dotnet test MediatR.CommandQuery.sln --no-build --no-restore --verbosity normal --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+      run: dotnet test MediatR.CommandQuery.sln --no-build --no-restore --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
       
     - name: Create Packages
       if: success() && github.event_name != 'pull_request'
