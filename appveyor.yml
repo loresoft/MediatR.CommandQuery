@@ -8,9 +8,9 @@ environment:
 
 init:
   - git config --global core.autocrlf input
+  - net start MSSQL$SQL2019
 
 services:
-  - mssql2019
   - mongodb
 
 dotnet_csproj:

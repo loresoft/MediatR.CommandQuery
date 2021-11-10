@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{63F0C18C
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
 		build\common.props = build\common.props
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		README.md = README.md
 		build\sourcelink.props = build\sourcelink.props
 		build\version.props = build\version.props
@@ -40,9 +41,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.MongoD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{2E91BC5A-6D57-4EFD-A693-4D96B295FDB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracker.WebService.MongoDB", "samples\Tracker.WebService.MongoDB\Tracker.WebService.MongoDB.csproj", "{10338169-75AF-4E52-818A-E656C77CAA90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker.WebService.MongoDB", "samples\Tracker.WebService.MongoDB\Tracker.WebService.MongoDB.csproj", "{10338169-75AF-4E52-818A-E656C77CAA90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracker.WebService.EntityFrameworkCore", "samples\Tracker.WebService.EntityFrameworkCore\Tracker.WebService.EntityFrameworkCore.csproj", "{29537166-4CA5-4201-845C-8BC5B39D0966}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker.WebService.EntityFrameworkCore", "samples\Tracker.WebService.EntityFrameworkCore\Tracker.WebService.EntityFrameworkCore.csproj", "{29537166-4CA5-4201-845C-8BC5B39D0966}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
