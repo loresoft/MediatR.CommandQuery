@@ -7,8 +7,26 @@ on:
     branches: [ master ]
 
 jobs:
-  setup:
+  build:
+
     runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+        - 27017:27017
+        volumes:
+        - mongo_data:/data/db
+        - mongo_config:/data/configdb
+
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        ports:
+          - 1433:1433
+        env:
+          ACCEPT_EULA: 'Y'
+          SA_PASSWORD: ${{ secrets.SQL_PASSWORD }}
 
     steps:
     - name: Checkout
@@ -21,69 +39,21 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-  build:
-    needs: setup
-    runs-on: ubuntu-latest
-
-    steps:
     - name: Restore Dependencies
       run: dotnet restore
 
     - name: Build Project
       run: dotnet build --no-restore --configuration Release
 
-  test-general:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
     - name: Test Project
-      run: dotnet test --filter (Category!=MongoDB&Category!=SqlServer&Category!=Cosmos) --no-build --no-restore --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+      run: dotnet test --filter Category!=Cosmos --no-build --no-restore --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
-  test-mongodb:
-    needs: build
-    runs-on: ubuntu-latest
-
-    services:
-      mongodb:
-        image: mongo:latest
-        ports:
-        - 27017:27017
-        volumes:
-        - mongo_data:/data/db
-        - mongo_config:/data/configdb
-
-    steps:
-    - name: Test MongoDB Project
-      run: dotnet test --filter Category=MongoDB --no-build --no-restore --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-
-  test-sqlserver:
-    needs: build
-    runs-on: ubuntu-latest
-
-    services:
-      sqlserver:
-        image: mcr.microsoft.com/mssql/server:2019-latest
-        ports:
-          - 1433:1433
-        env:
-          ACCEPT_EULA: 'Y'
-          SA_PASSWORD: ${{ secrets.SQL_PASSWORD }}
-
-    steps:
-    - name: Test SqlServer Project
-      run: dotnet test --filter Category=SqlServer --no-build --no-restore --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-
-  deploy:
-    if: success() && github.event_name != 'pull_request'
-    needs: [test-general, test-mongodb, test-sqlserver]
-    runs-on: ubuntu-latest
-
-    steps:
     - name: Create Packages
+      if: success() && github.event_name != 'pull_request'
       run: dotnet pack --configuration Release --include-symbols --include-source --no-build --no-restore --output artifacts
 
     - name: Upload Artifacts
+      if: success() && github.event_name != 'pull_request'
       uses: actions/upload-artifact@v1.0.0
       with:
         name: artifacts
