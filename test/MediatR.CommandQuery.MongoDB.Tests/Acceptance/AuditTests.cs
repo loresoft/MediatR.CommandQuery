@@ -25,6 +25,7 @@ namespace MediatR.CommandQuery.MongoDB.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "MongoDB")]
         public async Task FullTest()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -94,6 +95,7 @@ namespace MediatR.CommandQuery.MongoDB.Tests.Acceptance
 
 
         [Fact]
+        [Trait("Category", "MongoDB")]
         public async Task Upsert()
         {
             var key = ObjectId.GenerateNewId().ToString();

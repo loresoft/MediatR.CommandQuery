@@ -1,11 +1,15 @@
-﻿using System;
 using System.Threading.Tasks;
+
 using AutoMapper;
+
 using FluentAssertions;
+
 using MediatR.CommandQuery.Cosmos.Tests.Constants;
 using MediatR.CommandQuery.Cosmos.Tests.Domain.Models;
 using MediatR.CommandQuery.Queries;
+
 using Microsoft.Extensions.DependencyInjection;
+
 using Xunit;
 using Xunit.Abstractions;
 
@@ -19,6 +23,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "Cosmos")]
         public async Task EntityIdentifierQuery()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -34,6 +39,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "Cosmos")]
         public async Task EntityIdentifiersQuery()
         {
             var mediator = ServiceProvider.GetService<IMediator>();

@@ -2,18 +2,25 @@ using System;
 using System.Collections.Generic;
 
 using AutoMapper;
+
 using Cosmos.Abstracts;
+
 using DataGenerator;
+
 using FluentAssertions;
+
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Cosmos.Tests.Constants;
 using MediatR.CommandQuery.Cosmos.Tests.Domain.Models;
 using MediatR.CommandQuery.Queries;
+
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.Extensions.DependencyInjection;
+
 using Xunit;
 using Xunit.Abstractions;
+
 using Task = System.Threading.Tasks.Task;
 
 namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
@@ -26,6 +33,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "Cosmos")]
         public async Task FullTest()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -94,6 +102,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "Cosmos")]
         public async Task Upsert()
         {
             var cosmosKey = CosmosKey.Encode(ObjectId.GenerateNewId().ToString(), Constants.TenantConstants.Test.Id);
@@ -132,6 +141,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "Cosmos")]
         public async Task TenantDoesNotMatch()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -152,6 +162,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "Cosmos")]
         public async Task TenantSetDefault()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -175,6 +186,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "Cosmos")]
         public async Task EntityPageQuery()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -184,7 +196,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
             mapper.Should().NotBeNull();
 
             var filter = new EntityFilter { Name = "StatusId", Value = StatusConstants.NotStarted.Id };
-            var entityQuery = new EntityQuery {Filter = filter};
+            var entityQuery = new EntityQuery { Filter = filter };
             var pagedQuery = new EntityPagedQuery<TaskReadModel>(MockPrincipal.Default, entityQuery);
 
             var selectResult = await mediator.Send(pagedQuery).ConfigureAwait(false);
@@ -192,6 +204,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "Cosmos")]
         public async Task EntitySelectQuery()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -209,6 +222,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "Cosmos")]
         public async Task EntitySelectQueryDelete()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -226,6 +240,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "Cosmos")]
         public async Task EntitySelectQueryDeleteNested()
         {
             var mediator = ServiceProvider.GetService<IMediator>();

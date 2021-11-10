@@ -7,8 +7,41 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  setup:
+    runs-on: ubuntu-latest
 
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+
+  build:
+    needs: setup
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Restore Dependencies
+      run: dotnet restore
+
+    - name: Build Project
+      run: dotnet build --no-restore --configuration Release
+
+  test-general:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Test Project
+      run: dotnet test --filter (Category!=MongoDB&Category!=SqlServer&Category!=Cosmos) --no-build --no-restore --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+
+  test-mongodb:
+    needs: build
     runs-on: ubuntu-latest
 
     services:
@@ -20,17 +53,15 @@ jobs:
         - mongo_data:/data/db
         - mongo_config:/data/configdb
 
-      cosmosdb:
-        image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator
-        ports:
-        - 8081:8081
-        - 10251:10251
-        - 10252:10252
-        - 10253:10253
-        - 10254:10254
-        env:
-          AZURE_COSMOS_EMULATOR_PARTITION_COUNT: 10
+    steps:
+    - name: Test MongoDB Project
+      run: dotnet test --filter Category=MongoDB --no-build --no-restore --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 
+  test-sqlserver:
+    needs: build
+    runs-on: ubuntu-latest
+
+    services:
       sqlserver:
         image: mcr.microsoft.com/mssql/server:2019-latest
         ports:
@@ -40,31 +71,19 @@ jobs:
           SA_PASSWORD: ${{ secrets.SQL_PASSWORD }}
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
-    
-    - name: Restore Dependencies
-      run: dotnet restore
-    
-    - name: Build Project
-      run: dotnet build MediatR.CommandQuery.sln --no-restore --configuration Release
-    
-    - name: Test Project
-      run: dotnet test MediatR.CommandQuery.sln --no-build --no-restore --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-      
+    - name: Test SqlServer Project
+      run: dotnet test --filter Category=SqlServer --no-build --no-restore --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+
+  deploy:
+    if: success() && github.event_name != 'pull_request'
+    needs: [test-general, test-mongodb, test-sqlserver]
+    runs-on: ubuntu-latest
+
+    steps:
     - name: Create Packages
-      if: success() && github.event_name != 'pull_request'
-      run: dotnet pack MediatR.CommandQuery.sln --configuration Release --include-symbols --include-source --no-build --no-restore --output artifacts
-      
+      run: dotnet pack --configuration Release --include-symbols --include-source --no-build --no-restore --output artifacts
+
     - name: Upload Artifacts
-      if: success() && github.event_name != 'pull_request'
       uses: actions/upload-artifact@v1.0.0
       with:
         name: artifacts

@@ -31,6 +31,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "SqlServer")]
         public async Task FullTest()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -98,6 +99,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "SqlServer")]
         public async Task Upsert()
         {
             var key = Guid.NewGuid();
@@ -135,6 +137,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "SqlServer")]
         public async Task TenantDoesNotMatch()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -155,6 +158,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "SqlServer")]
         public async Task TenantSetDefault()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -178,6 +182,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "SqlServer")]
         public async Task EntityPageQuery()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -195,6 +200,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "SqlServer")]
         public async Task EntitySelectQuery()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -212,6 +218,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "SqlServer")]
         public async Task EntitySelectQueryDelete()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -229,6 +236,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "SqlServer")]
         public async Task EntitySelectQueryDeleteNested()
         {
             var mediator = ServiceProvider.GetService<IMediator>();

@@ -1,10 +1,9 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using FluentAssertions;
+
 using Microsoft.Azure.Cosmos;
+
 using Xunit;
 
 namespace MediatR.CommandQuery.Cosmos.Tests
@@ -13,6 +12,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests
     {
         [Theory]
         [MemberData(nameof(DecodeData))]
+        [Trait("Category", "Cosmos")]
         public void TryDecodeTests(string cosmosKey, bool expectedResult, string expectedId, PartitionKey expectedPartitionKey)
         {
             var result = CosmosKey.TryDecode(cosmosKey, out var id, out var partitionKey);
@@ -25,6 +25,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests
 
         [Theory]
         [MemberData(nameof(EncodePartitionKeyData))]
+        [Trait("Category", "Cosmos")]
         public void EncodePartitionKeyTests(string id, PartitionKey partitionKey, string cosmosKey)
         {
             var result = CosmosKey.Encode(id, partitionKey);
@@ -33,6 +34,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests
 
         [Theory]
         [MemberData(nameof(EncodeData))]
+        [Trait("Category", "Cosmos")]
         public void EncodeTests(string id, string partitionKey, string cosmosKey)
         {
             var result = CosmosKey.Encode(id, partitionKey);

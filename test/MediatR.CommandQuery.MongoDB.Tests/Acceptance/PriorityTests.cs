@@ -19,6 +19,7 @@ namespace MediatR.CommandQuery.MongoDB.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "MongoDB")]
         public async Task EntityIdentifierQuery()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -34,6 +35,7 @@ namespace MediatR.CommandQuery.MongoDB.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "MongoDB")]
         public async Task EntityIdentifiersQuery()
         {
             var mediator = ServiceProvider.GetService<IMediator>();

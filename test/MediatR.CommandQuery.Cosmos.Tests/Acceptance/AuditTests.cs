@@ -2,18 +2,25 @@ using System;
 using System.Collections.Generic;
 
 using AutoMapper;
+
 using Cosmos.Abstracts;
+
 using DataGenerator;
+
 using FluentAssertions;
+
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Cosmos.Tests.Data.Entities;
 using MediatR.CommandQuery.Cosmos.Tests.Domain.Models;
 using MediatR.CommandQuery.Queries;
+
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.Extensions.DependencyInjection;
+
 using Xunit;
 using Xunit.Abstractions;
+
 using Task = System.Threading.Tasks.Task;
 
 namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
@@ -25,6 +32,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "Cosmos")]
         public async Task FullTest()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -93,6 +101,7 @@ namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance
 
 
         [Fact]
+        [Trait("Category", "Cosmos")]
         public async Task Upsert()
         {
             var id = ObjectId.GenerateNewId().ToString();

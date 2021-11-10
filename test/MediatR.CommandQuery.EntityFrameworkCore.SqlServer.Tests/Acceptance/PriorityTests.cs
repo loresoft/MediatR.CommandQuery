@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
@@ -19,6 +19,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "SqlServer")]
         public async Task EntityIdentifierQuery()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -34,6 +35,7 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "SqlServer")]
         public async Task EntityIdentifiersQuery()
         {
             var mediator = ServiceProvider.GetService<IMediator>();

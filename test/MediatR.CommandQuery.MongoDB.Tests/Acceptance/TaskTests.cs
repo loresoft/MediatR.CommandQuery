@@ -26,6 +26,7 @@ namespace MediatR.CommandQuery.MongoDB.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "MongoDB")]
         public async Task FullTest()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -95,6 +96,7 @@ namespace MediatR.CommandQuery.MongoDB.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "MongoDB")]
         public async Task Upsert()
         {
             var key = ObjectId.GenerateNewId().ToString();
@@ -134,6 +136,7 @@ namespace MediatR.CommandQuery.MongoDB.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "MongoDB")]
         public async Task TenantDoesNotMatch()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -154,6 +157,7 @@ namespace MediatR.CommandQuery.MongoDB.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "MongoDB")]
         public async Task TenantSetDefault()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -178,6 +182,7 @@ namespace MediatR.CommandQuery.MongoDB.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "MongoDB")]
         public async Task EntityPageQuery()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -195,6 +200,7 @@ namespace MediatR.CommandQuery.MongoDB.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "MongoDB")]
         public async Task EntitySelectQuery()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -212,6 +218,7 @@ namespace MediatR.CommandQuery.MongoDB.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "MongoDB")]
         public async Task EntitySelectQueryDelete()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
@@ -229,6 +236,7 @@ namespace MediatR.CommandQuery.MongoDB.Tests.Acceptance
         }
 
         [Fact]
+        [Trait("Category", "MongoDB")]
         public async Task EntitySelectQueryDeleteNested()
         {
             var mediator = ServiceProvider.GetService<IMediator>();
