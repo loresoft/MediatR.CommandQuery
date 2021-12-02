@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="Cosmos.Abstracts" Version="3.0.0.63" />
+    <PackageReference Include="Cosmos.Abstracts" Version="4.0.66" />
   </ItemGroup>
 
   <ItemGroup>
