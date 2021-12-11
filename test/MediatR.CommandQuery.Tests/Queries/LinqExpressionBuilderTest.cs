@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using FluentAssertions;
 using MediatR.CommandQuery.Queries;
 using Xunit;
@@ -119,6 +119,26 @@ namespace MediatR.CommandQuery.Tests.Queries
 
             builder.Parameters.Count.Should().Be(1);
             builder.Parameters[0].Should().Be("Berry");
+        }
+
+
+        [Fact]
+        public void FilterIn()
+        {
+            var entityFilter = new EntityFilter
+            {
+                Name = "Name",
+                Operator = "in",
+                Value = new [] { "Test", "Tester"}
+            };
+            var builder = new LinqExpressionBuilder();
+            builder.Build(entityFilter);
+
+            builder.Expression.Should().NotBeEmpty();
+            builder.Expression.Should().Be("it.Name in @0");
+
+            builder.Parameters.Count.Should().Be(1);
+            builder.Parameters[0].Should().BeOfType<string[]>();
         }
 
         [Fact]

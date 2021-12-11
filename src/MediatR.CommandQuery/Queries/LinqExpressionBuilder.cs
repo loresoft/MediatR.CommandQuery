@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -83,12 +83,15 @@ namespace MediatR.CommandQuery.Queries
 
             // use function call
             var negation = comparison.StartsWith("!") || comparison.StartsWith("not", StringComparison.OrdinalIgnoreCase) ? "!" : string.Empty;
+
             if (comparison.EndsWith(EntityFilterOperators.StartsWith, StringComparison.OrdinalIgnoreCase))
                 _expression.Append($"{negation}{name}.StartsWith(@{index})");
             else if (comparison.EndsWith(EntityFilterOperators.EndsWith, StringComparison.OrdinalIgnoreCase))
                 _expression.Append($"{negation}{name}.EndsWith(@{index})");
             else if (comparison.EndsWith(EntityFilterOperators.Contains, StringComparison.OrdinalIgnoreCase))
                 _expression.Append($"{negation}{name}.Contains(@{index})");
+            else if (comparison.EndsWith(EntityFilterOperators.In, StringComparison.OrdinalIgnoreCase))
+                _expression.Append($"{negation}it.{name} in @{index}");
             else
                 _expression.Append($"{name} {comparison} @{index}");
 

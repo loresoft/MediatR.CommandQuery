@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace MediatR.CommandQuery.Queries
 {
@@ -13,5 +13,6 @@ namespace MediatR.CommandQuery.Queries
         public const string LessThanOrEqual = "lte";
         public const string GreaterThan = "gt";
         public const string GreaterThanOrEqual = "gte";
+        public const string In = "in";
     }
 }
