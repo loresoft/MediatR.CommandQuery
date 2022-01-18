@@ -1,32 +1,24 @@
-name: .NET
+name: Build Project
+
+env:
+  BUILD_PATH: '${{github.workspace}}/publish'
+  BUILD_VERSION: '2.0.${{github.run_number}}'
+  BUILD_INFORMATION: '2.0.${{github.run_number}}+Branch.${{github.ref_name}}.Sha.${{github.sha}}'
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+      - develop
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
+      - develop
 
 jobs:
   build:
-
+    needs: setup
     runs-on: ubuntu-latest
-
-    services:
-      mongodb:
-        image: mongo:latest
-        ports:
-        - 27017:27017
-        volumes:
-        - mongo_data:/data/db
-        - mongo_config:/data/configdb
-
-      sqlserver:
-        image: mcr.microsoft.com/mssql/server:2019-latest
-        ports:
-          - 1433:1433
-        env:
-          ACCEPT_EULA: 'Y'
-          SA_PASSWORD: ${{ secrets.SQL_PASSWORD }}
 
     steps:
     - name: Checkout
@@ -43,17 +35,86 @@ jobs:
       run: dotnet restore
 
     - name: Build Project
-      run: dotnet build --no-restore --configuration Release
-
-    - name: Test Project
-      run: dotnet test --filter Category!=Cosmos --no-build --no-restore --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+      run: 'dotnet build --no-restore --configuration Release -p:Version="${{env.BUILD_VERSION}}" -p:InformationalVersion="${{env.BUILD_INFORMATION}}" --output "${{env.BUILD_PATH}}/Tests"'
 
     - name: Create Packages
-      if: success() && github.event_name != 'pull_request'
+      run: 'dotnet pack --configuration Release --include-symbols --include-source --no-build --no-restore --output "${{env.BUILD_PATH}}/Packages"'
+
+    - name: Upload Package Artifact
+      if: success()
+      uses: actions/upload-artifact@v2
+      with:
+        name: Packages
+        path: '${{env.BUILD_PATH}}/Packages'
+
+    - name: Upload Test Artifact
+      if: success()
+      uses: actions/upload-artifact@v2
+      with:
+        name: Tests
+        path: '${{env.BUILD_PATH}}/Tests'
+
+  test-general:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+
+    - uses: actions/download-artifact@v2
+      with:
+        name: my-Tests
+
+    - name: Test Project
+      run: 'dotnet test --filter (Category!=MongoDB&Category!=SqlServer&Category!=Cosmos) --no-build --no-restore --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
+
+  test-mongodb:
+    needs: build
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+        - 27017:27017
+        volumes:
+        - mongo_data:/data/db
+        - mongo_config:/data/configdb
+
+    steps:
+    - name: Test MongoDB Project
+      run: dotnet test --filter Category=MongoDB --no-build --no-restore --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+
+  test-sqlserver:
+    needs: build
+    runs-on: ubuntu-latest
+
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        ports:
+          - 1433:1433
+        env:
+          ACCEPT_EULA: 'Y'
+          SA_PASSWORD: ${{ secrets.SQL_PASSWORD }}
+
+    steps:
+    - name: Test SqlServer Project
+      run: dotnet test --filter Category=SqlServer --no-build --no-restore --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+
+  deploy:
+    if: success() && github.event_name != 'pull_request'
+    needs: [test-general, test-mongodb, test-sqlserver]
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Create Packages
       run: dotnet pack --configuration Release --include-symbols --include-source --no-build --no-restore --output artifacts
 
     - name: Upload Artifacts
-      if: success() && github.event_name != 'pull_request'
       uses: actions/upload-artifact@v1.0.0
       with:
         name: artifacts
