@@ -45,6 +45,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker.WebService.MongoDB"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker.WebService.EntityFrameworkCore", "samples\Tracker.WebService.EntityFrameworkCore\Tracker.WebService.EntityFrameworkCore.csproj", "{29537166-4CA5-4201-845C-8BC5B39D0966}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{178BF52C-04A0-4B7D-89CA-41E14912A2D5}"
+	ProjectSection(SolutionItems) = preProject
+		templates\DomainServiceRegistration.csx = templates\DomainServiceRegistration.csx
+		templates\EntityController.csx = templates\EntityController.csx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
