@@ -1,0 +1,40 @@
+site_name: MediatR CommandQuery
+theme: readthedocs
+repo_url: https://github.com/loresoft/MediatR.CommandQuery
+
+pages:
+  - Home: readme.md
+
+  - Quick Start: quickStart.md
+
+  - Queries:
+      - Identifier Query: queries/identifier.md
+      - Identifiers Query: queries/identifiers.md
+      - Paged Query: queries/paged.md
+      - List Query: queries/list.md
+      - Filters: queries/filters.md
+      - Result Caching: queries/caching.md
+      - Base Queries: queries/abstracts.md
+
+  - Commands:
+      - Create Command: commands/create.md
+      - Delete Command: commands/delete.md
+      - Patch Command: commands/patch.md
+      - Update Command: commands/update.md
+      - Upsert Command: commands/upsert.md
+      - Base Commands: commands/abstracts.md
+
+  - Handlers:
+      - Entity Framework Core: handlers/entityFramework.md
+      - Cosmos DB: handlers/cosmos.md
+      - Mongo DB: handlers/mongo.md
+
+  - Behaviors:
+      - Soft Delete: behaviors/delete.md
+      - Result Caching: behaviors/caching.md
+      - Tenant: behaviors/tenant.md
+      - Audit: behaviors/audit.md
+      - Validation: behaviors/validation.md
+      - Base Behaviors: behaviors/abstracts.md
+
+  - Script Templates: scripts.md
