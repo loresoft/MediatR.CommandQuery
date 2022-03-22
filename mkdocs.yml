@@ -3,7 +3,7 @@ theme: readthedocs
 repo_url: https://github.com/loresoft/MediatR.CommandQuery
 
 pages:
-  - Home: readme.md
+  - Home: index.md
 
   - Quick Start: quickStart.md
 
