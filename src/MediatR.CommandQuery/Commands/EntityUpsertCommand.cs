@@ -1,22 +1,26 @@
-﻿using System;
+using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Principal;
 
-namespace MediatR.CommandQuery.Commands
+namespace MediatR.CommandQuery.Commands;
+
+public class EntityUpsertCommand<TKey, TUpdateModel, TReadModel>
+    : EntityModelCommand<TUpdateModel, TReadModel>
 {
-    public class EntityUpsertCommand<TKey, TUpdateModel, TReadModel>
-        : EntityModelCommand<TUpdateModel, TReadModel>
+    public EntityUpsertCommand(IPrincipal principal, [NotNull] TKey id, TUpdateModel model) : base(principal, model)
     {
-        public EntityUpsertCommand(IPrincipal principal, TKey id, TUpdateModel model) : base(principal, model)
-        {
-            Id = id;
-        }
+        if (id == null)
+            throw new ArgumentNullException(nameof(id));
 
-        public TKey Id { get; }
-
-        public override string ToString()
-        {
-            return $"Entity Upsert Command; Model: {typeof(TUpdateModel).Name}; Id: {Id}; {base.ToString()}";
-        }
-
+        Id = id;
     }
+
+    [NotNull]
+    public TKey Id { get; }
+
+    public override string ToString()
+    {
+        return $"Entity Upsert Command; Model: {typeof(TUpdateModel).Name}; Id: {Id}; {base.ToString()}";
+    }
+
 }

@@ -1,22 +1,27 @@
-﻿using System.Security.Principal;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Security.Principal;
 
-namespace MediatR.CommandQuery.Commands
+namespace MediatR.CommandQuery.Commands;
+
+public abstract class EntityIdentifierCommand<TKey, TResponse>
+    : PrincipalCommandBase<TResponse>
 {
-    public abstract class EntityIdentifierCommand<TKey, TResponse>
-        : PrincipalCommandBase<TResponse>
+    protected EntityIdentifierCommand(IPrincipal principal, [NotNull] TKey id)
+        : base(principal)
     {
-        protected EntityIdentifierCommand(IPrincipal principal, TKey id)
-            : base(principal)
-        {
-            Id = id;
-        }
+        if (id == null)
+            throw new ArgumentNullException(nameof(id));
 
-        public TKey Id { get; }
-
-        public override string ToString()
-        {
-            return $"Id: {Id}; {base.ToString()}";
-        }
-
+        Id = id;
     }
+
+    [NotNull]
+    public TKey Id { get; }
+
+    public override string ToString()
+    {
+        return $"Id: {Id}; {base.ToString()}";
+    }
+
 }

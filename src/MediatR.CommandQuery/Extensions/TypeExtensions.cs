@@ -1,25 +1,27 @@
-﻿using System;
+using System;
 
-namespace MediatR.CommandQuery.Extensions
+namespace MediatR.CommandQuery.Extensions;
+
+public static class TypeExtensions
 {
-    public static class TypeExtensions
+    /// <summary>
+    /// Determines whether the specified type implements an interface.
+    /// </summary>
+    /// <typeparam name="TInterface">The type of the interface.</typeparam>
+    /// <param name="type">The type to check.</param>
+    /// <returns><c>true</c> if type implements the interface; otherwise <c>false</c></returns>
+    /// <exception cref="InvalidOperationException">Only interfaces can be implemented.</exception>
+    public static bool Implements<TInterface>(this Type type)
+        where TInterface : class
     {
-        /// <summary>
-        /// Determines whether the specified type implements an interface.
-        /// </summary>
-        /// <typeparam name="TInterface">The type of the interface.</typeparam>
-        /// <param name="type">The type to check.</param>
-        /// <returns><c>true</c> if type implements the interface; otherwise <c>false</c></returns>
-        /// <exception cref="InvalidOperationException">Only interfaces can be implemented.</exception>
-        public static bool Implements<TInterface>(this Type type)
-            where TInterface : class
-        {
-            var interfaceType = typeof(TInterface);
+        if (type is null)
+            throw new ArgumentNullException(nameof(type));
 
-            if (!interfaceType.IsInterface)
-                throw new InvalidOperationException("Only interfaces can be implemented.");
+        var interfaceType = typeof(TInterface);
 
-            return interfaceType.IsAssignableFrom(type);
-        }
+        if (!interfaceType.IsInterface)
+            throw new InvalidOperationException("Only interfaces can be implemented.");
+
+        return interfaceType.IsAssignableFrom(type);
     }
 }

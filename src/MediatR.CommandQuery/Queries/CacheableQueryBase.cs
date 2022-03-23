@@ -2,42 +2,41 @@
 using System.Security.Principal;
 using MediatR.CommandQuery.Definitions;
 
-namespace MediatR.CommandQuery.Queries
+namespace MediatR.CommandQuery.Queries;
+
+public abstract class CacheableQueryBase<TResponse> : PrincipalQueryBase<TResponse>, ICacheQueryResult
 {
-    public abstract class CacheableQueryBase<TResponse> : PrincipalQueryBase<TResponse>, ICacheQueryResult
+    private DateTimeOffset? _absoluteExpiration;
+    private TimeSpan? _slidingExpiration;
+
+    protected CacheableQueryBase(IPrincipal principal) : base(principal)
     {
-        private DateTimeOffset? _absoluteExpiration;
-        private TimeSpan? _slidingExpiration;
-
-        protected CacheableQueryBase(IPrincipal principal) : base(principal)
-        {
-        }
+    }
 
 
-        public abstract string GetCacheKey();
+    public abstract string GetCacheKey();
 
-        public bool IsCacheable()
-        {
-            return _absoluteExpiration.HasValue
-                || _slidingExpiration.HasValue;
-        }
-
-
-        public void Cache(DateTimeOffset? absoluteExpiration = null, TimeSpan? slidingExpiration = null)
-        {
-            _absoluteExpiration = absoluteExpiration;
-            _slidingExpiration = slidingExpiration;
-        }
+    public bool IsCacheable()
+    {
+        return _absoluteExpiration.HasValue
+            || _slidingExpiration.HasValue;
+    }
 
 
-        DateTimeOffset? ICacheQueryResult.AbsoluteExpiration()
-        {
-            return _absoluteExpiration;
-        }
+    public void Cache(DateTimeOffset? absoluteExpiration = null, TimeSpan? slidingExpiration = null)
+    {
+        _absoluteExpiration = absoluteExpiration;
+        _slidingExpiration = slidingExpiration;
+    }
 
-        TimeSpan? ICacheQueryResult.SlidingExpiration()
-        {
-            return _slidingExpiration;
-        }
+
+    DateTimeOffset? ICacheQueryResult.AbsoluteExpiration()
+    {
+        return _absoluteExpiration;
+    }
+
+    TimeSpan? ICacheQueryResult.SlidingExpiration()
+    {
+        return _slidingExpiration;
     }
 }

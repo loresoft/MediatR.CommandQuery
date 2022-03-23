@@ -1,22 +1,27 @@
-﻿using System.Security.Principal;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Security.Principal;
 
-namespace MediatR.CommandQuery.Queries
+namespace MediatR.CommandQuery.Queries;
+
+public class EntityIdentifierQuery<TKey, TReadModel> : CacheableQueryBase<TReadModel>
 {
-    public class EntityIdentifierQuery<TKey, TReadModel> : CacheableQueryBase<TReadModel>
+
+    public EntityIdentifierQuery(IPrincipal principal, [NotNull] TKey id)
+        : base(principal)
     {
+        if (id == null)
+            throw new ArgumentNullException(nameof(id));
 
-        public EntityIdentifierQuery(IPrincipal principal, TKey id)
-            : base(principal)
-        {
-            Id = id;
-        }
+        Id = id;
+    }
 
-        public TKey Id { get; }
+    [NotNull]
+    public TKey Id { get; }
 
 
-        public override string GetCacheKey()
-        {
-            return $"{typeof(TReadModel).FullName}-{Id}";
-        }
+    public override string GetCacheKey()
+    {
+        return $"{typeof(TReadModel).FullName}-{Id}";
     }
 }

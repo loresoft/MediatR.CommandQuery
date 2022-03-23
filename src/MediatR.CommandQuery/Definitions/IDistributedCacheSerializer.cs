@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace MediatR.CommandQuery.Definitions
-{
-    public interface IDistributedCacheSerializer
-    {
-        Task<byte[]> ToByteArrayAsync<T>(T instance);
+namespace MediatR.CommandQuery.Definitions;
 
-        Task<T> FromByteArrayAsync<T>(byte[] byteArray);
-    }
+public interface IDistributedCacheSerializer
+{
+    Task<byte[]> ToByteArrayAsync<T>(T instance);
+
+    Task<T> FromByteArrayAsync<T>(byte[] byteArray);
 }

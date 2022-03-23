@@ -1,20 +1,21 @@
-﻿using System;
+using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Principal;
 
-namespace MediatR.CommandQuery.Commands
+namespace MediatR.CommandQuery.Commands;
+
+public abstract class EntityModelCommand<TEntityModel, TReadModel>
+    : PrincipalCommandBase<TReadModel>
 {
-    public abstract class EntityModelCommand<TEntityModel, TReadModel>
-        : PrincipalCommandBase<TReadModel>
+    protected EntityModelCommand(IPrincipal principal, [NotNull] TEntityModel model)
+        : base(principal)
     {
-        protected EntityModelCommand(IPrincipal principal, TEntityModel model)
-            : base(principal)
-        {
-            if (model == null)
-                throw new ArgumentNullException(nameof(model));
+        if (model == null)
+            throw new ArgumentNullException(nameof(model));
 
-            Model = model;
-        }
-
-        public TEntityModel Model { get; }
+        Model = model;
     }
+
+    [NotNull]
+    public TEntityModel Model { get; }
 }

@@ -1,15 +1,14 @@
 ﻿using System;
 
-namespace MediatR.CommandQuery.Definitions
+namespace MediatR.CommandQuery.Definitions;
+
+public interface ICacheQueryResult
 {
-    public interface ICacheQueryResult
-    {
-        bool IsCacheable();
+    bool IsCacheable();
 
-        string GetCacheKey();
+    string GetCacheKey();
 
-        TimeSpan? SlidingExpiration();
+    TimeSpan? SlidingExpiration();
 
-        DateTimeOffset? AbsoluteExpiration();
-    }
+    DateTimeOffset? AbsoluteExpiration();
 }

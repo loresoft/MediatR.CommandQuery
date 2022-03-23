@@ -1,7 +1,6 @@
-﻿namespace MediatR.CommandQuery.Definitions
+﻿namespace MediatR.CommandQuery.Definitions;
+
+public interface ITrackDeleted
 {
-    public interface ITrackDeleted
-    {
-        bool IsDeleted { get; set; }
-    }
+    bool IsDeleted { get; set; }
 }

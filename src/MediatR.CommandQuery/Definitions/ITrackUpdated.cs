@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 
-namespace MediatR.CommandQuery.Definitions
+namespace MediatR.CommandQuery.Definitions;
+
+public interface ITrackUpdated
 {
-    public interface ITrackUpdated
-    {
-        DateTimeOffset Updated { get; set; }
-        string UpdatedBy { get; set; }
-    }
+    DateTimeOffset Updated { get; set; }
+    string? UpdatedBy { get; set; }
 }

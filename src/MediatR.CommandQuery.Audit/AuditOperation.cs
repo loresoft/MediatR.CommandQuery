@@ -1,14 +1,13 @@
-﻿namespace MediatR.CommandQuery.Audit
+namespace MediatR.CommandQuery.Audit;
+
+public enum AuditOperation
 {
-    public enum AuditOperation
-    {
-        None,
-        Create,
-        Read,
-        Update,
-        Delete,
-        Login,
-        Logout,
-        Other
-    }
+    None,
+    Create,
+    Read,
+    Update,
+    Delete,
+    Login,
+    Logout,
+    Other
 }

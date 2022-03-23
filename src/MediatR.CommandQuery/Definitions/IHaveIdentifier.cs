@@ -1,9 +1,9 @@
-﻿using System;
+using System;
+using System.Diagnostics.CodeAnalysis;
 
-namespace MediatR.CommandQuery.Definitions
+namespace MediatR.CommandQuery.Definitions;
+
+public interface IHaveIdentifier<TKey>
 {
-    public interface IHaveIdentifier<TKey>
-    {
-        TKey Id { get; set; }
-    }
+    [NotNull] TKey Id { get; set; }
 }

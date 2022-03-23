@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 
-namespace MediatR.CommandQuery.Definitions
+namespace MediatR.CommandQuery.Definitions;
+
+public interface ITrackCreated
 {
-    public interface ITrackCreated
-    {
-        DateTimeOffset Created { get; set; }
-        string CreatedBy { get; set; }
-    }
+    DateTimeOffset Created { get; set; }
+    string? CreatedBy { get; set; }
 }

@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace MediatR.CommandQuery.Queries
+namespace MediatR.CommandQuery.Queries;
+
+public static class EntitySortDirections
 {
-    public static class EntitySortDirections
-    {
-        public const string Ascending = "asc";
-        public const string Descending = "desc";
-    }
+    public const string Ascending = "asc";
+    public const string Descending = "desc";
 }

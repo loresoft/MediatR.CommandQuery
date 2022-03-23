@@ -1,47 +1,46 @@
 using System;
 using System.Text.Json.Serialization;
 
-namespace MediatR.CommandQuery.Queries
+namespace MediatR.CommandQuery.Queries;
+
+public class EntitySort
 {
-    public class EntitySort
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = null!;
+
+    [JsonPropertyName("direction")]
+    public string? Direction { get; set; }
+
+
+    public static EntitySort? Parse(string? sortString)
     {
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
+        if (string.IsNullOrEmpty(sortString))
+            return null;
 
-        [JsonPropertyName("direction")]
-        public string Direction { get; set; }
+        var parts = sortString.Split(new[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
+        if (parts is null || parts.Length == 0)
+            return null;
 
+        var sort = new EntitySort();
+        sort.Name = parts[0].Trim();
 
-        public static EntitySort Parse(string sortString)
-        {
-            if (string.IsNullOrEmpty(sortString))
-                return null;
+        if (parts.Length >= 2)
+            sort.Direction = parts[1]?.Trim();
 
-            var parts = sortString.Split(new[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length == 0)
-                return null;
-
-            var sort = new EntitySort();
-            sort.Name = parts[0]?.Trim();
-
-            if (parts.Length >= 2)
-                sort.Direction = parts[1]?.Trim();
-
-            return sort;
-        }
+        return sort;
+    }
 
 
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Name, Direction);
-        }
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Name, Direction);
+    }
 
-        public override string ToString()
-        {
-            if (string.IsNullOrWhiteSpace(Direction))
-                return Name;
+    public override string ToString()
+    {
+        if (string.IsNullOrWhiteSpace(Direction))
+            return Name;
 
-            return $"{Name}:{Direction}";
-        }
+        return $"{Name}:{Direction}";
     }
 }

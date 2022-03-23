@@ -1,9 +1,11 @@
-﻿using MediatR.CommandQuery.Definitions;
+using System.Diagnostics.CodeAnalysis;
 
-namespace MediatR.CommandQuery.Models
+using MediatR.CommandQuery.Definitions;
+
+namespace MediatR.CommandQuery.Models;
+
+public class EntityIdentifierModel<TKey> : IHaveIdentifier<TKey>
 {
-    public class EntityIdentifierModel<TKey> : IHaveIdentifier<TKey>
-    {
-        public TKey Id { get; set; }
-    }
+    [NotNull]
+    public TKey Id { get; set; } = default!;
 }

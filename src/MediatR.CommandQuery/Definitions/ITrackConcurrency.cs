@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace MediatR.CommandQuery.Definitions
+namespace MediatR.CommandQuery.Definitions;
+
+public interface ITrackConcurrency
 {
-    public interface ITrackConcurrency
-    {
-        string RowVersion { get; set; }
-    }
+    string RowVersion { get; set; }
 }

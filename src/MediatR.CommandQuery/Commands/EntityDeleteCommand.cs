@@ -1,19 +1,19 @@
-﻿using System;
+using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Principal;
 
-namespace MediatR.CommandQuery.Commands
+namespace MediatR.CommandQuery.Commands;
+
+public class EntityDeleteCommand<TKey, TReadModel>
+    : EntityIdentifierCommand<TKey, TReadModel>
 {
-    public class EntityDeleteCommand<TKey, TReadModel>
-        : EntityIdentifierCommand<TKey, TReadModel>
+    public EntityDeleteCommand(IPrincipal principal, [NotNull] TKey id) : base(principal, id)
     {
-        public EntityDeleteCommand(IPrincipal principal, TKey id) : base(principal, id)
-        {
-        }
-
-        public override string ToString()
-        {
-            return $"Entity Delete Command; Model: {typeof(TReadModel).Name}; {base.ToString()}";
-        }
-
     }
+
+    public override string ToString()
+    {
+        return $"Entity Delete Command; Model: {typeof(TReadModel).Name}; {base.ToString()}";
+    }
+
 }

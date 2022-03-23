@@ -1,15 +1,14 @@
-﻿namespace MediatR.CommandQuery.Notifications
+﻿namespace MediatR.CommandQuery.Notifications;
+
+public class EntityChangeNotification<TEntityModel> : INotification
 {
-    public class EntityChangeNotification<TEntityModel> : INotification
+    public EntityChangeNotification(TEntityModel model, EntityChangeOperation operation)
     {
-        public EntityChangeNotification(TEntityModel model, EntityChangeOperation operation)
-        {
-            Model = model;
-            Operation = operation;
-        }
-
-        public TEntityModel Model { get; }
-
-        public EntityChangeOperation Operation { get; }
+        Model = model;
+        Operation = operation;
     }
+
+    public TEntityModel Model { get; }
+
+    public EntityChangeOperation Operation { get; }
 }

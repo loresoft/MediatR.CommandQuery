@@ -1,9 +1,8 @@
-﻿namespace MediatR.CommandQuery.Notifications
+﻿namespace MediatR.CommandQuery.Notifications;
+
+public enum EntityChangeOperation
 {
-    public enum EntityChangeOperation
-    {
-        Created,
-        Updated,
-        Deleted,
-    }
+    Created,
+    Updated,
+    Deleted,
 }

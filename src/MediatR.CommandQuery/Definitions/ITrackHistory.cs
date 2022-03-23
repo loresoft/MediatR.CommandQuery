@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace MediatR.CommandQuery.Definitions
-{
-    public interface ITrackHistory
-    {
-        DateTime PeriodStart { get; set; }
+namespace MediatR.CommandQuery.Definitions;
 
-        DateTime PeriodEnd { get; set; }
-    }
+public interface ITrackHistory
+{
+    DateTime PeriodStart { get; set; }
+
+    DateTime PeriodEnd { get; set; }
 }

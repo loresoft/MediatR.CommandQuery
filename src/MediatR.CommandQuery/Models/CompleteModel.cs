@@ -1,9 +1,8 @@
-﻿namespace MediatR.CommandQuery.Models
-{
-    public class CompleteModel
-    {
-        public bool? Successful { get; set; }
+namespace MediatR.CommandQuery.Models;
 
-        public string Message { get; set; }
-    }
+public class CompleteModel
+{
+    public bool Successful { get; set; }
+
+    public string? Message { get; set; }
 }

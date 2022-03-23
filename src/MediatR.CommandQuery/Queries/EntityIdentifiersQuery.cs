@@ -1,28 +1,32 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Principal;
 
-namespace MediatR.CommandQuery.Queries
+namespace MediatR.CommandQuery.Queries;
+
+public class EntityIdentifiersQuery<TKey, TReadModel> : CacheableQueryBase<IReadOnlyCollection<TReadModel>>
 {
-    public class EntityIdentifiersQuery<TKey, TReadModel> : CacheableQueryBase<IReadOnlyCollection<TReadModel>>
+    public EntityIdentifiersQuery(IPrincipal principal, [NotNull] IEnumerable<TKey> ids)
+        : base(principal)
     {
-        public EntityIdentifiersQuery(IPrincipal principal, IEnumerable<TKey> ids)
-            : base(principal)
-        {
-            Ids = ids.ToList();
-        }
+        if (ids is null)
+            throw new ArgumentNullException(nameof(ids));
 
-        public IReadOnlyCollection<TKey> Ids { get; }
+        Ids = ids.ToList();
+    }
 
-        public override string GetCacheKey()
-        {
-            var hash = new HashCode();
+    [NotNull]
+    public IReadOnlyCollection<TKey> Ids { get; }
 
-            foreach (var id in Ids)
-                hash.Add(id);
+    public override string GetCacheKey()
+    {
+        var hash = new HashCode();
 
-            return $"{typeof(TReadModel).FullName}-{hash.ToHashCode()}";
-        }
+        foreach (var id in Ids)
+            hash.Add(id);
+
+        return $"{typeof(TReadModel).FullName}-{hash.ToHashCode()}";
     }
 }
