@@ -15,5 +15,5 @@ public interface ITenantResolver<TKey>
     /// </summary>
     /// <param name="principal">The principal.</param>
     /// <returns>The tenant identifier for the specified principal.</returns>
-    Task<TKey> GetTenantId(IPrincipal principal);
+    Task<TKey?> GetTenantId(IPrincipal? principal);
 }

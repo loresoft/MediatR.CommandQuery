@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Text;
+
 using MediatR.CommandQuery.Queries;
 
 namespace MediatR.CommandQuery.Extensions;

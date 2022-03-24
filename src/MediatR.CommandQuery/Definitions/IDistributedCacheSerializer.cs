@@ -1,4 +1,3 @@
-﻿using System;
 using System.Threading.Tasks;
 
 namespace MediatR.CommandQuery.Definitions;

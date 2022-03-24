@@ -2,8 +2,10 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
+
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Behaviors;
@@ -17,7 +19,7 @@ public class TenantAuthenticateCommandBehavior<TKey, TEntityModel, TResponse>
 
     public TenantAuthenticateCommandBehavior(ILoggerFactory loggerFactory, ITenantResolver<TKey> tenantResolver) : base(loggerFactory)
     {
-        _tenantResolver = tenantResolver ?? throw new System.ArgumentNullException(nameof(tenantResolver));
+        _tenantResolver = tenantResolver ?? throw new ArgumentNullException(nameof(tenantResolver));
     }
 
     protected override async Task<TResponse> Process(EntityModelCommand<TEntityModel, TResponse> request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)

@@ -1,8 +1,11 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 using FluentValidation;
+
 using MediatR.CommandQuery.Commands;
+
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Behaviors;
@@ -15,7 +18,7 @@ public class ValidateEntityModelCommandBehavior<TEntityModel, TResponse>
 
     public ValidateEntityModelCommandBehavior(ILoggerFactory loggerFactory, IValidator<TEntityModel> validator) : base(loggerFactory)
     {
-        _validator = validator ?? throw new System.ArgumentNullException(nameof(validator));
+        _validator = validator ?? throw new ArgumentNullException(nameof(validator));
     }
 
     protected override async Task<TResponse> Process(EntityModelCommand<TEntityModel, TResponse> request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)

@@ -1,8 +1,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
+
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Behaviors;

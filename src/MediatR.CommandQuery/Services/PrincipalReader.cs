@@ -1,4 +1,3 @@
-using System;
 using System.Security.Claims;
 using System.Security.Principal;
 
@@ -8,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Services;
 
-public class PrincipalReader : IPrincipalReader
+public partial class PrincipalReader : IPrincipalReader
 {
     private readonly ILogger<PrincipalReader> _logger;
 
@@ -17,37 +16,36 @@ public class PrincipalReader : IPrincipalReader
         _logger = logger;
     }
 
-    public string? GetEmail(IPrincipal principal)
+    public string? GetEmail(IPrincipal? principal)
     {
         var claimPrincipal = principal as ClaimsPrincipal;
         var emailClaim = claimPrincipal?.FindFirst(ClaimTypes.Email);
 
         var email = emailClaim?.Value;
 
-        _logPrincipal(_logger, "Email", email, null);
+        LogPrincipal(_logger, "Email", email);
 
         return email;
     }
 
-    public string? GetIdentifier(IPrincipal principal)
+    public string? GetIdentifier(IPrincipal? principal)
     {
         var name = principal?.Identity?.Name;
 
-        _logPrincipal(_logger, "Identifier", name, null);
+        LogPrincipal(_logger, "Identifier", name);
 
         return name;
     }
 
-    public string? GetName(IPrincipal principal)
+    public string? GetName(IPrincipal? principal)
     {
         var name = principal?.Identity?.Name;
 
-        _logPrincipal(_logger, "Name", name, null);
+        LogPrincipal(_logger, "Name", name);
 
         return name;
     }
 
-    private static readonly Action<ILogger, string, string?, Exception?> _logPrincipal
-        = LoggerMessage.Define<string, string?>(LogLevel.Trace, 0, "Resolved principal claim {type}: {value}");
-
+    [LoggerMessage(1, LogLevel.Trace, "Resolved principal claim {type}: {value}")]
+    static partial void LogPrincipal(ILogger logger, string type, string? value);
 }

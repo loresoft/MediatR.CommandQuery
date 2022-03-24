@@ -7,7 +7,7 @@ namespace MediatR.CommandQuery.Commands;
 public class EntityUpsertCommand<TKey, TUpdateModel, TReadModel>
     : EntityModelCommand<TUpdateModel, TReadModel>
 {
-    public EntityUpsertCommand(IPrincipal principal, [NotNull] TKey id, TUpdateModel model) : base(principal, model)
+    public EntityUpsertCommand(IPrincipal? principal, [NotNull] TKey id, TUpdateModel model) : base(principal, model)
     {
         if (id == null)
             throw new ArgumentNullException(nameof(id));

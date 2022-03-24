@@ -1,5 +1,3 @@
-using System;
-
 namespace MediatR.CommandQuery.Queries;
 
 public static class EntityFilterOperators

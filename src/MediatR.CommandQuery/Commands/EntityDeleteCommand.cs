@@ -7,7 +7,7 @@ namespace MediatR.CommandQuery.Commands;
 public class EntityDeleteCommand<TKey, TReadModel>
     : EntityIdentifierCommand<TKey, TReadModel>
 {
-    public EntityDeleteCommand(IPrincipal principal, [NotNull] TKey id) : base(principal, id)
+    public EntityDeleteCommand(IPrincipal? principal, [NotNull] TKey id) : base(principal, id)
     {
     }
 

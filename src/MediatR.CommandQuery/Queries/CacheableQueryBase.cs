@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Security.Principal;
+
 using MediatR.CommandQuery.Definitions;
 
 namespace MediatR.CommandQuery.Queries;
@@ -9,7 +10,7 @@ public abstract class CacheableQueryBase<TResponse> : PrincipalQueryBase<TRespon
     private DateTimeOffset? _absoluteExpiration;
     private TimeSpan? _slidingExpiration;
 
-    protected CacheableQueryBase(IPrincipal principal) : base(principal)
+    protected CacheableQueryBase(IPrincipal? principal) : base(principal)
     {
     }
 

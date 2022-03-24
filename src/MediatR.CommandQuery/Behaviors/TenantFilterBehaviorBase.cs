@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Security.Principal;
 using System.Threading.Tasks;
+
 using MediatR.CommandQuery.Definitions;
 using MediatR.CommandQuery.Queries;
+
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Behaviors;
@@ -25,7 +27,7 @@ public abstract class TenantFilterBehaviorBase<TKey, TEntityModel, TRequest, TRe
     protected ITenantResolver<TKey> TenantResolver { get; }
 
 
-    protected virtual async Task<EntityFilter?> RewriteFilter(EntityFilter? originalFilter, IPrincipal principal)
+    protected virtual async Task<EntityFilter?> RewriteFilter(EntityFilter? originalFilter, IPrincipal? principal)
     {
         if (!_supportsTenant.Value)
             return originalFilter;

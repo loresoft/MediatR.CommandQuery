@@ -1,10 +1,12 @@
-﻿namespace MediatR.CommandQuery.Notifications;
+using System;
+
+namespace MediatR.CommandQuery.Notifications;
 
 public class EntityChangeNotification<TEntityModel> : INotification
 {
     public EntityChangeNotification(TEntityModel model, EntityChangeOperation operation)
     {
-        Model = model;
+        Model = model ?? throw new ArgumentNullException(nameof(model));
         Operation = operation;
     }
 

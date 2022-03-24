@@ -7,7 +7,7 @@ namespace MediatR.CommandQuery.Commands;
 public abstract class EntityModelCommand<TEntityModel, TReadModel>
     : PrincipalCommandBase<TReadModel>
 {
-    protected EntityModelCommand(IPrincipal principal, [NotNull] TEntityModel model)
+    protected EntityModelCommand(IPrincipal? principal, [NotNull] TEntityModel model)
         : base(principal)
     {
         if (model == null)

@@ -9,7 +9,7 @@ namespace MediatR.CommandQuery.Commands;
 public abstract class EntityIdentifiersCommand<TKey, TResponse>
     : PrincipalCommandBase<TResponse>
 {
-    protected EntityIdentifiersCommand(IPrincipal principal, [NotNull] IEnumerable<TKey> ids)
+    protected EntityIdentifiersCommand(IPrincipal? principal, [NotNull] IEnumerable<TKey> ids)
         : base(principal)
     {
         if (ids is null)

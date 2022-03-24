@@ -1,13 +1,15 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 using MediatR.CommandQuery.Definitions;
+
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Behaviors;
 
-public class DistributedCacheQueryBehavior<TRequest, TResponse> : PipelineBehaviorBase<TRequest, TResponse>
+public partial class DistributedCacheQueryBehavior<TRequest, TResponse> : PipelineBehaviorBase<TRequest, TResponse>
     where TRequest : class, IRequest<TResponse>
 {
     private readonly IDistributedCache _distributedCache;
@@ -46,12 +48,12 @@ public class DistributedCacheQueryBehavior<TRequest, TResponse> : PipelineBehavi
                 .FromByteArrayAsync<TResponse>(cachedBuffer)
                 .ConfigureAwait(false);
 
-            _logCacheHit(Logger, cacheKey, null);
+            LogCacheAction(Logger, "Hit", cacheKey);
 
             return cachedItem;
         }
 
-        _logCacheMiss(Logger, cacheKey, null);
+        LogCacheAction(Logger, "Miss", cacheKey);
 
         // continue if not found in cache
         var result = await next().ConfigureAwait(false);
@@ -73,18 +75,12 @@ public class DistributedCacheQueryBehavior<TRequest, TResponse> : PipelineBehavi
             .SetAsync(cacheKey, itemBuffer, options, cancellationToken)
             .ConfigureAwait(false);
 
-        _logCacheInsert(Logger, cacheKey, null);
+        LogCacheAction(Logger, "Insert", cacheKey);
 
         return result;
     }
 
-    private static readonly Action<ILogger, string, Exception?> _logCacheHit
-        = LoggerMessage.Define<string>(LogLevel.Trace, 0, "Cache Hit; Key: '{cacheKey}'");
-
-    private static readonly Action<ILogger, string, Exception?> _logCacheMiss
-        = LoggerMessage.Define<string>(LogLevel.Trace, 0, "Cache Miss; Key: '{cacheKey}'");
-
-    private static readonly Action<ILogger, string, Exception?> _logCacheInsert
-        = LoggerMessage.Define<string>(LogLevel.Trace, 0, "Cache Insert; Key: '{cacheKey}'");
+    [LoggerMessage(1, LogLevel.Trace, "Cache {action}; Key: '{cacheKey}'")]
+    static partial void LogCacheAction(ILogger logger, string action, string cacheKey);
 
 }

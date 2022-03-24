@@ -8,7 +8,7 @@ namespace MediatR.CommandQuery.Commands;
 public class EntityPatchCommand<TKey, TReadModel>
     : EntityIdentifierCommand<TKey, TReadModel>
 {
-    public EntityPatchCommand(IPrincipal principal, [NotNull] TKey id, [NotNull] IJsonPatchDocument patch) : base(principal, id)
+    public EntityPatchCommand(IPrincipal? principal, [NotNull] TKey id, [NotNull] IJsonPatchDocument patch) : base(principal, id)
     {
         Patch = patch ?? throw new ArgumentNullException(nameof(patch));
     }

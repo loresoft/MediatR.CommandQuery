@@ -20,7 +20,7 @@ public abstract class DeletedFilterBehaviorBase<TEntityModel, TRequest, TRespons
     {
     }
 
-    protected virtual EntityFilter? RewriteFilter(EntityFilter? originalFilter, IPrincipal principal)
+    protected virtual EntityFilter? RewriteFilter(EntityFilter? originalFilter, IPrincipal? principal)
     {
         if (!_supportsDelete.Value)
             return originalFilter;

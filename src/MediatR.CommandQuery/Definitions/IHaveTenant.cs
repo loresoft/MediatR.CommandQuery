@@ -1,4 +1,6 @@
-﻿namespace MediatR.CommandQuery.Definitions;
+using System.Diagnostics.CodeAnalysis;
+
+namespace MediatR.CommandQuery.Definitions;
 
 /// <summary>
 ///   <c>Interface</c> indicating object supports multi-tenancy

@@ -1,8 +1,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
+
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Behaviors;
@@ -16,7 +18,7 @@ public class TenantDefaultCommandBehavior<TKey, TEntityModel, TResponse>
 
     public TenantDefaultCommandBehavior(ILoggerFactory loggerFactory, ITenantResolver<TKey> tenantResolver) : base(loggerFactory)
     {
-        _tenantResolver = tenantResolver ?? throw new System.ArgumentNullException(nameof(tenantResolver));
+        _tenantResolver = tenantResolver ?? throw new ArgumentNullException(nameof(tenantResolver));
     }
 
     protected override async Task<TResponse> Process(EntityModelCommand<TEntityModel, TResponse> request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
@@ -42,6 +44,6 @@ public class TenantDefaultCommandBehavior<TKey, TEntityModel, TResponse>
             return;
 
         var tenantId = await _tenantResolver.GetTenantId(request.Principal);
-        tenantModel.TenantId = tenantId;
+        tenantModel.TenantId = tenantId!;
     }
 }

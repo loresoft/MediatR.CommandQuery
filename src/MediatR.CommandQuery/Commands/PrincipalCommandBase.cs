@@ -5,14 +5,14 @@ namespace MediatR.CommandQuery.Commands;
 
 public abstract class PrincipalCommandBase<TResponse> : IRequest<TResponse>
 {
-    protected PrincipalCommandBase(IPrincipal principal)
+    protected PrincipalCommandBase(IPrincipal? principal)
     {
         Principal = principal;
         ActivatedBy = principal?.Identity?.Name;
         Activated = DateTimeOffset.UtcNow;
     }
 
-    public IPrincipal Principal { get; }
+    public IPrincipal? Principal { get; }
 
     public DateTimeOffset Activated { get; }
 

@@ -6,7 +6,7 @@ namespace MediatR.CommandQuery.Commands;
 public class EntityCreateCommand<TCreateModel, TReadModel>
     : EntityModelCommand<TCreateModel, TReadModel>
 {
-    public EntityCreateCommand(IPrincipal principal, [NotNull] TCreateModel model) : base(principal, model)
+    public EntityCreateCommand(IPrincipal? principal, [NotNull] TCreateModel model) : base(principal, model)
     {
     }
 
