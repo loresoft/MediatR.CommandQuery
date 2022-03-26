@@ -11,9 +11,9 @@ namespace Tracker.WebService.Domain.Models
 
         public Guid? PriorityId { get; set; }
 
-        public string Title { get; set; }
+        public string Title { get; set; } = null!;
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public DateTimeOffset? StartDate { get; set; }
 

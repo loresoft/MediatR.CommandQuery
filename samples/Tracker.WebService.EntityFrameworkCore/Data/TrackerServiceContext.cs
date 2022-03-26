@@ -12,21 +12,21 @@ namespace Tracker.WebService.Data
         }
 
         #region Generated Properties
-        public virtual DbSet<Tracker.WebService.Data.Entities.Audit> Audits { get; set; }
+        public virtual DbSet<Tracker.WebService.Data.Entities.Audit> Audits { get; set; } = null!;
 
-        public virtual DbSet<Tracker.WebService.Data.Entities.Priority> Priorities { get; set; }
+        public virtual DbSet<Tracker.WebService.Data.Entities.Priority> Priorities { get; set; } = null!;
 
-        public virtual DbSet<Tracker.WebService.Data.Entities.Role> Roles { get; set; }
+        public virtual DbSet<Tracker.WebService.Data.Entities.Role> Roles { get; set; } = null!;
 
-        public virtual DbSet<Tracker.WebService.Data.Entities.Status> Statuses { get; set; }
+        public virtual DbSet<Tracker.WebService.Data.Entities.Status> Statuses { get; set; } = null!;
 
-        public virtual DbSet<Tracker.WebService.Data.Entities.Task> Tasks { get; set; }
+        public virtual DbSet<Tracker.WebService.Data.Entities.Task> Tasks { get; set; } = null!;
 
-        public virtual DbSet<Tracker.WebService.Data.Entities.UserLogin> UserLogins { get; set; }
+        public virtual DbSet<Tracker.WebService.Data.Entities.UserLogin> UserLogins { get; set; } = null!;
 
-        public virtual DbSet<Tracker.WebService.Data.Entities.UserRole> UserRoles { get; set; }
+        public virtual DbSet<Tracker.WebService.Data.Entities.UserRole> UserRoles { get; set; } = null!;
 
-        public virtual DbSet<Tracker.WebService.Data.Entities.User> Users { get; set; }
+        public virtual DbSet<Tracker.WebService.Data.Entities.User> Users { get; set; } = null!;
 
         #endregion
 

@@ -1,6 +1,7 @@
 project:
   namespace: 'Tracker.WebService'
   directory: .\
+  nullable: true
 database:
   provider: SqlServer
   connectionString: 'Data Source=(local);Initial Catalog=TrackerService;Integrated Security=True;'

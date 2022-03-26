@@ -21,19 +21,19 @@ namespace Tracker.WebService.Data.Entities
 
         public Guid? TaskId { get; set; }
 
-        public string Content { get; set; }
+        public string Content { get; set; } = null!;
 
-        public string Username { get; set; }
+        public string Username { get; set; } = null!;
 
         public DateTimeOffset Created { get; set; }
 
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
 
         public DateTimeOffset Updated { get; set; }
 
-        public string UpdatedBy { get; set; }
+        public string? UpdatedBy { get; set; }
 
-        public Byte[] RowVersion { get; set; }
+        public Byte[] RowVersion { get; set; } = null!;
 
         #endregion
 

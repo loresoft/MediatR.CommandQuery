@@ -6,13 +6,13 @@ namespace Tracker.WebService.Domain.Models
     public class TaskCreateModel
         : EntityCreateModel, ITrackDeleted
     {
-        public string StatusId { get; set; }
+        public string StatusId { get; set; } = null!;
 
-        public string PriorityId { get; set; }
+        public string? PriorityId { get; set; }
 
-        public string Title { get; set; }
+        public string Title { get; set; } = null!;
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public DateTimeOffset? StartDate { get; set; }
 
@@ -20,7 +20,7 @@ namespace Tracker.WebService.Domain.Models
 
         public DateTimeOffset? CompleteDate { get; set; }
 
-        public string AssignedId { get; set; }
+        public string? AssignedId { get; set; }
 
         public bool IsDeleted { get; set; }
 

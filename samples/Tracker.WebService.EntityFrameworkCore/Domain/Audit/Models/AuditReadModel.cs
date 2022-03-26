@@ -13,9 +13,9 @@ namespace Tracker.WebService.Domain.Models
 
         public Guid? TaskId { get; set; }
 
-        public string Content { get; set; }
+        public string Content { get; set; } = null!;
 
-        public string Username { get; set; }
+        public string Username { get; set; } = null!;
 
         #endregion
 
