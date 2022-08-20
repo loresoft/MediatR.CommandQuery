@@ -31,9 +31,9 @@ namespace Tracker.WebService
                     .UseStartupTask()
                 );
 
-            services
-                .AddControllers()
-                .AddFluentValidation();
+            services.AddControllers();
+            services.AddFluentValidationAutoValidation();
+            services.AddFluentValidationClientsideAdapters();
 
             services
                 .AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tracker.WebService", Version = "v1" }));
