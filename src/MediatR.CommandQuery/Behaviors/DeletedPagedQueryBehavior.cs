@@ -16,7 +16,10 @@ public class DeletedPagedQueryBehavior<TEntityModel>
     {
     }
 
-    protected override async Task<EntityPagedResult<TEntityModel>> Process(EntityPagedQuery<TEntityModel> request, CancellationToken cancellationToken, RequestHandlerDelegate<EntityPagedResult<TEntityModel>> next)
+    protected override async Task<EntityPagedResult<TEntityModel>> Process(
+        EntityPagedQuery<TEntityModel> request,
+        RequestHandlerDelegate<EntityPagedResult<TEntityModel>> next,
+        CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));

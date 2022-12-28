@@ -21,8 +21,8 @@ public class TenantSelectQueryBehavior<TKey, TEntityModel>
 
     protected override async Task<IReadOnlyCollection<TEntityModel>> Process(
         EntitySelectQuery<TEntityModel> request,
-        CancellationToken cancellationToken,
-        RequestHandlerDelegate<IReadOnlyCollection<TEntityModel>> next)
+        RequestHandlerDelegate<IReadOnlyCollection<TEntityModel>> next,
+        CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));

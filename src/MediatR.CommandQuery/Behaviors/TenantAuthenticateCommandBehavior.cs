@@ -17,12 +17,16 @@ public class TenantAuthenticateCommandBehavior<TKey, TEntityModel, TResponse>
 
     private readonly ITenantResolver<TKey> _tenantResolver;
 
-    public TenantAuthenticateCommandBehavior(ILoggerFactory loggerFactory, ITenantResolver<TKey> tenantResolver) : base(loggerFactory)
+    public TenantAuthenticateCommandBehavior(ILoggerFactory loggerFactory, ITenantResolver<TKey> tenantResolver)
+        : base(loggerFactory)
     {
         _tenantResolver = tenantResolver ?? throw new ArgumentNullException(nameof(tenantResolver));
     }
 
-    protected override async Task<TResponse> Process(EntityModelCommand<TEntityModel, TResponse> request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    protected override async Task<TResponse> Process(
+        EntityModelCommand<TEntityModel, TResponse> request,
+        RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));

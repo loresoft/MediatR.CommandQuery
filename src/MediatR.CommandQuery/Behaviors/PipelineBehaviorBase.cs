@@ -27,7 +27,10 @@ public abstract partial class PipelineBehaviorBase<TRequest, TResponse>
     protected ILogger Logger { get; }
 
 
-    public virtual async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    public virtual async Task<TResponse> Handle(
+        TRequest request,
+        RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -40,7 +43,7 @@ public abstract partial class PipelineBehaviorBase<TRequest, TResponse>
             LogStart(Logger, _name, request);
             var watch = Stopwatch.StartNew();
 
-            var response = await Process(request, cancellationToken, next).ConfigureAwait(false);
+            var response = await Process(request, next, cancellationToken).ConfigureAwait(false);
 
             watch.Stop();
             LogFinish(Logger, _name, request, watch.ElapsedMilliseconds);
@@ -54,7 +57,10 @@ public abstract partial class PipelineBehaviorBase<TRequest, TResponse>
         }
     }
 
-    protected abstract Task<TResponse> Process(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next);
+    protected abstract Task<TResponse> Process(
+        TRequest request,
+        RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken);
 
 
     [LoggerMessage(1, LogLevel.Trace, "Processing behavior '{behavior}' for request '{request}' ...")]

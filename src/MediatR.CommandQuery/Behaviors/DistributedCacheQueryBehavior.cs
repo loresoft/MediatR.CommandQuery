@@ -15,14 +15,20 @@ public partial class DistributedCacheQueryBehavior<TRequest, TResponse> : Pipeli
     private readonly IDistributedCache _distributedCache;
     private readonly IDistributedCacheSerializer _distributedCacheSerializer;
 
-    public DistributedCacheQueryBehavior(ILoggerFactory loggerFactory, IDistributedCache distributedCache, IDistributedCacheSerializer distributedCacheSerializer)
+    public DistributedCacheQueryBehavior(
+        ILoggerFactory loggerFactory,
+        IDistributedCache distributedCache,
+        IDistributedCacheSerializer distributedCacheSerializer)
         : base(loggerFactory)
     {
         _distributedCache = distributedCache ?? throw new ArgumentNullException(nameof(distributedCache));
         _distributedCacheSerializer = distributedCacheSerializer ?? throw new ArgumentNullException(nameof(distributedCacheSerializer));
     }
 
-    protected override async Task<TResponse> Process(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    protected override async Task<TResponse> Process(
+        TRequest request,
+        RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         if (next is null)
             throw new ArgumentNullException(nameof(next));

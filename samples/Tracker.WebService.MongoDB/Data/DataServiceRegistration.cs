@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-using KickStart.DependencyInjection;
+using Injectio.Attributes;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,9 +9,10 @@ using Tracker.WebService.Data.Repositories;
 
 namespace Tracker.WebService.Data
 {
-    public class DataServiceRegistration : IDependencyInjectionRegistration
+    public class DataServiceRegistration
     {
-        public void Register(IServiceCollection services, IDictionary<string, object> data)
+        [RegisterServices]
+        public void Register(IServiceCollection services)
         {
             services.AddSingleton(sp =>
             {

@@ -21,7 +21,10 @@ public class TenantDefaultCommandBehavior<TKey, TEntityModel, TResponse>
         _tenantResolver = tenantResolver ?? throw new ArgumentNullException(nameof(tenantResolver));
     }
 
-    protected override async Task<TResponse> Process(EntityModelCommand<TEntityModel, TResponse> request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    protected override async Task<TResponse> Process(
+        EntityModelCommand<TEntityModel, TResponse> request,
+        RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));

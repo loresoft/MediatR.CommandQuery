@@ -21,7 +21,10 @@ public class ValidateEntityModelCommandBehavior<TEntityModel, TResponse>
         _validator = validator ?? throw new ArgumentNullException(nameof(validator));
     }
 
-    protected override async Task<TResponse> Process(EntityModelCommand<TEntityModel, TResponse> request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    protected override async Task<TResponse> Process(
+        EntityModelCommand<TEntityModel, TResponse> request,
+        RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));

@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-using KickStart.DependencyInjection;
+using Injectio.Attributes;
 
 using MediatR.CommandQuery.MongoDB;
 
@@ -13,9 +11,10 @@ using Tracker.WebService.Domain.Models;
 
 namespace Tracker.WebService.Domain
 {
-    public class AuditServiceRegistration : IDependencyInjectionRegistration
+    public class AuditServiceRegistration
     {
-        public void Register(IServiceCollection services, IDictionary<string, object> data)
+        [RegisterServices]
+        public void Register(IServiceCollection services)
         {
             services.AddEntityQueries<IMongoEntityRepository<Audit>, Audit, string, AuditReadModel>();
             services.AddEntityCommands<IMongoEntityRepository<Audit>, Audit, string, AuditReadModel, AuditCreateModel, AuditUpdateModel>();

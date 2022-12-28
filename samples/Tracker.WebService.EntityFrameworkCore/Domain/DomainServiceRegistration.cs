@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-
-using KickStart.DependencyInjection;
+using Injectio.Attributes;
 
 using MediatR.CommandQuery.EntityFrameworkCore;
 
@@ -8,9 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Tracker.WebService.Domain
 {
-    public class DomainServiceRegistration : IDependencyInjectionRegistration
+    public class DomainServiceRegistration
     {
-        public void Register(IServiceCollection services, IDictionary<string, object> data)
+        [RegisterServices]
+        public void Register(IServiceCollection services)
         {
             services.AddMediator();
             services.AddAutoMapper(typeof(DomainServiceRegistration).Assembly);

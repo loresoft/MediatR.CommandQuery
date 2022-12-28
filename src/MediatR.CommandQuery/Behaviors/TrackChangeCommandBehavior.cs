@@ -20,7 +20,10 @@ public class TrackChangeCommandBehavior<TEntityModel, TResponse>
         _principalReader = principalReader;
     }
 
-    protected override async Task<TResponse> Process(EntityModelCommand<TEntityModel, TResponse> request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    protected override async Task<TResponse> Process(
+        EntityModelCommand<TEntityModel, TResponse> request,
+        RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         TrackChange(request);
 

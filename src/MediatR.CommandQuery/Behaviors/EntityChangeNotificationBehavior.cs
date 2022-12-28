@@ -20,7 +20,10 @@ public class EntityChangeNotificationBehavior<TKey, TEntityModel, TResponse>
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
 
-    protected override async Task<TResponse> Process(PrincipalCommandBase<TResponse> request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    protected override async Task<TResponse> Process(
+        PrincipalCommandBase<TResponse> request,
+        RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -35,7 +38,10 @@ public class EntityChangeNotificationBehavior<TKey, TEntityModel, TResponse>
         return response;
     }
 
-    private async Task SendNotification(PrincipalCommandBase<TResponse> request, TResponse response, CancellationToken cancellationToken)
+    private async Task SendNotification(
+        PrincipalCommandBase<TResponse> request,
+        TResponse response,
+        CancellationToken cancellationToken)
     {
         var operation = request switch
         {

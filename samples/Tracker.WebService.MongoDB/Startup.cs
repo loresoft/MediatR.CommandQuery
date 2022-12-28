@@ -1,8 +1,6 @@
 
 using FluentValidation.AspNetCore;
 
-using KickStart;
-
 using MediatR.CommandQuery.Mvc;
 
 using Microsoft.AspNetCore.Builder;
@@ -24,19 +22,11 @@ namespace Tracker.WebService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services
-                .KickStart(c => c
-                    .IncludeAssemblyFor<Startup>()
-                    .Data("hostProcess", "web")
-                    .UseStartupTask()
-                );
-
             services.AddControllers();
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();
-
-            services
-                .AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tracker.WebService", Version = "v1" }));
+            services.AddTrackerWebServiceMongoDB();
+            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tracker.WebService", Version = "v1" }));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
