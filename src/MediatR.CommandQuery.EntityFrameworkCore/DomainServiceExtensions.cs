@@ -24,7 +24,6 @@ public static class DomainServiceExtensions
             throw new System.ArgumentNullException(nameof(services));
 
         // Register MediatR
-        services.TryAddScoped<ServiceFactory>(p => p.GetRequiredService);
         services.TryAddScoped<IMediator, Mediator>();
         services.TryAddScoped<ISender, Mediator>();
         services.TryAddScoped<IPublisher, Mediator>();

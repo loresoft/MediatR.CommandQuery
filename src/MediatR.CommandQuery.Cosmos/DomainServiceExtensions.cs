@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+
 using Cosmos.Abstracts;
+
 using FluentValidation;
+
 using MediatR.CommandQuery.Behaviors;
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Cosmos.Handlers;
@@ -22,7 +25,6 @@ public static class DomainServiceExtensions
             throw new System.ArgumentNullException(nameof(services));
 
         // Register MediatR
-        services.TryAddScoped<ServiceFactory>(p => p.GetRequiredService);
         services.TryAddScoped<IMediator, Mediator>();
         services.TryAddScoped<ISender, Mediator>();
         services.TryAddScoped<IPublisher, Mediator>();
