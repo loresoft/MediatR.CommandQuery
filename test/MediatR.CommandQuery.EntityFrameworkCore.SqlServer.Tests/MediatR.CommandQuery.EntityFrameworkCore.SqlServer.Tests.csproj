@@ -40,7 +40,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\MediatR.CommandQuery.EntityFrameworkCore\MediatR.CommandQuery.EntityFrameworkCore.csproj" />
   </ItemGroup>
+  
   <ItemGroup>
+    <None Update="appsettings.github.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
