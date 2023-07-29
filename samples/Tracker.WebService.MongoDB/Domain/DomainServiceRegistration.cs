@@ -4,16 +4,15 @@ using MediatR.CommandQuery.MongoDB;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Tracker.WebService.Domain
+namespace Tracker.WebService.Domain;
+
+public class DomainServiceRegistration
 {
-    public class DomainServiceRegistration
+    [RegisterServices]
+    public void Register(IServiceCollection services)
     {
-        [RegisterServices]
-        public void Register(IServiceCollection services)
-        {
-            services.AddMediator();
-            services.AddAutoMapper(typeof(DomainServiceRegistration).Assembly);
-            services.AddValidatorsFromAssembly<DomainServiceRegistration>();
-        }
+        services.AddMediator();
+        services.AddAutoMapper(typeof(DomainServiceRegistration).Assembly);
+        services.AddValidatorsFromAssembly<DomainServiceRegistration>();
     }
 }

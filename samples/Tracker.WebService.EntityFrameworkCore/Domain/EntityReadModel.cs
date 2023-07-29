@@ -2,9 +2,8 @@ using System;
 
 using MediatR.CommandQuery.Models;
 
-namespace Tracker.WebService.Domain
+namespace Tracker.WebService.Domain;
+
+public class EntityReadModel : EntityReadModel<Guid>
 {
-    public class EntityReadModel : EntityReadModel<Guid>
-    {
-    }
 }

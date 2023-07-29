@@ -2,9 +2,12 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using AutoMapper;
+
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
+
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

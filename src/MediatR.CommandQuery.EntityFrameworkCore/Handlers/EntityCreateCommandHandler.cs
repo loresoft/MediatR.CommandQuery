@@ -1,9 +1,12 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 using AutoMapper;
+
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

@@ -1,22 +1,21 @@
 using System;
 
-namespace MediatR.CommandQuery.Cosmos.Tests.Domain.Mapping
+namespace MediatR.CommandQuery.Cosmos.Tests.Domain.Mapping;
+
+public partial class AuditProfile
+    : AutoMapper.Profile
 {
-    public partial class AuditProfile
-        : AutoMapper.Profile
+    public AuditProfile()
     {
-        public AuditProfile()
-        {
-            CreateMap<Cosmos.Tests.Data.Entities.Audit, Models.AuditReadModel>();
+        CreateMap<Cosmos.Tests.Data.Entities.Audit, Models.AuditReadModel>();
 
-            CreateMap<Models.AuditReadModel, Models.AuditUpdateModel>();
+        CreateMap<Models.AuditReadModel, Models.AuditUpdateModel>();
 
-            CreateMap<Models.AuditCreateModel, Cosmos.Tests.Data.Entities.Audit>();
+        CreateMap<Models.AuditCreateModel, Cosmos.Tests.Data.Entities.Audit>();
 
-            CreateMap<Cosmos.Tests.Data.Entities.Audit, Models.AuditUpdateModel>();
+        CreateMap<Cosmos.Tests.Data.Entities.Audit, Models.AuditUpdateModel>();
 
-            CreateMap<Models.AuditUpdateModel, Cosmos.Tests.Data.Entities.Audit>();
-        }
-
+        CreateMap<Models.AuditUpdateModel, Cosmos.Tests.Data.Entities.Audit>();
     }
+
 }

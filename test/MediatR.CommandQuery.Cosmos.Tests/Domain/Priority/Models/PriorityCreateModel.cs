@@ -1,18 +1,17 @@
-namespace MediatR.CommandQuery.Cosmos.Tests.Domain.Models
+namespace MediatR.CommandQuery.Cosmos.Tests.Domain.Models;
+
+public partial class PriorityCreateModel
+    : EntityCreateModel
 {
-    public partial class PriorityCreateModel
-        : EntityCreateModel
-    {
-        #region Generated Properties
-        public string Name { get; set; }
+    #region Generated Properties
+    public string Name { get; set; }
 
-        public string Description { get; set; }
+    public string Description { get; set; }
 
-        public int DisplayOrder { get; set; }
+    public int DisplayOrder { get; set; }
 
-        public bool IsActive { get; set; }
+    public bool IsActive { get; set; }
 
-        #endregion
+    #endregion
 
-    }
 }

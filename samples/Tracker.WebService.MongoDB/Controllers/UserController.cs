@@ -1,16 +1,13 @@
-﻿using MediatR;
+using MediatR;
 using MediatR.CommandQuery.Mvc;
 
 using Tracker.WebService.Domain.Models;
 
-namespace Tracker.WebService.Controllers
+namespace Tracker.WebService.Controllers;
+
+public class UserController : EntityCommandControllerBase<string, UserReadModel, UserReadModel, UserCreateModel, UserUpdateModel>
 {
-    public class UserController : EntityCommandControllerBase<string, UserReadModel, UserReadModel, UserCreateModel, UserUpdateModel>
+    public UserController(IMediator mediator) : base(mediator)
     {
-        public UserController(IMediator mediator) : base(mediator)
-        {
-        }
     }
-
-
 }

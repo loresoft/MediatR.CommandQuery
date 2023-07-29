@@ -1,13 +1,12 @@
 using Tracker.WebService.Domain.Models;
 
-namespace Tracker.WebService.Domain.Mapping
+namespace Tracker.WebService.Domain.Mapping;
+
+public class UserLoginProfile
+    : AutoMapper.Profile
 {
-    public class UserLoginProfile
-        : AutoMapper.Profile
+    public UserLoginProfile()
     {
-        public UserLoginProfile()
-        {
-            CreateMap<Data.Entities.UserLogin, UserLoginReadModel>();
-        }
+        CreateMap<Data.Entities.UserLogin, UserLoginReadModel>();
     }
 }

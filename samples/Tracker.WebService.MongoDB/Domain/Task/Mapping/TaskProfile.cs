@@ -1,19 +1,18 @@
-namespace Tracker.WebService.Domain.Mapping
+namespace Tracker.WebService.Domain.Mapping;
+
+public class TaskProfile
+    : AutoMapper.Profile
 {
-    public class TaskProfile
-        : AutoMapper.Profile
+    public TaskProfile()
     {
-        public TaskProfile()
-        {
-            CreateMap<Data.Entities.Task, Models.TaskReadModel>();
+        CreateMap<Data.Entities.Task, Models.TaskReadModel>();
 
-            CreateMap<Models.TaskCreateModel, Data.Entities.Task>();
+        CreateMap<Models.TaskCreateModel, Data.Entities.Task>();
 
-            CreateMap<Models.TaskReadModel, Models.TaskUpdateModel>();
+        CreateMap<Models.TaskReadModel, Models.TaskUpdateModel>();
 
-            CreateMap<Data.Entities.Task, Models.TaskUpdateModel>();
+        CreateMap<Data.Entities.Task, Models.TaskUpdateModel>();
 
-            CreateMap<Models.TaskUpdateModel, Data.Entities.Task>();
-        }
+        CreateMap<Models.TaskUpdateModel, Data.Entities.Task>();
     }
 }

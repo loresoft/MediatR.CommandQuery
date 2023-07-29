@@ -1,12 +1,11 @@
 using MongoDB.Abstracts;
 using MongoDB.Driver;
 
-namespace Tracker.WebService.Data.Repositories
+namespace Tracker.WebService.Data.Repositories;
+
+public class TaskRepository : MongoEntityRepository<Entities.Task>
 {
-    public class TaskRepository : MongoEntityRepository<Entities.Task>
+    public TaskRepository(IMongoDatabase mongoDatabase) : base(mongoDatabase)
     {
-        public TaskRepository(IMongoDatabase mongoDatabase) : base(mongoDatabase)
-        {
-        }
     }
 }

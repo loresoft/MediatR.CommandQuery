@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+
 using MediatR.CommandQuery.Definitions;
 using MediatR.CommandQuery.Queries;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

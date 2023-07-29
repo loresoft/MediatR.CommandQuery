@@ -4,11 +4,15 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading;
 using System.Threading.Tasks;
+
 using AutoMapper;
+
 using Cosmos.Abstracts;
 using Cosmos.Abstracts.Extensions;
+
 using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.Queries;
+
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Cosmos.Handlers;

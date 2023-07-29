@@ -8,15 +8,14 @@ using MongoDB.Abstracts;
 
 using Tracker.WebService.Domain.Models;
 
-namespace Tracker.WebService.Domain
+namespace Tracker.WebService.Domain;
+
+public class RoleServiceRegistration
 {
-    public class RoleServiceRegistration
+    [RegisterServices]
+    public void Register(IServiceCollection services)
     {
-        [RegisterServices]
-        public void Register(IServiceCollection services)
-        {
-            services.AddEntityQueries<IMongoEntityRepository<Data.Entities.Role>, Data.Entities.Role, string, RoleReadModel>();
-            services.AddEntityCommands<IMongoEntityRepository<Data.Entities.Role>, Data.Entities.Role, string, RoleReadModel, RoleCreateModel, RoleUpdateModel>();
-        }
+        services.AddEntityQueries<IMongoEntityRepository<Data.Entities.Role>, Data.Entities.Role, string, RoleReadModel>();
+        services.AddEntityCommands<IMongoEntityRepository<Data.Entities.Role>, Data.Entities.Role, string, RoleReadModel, RoleCreateModel, RoleUpdateModel>();
     }
 }

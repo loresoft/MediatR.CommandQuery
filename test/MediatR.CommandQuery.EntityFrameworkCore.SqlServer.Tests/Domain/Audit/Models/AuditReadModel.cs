@@ -1,22 +1,21 @@
 using System;
 
-namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Audit.Models
+namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Audit.Models;
+
+public partial class AuditReadModel
+    : EntityReadModel
 {
-    public partial class AuditReadModel
-        : EntityReadModel
-    {
-        #region Generated Properties
-        public DateTime Date { get; set; }
+    #region Generated Properties
+    public DateTime Date { get; set; }
 
-        public Guid? UserId { get; set; }
+    public Guid? UserId { get; set; }
 
-        public Guid? TaskId { get; set; }
+    public Guid? TaskId { get; set; }
 
-        public string Content { get; set; }
+    public string Content { get; set; }
 
-        public string Username { get; set; }
+    public string Username { get; set; }
 
-        #endregion
+    #endregion
 
-    }
 }

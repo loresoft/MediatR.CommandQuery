@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Principal;
+
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace MediatR.CommandQuery.Commands;

@@ -2,16 +2,15 @@ using FluentValidation;
 
 using Tracker.WebService.Domain.Models;
 
-namespace Tracker.WebService.Domain.Validation
+namespace Tracker.WebService.Domain.Validation;
+
+public class PriorityCreateModelValidator
+    : AbstractValidator<PriorityCreateModel>
 {
-    public class PriorityCreateModelValidator
-        : AbstractValidator<PriorityCreateModel>
+    public PriorityCreateModelValidator()
     {
-        public PriorityCreateModelValidator()
-        {
-            RuleFor(p => p.Name).NotEmpty();
-            RuleFor(p => p.Name).MaximumLength(100);
-            RuleFor(p => p.Description).MaximumLength(255);
-        }
+        RuleFor(p => p.Name).NotEmpty();
+        RuleFor(p => p.Name).MaximumLength(100);
+        RuleFor(p => p.Description).MaximumLength(255);
     }
 }

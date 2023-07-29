@@ -2,10 +2,14 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
+
 using AutoMapper;
+
 using Cosmos.Abstracts;
+
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
+
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
 

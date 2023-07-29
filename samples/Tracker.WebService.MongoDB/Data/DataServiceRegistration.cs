@@ -7,28 +7,27 @@ using MongoDB.Abstracts;
 
 using Tracker.WebService.Data.Repositories;
 
-namespace Tracker.WebService.Data
+namespace Tracker.WebService.Data;
+
+public class DataServiceRegistration
 {
-    public class DataServiceRegistration
+    [RegisterServices]
+    public void Register(IServiceCollection services)
     {
-        [RegisterServices]
-        public void Register(IServiceCollection services)
+        services.AddSingleton(sp =>
         {
-            services.AddSingleton(sp =>
-            {
-                var configuration = sp.GetRequiredService<IConfiguration>();
-                return MongoFactory.GetDatabaseFromConnectionString(configuration.GetConnectionString("Tracker"));
-            });
+            var configuration = sp.GetRequiredService<IConfiguration>();
+            return MongoFactory.GetDatabaseFromConnectionString(configuration.GetConnectionString("Tracker"));
+        });
 
-            services.AddSingleton(typeof(IMongoEntityRepository<>), typeof(MongoEntityRepository<>));
+        services.AddSingleton(typeof(IMongoEntityRepository<>), typeof(MongoEntityRepository<>));
 
-            services.AddSingleton<AuditRepository>();
-            services.AddSingleton<PriorityRepository>();
-            services.AddSingleton<RoleRepository>();
-            services.AddSingleton<StatusRepository>();
-            services.AddSingleton<TaskRepository>();
-            services.AddSingleton<UserRepository>();
-            services.AddSingleton<UserLoginRepository>();
-        }
+        services.AddSingleton<AuditRepository>();
+        services.AddSingleton<PriorityRepository>();
+        services.AddSingleton<RoleRepository>();
+        services.AddSingleton<StatusRepository>();
+        services.AddSingleton<TaskRepository>();
+        services.AddSingleton<UserRepository>();
+        services.AddSingleton<UserLoginRepository>();
     }
 }

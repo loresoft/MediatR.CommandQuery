@@ -9,18 +9,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Tracker.WebService.Domain.Models;
 
 // ReSharper disable once CheckNamespace
-namespace Tracker.WebService.Domain
+namespace Tracker.WebService.Domain;
+
+public class UserServiceRegistration
 {
-    public class UserServiceRegistration
+    [RegisterServices]
+    public void Register(IServiceCollection services)
     {
-        [RegisterServices]
-        public void Register(IServiceCollection services)
-        {
-            services.AddEntityQueries<Tracker.WebService.Data.TrackerServiceContext, Tracker.WebService.Data.Entities.User, Guid, UserReadModel>();
+        services.AddEntityQueries<Tracker.WebService.Data.TrackerServiceContext, Tracker.WebService.Data.Entities.User, Guid, UserReadModel>();
 
-            services.AddEntityCommands<Tracker.WebService.Data.TrackerServiceContext, Tracker.WebService.Data.Entities.User, Guid, UserReadModel, UserCreateModel, UserUpdateModel>();
-
-        }
+        services.AddEntityCommands<Tracker.WebService.Data.TrackerServiceContext, Tracker.WebService.Data.Entities.User, Guid, UserReadModel, UserCreateModel, UserUpdateModel>();
 
     }
+
 }

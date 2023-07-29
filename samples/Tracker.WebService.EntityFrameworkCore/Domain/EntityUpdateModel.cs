@@ -1,6 +1,5 @@
-namespace Tracker.WebService.Domain
+namespace Tracker.WebService.Domain;
+
+public class EntityUpdateModel : MediatR.CommandQuery.Models.EntityUpdateModel
 {
-    public class EntityUpdateModel : MediatR.CommandQuery.Models.EntityUpdateModel
-    {
-    }
 }

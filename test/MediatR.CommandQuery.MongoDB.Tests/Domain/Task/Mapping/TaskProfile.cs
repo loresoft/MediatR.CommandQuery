@@ -1,22 +1,21 @@
 using System;
 
-namespace MediatR.CommandQuery.MongoDB.Tests.Domain.Mapping
+namespace MediatR.CommandQuery.MongoDB.Tests.Domain.Mapping;
+
+public partial class TaskProfile
+    : AutoMapper.Profile
 {
-    public partial class TaskProfile
-        : AutoMapper.Profile
+    public TaskProfile()
     {
-        public TaskProfile()
-        {
-            CreateMap<Data.Entities.Task, Models.TaskReadModel>();
+        CreateMap<Data.Entities.Task, Models.TaskReadModel>();
 
-            CreateMap<Models.TaskCreateModel, Data.Entities.Task>();
+        CreateMap<Models.TaskCreateModel, Data.Entities.Task>();
 
-            CreateMap<Models.TaskReadModel, Models.TaskUpdateModel>();
+        CreateMap<Models.TaskReadModel, Models.TaskUpdateModel>();
 
-            CreateMap<Data.Entities.Task, Models.TaskUpdateModel>();
+        CreateMap<Data.Entities.Task, Models.TaskUpdateModel>();
 
-            CreateMap<Models.TaskUpdateModel, Data.Entities.Task>();
-        }
-
+        CreateMap<Models.TaskUpdateModel, Data.Entities.Task>();
     }
+
 }

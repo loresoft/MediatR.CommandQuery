@@ -11,17 +11,16 @@ using MongoDB.Abstracts;
 using Tracker.WebService.Domain.Handlers;
 using Tracker.WebService.Domain.Models;
 
-namespace Tracker.WebService.Domain
-{
-    public class TaskServiceRegistration
-    {
-        [RegisterServices]
-        public void Register(IServiceCollection services)
-        {
-            services.AddEntityQueries<IMongoEntityRepository<Data.Entities.Task>, Data.Entities.Task, string, TaskReadModel>();
-            services.AddEntityCommands<IMongoEntityRepository<Data.Entities.Task>, Data.Entities.Task, string, TaskReadModel, TaskCreateModel, TaskUpdateModel>();
+namespace Tracker.WebService.Domain;
 
-            services.AddTransient<INotificationHandler<EntityChangeNotification<TaskReadModel>>, TaskChangedNotificationHandler>();
-        }
+public class TaskServiceRegistration
+{
+    [RegisterServices]
+    public void Register(IServiceCollection services)
+    {
+        services.AddEntityQueries<IMongoEntityRepository<Data.Entities.Task>, Data.Entities.Task, string, TaskReadModel>();
+        services.AddEntityCommands<IMongoEntityRepository<Data.Entities.Task>, Data.Entities.Task, string, TaskReadModel, TaskCreateModel, TaskUpdateModel>();
+
+        services.AddTransient<INotificationHandler<EntityChangeNotification<TaskReadModel>>, TaskChangedNotificationHandler>();
     }
 }

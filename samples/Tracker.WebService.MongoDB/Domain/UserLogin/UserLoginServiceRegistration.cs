@@ -8,14 +8,13 @@ using MongoDB.Abstracts;
 
 using Tracker.WebService.Domain.Models;
 
-namespace Tracker.WebService.Domain
+namespace Tracker.WebService.Domain;
+
+public class UserLoginServiceRegistration
 {
-    public class UserLoginServiceRegistration
+    [RegisterServices]
+    public void Register(IServiceCollection services)
     {
-        [RegisterServices]
-        public void Register(IServiceCollection services)
-        {
-            services.AddEntityQueries<IMongoEntityRepository<Data.Entities.UserLogin>, Data.Entities.UserLogin, string, UserLoginReadModel>();
-        }
+        services.AddEntityQueries<IMongoEntityRepository<Data.Entities.UserLogin>, Data.Entities.UserLogin, string, UserLoginReadModel>();
     }
 }

@@ -3,12 +3,11 @@ using MediatR.CommandQuery.Mvc;
 
 using Tracker.WebService.Domain.Models;
 
-namespace Tracker.WebService.Controllers
+namespace Tracker.WebService.Controllers;
+
+public class AuditController : EntityCommandControllerBase<string, AuditReadModel, AuditReadModel, AuditCreateModel, AuditUpdateModel>
 {
-    public class AuditController : EntityCommandControllerBase<string, AuditReadModel, AuditReadModel, AuditCreateModel, AuditUpdateModel>
+    public AuditController(IMediator mediator) : base(mediator)
     {
-        public AuditController(IMediator mediator) : base(mediator)
-        {
-        }
     }
 }

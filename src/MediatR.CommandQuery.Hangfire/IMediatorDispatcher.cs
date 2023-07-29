@@ -1,5 +1,6 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
+
 using Hangfire;
 
 namespace MediatR.CommandQuery.Hangfire;

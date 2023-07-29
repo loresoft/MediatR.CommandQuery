@@ -1,16 +1,13 @@
-﻿using MediatR;
+using MediatR;
 using MediatR.CommandQuery.Mvc;
 
 using Tracker.WebService.Domain.Models;
 
-namespace Tracker.WebService.Controllers
+namespace Tracker.WebService.Controllers;
+
+public class TaskController : EntityCommandControllerBase<string, TaskReadModel, TaskReadModel, TaskCreateModel, TaskUpdateModel>
 {
-    public class TaskController : EntityCommandControllerBase<string, TaskReadModel, TaskReadModel, TaskCreateModel, TaskUpdateModel>
+    public TaskController(IMediator mediator) : base(mediator)
     {
-        public TaskController(IMediator mediator) : base(mediator)
-        {
-        }
     }
-
-
 }

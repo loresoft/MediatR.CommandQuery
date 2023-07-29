@@ -1,14 +1,13 @@
-namespace MediatR.CommandQuery.MongoDB.Tests.Domain.Models
+namespace MediatR.CommandQuery.MongoDB.Tests.Domain.Models;
+
+public partial class RoleUpdateModel
+    : EntityUpdateModel
 {
-    public partial class RoleUpdateModel
-        : EntityUpdateModel
-    {
-        #region Generated Properties
-        public string Name { get; set; }
+    #region Generated Properties
+    public string Name { get; set; }
 
-        public string Description { get; set; }
+    public string Description { get; set; }
 
-        #endregion
+    #endregion
 
-    }
 }

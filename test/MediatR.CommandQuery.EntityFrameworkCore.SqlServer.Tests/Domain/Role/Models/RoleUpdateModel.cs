@@ -1,16 +1,15 @@
 using System;
 
-namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Role.Models
+namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Role.Models;
+
+public partial class RoleUpdateModel
+    : EntityUpdateModel
 {
-    public partial class RoleUpdateModel
-        : EntityUpdateModel
-    {
-        #region Generated Properties
-        public string Name { get; set; }
+    #region Generated Properties
+    public string Name { get; set; }
 
-        public string Description { get; set; }
+    public string Description { get; set; }
 
-        #endregion
+    #endregion
 
-    }
 }

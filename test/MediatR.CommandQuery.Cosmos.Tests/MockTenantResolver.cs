@@ -1,17 +1,17 @@
-﻿using System;
+using System;
 using System.Security.Principal;
 using System.Threading.Tasks;
+
 using MediatR.CommandQuery.Cosmos.Tests.Constants;
 using MediatR.CommandQuery.Definitions;
 
-namespace MediatR.CommandQuery.Cosmos.Tests
+namespace MediatR.CommandQuery.Cosmos.Tests;
+
+public class MockTenantResolver : ITenantResolver<string>
 {
-    public class MockTenantResolver : ITenantResolver<string>
+    public Task<string> GetTenantId(IPrincipal principal)
     {
-        public Task<string> GetTenantId(IPrincipal principal)
-        {
-            var id = TenantConstants.Test.Id;
-            return Task.FromResult(id);
-        }
+        var id = TenantConstants.Test.Id;
+        return Task.FromResult(id);
     }
 }

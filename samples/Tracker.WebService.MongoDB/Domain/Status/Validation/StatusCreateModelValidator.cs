@@ -1,16 +1,16 @@
 using FluentValidation;
+
 using Tracker.WebService.Domain.Models;
 
-namespace Tracker.WebService.Domain.Validation
+namespace Tracker.WebService.Domain.Validation;
+
+public class StatusCreateModelValidator
+    : AbstractValidator<StatusCreateModel>
 {
-    public class StatusCreateModelValidator
-        : AbstractValidator<StatusCreateModel>
+    public StatusCreateModelValidator()
     {
-        public StatusCreateModelValidator()
-        {
-            RuleFor(p => p.Name).NotEmpty();
-            RuleFor(p => p.Name).MaximumLength(100);
-            RuleFor(p => p.Description).MaximumLength(255);
-        }
+        RuleFor(p => p.Name).NotEmpty();
+        RuleFor(p => p.Name).MaximumLength(100);
+        RuleFor(p => p.Description).MaximumLength(255);
     }
 }

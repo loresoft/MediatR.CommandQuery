@@ -1,17 +1,16 @@
-namespace Tracker.WebService.Domain.Mapping
+namespace Tracker.WebService.Domain.Mapping;
+
+public class PriorityProfile
+    : AutoMapper.Profile
 {
-    public class PriorityProfile
-        : AutoMapper.Profile
+    public PriorityProfile()
     {
-        public PriorityProfile()
-        {
-            CreateMap<Data.Entities.Priority, Models.PriorityReadModel>();
+        CreateMap<Data.Entities.Priority, Models.PriorityReadModel>();
 
-            CreateMap<Models.PriorityCreateModel, Data.Entities.Priority>();
+        CreateMap<Models.PriorityCreateModel, Data.Entities.Priority>();
 
-            CreateMap<Data.Entities.Priority, Models.PriorityUpdateModel>();
+        CreateMap<Data.Entities.Priority, Models.PriorityUpdateModel>();
 
-            CreateMap<Models.PriorityUpdateModel, Data.Entities.Priority>();
-        }
+        CreateMap<Models.PriorityUpdateModel, Data.Entities.Priority>();
     }
 }

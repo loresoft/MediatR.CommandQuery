@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using Cosmos.Abstracts;
 using Cosmos.Abstracts.Extensions;
+
 using Microsoft.Azure.Cosmos;
 
 namespace MediatR.CommandQuery.Cosmos;

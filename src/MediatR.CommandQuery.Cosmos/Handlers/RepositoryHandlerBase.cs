@@ -1,7 +1,11 @@
 using System;
+
 using AutoMapper;
+
 using Cosmos.Abstracts;
+
 using MediatR.CommandQuery.Handlers;
+
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Cosmos.Handlers;

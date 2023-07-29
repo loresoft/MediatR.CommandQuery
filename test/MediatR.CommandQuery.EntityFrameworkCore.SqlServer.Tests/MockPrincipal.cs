@@ -1,33 +1,33 @@
-﻿using System;
+using System;
 using System.Security.Claims;
 using System.Security.Principal;
+
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Constants;
 
-namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests
+namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests;
+
+public class MockPrincipal
 {
-    public class MockPrincipal
+    static MockPrincipal()
     {
-        static MockPrincipal()
-        {
-            Default = CreatePrincipal("william.adama@battlestar.com", "William Adama", UserConstants.WilliamAdama, TenantConstants.Test);
-        }
+        Default = CreatePrincipal("william.adama@battlestar.com", "William Adama", UserConstants.WilliamAdama, TenantConstants.Test);
+    }
 
 
-        public static IPrincipal Default { get; }
+    public static IPrincipal Default { get; }
 
 
 
-        public static ClaimsPrincipal CreatePrincipal(string email, string name, Guid userId, Guid tenantId)
-        {
-            var claimsIdentity = new ClaimsIdentity("Identity.Application", ClaimTypes.Name, ClaimTypes.Role);
-            claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId.ToString()));
-            claimsIdentity.AddClaim(new Claim(ClaimTypes.Name, name));
+    public static ClaimsPrincipal CreatePrincipal(string email, string name, Guid userId, Guid tenantId)
+    {
+        var claimsIdentity = new ClaimsIdentity("Identity.Application", ClaimTypes.Name, ClaimTypes.Role);
+        claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId.ToString()));
+        claimsIdentity.AddClaim(new Claim(ClaimTypes.Name, name));
 
-            claimsIdentity.AddClaim(new Claim(ClaimTypes.Email, email));
-            claimsIdentity.AddClaim(new Claim("tenant_id", tenantId.ToString()));
+        claimsIdentity.AddClaim(new Claim(ClaimTypes.Email, email));
+        claimsIdentity.AddClaim(new Claim("tenant_id", tenantId.ToString()));
 
-            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-            return claimsPrincipal;
-        }
+        var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+        return claimsPrincipal;
     }
 }

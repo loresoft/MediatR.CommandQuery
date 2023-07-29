@@ -1,4 +1,4 @@
-﻿namespace MediatR.CommandQuery.Definitions;
+namespace MediatR.CommandQuery.Definitions;
 
 public interface ITrackDeleted
 {

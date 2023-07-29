@@ -1,16 +1,15 @@
-namespace MediatR.CommandQuery.MongoDB.Tests.Domain.Models
+namespace MediatR.CommandQuery.MongoDB.Tests.Domain.Models;
+
+public partial class TenantReadModel
+    : EntityReadModel
 {
-    public partial class TenantReadModel
-        : EntityReadModel
-    {
-        #region Generated Properties
-        public string Name { get; set; }
+    #region Generated Properties
+    public string Name { get; set; }
 
-        public string Description { get; set; }
+    public string Description { get; set; }
 
-        public bool IsActive { get; set; }
+    public bool IsActive { get; set; }
 
-        #endregion
+    #endregion
 
-    }
 }

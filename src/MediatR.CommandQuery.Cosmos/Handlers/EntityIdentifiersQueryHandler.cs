@@ -2,11 +2,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+
 using AutoMapper;
+
 using Cosmos.Abstracts;
 using Cosmos.Abstracts.Extensions;
+
 using MediatR.CommandQuery.Definitions;
 using MediatR.CommandQuery.Queries;
+
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
 
