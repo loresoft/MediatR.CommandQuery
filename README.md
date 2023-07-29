@@ -2,7 +2,7 @@
 
 CQRS framework using MediatR and AutoMapper
 
-[![Build status](https://ci.appveyor.com/api/projects/status/tdk5q4dx7l0e2vkm?svg=true)](https://ci.appveyor.com/project/LoreSoft/mediatr-commandquery)
+[![Build Project](https://github.com/loresoft/MediatR.CommandQuery/actions/workflows/dotnet.yml/badge.svg)](https://github.com/loresoft/MediatR.CommandQuery/actions/workflows/dotnet.yml)
 
 [![Coverage Status](https://coveralls.io/repos/github/loresoft/MediatR.CommandQuery/badge.svg?branch=master)](https://coveralls.io/github/loresoft/MediatR.CommandQuery?branch=master)
 

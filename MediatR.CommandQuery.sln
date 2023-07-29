@@ -9,12 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Tests"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{63F0C18C-13A5-4D95-9365-47215BCDADF4}"
 	ProjectSection(SolutionItems) = preProject
-		appveyor.yml = appveyor.yml
-		build\common.props = build\common.props
+		coverlet.runsettings = coverlet.runsettings
+		src\Directory.Build.props = src\Directory.Build.props
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		README.md = README.md
-		build\sourcelink.props = build\sourcelink.props
-		build\version.props = build\version.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests", "test\MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests\MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.csproj", "{88E3A397-8D0C-40D8-8999-297914CCAA8A}"
