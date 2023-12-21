@@ -3,9 +3,7 @@ using System.Collections.Generic;
 
 using AutoMapper;
 
-using DataGenerator;
-
-using FluentAssertions;
+using Bogus;
 
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.MongoDB.Tests.Constants;
@@ -16,16 +14,15 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.Extensions.DependencyInjection;
 
-using MongoDB.Abstracts;
 using MongoDB.Bson;
 
-using Xunit;
 using Xunit.Abstractions;
 
 using Task = System.Threading.Tasks.Task;
 
 namespace MediatR.CommandQuery.MongoDB.Tests.Acceptance;
 
+[Collection(DatabaseCollection.CollectionName)]
 public class TaskTests : DatabaseTestBase
 {
     public TaskTests(ITestOutputHelper output, DatabaseFixture databaseFixture)
@@ -44,21 +41,23 @@ public class TaskTests : DatabaseTestBase
         mapper.Should().NotBeNull();
 
         // Create Entity
-        var createModel = Generator.Default.Single<TaskCreateModel>();
-        createModel.Id = ObjectId.GenerateNewId().ToString();
-        createModel.Title = "Testing";
-        createModel.Description = "Test " + DateTime.Now.Ticks;
-        createModel.StatusId = StatusConstants.NotStarted.Id;
-        createModel.TenantId = TenantConstants.Test.Id;
+        var generator = new Faker<TaskCreateModel>()
+            .RuleFor(t => t.TenantId, f => TenantConstants.Test.Id)
+            .RuleFor(t => t.StatusId, f => StatusConstants.NotStarted.Id)
+            .RuleFor(t => t.PriorityId, f => PriorityConstants.Normal.Id)
+            .RuleFor(t => t.Title, f => f.Lorem.Word())
+            .RuleFor(t => t.Description, f => f.Lorem.Sentence());
+
+        var createModel = generator.Generate();
 
         var createCommand = new EntityCreateCommand<TaskCreateModel, TaskReadModel>(MockPrincipal.Default, createModel);
-        var createResult = await mediator.Send(createCommand).ConfigureAwait(false);
+        var createResult = await mediator.Send(createCommand);
         createResult.Should().NotBeNull();
 
         // Get Entity by Key
         var key = createResult.Id;
         var identifierQuery = new EntityIdentifierQuery<string, TaskReadModel>(MockPrincipal.Default, key);
-        var identifierResult = await mediator.Send(identifierQuery).ConfigureAwait(false);
+        var identifierResult = await mediator.Send(identifierQuery);
         identifierResult.Should().NotBeNull();
         identifierResult.Title.Should().Be(createModel.Title);
 
@@ -70,7 +69,7 @@ public class TaskTests : DatabaseTestBase
         };
         var listQuery = new EntityPagedQuery<TaskReadModel>(MockPrincipal.Default, entityQuery);
 
-        var listResult = await mediator.Send(listQuery).ConfigureAwait(false);
+        var listResult = await mediator.Send(listQuery);
         listResult.Should().NotBeNull();
 
         // Patch Entity
@@ -83,7 +82,7 @@ public class TaskTests : DatabaseTestBase
         });
 
         var patchCommand = new EntityPatchCommand<string, TaskReadModel>(MockPrincipal.Default, key, patchModel);
-        var patchResult = await mediator.Send(patchCommand).ConfigureAwait(false);
+        var patchResult = await mediator.Send(patchCommand);
         patchResult.Should().NotBeNull();
         patchResult.Title.Should().Be("Patch Update");
 
@@ -92,13 +91,13 @@ public class TaskTests : DatabaseTestBase
         updateModel.Title = "Update Command";
 
         var updateCommand = new EntityUpdateCommand<string, TaskUpdateModel, TaskReadModel>(MockPrincipal.Default, key, updateModel);
-        var updateResult = await mediator.Send(updateCommand).ConfigureAwait(false);
+        var updateResult = await mediator.Send(updateCommand);
         updateResult.Should().NotBeNull();
         updateResult.Title.Should().Be("Update Command");
 
         // Delete Entity
         var deleteCommand = new EntityDeleteCommand<string, TaskReadModel>(MockPrincipal.Default, key);
-        var deleteResult = await mediator.Send(deleteCommand).ConfigureAwait(false);
+        var deleteResult = await mediator.Send(deleteCommand);
         deleteResult.Should().NotBeNull();
         deleteResult.Id.Should().Be(createResult.Id);
     }
@@ -116,20 +115,23 @@ public class TaskTests : DatabaseTestBase
         mapper.Should().NotBeNull();
 
         // Update Entity
-        var updateModel = Generator.Default.Single<TaskUpdateModel>();
-        updateModel.Title = "Upsert Test";
-        updateModel.Description = "Insert " + DateTime.Now.Ticks;
-        updateModel.StatusId = StatusConstants.NotStarted.Id;
-        updateModel.TenantId = TenantConstants.Test.Id;
+        var generator = new Faker<TaskUpdateModel>()
+            .RuleFor(t => t.TenantId, f => TenantConstants.Test.Id)
+            .RuleFor(t => t.StatusId, f => StatusConstants.NotStarted.Id)
+            .RuleFor(t => t.PriorityId, f => PriorityConstants.Normal.Id)
+            .RuleFor(t => t.Title, f => f.Lorem.Word())
+            .RuleFor(t => t.Description, f => f.Lorem.Sentence());
+
+        var updateModel = generator.Generate();
 
         var upsertCommandNew = new EntityUpsertCommand<string, TaskUpdateModel, TaskReadModel>(MockPrincipal.Default, key, updateModel);
-        var upsertResultNew = await mediator.Send(upsertCommandNew).ConfigureAwait(false);
+        var upsertResultNew = await mediator.Send(upsertCommandNew);
         upsertResultNew.Should().NotBeNull();
         upsertResultNew.Id.Should().Be(key);
 
         // Get Entity by Key
         var identifierQuery = new EntityIdentifierQuery<string, TaskReadModel>(MockPrincipal.Default, key);
-        var identifierResult = await mediator.Send(identifierQuery).ConfigureAwait(false);
+        var identifierResult = await mediator.Send(identifierQuery);
         identifierResult.Should().NotBeNull();
         identifierResult.Title.Should().Be(updateModel.Title);
 
@@ -138,7 +140,7 @@ public class TaskTests : DatabaseTestBase
 
         // Upsert again, should be update
         var upsertCommandUpdate = new EntityUpsertCommand<string, TaskUpdateModel, TaskReadModel>(MockPrincipal.Default, key, updateModel);
-        var upsertResultUpdate = await mediator.Send(upsertCommandUpdate).ConfigureAwait(false);
+        var upsertResultUpdate = await mediator.Send(upsertCommandUpdate);
         upsertResultUpdate.Should().NotBeNull();
         upsertResultUpdate.Description.Should().NotBe(upsertResultNew.Description);
     }
@@ -154,11 +156,14 @@ public class TaskTests : DatabaseTestBase
         mapper.Should().NotBeNull();
 
         // Create Entity
-        var createModel = Generator.Default.Single<TaskCreateModel>();
-        createModel.Title = "Testing";
-        createModel.Description = "Test " + DateTime.Now.Ticks;
-        createModel.StatusId = StatusConstants.NotStarted.Id;
-        createModel.TenantId = Guid.NewGuid().ToString();
+        var generator = new Faker<TaskCreateModel>()
+            .RuleFor(t => t.TenantId, f => Guid.NewGuid().ToString())
+            .RuleFor(t => t.StatusId, f => StatusConstants.NotStarted.Id)
+            .RuleFor(t => t.PriorityId, f => PriorityConstants.Normal.Id)
+            .RuleFor(t => t.Title, f => f.Lorem.Word())
+            .RuleFor(t => t.Description, f => f.Lorem.Sentence());
+
+        var createModel = generator.Generate();
 
         var createCommand = new EntityCreateCommand<TaskCreateModel, TaskReadModel>(MockPrincipal.Default, createModel);
         await Assert.ThrowsAsync<DomainException>(() => mediator.Send(createCommand));
@@ -175,15 +180,16 @@ public class TaskTests : DatabaseTestBase
         mapper.Should().NotBeNull();
 
         // Create Entity
-        var createModel = Generator.Default.Single<TaskCreateModel>();
-        createModel.Id = ObjectId.GenerateNewId().ToString();
-        createModel.Title = "Testing";
-        createModel.Description = "Test " + DateTime.Now.Ticks;
-        createModel.StatusId = StatusConstants.NotStarted.Id;
-        createModel.TenantId = null;
+        var generator = new Faker<TaskCreateModel>()
+            .RuleFor(t => t.StatusId, f => StatusConstants.NotStarted.Id)
+            .RuleFor(t => t.PriorityId, f => PriorityConstants.Normal.Id)
+            .RuleFor(t => t.Title, f => f.Lorem.Word())
+            .RuleFor(t => t.Description, f => f.Lorem.Sentence());
+
+        var createModel = generator.Generate();
 
         var createCommand = new EntityCreateCommand<TaskCreateModel, TaskReadModel>(MockPrincipal.Default, createModel);
-        var createResult = await mediator.Send(createCommand).ConfigureAwait(false);
+        var createResult = await mediator.Send(createCommand);
 
         createResult.Should().NotBeNull();
         createResult.TenantId.Should().Be(TenantConstants.Test.Id);
@@ -203,7 +209,7 @@ public class TaskTests : DatabaseTestBase
         var entityQuery = new EntityQuery { Filter = filter };
         var pagedQuery = new EntityPagedQuery<TaskReadModel>(MockPrincipal.Default, entityQuery);
 
-        var selectResult = await mediator.Send(pagedQuery).ConfigureAwait(false);
+        var selectResult = await mediator.Send(pagedQuery);
         selectResult.Should().NotBeNull();
     }
 
@@ -221,7 +227,7 @@ public class TaskTests : DatabaseTestBase
         var select = new EntitySelect(filter);
         var selectQuery = new EntitySelectQuery<TaskReadModel>(MockPrincipal.Default, select);
 
-        var selectResult = await mediator.Send(selectQuery).ConfigureAwait(false);
+        var selectResult = await mediator.Send(selectQuery);
         selectResult.Should().NotBeNull();
     }
 
@@ -239,7 +245,7 @@ public class TaskTests : DatabaseTestBase
         var select = new EntitySelect(filter);
         var selectQuery = new EntitySelectQuery<TaskReadModel>(MockPrincipal.Default, select);
 
-        var selectResult = await mediator.Send(selectQuery).ConfigureAwait(false);
+        var selectResult = await mediator.Send(selectQuery);
         selectResult.Should().NotBeNull();
     }
 
@@ -266,7 +272,7 @@ public class TaskTests : DatabaseTestBase
         var select = new EntitySelect(filter);
         var selectQuery = new EntitySelectQuery<TaskReadModel>(MockPrincipal.Default, select);
 
-        var selectResult = await mediator.Send(selectQuery).ConfigureAwait(false);
+        var selectResult = await mediator.Send(selectQuery);
         selectResult.Should().NotBeNull();
     }
 }

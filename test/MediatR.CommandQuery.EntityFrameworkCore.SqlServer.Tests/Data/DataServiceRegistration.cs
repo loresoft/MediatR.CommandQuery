@@ -1,27 +1,23 @@
-using System;
-using System.Collections.Generic;
-
-using KickStart.DependencyInjection;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data;
 
-public class DataServiceRegistration : IDependencyInjectionRegistration
+public class DataServiceRegistration
 {
-    public void Register(IServiceCollection services, IDictionary<string, object> data)
+    [RegisterServices]
+    public void Register(IServiceCollection services)
     {
-        data.TryGetValue("configuration", out var configurationData);
+        services.AddDbContext<TrackerContext>(
+            optionsAction: (provider, options) =>
+            {
+                var configuration = provider.GetRequiredService<IConfiguration>();
+                var connectionString = configuration.GetConnectionString("Tracker");
 
-        if (!(configurationData is IConfiguration configuration))
-            return;
-
-        var connectionString = configuration.GetConnectionString("Tracker");
-
-        services.AddDbContext<TrackerContext>(options => options
-            .UseSqlServer(connectionString)
-        );
+                options.UseSqlServer(connectionString, providerOptions => providerOptions.EnableRetryOnFailure());
+            },
+            contextLifetime: ServiceLifetime.Transient,
+            optionsLifetime: ServiceLifetime.Transient);
     }
 }

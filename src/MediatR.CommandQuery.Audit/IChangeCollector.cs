@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 using MediatR.CommandQuery.Definitions;
 
 namespace MediatR.CommandQuery.Audit;

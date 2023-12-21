@@ -1,10 +1,6 @@
 using System.Collections.Generic;
 
-using FluentAssertions;
-
 using Microsoft.Azure.Cosmos;
-
-using Xunit;
 
 namespace MediatR.CommandQuery.Cosmos.Tests;
 

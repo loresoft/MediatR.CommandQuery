@@ -1,5 +1,3 @@
-using Xunit;
-
 namespace MediatR.CommandQuery.Cosmos.Tests;
 
 [CollectionDefinition(DatabaseCollection.CollectionName)]

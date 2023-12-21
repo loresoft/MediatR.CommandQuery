@@ -1,30 +1,19 @@
 using System;
 
-using Xunit;
 using Xunit.Abstractions;
+
+using XUnit.Hosting;
 
 namespace MediatR.CommandQuery.Cosmos.Tests;
 
 [Collection(DatabaseCollection.CollectionName)]
-public abstract class DatabaseTestBase : IDisposable
+public abstract class DatabaseTestBase : TestHostBase<DatabaseFixture>
 {
     protected DatabaseTestBase(ITestOutputHelper output, DatabaseFixture databaseFixture)
+        : base(output, databaseFixture)
     {
-        Output = output;
-        Fixture = databaseFixture;
-        Fixture?.Report(Output);
     }
 
+    public IServiceProvider ServiceProvider => Fixture.Services;
 
-    public ITestOutputHelper Output { get; }
-
-    public DatabaseFixture Fixture { get; }
-
-    public IServiceProvider ServiceProvider => Fixture?.ServiceProvider;
-
-
-    public void Dispose()
-    {
-        Fixture?.Report(Output);
-    }
 }

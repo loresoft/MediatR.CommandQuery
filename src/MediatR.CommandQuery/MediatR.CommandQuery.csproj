@@ -1,19 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <NoWarn>1591</NoWarn>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.6.0" />
-    <PackageReference Include="MediatR" Version="12.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="7.0.9" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.3" />
-    <PackageReference Include="System.Text.Json" Version="7.0.3" />
+    <PackageReference Include="FluentValidation" Version="11.8.1" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.7" />
+    <PackageReference Include="System.Text.Json" Version="8.0.0" />
   </ItemGroup>
 
 </Project>

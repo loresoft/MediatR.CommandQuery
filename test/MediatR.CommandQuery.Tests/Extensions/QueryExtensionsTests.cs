@@ -4,6 +4,8 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Linq.Dynamic.Core.Exceptions;
 
+using Bogus;
+
 using FluentAssertions;
 
 using MediatR.CommandQuery.Extensions;
@@ -19,7 +21,12 @@ public class QueryExtensionsTests
     [Fact]
     public void PageNormal()
     {
-        var fruits = DataGenerator.Generator.Default.List<Fruit>(20);
+        var generator = new Faker<Fruit>()
+            .RuleFor(p => p.Id, (faker, model) => Guid.NewGuid())
+            .RuleFor(p => p.Name, (faker, model) => faker.Name.FirstName())
+            .RuleFor(p => p.Rank, (faker, model) => faker.Random.Int(1, 10));
+
+        var fruits = generator.Generate(20);
         fruits.Should().NotBeEmpty();
 
         var list = fruits
@@ -34,7 +41,12 @@ public class QueryExtensionsTests
     [Fact]
     public void PageNextPage()
     {
-        var fruits = DataGenerator.Generator.Default.List<Fruit>(20);
+        var generator = new Faker<Fruit>()
+            .RuleFor(p => p.Id, (faker, model) => Guid.NewGuid())
+            .RuleFor(p => p.Name, (faker, model) => faker.Name.FirstName())
+            .RuleFor(p => p.Rank, (faker, model) => faker.Random.Int(1, 10));
+
+        var fruits = generator.Generate(20);
         fruits.Should().NotBeEmpty();
 
         var list = fruits
@@ -51,7 +63,12 @@ public class QueryExtensionsTests
     [Fact]
     public void PageNextPageOutOfRange()
     {
-        var fruits = DataGenerator.Generator.Default.List<Fruit>(20);
+        var generator = new Faker<Fruit>()
+            .RuleFor(p => p.Id, (faker, model) => Guid.NewGuid())
+            .RuleFor(p => p.Name, (faker, model) => faker.Name.FirstName())
+            .RuleFor(p => p.Rank, (faker, model) => faker.Random.Int(1, 10));
+
+        var fruits = generator.Generate(20);
         fruits.Should().NotBeEmpty();
 
         var list = fruits
@@ -65,7 +82,12 @@ public class QueryExtensionsTests
     [Fact]
     public void PageIndexOutOfRange()
     {
-        var fruits = DataGenerator.Generator.Default.List<Fruit>(20);
+        var generator = new Faker<Fruit>()
+            .RuleFor(p => p.Id, (faker, model) => Guid.NewGuid())
+            .RuleFor(p => p.Name, (faker, model) => faker.Name.FirstName())
+            .RuleFor(p => p.Rank, (faker, model) => faker.Random.Int(1, 10));
+
+        var fruits = generator.Generate(20);
         fruits.Should().NotBeEmpty();
 
         Action act = () => fruits

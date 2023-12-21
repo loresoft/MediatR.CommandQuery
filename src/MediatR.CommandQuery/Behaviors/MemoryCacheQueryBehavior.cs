@@ -1,7 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-
 using MediatR.CommandQuery.Definitions;
 
 using Microsoft.Extensions.Caching.Memory;
@@ -37,10 +33,10 @@ public partial class MemoryCacheQueryBehavior<TRequest, TResponse> : PipelineBeh
 
         var cacheKey = cacheRequest.GetCacheKey();
 
-        if (_memoryCache.TryGetValue(cacheKey, out TResponse cachedResult))
+        if (_memoryCache.TryGetValue(cacheKey, out TResponse? cachedResult))
         {
             LogCacheAction(Logger, "Hit", cacheKey);
-            return cachedResult;
+            return cachedResult!;
         }
 
         LogCacheAction(Logger, "Miss", cacheKey);

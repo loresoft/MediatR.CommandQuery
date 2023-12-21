@@ -16,6 +16,7 @@ using Xunit.Abstractions;
 
 namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance;
 
+[Collection(DatabaseCollection.CollectionName)]
 public class PriorityTests : DatabaseTestBase
 {
     public PriorityTests(ITestOutputHelper output, DatabaseFixture databaseFixture)
@@ -34,7 +35,7 @@ public class PriorityTests : DatabaseTestBase
         mapper.Should().NotBeNull();
 
         var identifierQuery = new EntityIdentifierQuery<string, PriorityReadModel>(MockPrincipal.Default, PriorityConstants.Normal.ToCosmosKey());
-        var identifierResult = await mediator.Send(identifierQuery).ConfigureAwait(false);
+        var identifierResult = await mediator.Send(identifierQuery);
         identifierResult.Should().NotBeNull();
         identifierResult.Id.Should().Be(PriorityConstants.Normal.Id);
     }
@@ -56,7 +57,7 @@ public class PriorityTests : DatabaseTestBase
         };
 
         var identifierQuery = new EntityIdentifiersQuery<string, PriorityReadModel>(MockPrincipal.Default, identifiers);
-        var identifierResults = await mediator.Send(identifierQuery).ConfigureAwait(false);
+        var identifierResults = await mediator.Send(identifierQuery);
 
         identifierResults.Should().NotBeNull();
         identifierResults.Count.Should().Be(2);
@@ -86,7 +87,7 @@ public class PriorityTests : DatabaseTestBase
         };
         var listQuery = new EntityPagedQuery<PriorityReadModel>(MockPrincipal.Default, entityQuery);
 
-        var listResult = await mediator.Send(listQuery).ConfigureAwait(false);
+        var listResult = await mediator.Send(listQuery);
         listResult.Should().NotBeNull();
         listResult.Total.Should().Be(2);
     }

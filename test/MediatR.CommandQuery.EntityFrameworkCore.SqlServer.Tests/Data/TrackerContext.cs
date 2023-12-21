@@ -1,8 +1,3 @@
-using System;
-
-using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities;
-using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Mapping;
-
 using Microsoft.EntityFrameworkCore;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data;

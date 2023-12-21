@@ -1,7 +1,3 @@
-using System;
-
-using Xunit;
-
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests;
 
 [CollectionDefinition(DatabaseCollection.CollectionName)]

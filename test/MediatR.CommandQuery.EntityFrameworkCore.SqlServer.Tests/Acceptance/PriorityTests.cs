@@ -4,19 +4,17 @@ using System.Threading.Tasks;
 
 using AutoMapper;
 
-using FluentAssertions;
-
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Constants;
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Priority.Models;
 using MediatR.CommandQuery.Queries;
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Xunit;
 using Xunit.Abstractions;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance;
 
+[Collection(DatabaseCollection.CollectionName)]
 public class PriorityTests : DatabaseTestBase
 {
     public PriorityTests(ITestOutputHelper output, DatabaseFixture databaseFixture)
@@ -35,7 +33,7 @@ public class PriorityTests : DatabaseTestBase
         mapper.Should().NotBeNull();
 
         var identifierQuery = new EntityIdentifierQuery<Guid, PriorityReadModel>(MockPrincipal.Default, PriorityConstants.Normal);
-        var identifierResult = await mediator.Send(identifierQuery).ConfigureAwait(false);
+        var identifierResult = await mediator.Send(identifierQuery);
         identifierResult.Should().NotBeNull();
         identifierResult.Id.Should().Be(PriorityConstants.Normal);
     }
@@ -57,7 +55,7 @@ public class PriorityTests : DatabaseTestBase
         };
 
         var identifierQuery = new EntityIdentifiersQuery<Guid, PriorityReadModel>(MockPrincipal.Default, identifiers);
-        var identifierResults = await mediator.Send(identifierQuery).ConfigureAwait(false);
+        var identifierResults = await mediator.Send(identifierQuery);
 
         identifierResults.Should().NotBeNull();
         identifierResults.Count.Should().Be(2);
@@ -87,7 +85,7 @@ public class PriorityTests : DatabaseTestBase
         };
         var listQuery = new EntityPagedQuery<PriorityReadModel>(MockPrincipal.Default, entityQuery);
 
-        var listResult = await mediator.Send(listQuery).ConfigureAwait(false);
+        var listResult = await mediator.Send(listQuery);
         listResult.Should().NotBeNull();
         listResult.Total.Should().Be(2);
     }

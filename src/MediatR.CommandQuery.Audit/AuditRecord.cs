@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using EntityChange;
@@ -56,7 +54,7 @@ public class AuditRecord<TKey>
     /// Gets or sets the username that initiated the activity.
     /// </summary>
     /// <value>
-    /// The the username that initiated the activity.
+    /// The username that initiated the activity.
     /// </value>
     public string? ActivityBy { get; set; }
 

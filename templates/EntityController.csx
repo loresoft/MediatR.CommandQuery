@@ -38,15 +38,12 @@ public string WriteCode()
 
     CodeBuilder.AppendLine();
 
-    CodeBuilder.AppendLine($"namespace {TemplateOptions.Namespace}");
-    CodeBuilder.AppendLine("{");
+    CodeBuilder.AppendLine($"namespace {TemplateOptions.Namespace};");
+    CodeBuilder.AppendLine();
 
-    using (CodeBuilder.Indent())
-    {
-        GenerateClass(readModel, createModel, updateModel);
-    }
-
-    CodeBuilder.AppendLine("}");
+    GenerateClass(readModel, createModel, updateModel);
+    
+    CodeBuilder.AppendLine();
 
     return CodeBuilder.ToString();
 }

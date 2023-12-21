@@ -31,7 +31,6 @@ public string WriteCode()
 
     CodeBuilder.AppendLine("using System;");
     CodeBuilder.AppendLine("using System.Collections.Generic;");
-    CodeBuilder.AppendLine("using KickStart.DependencyInjection;");
     CodeBuilder.AppendLine("using MediatR.CommandQuery.EntityFrameworkCore;");
     CodeBuilder.AppendLine("using Microsoft.Extensions.DependencyInjection;");
 
@@ -40,15 +39,12 @@ public string WriteCode()
 
     CodeBuilder.AppendLine();
     CodeBuilder.AppendLine("// ReSharper disable once CheckNamespace");
-    CodeBuilder.AppendLine($"namespace {TemplateOptions.Namespace}");
-    CodeBuilder.AppendLine("{");
+    CodeBuilder.AppendLine($"namespace {TemplateOptions.Namespace};");
+    CodeBuilder.AppendLine();
 
-    using (CodeBuilder.Indent())
-    {
-        GenerateClass(readModel, createModel, updateModel);
-    }
+    GenerateClass(readModel, createModel, updateModel);
 
-    CodeBuilder.AppendLine("}");
+    CodeBuilder.AppendLine();
 
     return CodeBuilder.ToString();
 }
@@ -57,7 +53,7 @@ private void GenerateClass(string readModel, string createModel, string updateMo
 {
     string className = System.IO.Path.GetFileNameWithoutExtension(TemplateOptions.FileName);
 
-    CodeBuilder.AppendLine($"public class {className} : IDependencyInjectionRegistration");
+    CodeBuilder.AppendLine($"public class {className}");
     CodeBuilder.AppendLine("{");
 
     using (CodeBuilder.Indent())
@@ -79,7 +75,8 @@ private void GenerateRegister(string readModel, string createModel, string updat
 
     var keyType = TemplateOptions.Parameters["keyType"];
 
-    CodeBuilder.AppendLine($"public void Register(IServiceCollection services, IDictionary<string, object> data)");
+    CodeBuilder.AppendLine($"[RegisterServices]");
+    CodeBuilder.AppendLine($"public void Register(IServiceCollection services)");
     CodeBuilder.AppendLine("{");
 
     using (CodeBuilder.Indent())

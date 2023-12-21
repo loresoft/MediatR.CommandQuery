@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-
-using KickStart.DependencyInjection;
 
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data;
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Task.Handlers;
@@ -13,9 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 // ReSharper disable once CheckNamespace
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Task;
 
-public class TaskServiceRegistration : IDependencyInjectionRegistration
+public class TaskServiceRegistration
 {
-    public void Register(IServiceCollection services, IDictionary<string, object> data)
+    [RegisterServices]
+    public void Register(IServiceCollection services)
     {
         services.AddEntityQueries<TrackerContext, Data.Entities.Task, Guid, TaskReadModel>();
         services.AddEntityCommands<TrackerContext, Data.Entities.Task, Guid, TaskReadModel, TaskCreateModel, TaskUpdateModel>();
