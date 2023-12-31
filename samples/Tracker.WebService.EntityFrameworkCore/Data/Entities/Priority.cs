@@ -33,7 +33,7 @@ public partial class Priority : IHaveIdentifier<Guid>, ITrackCreated, ITrackUpda
 
     public string? UpdatedBy { get; set; }
 
-    public Byte[] RowVersion { get; set; } = null!;
+    public long RowVersion { get; set; }
 
     #endregion
 

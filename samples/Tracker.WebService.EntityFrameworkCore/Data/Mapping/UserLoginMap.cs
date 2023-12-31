@@ -71,7 +71,8 @@ public partial class UserLoginMap
         builder.Property(t => t.IsSuccessful)
             .IsRequired()
             .HasColumnName("IsSuccessful")
-            .HasColumnType("bit");
+            .HasColumnType("bit")
+            .HasDefaultValue(false);
 
         builder.Property(t => t.FailureMessage)
             .HasColumnName("FailureMessage")
@@ -102,10 +103,11 @@ public partial class UserLoginMap
 
         builder.Property(t => t.RowVersion)
             .IsRequired()
+            .HasConversion<byte[]>()
             .IsRowVersion()
+            .IsConcurrencyToken()
             .HasColumnName("RowVersion")
             .HasColumnType("rowversion")
-            .HasMaxLength(8)
             .ValueGeneratedOnAddOrUpdate();
 
         // relationships
@@ -118,13 +120,13 @@ public partial class UserLoginMap
     }
 
     #region Generated Constants
-    public struct Table
+    public readonly struct Table
     {
         public const string Schema = "dbo";
         public const string Name = "UserLogin";
     }
 
-    public struct Columns
+    public readonly struct Columns
     {
         public const string Id = "Id";
         public const string EmailAddress = "EmailAddress";

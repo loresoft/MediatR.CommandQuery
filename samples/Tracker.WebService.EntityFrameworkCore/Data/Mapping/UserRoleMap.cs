@@ -43,13 +43,13 @@ public partial class UserRoleMap
     }
 
     #region Generated Constants
-    public struct Table
+    public readonly struct Table
     {
         public const string Schema = "dbo";
         public const string Name = "UserRole";
     }
 
-    public struct Columns
+    public readonly struct Columns
     {
         public const string UserId = "UserId";
         public const string RoleId = "RoleId";

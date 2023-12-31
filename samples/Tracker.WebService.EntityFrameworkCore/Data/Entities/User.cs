@@ -49,7 +49,7 @@ public partial class User : IHaveIdentifier<Guid>, ITrackCreated, ITrackUpdated
 
     public string? UpdatedBy { get; set; }
 
-    public Byte[] RowVersion { get; set; } = null!;
+    public long RowVersion { get; set; }
 
     #endregion
 

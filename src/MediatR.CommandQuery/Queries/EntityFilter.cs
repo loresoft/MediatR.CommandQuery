@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace MediatR.CommandQuery.Queries;
 
-[JsonConverter(typeof(EntityFilterCoverter))]
+[JsonConverter(typeof(EntityFilterConverter))]
 public class EntityFilter
 {
     [JsonPropertyName("name")]

@@ -12,16 +12,13 @@ public partial class UserProfile
 {
     public UserProfile()
     {
-        CreateMap<Tracker.WebService.Data.Entities.User, Tracker.WebService.Domain.Models.UserReadModel>()
-            .ForMember(d => d.RowVersion, opt => opt.MapFrom(s => Convert.ToBase64String(s.RowVersion)));
+        CreateMap<Tracker.WebService.Data.Entities.User, Tracker.WebService.Domain.Models.UserReadModel>();
 
         CreateMap<Tracker.WebService.Domain.Models.UserCreateModel, Tracker.WebService.Data.Entities.User>();
 
-        CreateMap<Tracker.WebService.Data.Entities.User, Tracker.WebService.Domain.Models.UserUpdateModel>()
-            .ForMember(d => d.RowVersion, opt => opt.MapFrom(s => Convert.ToBase64String(s.RowVersion)));
+        CreateMap<Tracker.WebService.Data.Entities.User, Tracker.WebService.Domain.Models.UserUpdateModel>();
 
-        CreateMap<Tracker.WebService.Domain.Models.UserUpdateModel, Tracker.WebService.Data.Entities.User>()
-            .ForMember(d => d.RowVersion, opt => opt.MapFrom(s => Convert.FromBase64String(s.RowVersion)));
+        CreateMap<Tracker.WebService.Domain.Models.UserUpdateModel, Tracker.WebService.Data.Entities.User>();
 
         CreateMap<Tracker.WebService.Domain.Models.UserReadModel, Tracker.WebService.Domain.Models.UserUpdateModel>();
 

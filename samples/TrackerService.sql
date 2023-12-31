@@ -1,4 +1,4 @@
-﻿USE [master]
+USE [master]
 GO
 
 -- Database
@@ -7,6 +7,10 @@ CREATE DATABASE [TrackerService];
 GO
 
 USE [TrackerService];
+GO
+
+IF NOT EXISTS (SELECT name FROM sys.schemas WHERE name = N'History')
+EXEC('CREATE SCHEMA [History] AUTHORIZATION [dbo];')
 GO
 
 -- Tables
@@ -85,7 +89,21 @@ CREATE TABLE [dbo].[Task] (
     [Updated] datetimeoffset NOT NULL DEFAULT (SYSUTCDATETIME()),
     [UpdatedBy] nvarchar(100) NULL,
     [RowVersion] rowversion NOT NULL,
+
+    [PeriodStart] DATETIME2 GENERATED ALWAYS AS ROW START NOT NULL CONSTRAINT [DF_Task_PeriodStart] DEFAULT (SYSUTCDATETIME()),
+    [PeriodEnd] DATETIME2 GENERATED ALWAYS AS ROW END NOT NULL CONSTRAINT [DF_Task_PeriodEnd] DEFAULT ('9999-12-31 23:59:59.9999999'),
+    PERIOD FOR SYSTEM_TIME ([PeriodStart], [PeriodEnd]),
+
     CONSTRAINT [PK_Task] PRIMARY KEY ([Id])
+)
+WITH
+(
+    SYSTEM_VERSIONING = ON
+    (
+        HISTORY_TABLE = [History].[Task],
+        HISTORY_RETENTION_PERIOD = 1 YEARS,
+        DATA_CONSISTENCY_CHECK = ON
+    )
 );
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[User]') AND type in (N'U'))

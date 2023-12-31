@@ -38,6 +38,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.MongoDB.Tests", "test\MediatR.CommandQuery.MongoDB.Tests\MediatR.CommandQuery.MongoDB.Tests.csproj", "{ADCC6D4F-E6A0-4736-80FE-918E2592A9FF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{2E91BC5A-6D57-4EFD-A693-4D96B295FDB5}"
+	ProjectSection(SolutionItems) = preProject
+		samples\TrackerService.sql = samples\TrackerService.sql
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker.WebService.MongoDB", "samples\Tracker.WebService.MongoDB\Tracker.WebService.MongoDB.csproj", "{10338169-75AF-4E52-818A-E656C77CAA90}"
 EndProject
@@ -45,9 +48,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker.WebService.EntityFr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{178BF52C-04A0-4B7D-89CA-41E14912A2D5}"
 	ProjectSection(SolutionItems) = preProject
+		templates\DomainJsonContext.csx = templates\DomainJsonContext.csx
 		templates\DomainServiceRegistration.csx = templates\DomainServiceRegistration.csx
+		templates\EntityCommandEndpoint.csx = templates\EntityCommandEndpoint.csx
 		templates\EntityController.csx = templates\EntityController.csx
+		templates\EntityQueryEndpoint.csx = templates\EntityQueryEndpoint.csx
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Endpoints", "src\MediatR.CommandQuery.Endpoints\MediatR.CommandQuery.Endpoints.csproj", "{C07AB804-A503-45A3-A874-01175332E666}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -227,6 +235,18 @@ Global
 		{29537166-4CA5-4201-845C-8BC5B39D0966}.Release|x64.Build.0 = Release|Any CPU
 		{29537166-4CA5-4201-845C-8BC5B39D0966}.Release|x86.ActiveCfg = Release|Any CPU
 		{29537166-4CA5-4201-845C-8BC5B39D0966}.Release|x86.Build.0 = Release|Any CPU
+		{C07AB804-A503-45A3-A874-01175332E666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C07AB804-A503-45A3-A874-01175332E666}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C07AB804-A503-45A3-A874-01175332E666}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C07AB804-A503-45A3-A874-01175332E666}.Debug|x64.Build.0 = Debug|Any CPU
+		{C07AB804-A503-45A3-A874-01175332E666}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C07AB804-A503-45A3-A874-01175332E666}.Debug|x86.Build.0 = Debug|Any CPU
+		{C07AB804-A503-45A3-A874-01175332E666}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C07AB804-A503-45A3-A874-01175332E666}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C07AB804-A503-45A3-A874-01175332E666}.Release|x64.ActiveCfg = Release|Any CPU
+		{C07AB804-A503-45A3-A874-01175332E666}.Release|x64.Build.0 = Release|Any CPU
+		{C07AB804-A503-45A3-A874-01175332E666}.Release|x86.ActiveCfg = Release|Any CPU
+		{C07AB804-A503-45A3-A874-01175332E666}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace MediatR.CommandQuery.Queries;
 
-internal sealed class EntityFilterCoverter : JsonConverter<EntityFilter>
+public sealed class EntityFilterConverter : JsonConverter<EntityFilter>
 {
     private static readonly JsonEncodedText Name = JsonEncodedText.Encode("name");
     private static readonly JsonEncodedText Operator = JsonEncodedText.Encode("operator");

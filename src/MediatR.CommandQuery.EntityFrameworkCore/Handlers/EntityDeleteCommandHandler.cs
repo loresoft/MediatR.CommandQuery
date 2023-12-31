@@ -54,7 +54,7 @@ public class EntityDeleteCommandHandler<TContext, TEntity, TKey, TReadModel>
         else
         {
             // when history is tracked, need to update the entity with update metadata before deleting
-            if (entity is ITrackHistory && entity is ITrackUpdated)
+            if (entity is ITrackHistory and ITrackUpdated)
             {
                 await DataContext
                     .SaveChangesAsync(cancellationToken)

@@ -14,5 +14,5 @@ public class EntityReadModel<TKey> : EntityIdentifierModel<TKey>, ITrackCreated,
 
     public string? UpdatedBy { get; set; }
 
-    public string RowVersion { get; set; } = null!;
+    public long RowVersion { get; set; }
 }

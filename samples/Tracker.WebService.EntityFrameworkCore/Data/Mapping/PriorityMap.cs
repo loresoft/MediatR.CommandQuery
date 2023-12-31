@@ -38,13 +38,14 @@ public partial class PriorityMap
         builder.Property(t => t.DisplayOrder)
             .IsRequired()
             .HasColumnName("DisplayOrder")
-            .HasColumnType("int");
+            .HasColumnType("int")
+            .HasDefaultValue(0);
 
         builder.Property(t => t.IsActive)
             .IsRequired()
             .HasColumnName("IsActive")
             .HasColumnType("bit")
-            .HasDefaultValueSql("((1))");
+            .HasDefaultValue(true);
 
         builder.Property(t => t.Created)
             .IsRequired()
@@ -70,10 +71,11 @@ public partial class PriorityMap
 
         builder.Property(t => t.RowVersion)
             .IsRequired()
+            .HasConversion<byte[]>()
             .IsRowVersion()
+            .IsConcurrencyToken()
             .HasColumnName("RowVersion")
             .HasColumnType("rowversion")
-            .HasMaxLength(8)
             .ValueGeneratedOnAddOrUpdate();
 
         // relationships
@@ -81,13 +83,13 @@ public partial class PriorityMap
     }
 
     #region Generated Constants
-    public struct Table
+    public readonly struct Table
     {
         public const string Schema = "dbo";
         public const string Name = "Priority";
     }
 
-    public struct Columns
+    public readonly struct Columns
     {
         public const string Id = "Id";
         public const string Name = "Name";

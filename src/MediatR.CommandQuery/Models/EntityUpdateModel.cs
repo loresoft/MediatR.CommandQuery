@@ -10,5 +10,5 @@ public class EntityUpdateModel : ITrackUpdated, ITrackConcurrency
 
     public string? UpdatedBy { get; set; }
 
-    public string RowVersion { get; set; } = null!;
+    public long RowVersion { get; set; }
 }

@@ -4,6 +4,9 @@ using MediatR.CommandQuery.EntityFrameworkCore;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using Tracker.WebService.Data.Entities;
+using Tracker.WebService.Domain.Mapping;
+
 namespace Tracker.WebService.Domain;
 
 public class DomainServiceRegistration

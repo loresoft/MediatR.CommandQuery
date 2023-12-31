@@ -33,7 +33,8 @@ public partial class UserMap
         builder.Property(t => t.IsEmailAddressConfirmed)
             .IsRequired()
             .HasColumnName("IsEmailAddressConfirmed")
-            .HasColumnType("bit");
+            .HasColumnType("bit")
+            .HasDefaultValue(false);
 
         builder.Property(t => t.DisplayName)
             .IsRequired()
@@ -56,12 +57,14 @@ public partial class UserMap
         builder.Property(t => t.AccessFailedCount)
             .IsRequired()
             .HasColumnName("AccessFailedCount")
-            .HasColumnType("int");
+            .HasColumnType("int")
+            .HasDefaultValue(0);
 
         builder.Property(t => t.LockoutEnabled)
             .IsRequired()
             .HasColumnName("LockoutEnabled")
-            .HasColumnType("bit");
+            .HasColumnType("bit")
+            .HasDefaultValue(false);
 
         builder.Property(t => t.LockoutEnd)
             .HasColumnName("LockoutEnd")
@@ -74,7 +77,8 @@ public partial class UserMap
         builder.Property(t => t.IsDeleted)
             .IsRequired()
             .HasColumnName("IsDeleted")
-            .HasColumnType("bit");
+            .HasColumnType("bit")
+            .HasDefaultValue(false);
 
         builder.Property(t => t.Created)
             .IsRequired()
@@ -100,10 +104,11 @@ public partial class UserMap
 
         builder.Property(t => t.RowVersion)
             .IsRequired()
+            .HasConversion<byte[]>()
             .IsRowVersion()
+            .IsConcurrencyToken()
             .HasColumnName("RowVersion")
             .HasColumnType("rowversion")
-            .HasMaxLength(8)
             .ValueGeneratedOnAddOrUpdate();
 
         // relationships
@@ -111,13 +116,13 @@ public partial class UserMap
     }
 
     #region Generated Constants
-    public struct Table
+    public readonly struct Table
     {
         public const string Schema = "dbo";
         public const string Name = "User";
     }
 
-    public struct Columns
+    public readonly struct Columns
     {
         public const string Id = "Id";
         public const string EmailAddress = "EmailAddress";

@@ -81,6 +81,8 @@ private void GenerateRegister(string readModel, string createModel, string updat
 
     using (CodeBuilder.Indent())
     {
+        CodeBuilder.AppendLine("#region Generated Register");
+
         CodeBuilder.AppendLine($"services.AddEntityQueries<{contextNamespace}.{contextClass}, {entityNamespace}.{entityClass}, {keyType}, {readModel}>();");
         CodeBuilder.AppendLine();
 
@@ -89,6 +91,8 @@ private void GenerateRegister(string readModel, string createModel, string updat
             CodeBuilder.AppendLine($"services.AddEntityCommands<{contextNamespace}.{contextClass}, {entityNamespace}.{entityClass}, {keyType}, {readModel}, {createModel}, {updateModel}>();");
             CodeBuilder.AppendLine();
         }
+
+        CodeBuilder.AppendLine("#endregion");
     }
 
     CodeBuilder.AppendLine("}");

@@ -14,11 +14,9 @@ public partial class AuditProfile
 
         CreateMap<Models.AuditCreateModel, Data.Entities.Audit>();
 
-        CreateMap<Data.Entities.Audit, Models.AuditUpdateModel>()
-            .ForMember(d => d.RowVersion, opt => opt.MapFrom(s => Convert.ToBase64String(s.RowVersion)));
+        CreateMap<Data.Entities.Audit, Models.AuditUpdateModel>();
 
-        CreateMap<Models.AuditUpdateModel, Data.Entities.Audit>()
-            .ForMember(d => d.RowVersion, opt => opt.MapFrom(s => Convert.FromBase64String(s.RowVersion)));
+        CreateMap<Models.AuditUpdateModel, Data.Entities.Audit>();
     }
 
 }

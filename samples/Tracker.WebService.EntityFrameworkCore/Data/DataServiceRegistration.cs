@@ -12,14 +12,15 @@ public class DataServiceRegistration
     public void Register(IServiceCollection services)
     {
         services.AddDbContext<TrackerServiceContext>(
-            (serviceProvider, options) =>
+            optionsAction: (serviceProvider, options) =>
             {
                 var configuration = serviceProvider.GetRequiredService<IConfiguration>();
                 var connectionString = configuration.GetConnectionString("Tracker");
 
                 options.UseSqlServer(connectionString, providerOptions => providerOptions.EnableRetryOnFailure());
             },
-            ServiceLifetime.Transient
+            contextLifetime: ServiceLifetime.Transient,
+            optionsLifetime: ServiceLifetime.Transient
         );
     }
 }

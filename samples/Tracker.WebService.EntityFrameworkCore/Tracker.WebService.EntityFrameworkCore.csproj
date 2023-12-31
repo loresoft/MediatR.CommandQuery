@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\MediatR.CommandQuery.Endpoints\MediatR.CommandQuery.Endpoints.csproj" />
     <ProjectReference Include="..\..\src\MediatR.CommandQuery.EntityFrameworkCore\MediatR.CommandQuery.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\..\src\MediatR.CommandQuery.Mvc\MediatR.CommandQuery.Mvc.csproj" />
   </ItemGroup>

@@ -2,9 +2,10 @@ project:
   namespace: 'Tracker.WebService'
   directory: .\
   nullable: true
+  fileScopedNamespace: true
 database:
   provider: SqlServer
-  connectionString: 'Data Source=(local);Initial Catalog=TrackerService;Integrated Security=True;'
+  connectionString: 'Data Source=(local);Initial Catalog=TrackerService;Integrated Security=True;TrustServerCertificate=True'
 data:
   context:
     name: '{Database.Name}Context'
@@ -17,6 +18,7 @@ data:
   mapping:
     namespace: '{Project.Namespace}.Data.Mapping'
     directory: '{Project.Directory}\Data\Mapping'
+    rowVersion: long
   query:
     generate: false
 model:
@@ -58,6 +60,12 @@ model:
     namespace: '{Project.Namespace}.Domain.Validation'
     directory: '{Project.Directory}\Domain\{Entity.Name}\Validation'
 script:
+  context:
+    - templatePath: '..\..\templates\DomainJsonContext.csx'
+      fileName: 'DomainJsonContext.cs'
+      namespace: '{Project.Namespace}.Domain'
+      directory: '{Project.Directory}\Domain'
+      merge: true
   entity:
     - templatePath: '..\..\templates\DomainServiceRegistration.csx'
       fileName: '{Entity.Name}ServiceRegistration.cs'
@@ -65,9 +73,15 @@ script:
       directory: '{Project.Directory}\Domain\{Entity.Name}'
       parameters:
         keyType: Guid
-    - templatePath: '..\..\templates\EntityController.csx'
-      fileName: '{Entity.Name}Controller.cs'
-      namespace: '{Project.Namespace}.Controllers'
-      directory: '{Project.Directory}\Controllers'
+    - templatePath: '..\..\templates\EntityQueryEndpoint.csx'
+      fileName: '{Entity.Name}QueryEndpoint.cs'
+      namespace: '{Project.Namespace}.Endpoints'
+      directory: '{Project.Directory}\Endpoints'
+      parameters:
+        keyType: Guid
+    - templatePath: '..\..\templates\EntityCommandEndpoint.csx'
+      fileName: '{Entity.Name}CommandEndpoint.cs'
+      namespace: '{Project.Namespace}.Endpoints'
+      directory: '{Project.Directory}\Endpoints'
       parameters:
         keyType: Guid
