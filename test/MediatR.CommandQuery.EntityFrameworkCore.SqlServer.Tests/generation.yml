@@ -1,8 +1,9 @@
 project:
   namespace: 'MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests'
   directory: .\
+  fileScopedNamespace: true
 database:
-  connectionString: Data Source=.\SQL2019;Initial Catalog=TrackerCommandQuery;Integrated Security=True
+  connectionString: Data Source=(local);Initial Catalog=TrackerCommandQuery;Integrated Security=True;TrustServerCertificate=True
 data:
   context:
     name: 'TrackerContext'
@@ -15,6 +16,7 @@ data:
   mapping:
     namespace: '{Project.Namespace}.Data.Mapping'
     directory: '{Project.Directory}\Data\Mapping'
+    rowVersion: long
   query:
     generate: true
     indexPrefix: By

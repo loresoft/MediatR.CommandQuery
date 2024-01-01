@@ -68,7 +68,8 @@ public partial class TaskMap
         builder.Property(t => t.IsDeleted)
             .IsRequired()
             .HasColumnName("IsDeleted")
-            .HasColumnType("bit");
+            .HasColumnType("bit")
+            .HasDefaultValue(false);
 
         builder.Property(t => t.Created)
             .IsRequired()
@@ -94,10 +95,11 @@ public partial class TaskMap
 
         builder.Property(t => t.RowVersion)
             .IsRequired()
+            .HasConversion<byte[]>()
             .IsRowVersion()
+            .IsConcurrencyToken()
             .HasColumnName("RowVersion")
             .HasColumnType("rowversion")
-            .HasMaxLength(8)
             .ValueGeneratedOnAddOrUpdate();
 
         // relationships

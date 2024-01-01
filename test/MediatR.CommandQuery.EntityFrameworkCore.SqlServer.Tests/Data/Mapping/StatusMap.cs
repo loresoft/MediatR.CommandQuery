@@ -39,13 +39,14 @@ public partial class StatusMap
         builder.Property(t => t.DisplayOrder)
             .IsRequired()
             .HasColumnName("DisplayOrder")
-            .HasColumnType("int");
+            .HasColumnType("int")
+            .HasDefaultValue(0);
 
         builder.Property(t => t.IsActive)
             .IsRequired()
             .HasColumnName("IsActive")
             .HasColumnType("bit")
-            .HasDefaultValueSql("((1))");
+            .HasDefaultValue(true);
 
         builder.Property(t => t.Created)
             .IsRequired()
@@ -71,10 +72,11 @@ public partial class StatusMap
 
         builder.Property(t => t.RowVersion)
             .IsRequired()
+            .HasConversion<byte[]>()
             .IsRowVersion()
+            .IsConcurrencyToken()
             .HasColumnName("RowVersion")
             .HasColumnType("rowversion")
-            .HasMaxLength(8)
             .ValueGeneratedOnAddOrUpdate();
 
         // relationships

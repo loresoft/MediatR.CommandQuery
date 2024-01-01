@@ -16,6 +16,8 @@ public partial class TrackerContext : DbContext
 
     public virtual DbSet<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.Role> Roles { get; set; }
 
+    public virtual DbSet<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.SchemaVersions> SchemaVersions { get; set; }
+
     public virtual DbSet<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.Status> Statuses { get; set; }
 
     public virtual DbSet<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.TaskExtended> TaskExtendeds { get; set; }
@@ -38,6 +40,7 @@ public partial class TrackerContext : DbContext
         modelBuilder.ApplyConfiguration(new MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Mapping.AuditMap());
         modelBuilder.ApplyConfiguration(new MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Mapping.PriorityMap());
         modelBuilder.ApplyConfiguration(new MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Mapping.RoleMap());
+        modelBuilder.ApplyConfiguration(new MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Mapping.SchemaVersionsMap());
         modelBuilder.ApplyConfiguration(new MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Mapping.StatusMap());
         modelBuilder.ApplyConfiguration(new MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Mapping.TaskExtendedMap());
         modelBuilder.ApplyConfiguration(new MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Mapping.TaskMap());

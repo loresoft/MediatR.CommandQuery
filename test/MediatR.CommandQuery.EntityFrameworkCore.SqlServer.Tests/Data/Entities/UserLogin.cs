@@ -45,7 +45,7 @@ public partial class UserLogin : IHaveIdentifier<Guid>, ITrackCreated, ITrackUpd
 
     public string UpdatedBy { get; set; }
 
-    public Byte[] RowVersion { get; set; }
+    public long RowVersion { get; set; }
 
     #endregion
 

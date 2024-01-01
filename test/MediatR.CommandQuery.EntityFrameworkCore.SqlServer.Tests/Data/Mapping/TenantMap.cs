@@ -40,7 +40,7 @@ public partial class TenantMap
             .IsRequired()
             .HasColumnName("IsActive")
             .HasColumnType("bit")
-            .HasDefaultValueSql("((1))");
+            .HasDefaultValue(true);
 
         builder.Property(t => t.Created)
             .IsRequired()
@@ -66,10 +66,11 @@ public partial class TenantMap
 
         builder.Property(t => t.RowVersion)
             .IsRequired()
+            .HasConversion<byte[]>()
             .IsRowVersion()
+            .IsConcurrencyToken()
             .HasColumnName("RowVersion")
             .HasColumnType("rowversion")
-            .HasMaxLength(8)
             .ValueGeneratedOnAddOrUpdate();
 
         // relationships

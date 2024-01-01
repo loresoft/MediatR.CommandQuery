@@ -33,7 +33,7 @@ public partial class Audit : IHaveIdentifier<Guid>, ITrackCreated, ITrackUpdated
 
     public string UpdatedBy { get; set; }
 
-    public Byte[] RowVersion { get; set; }
+    public long RowVersion { get; set; }
 
     #endregion
 

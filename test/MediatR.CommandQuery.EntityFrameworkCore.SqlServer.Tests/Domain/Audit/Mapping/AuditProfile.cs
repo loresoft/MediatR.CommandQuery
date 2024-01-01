@@ -7,8 +7,7 @@ public partial class AuditProfile
 {
     public AuditProfile()
     {
-        CreateMap<Data.Entities.Audit, Models.AuditReadModel>()
-            .ForMember(d => d.RowVersion, opt => opt.MapFrom(s => Convert.ToBase64String(s.RowVersion)));
+        CreateMap<Data.Entities.Audit, Models.AuditReadModel>();
 
         CreateMap<Models.AuditReadModel, Models.AuditUpdateModel>();
 

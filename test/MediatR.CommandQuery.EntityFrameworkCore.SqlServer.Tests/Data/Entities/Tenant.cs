@@ -31,7 +31,7 @@ public partial class Tenant : IHaveIdentifier<Guid>, ITrackCreated, ITrackUpdate
 
     public string UpdatedBy { get; set; }
 
-    public Byte[] RowVersion { get; set; }
+    public long RowVersion { get; set; }
 
     #endregion
 

@@ -11,18 +11,27 @@ namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Queries;
 public static partial class UserRoleExtensions
 {
     #region Generated Extensions
-    public static IQueryable<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole> ByRoleId(this IQueryable<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole> queryable, Guid roleId)
+    public static System.Linq.IQueryable<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole> ByRoleId(this System.Linq.IQueryable<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole> queryable, Guid roleId)
     {
+        if (queryable is null)
+            throw new ArgumentNullException(nameof(queryable));
+
         return queryable.Where(q => q.RoleId == roleId);
     }
 
-    public static IQueryable<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole> ByUserId(this IQueryable<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole> queryable, Guid userId)
+    public static System.Linq.IQueryable<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole> ByUserId(this System.Linq.IQueryable<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole> queryable, Guid userId)
     {
+        if (queryable is null)
+            throw new ArgumentNullException(nameof(queryable));
+
         return queryable.Where(q => q.UserId == userId);
     }
 
-    public static MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole GetByKey(this IQueryable<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole> queryable, Guid userId, Guid roleId)
+    public static MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole GetByKey(this System.Linq.IQueryable<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole> queryable, Guid userId, Guid roleId)
     {
+        if (queryable is null)
+            throw new ArgumentNullException(nameof(queryable));
+
         if (queryable is DbSet<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole> dbSet)
             return dbSet.Find(userId, roleId);
 
@@ -30,14 +39,16 @@ public static partial class UserRoleExtensions
             && q.RoleId == roleId);
     }
 
-    public static ValueTask<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole> GetByKeyAsync(this IQueryable<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole> queryable, Guid userId, Guid roleId)
+    public static async System.Threading.Tasks.ValueTask<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole> GetByKeyAsync(this System.Linq.IQueryable<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole> queryable, Guid userId, Guid roleId, System.Threading.CancellationToken cancellationToken = default)
     {
-        if (queryable is DbSet<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole> dbSet)
-            return dbSet.FindAsync(userId, roleId);
+        if (queryable is null)
+            throw new ArgumentNullException(nameof(queryable));
 
-        var task = queryable.FirstOrDefaultAsync(q => q.UserId == userId
-            && q.RoleId == roleId);
-        return new ValueTask<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole>(task);
+        if (queryable is DbSet<MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.UserRole> dbSet)
+            return await dbSet.FindAsync(new object[] { userId, roleId }, cancellationToken);
+
+        return await queryable.FirstOrDefaultAsync(q => q.UserId == userId
+            && q.RoleId == roleId, cancellationToken);
     }
 
     #endregion
