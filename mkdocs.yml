@@ -1,8 +1,8 @@
 site_name: MediatR CommandQuery
-theme: readthedocs
+theme: material
 repo_url: https://github.com/loresoft/MediatR.CommandQuery
 
-pages:
+nav:
   - Home: index.md
 
   - Quick Start: quickStart.md
@@ -38,3 +38,12 @@ pages:
       - Base Behaviors: behaviors/abstracts.md
 
   - Script Templates: scripts.md
+markdown_extensions:
+  - tables
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences

@@ -15,6 +15,9 @@ on:
       - develop
     tags:
       - 'v*'
+    paths-ignore:
+      - 'docs/**'
+      - 'mkdocs.yml'
   pull_request:
     branches:
       - master
