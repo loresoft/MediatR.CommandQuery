@@ -6,9 +6,9 @@ using Tracker.WebService.Domain.Models;
 namespace Tracker.WebService.Endpoints;
 
 [RegisterTransient<IFeatureEndpoint>(Duplicate = DuplicateStrategy.Append)]
-public class StatusCommandEndpoint : EntityCommandEndpointBase<Guid, StatusReadModel, StatusCreateModel, StatusUpdateModel>
+public class UserLoginEndpoint : EntityCommandEndpointBase<Guid, UserLoginReadModel, UserLoginReadModel, UserLoginCreateModel, UserLoginUpdateModel>
 {
-    public StatusCommandEndpoint(IMediator mediator) : base(mediator, "Status")
+    public UserLoginEndpoint(IMediator mediator) : base(mediator, "UserLogin")
     {
 
     }

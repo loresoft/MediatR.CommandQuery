@@ -50,9 +50,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{
 	ProjectSection(SolutionItems) = preProject
 		templates\DomainJsonContext.csx = templates\DomainJsonContext.csx
 		templates\DomainServiceRegistration.csx = templates\DomainServiceRegistration.csx
-		templates\EntityCommandEndpoint.csx = templates\EntityCommandEndpoint.csx
 		templates\EntityController.csx = templates\EntityController.csx
-		templates\EntityQueryEndpoint.csx = templates\EntityQueryEndpoint.csx
+		templates\EntityEndpoint.csx = templates\EntityEndpoint.csx
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Endpoints", "src\MediatR.CommandQuery.Endpoints\MediatR.CommandQuery.Endpoints.csproj", "{C07AB804-A503-45A3-A874-01175332E666}"

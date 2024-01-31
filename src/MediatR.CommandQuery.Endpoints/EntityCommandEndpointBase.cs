@@ -10,34 +10,17 @@ using Microsoft.AspNetCore.Routing;
 
 namespace MediatR.CommandQuery.Endpoints;
 
-public abstract class EntityCommandEndpointBase<TKey, TReadModel, TCreateModel, TUpdateModel>
-    : IFeatureEndpoint
+public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TCreateModel, TUpdateModel>
+    : EntityQueryEndpointBase<TKey, TListModel, TReadModel>
 {
-    protected EntityCommandEndpointBase(IMediator mediator, string entityName)
+    protected EntityCommandEndpointBase(IMediator mediator, string entityName) : base(mediator, entityName)
     {
-        Mediator = mediator;
-        EntityName = entityName;
-        RoutePrefix = $"/api/{EntityName}";
     }
 
-    public IMediator Mediator { get; }
-
-
-    public string EntityName { get; }
-
-    public string RoutePrefix { get; }
-
-
-    public virtual void AddRoutes(IEndpointRouteBuilder app)
+    protected override void MapGroup(RouteGroupBuilder group)
     {
-        var group = app.MapGroup(RoutePrefix);
+        base.MapGroup(group);
 
-        MapGroup(group);
-    }
-
-
-    protected virtual void MapGroup(RouteGroupBuilder group)
-    {
         group
             .MapPost("", CreateCommand)
             .Produces<TReadModel>()

@@ -27,9 +27,6 @@ public string WriteCode()
     if (string.IsNullOrEmpty(readModel))
         return string.Empty;
 
-    if (string.IsNullOrEmpty(updateModel))
-        return string.Empty;
-
     CodeBuilder.Clear();
 
     CodeBuilder.AppendLine("using System;");
@@ -57,7 +54,12 @@ private void GenerateClass(string readModel, string createModel, string updateMo
     var keyType = TemplateOptions.Parameters["keyType"];
 
     CodeBuilder.AppendLine("[RegisterTransient<IFeatureEndpoint>(Duplicate = DuplicateStrategy.Append)]");
-    CodeBuilder.AppendLine($"public class {className} : EntityCommandEndpointBase<{keyType}, {readModel}, {createModel}, {updateModel}>");
+
+    if (string.IsNullOrEmpty(updateModel))
+        CodeBuilder.AppendLine($"public class {className} : EntityQueryEndpointBase<{keyType}, {readModel}, {readModel}>");
+    else
+        CodeBuilder.AppendLine($"public class {className} : EntityCommandEndpointBase<{keyType}, {readModel}, {readModel}, {createModel}, {updateModel}>");
+
     CodeBuilder.AppendLine("{");
 
     using (CodeBuilder.Indent())

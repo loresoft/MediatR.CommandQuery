@@ -42,7 +42,7 @@ public string WriteCode()
     CodeBuilder.AppendLine();
 
     GenerateClass(readModel, createModel, updateModel);
-    
+
     CodeBuilder.AppendLine();
 
     return CodeBuilder.ToString();

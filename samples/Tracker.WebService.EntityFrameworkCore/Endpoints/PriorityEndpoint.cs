@@ -6,9 +6,9 @@ using Tracker.WebService.Domain.Models;
 namespace Tracker.WebService.Endpoints;
 
 [RegisterTransient<IFeatureEndpoint>(Duplicate = DuplicateStrategy.Append)]
-public class RoleCommandEndpoint : EntityCommandEndpointBase<Guid, RoleReadModel, RoleCreateModel, RoleUpdateModel>
+public class PriorityEndpoint : EntityCommandEndpointBase<Guid, PriorityReadModel, PriorityReadModel, PriorityCreateModel, PriorityUpdateModel>
 {
-    public RoleCommandEndpoint(IMediator mediator) : base(mediator, "Role")
+    public PriorityEndpoint(IMediator mediator) : base(mediator, "Priority")
     {
 
     }

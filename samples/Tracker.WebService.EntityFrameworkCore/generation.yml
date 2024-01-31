@@ -73,14 +73,8 @@ script:
       directory: '{Project.Directory}\Domain\{Entity.Name}'
       parameters:
         keyType: Guid
-    - templatePath: '..\..\templates\EntityQueryEndpoint.csx'
-      fileName: '{Entity.Name}QueryEndpoint.cs'
-      namespace: '{Project.Namespace}.Endpoints'
-      directory: '{Project.Directory}\Endpoints'
-      parameters:
-        keyType: Guid
-    - templatePath: '..\..\templates\EntityCommandEndpoint.csx'
-      fileName: '{Entity.Name}CommandEndpoint.cs'
+    - templatePath: '..\..\templates\EntityEndpoint.csx'
+      fileName: '{Entity.Name}Endpoint.cs'
       namespace: '{Project.Namespace}.Endpoints'
       directory: '{Project.Directory}\Endpoints'
       parameters:
