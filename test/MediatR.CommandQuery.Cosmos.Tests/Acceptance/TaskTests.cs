@@ -7,18 +7,16 @@ using Bogus;
 
 using Cosmos.Abstracts;
 
-using FluentAssertions;
-
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Cosmos.Tests.Constants;
 using MediatR.CommandQuery.Cosmos.Tests.Domain.Models;
 using MediatR.CommandQuery.Queries;
 
-using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.Extensions.DependencyInjection;
 
-using Xunit;
+using SystemTextJsonPatch;
+using SystemTextJsonPatch.Operations;
+
 using Xunit.Abstractions;
 
 using Task = System.Threading.Tasks.Task;
@@ -76,12 +74,12 @@ public class TaskTests : DatabaseTestBase
         listResult.Should().NotBeNull();
 
         // Patch Entity
-        var patchModel = new JsonPatchDocument<Task>();
-        patchModel.Operations.Add(new Operation<Task>
+        var patchModel = new JsonPatchDocument();
+        patchModel.Operations.Add(new Operation
         {
-            op = "replace",
-            path = "/Title",
-            value = "Patch Update"
+            Op = "replace",
+            Path = "/Title",
+            Value = "Patch Update"
         });
 
         var patchCommand = new EntityPatchCommand<string, TaskReadModel>(MockPrincipal.Default, cosmosKey, patchModel);

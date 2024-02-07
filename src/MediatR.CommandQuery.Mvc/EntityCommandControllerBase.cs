@@ -3,8 +3,9 @@ using System.Net.Mime;
 using MediatR.CommandQuery.Commands;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+
+using SystemTextJsonPatch;
 
 namespace MediatR.CommandQuery.Mvc;
 
@@ -74,7 +75,7 @@ public abstract class EntityCommandControllerBase<TKey, TListModel, TReadModel, 
         return await Mediator.Send(command, cancellationToken);
     }
 
-    protected virtual async Task<TReadModel> PatchCommand(TKey id, IJsonPatchDocument jsonPatch, CancellationToken cancellationToken = default)
+    protected virtual async Task<TReadModel> PatchCommand(TKey id, JsonPatchDocument jsonPatch, CancellationToken cancellationToken = default)
     {
         var command = new EntityPatchCommand<TKey, TReadModel>(User, id, jsonPatch);
         return await Mediator.Send(command, cancellationToken);

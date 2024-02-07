@@ -4,9 +4,10 @@ using MediatR.CommandQuery.Commands;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+
+using SystemTextJsonPatch;
 
 namespace MediatR.CommandQuery.Endpoints;
 
@@ -106,7 +107,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
         CancellationToken cancellationToken,
         ClaimsPrincipal user,
         [FromRoute] TKey id,
-        [FromBody] IJsonPatchDocument jsonPatch)
+        [FromBody] JsonPatchDocument jsonPatch)
     {
         var command = new EntityPatchCommand<TKey, TReadModel>(user, id, jsonPatch);
         return await Mediator.Send(command, cancellationToken);

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 using MediatR.CommandQuery.Queries;
 
-using Microsoft.AspNetCore.JsonPatch;
+using SystemTextJsonPatch;
 
 using Tracker.WebService.Domain.Models;
 
@@ -51,7 +51,7 @@ namespace Tracker.WebService.Domain;
 [JsonSerializable(typeof(UserUpdateModel))]
 [JsonSerializable(typeof(EntityQuery))]
 [JsonSerializable(typeof(EntitySelect))]
-[JsonSerializable(typeof(IJsonPatchDocument))]
+[JsonSerializable(typeof(JsonPatchDocument))]
 #endregion
 public partial class DomainJsonContext : JsonSerializerContext
 {

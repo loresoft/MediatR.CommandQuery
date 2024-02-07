@@ -1,16 +1,12 @@
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
 using AutoMapper;
 
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
 
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
+using SystemTextJsonPatch;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers;
 
@@ -43,10 +39,7 @@ public class EntityPatchCommandHandler<TContext, TEntity, TKey, TReadModel>
             return default!;
 
         // apply json patch to entity
-        var jsonPatch = new JsonPatchDocument(
-            request.Patch.GetOperations().ToList(),
-            request.Patch.ContractResolver);
-
+        var jsonPatch = request.Patch;
         jsonPatch.ApplyTo(entity);
 
         // apply update metadata

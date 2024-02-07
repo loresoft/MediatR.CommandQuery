@@ -10,11 +10,12 @@ using MediatR.CommandQuery.MongoDB.Tests.Data.Entities;
 using MediatR.CommandQuery.MongoDB.Tests.Domain.Models;
 using MediatR.CommandQuery.Queries;
 
-using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.Extensions.DependencyInjection;
 
 using MongoDB.Bson;
+
+using SystemTextJsonPatch;
+using SystemTextJsonPatch.Operations;
 
 using Xunit.Abstractions;
 
@@ -75,12 +76,12 @@ public class AuditTests : DatabaseTestBase
         listResult.Should().NotBeNull();
 
         // Patch Entity
-        var patchModel = new JsonPatchDocument<Audit>();
+        var patchModel = new JsonPatchDocument();
         patchModel.Operations.Add(new Operation<Audit>
         {
-            op = "replace",
-            path = "/Content",
-            value = "Patch Update"
+            Op = "replace",
+            Path = "/Content",
+            Value = "Patch Update"
         });
 
 

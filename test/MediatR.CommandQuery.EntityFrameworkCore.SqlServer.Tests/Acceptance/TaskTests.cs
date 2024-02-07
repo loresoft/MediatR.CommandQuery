@@ -10,9 +10,10 @@ using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Constants;
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Task.Models;
 using MediatR.CommandQuery.Queries;
 
-using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.Extensions.DependencyInjection;
+
+using SystemTextJsonPatch;
+using SystemTextJsonPatch.Operations;
 
 using Xunit.Abstractions;
 
@@ -70,12 +71,12 @@ public class TaskTests : DatabaseTestBase
         listResult.Should().NotBeNull();
 
         // Patch Entity
-        var patchModel = new JsonPatchDocument<Task>();
-        patchModel.Operations.Add(new Operation<Task>
+        var patchModel = new JsonPatchDocument();
+        patchModel.Operations.Add(new Operation
         {
-            op = "replace",
-            path = "/Title",
-            value = "Patch Update"
+            Op = "replace",
+            Path = "/Title",
+            Value = "Patch Update"
         });
 
         var patchCommand = new EntityPatchCommand<Guid, TaskReadModel>(MockPrincipal.Default, createResult.Id, patchModel);

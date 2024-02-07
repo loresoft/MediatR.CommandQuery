@@ -12,9 +12,10 @@ using MediatR.CommandQuery.Cosmos.Tests.Data.Entities;
 using MediatR.CommandQuery.Cosmos.Tests.Domain.Models;
 using MediatR.CommandQuery.Queries;
 
-using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.Extensions.DependencyInjection;
+
+using SystemTextJsonPatch;
+using SystemTextJsonPatch.Operations;
 
 using Xunit.Abstractions;
 
@@ -76,14 +77,8 @@ public class AuditTests : DatabaseTestBase
         listResult.Should().NotBeNull();
 
         // Patch Entity
-        var patchModel = new JsonPatchDocument<Audit>();
-        patchModel.Operations.Add(new Operation<Audit>
-        {
-            op = "replace",
-            path = "/Content",
-            value = "Patch Update"
-        });
-
+        var patchModel = new JsonPatchDocument();
+        patchModel.Replace("/Content", "Patch Update");
 
         var patchCommand = new EntityPatchCommand<string, AuditReadModel>(MockPrincipal.Default, key, patchModel);
         var patchResult = await mediator.Send(patchCommand);

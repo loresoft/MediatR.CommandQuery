@@ -1,13 +1,9 @@
 using System;
 
-using FluentAssertions;
-
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Tests.Samples;
 
-using Microsoft.AspNetCore.JsonPatch;
-
-using Xunit;
+using SystemTextJsonPatch;
 
 namespace MediatR.CommandQuery.Tests.Commands;
 
