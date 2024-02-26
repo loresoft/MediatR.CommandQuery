@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hangfire.core" Version="1.8.10" />
+    <PackageReference Include="Hangfire.core" Version="1.8.11" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\MediatR.CommandQuery\MediatR.CommandQuery.csproj" />
   </ItemGroup>

@@ -31,12 +31,10 @@ public class EntityUpsertCommandHandler<TContext, TEntity, TKey, TUpdateModel, T
         var dbSet = DataContext
             .Set<TEntity>();
 
-        var keyValue = new object[] { request.Id };
-
-        // find entity to update by message id, not model id
-        var entity = await dbSet
-            .FindAsync(keyValue, cancellationToken)
-            .ConfigureAwait(false);
+        // don't query if default value
+        var entity = !EqualityComparer<TKey>.Default.Equals(request.Id, default)
+            ? await dbSet.FindAsync([request.Id], cancellationToken).ConfigureAwait(false)
+            : default;
 
         // create entity if not found
         if (entity == null)
