@@ -8,11 +8,15 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
   </ItemGroup>
     
   <ItemGroup>
     <ProjectReference Include="..\MediatR.CommandQuery\MediatR.CommandQuery.csproj" />
+  </ItemGroup>
+    
+  <ItemGroup>
+    <PackageReference Update="MinVer" Version="5.0.0" />
   </ItemGroup>
 
 </Project>

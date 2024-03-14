@@ -8,11 +8,15 @@
 
   <ItemGroup>
     <PackageReference Include="EntityChange" Version="5.1.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MediatR.CommandQuery\MediatR.CommandQuery.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="MinVer" Version="5.0.0" />
   </ItemGroup>
 
 </Project>
