@@ -10,10 +10,14 @@ using XUnit.Hosting;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests;
 
-public class DatabaseFixture : TestHostFixture
+public class DatabaseFixture : TestApplicationFixture
 {
-    protected override void ConfigureServices(HostBuilderContext context, IServiceCollection services)
+    protected override void ConfigureApplication(HostApplicationBuilder builder)
     {
+        base.ConfigureApplication(builder);
+
+        var services = builder.Services;
+
         services.AddHostedService<DatabaseInitializer>();
 
         services.TryAddTransient<ITenantResolver<Guid>, MockTenantResolver>();
