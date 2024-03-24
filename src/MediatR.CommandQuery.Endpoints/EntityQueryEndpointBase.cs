@@ -72,6 +72,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
             .WithName($"Get{EntityName}List")
             .WithSummary("Get entities by query")
             .WithDescription("Get entities by query");
+
         group
             .MapPost("query", PostSelectQuery)
             .Produces<IReadOnlyCollection<TListModel>>()
