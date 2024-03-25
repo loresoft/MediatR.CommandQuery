@@ -1,3 +1,5 @@
+using EntityChange;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -9,6 +11,9 @@ public static class AuditServiceExtensions
     {
         if (services is null)
             throw new ArgumentNullException(nameof(services));
+
+        services.TryAddSingleton<IEntityConfiguration>(sp => new EntityConfiguration(sp.GetServices<IEntityProfile>()));
+        services.TryAddSingleton<IEntityComparer>(sp => new EntityComparer(sp.GetRequiredService<IEntityConfiguration>()));
 
         services.TryAddSingleton(typeof(IChangeCollector<,>), typeof(ChangeCollector<,>));
 
