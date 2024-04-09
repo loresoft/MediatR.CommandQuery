@@ -1,6 +1,6 @@
 using Injectio.Attributes;
 
-using MediatR.CommandQuery.MongoDB;
+using MediatR.CommandQuery;
 
 using Microsoft.Extensions.DependencyInjection;
 

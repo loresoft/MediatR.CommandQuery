@@ -1,9 +1,3 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-
-using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities;
-
 using Microsoft.EntityFrameworkCore;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Queries;

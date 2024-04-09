@@ -1,18 +1,10 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 using AutoMapper;
-
-using FluentAssertions;
 
 using MediatR.CommandQuery.Cosmos.Tests.Constants;
 using MediatR.CommandQuery.Cosmos.Tests.Domain.Models;
 using MediatR.CommandQuery.Queries;
 
 using Microsoft.Extensions.DependencyInjection;
-
-using Xunit;
-using Xunit.Abstractions;
 
 namespace MediatR.CommandQuery.Cosmos.Tests.Acceptance;
 

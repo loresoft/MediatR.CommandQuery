@@ -1,5 +1,3 @@
-using System;
-
 using MediatR.CommandQuery.Definitions;
 
 namespace MediatR.CommandQuery.Cosmos.Tests.Domain.Models;

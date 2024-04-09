@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 using AutoMapper;
 
 using MediatR.CommandQuery.MongoDB.Tests.Constants;
@@ -8,8 +5,6 @@ using MediatR.CommandQuery.MongoDB.Tests.Domain.Models;
 using MediatR.CommandQuery.Queries;
 
 using Microsoft.Extensions.DependencyInjection;
-
-using Xunit.Abstractions;
 
 namespace MediatR.CommandQuery.MongoDB.Tests.Acceptance;
 

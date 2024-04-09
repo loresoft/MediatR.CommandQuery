@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 using Microsoft.Azure.Cosmos;
 
 namespace MediatR.CommandQuery.Cosmos.Tests;

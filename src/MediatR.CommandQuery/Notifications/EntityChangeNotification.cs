@@ -1,5 +1,3 @@
-using System;
-
 namespace MediatR.CommandQuery.Notifications;
 
 public class EntityChangeNotification<TEntityModel> : INotification

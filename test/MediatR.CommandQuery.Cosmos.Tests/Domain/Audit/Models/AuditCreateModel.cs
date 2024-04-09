@@ -1,7 +1,3 @@
-using System;
-
-using MediatR.CommandQuery.Cosmos.Tests.Domain;
-
 namespace MediatR.CommandQuery.Cosmos.Tests.Domain.Models;
 
 public partial class AuditCreateModel

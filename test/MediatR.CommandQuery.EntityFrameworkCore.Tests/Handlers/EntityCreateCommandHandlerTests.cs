@@ -1,10 +1,4 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-
 using AutoMapper;
-
-using Bogus;
 
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.EntityFrameworkCore.Handlers;

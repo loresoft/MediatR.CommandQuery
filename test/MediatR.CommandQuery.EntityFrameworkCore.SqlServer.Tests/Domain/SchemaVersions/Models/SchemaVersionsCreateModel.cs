@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Models
 {
     public partial class SchemaVersionsCreateModel

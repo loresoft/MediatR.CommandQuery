@@ -1,5 +1,3 @@
-using System;
-
 using Cosmos.Abstracts;
 
 using MediatR.CommandQuery.Definitions;

@@ -1,5 +1,3 @@
-using System;
-
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Role.Models;
 
 public partial class RoleCreateModel

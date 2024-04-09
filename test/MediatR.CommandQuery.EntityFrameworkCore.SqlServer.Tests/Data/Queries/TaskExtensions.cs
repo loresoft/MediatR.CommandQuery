@@ -1,10 +1,4 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-
 using Microsoft.EntityFrameworkCore;
-
-using Task = MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities.Task;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Queries;
 

@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-
 using Cosmos.Abstracts;
 
 using MediatR.CommandQuery.Cosmos.Tests.Data.Entities;

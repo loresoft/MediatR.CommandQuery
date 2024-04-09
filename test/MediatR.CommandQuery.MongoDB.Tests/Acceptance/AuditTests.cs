@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-
 using AutoMapper;
-
-using Bogus;
 
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.MongoDB.Tests.Data.Entities;
@@ -16,8 +11,6 @@ using MongoDB.Bson;
 
 using SystemTextJsonPatch;
 using SystemTextJsonPatch.Operations;
-
-using Xunit.Abstractions;
 
 using Task = System.Threading.Tasks.Task;
 

@@ -1,5 +1,3 @@
-using System;
-
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Role.Models;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Role.Mapping;

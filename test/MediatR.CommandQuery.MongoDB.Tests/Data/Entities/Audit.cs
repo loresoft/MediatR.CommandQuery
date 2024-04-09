@@ -1,5 +1,3 @@
-using System;
-
 using MediatR.CommandQuery.Definitions;
 
 using MongoDB.Abstracts;

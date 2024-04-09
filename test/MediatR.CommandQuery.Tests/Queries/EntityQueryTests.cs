@@ -1,10 +1,4 @@
-using System.Linq;
-
-using FluentAssertions;
-
 using MediatR.CommandQuery.Queries;
-
-using Xunit;
 
 namespace MediatR.CommandQuery.Tests.Queries;
 

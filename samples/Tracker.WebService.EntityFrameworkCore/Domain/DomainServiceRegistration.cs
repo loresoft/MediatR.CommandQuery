@@ -1,11 +1,6 @@
-using Injectio.Attributes;
-
-using MediatR.CommandQuery.EntityFrameworkCore;
+using MediatR.CommandQuery;
 
 using Microsoft.Extensions.DependencyInjection;
-
-using Tracker.WebService.Data.Entities;
-using Tracker.WebService.Domain.Mapping;
 
 namespace Tracker.WebService.Domain;
 

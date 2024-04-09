@@ -1,5 +1,3 @@
-using System.Threading;
-
 using MediatR.CommandQuery.MongoDB.Tests.Domain.Models;
 using MediatR.CommandQuery.Notifications;
 

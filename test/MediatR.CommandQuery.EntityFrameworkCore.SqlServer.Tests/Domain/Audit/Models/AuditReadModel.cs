@@ -1,5 +1,3 @@
-using System;
-
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Audit.Models;
 
 public partial class AuditReadModel

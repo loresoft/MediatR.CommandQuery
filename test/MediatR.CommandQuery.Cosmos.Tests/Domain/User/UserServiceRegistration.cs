@@ -1,7 +1,5 @@
 using Cosmos.Abstracts;
 
-using Injectio.Attributes;
-
 using MediatR.CommandQuery.Cosmos.Tests.Domain.Models;
 
 using Microsoft.Extensions.DependencyInjection;

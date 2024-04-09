@@ -1,5 +1,3 @@
-using System.Threading;
-
 using MediatR.CommandQuery.Cosmos.Tests.Domain.Models;
 using MediatR.CommandQuery.Notifications;
 

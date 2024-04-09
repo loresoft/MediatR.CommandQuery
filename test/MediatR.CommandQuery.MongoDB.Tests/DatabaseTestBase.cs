@@ -1,7 +1,3 @@
-using System;
-
-using Xunit.Abstractions;
-
 using XUnit.Hosting;
 
 namespace MediatR.CommandQuery.MongoDB.Tests;

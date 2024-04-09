@@ -1,5 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace MediatR.CommandQuery.Definitions;
 
 /// <summary>

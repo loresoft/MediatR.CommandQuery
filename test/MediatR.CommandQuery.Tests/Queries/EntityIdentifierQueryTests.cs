@@ -1,11 +1,5 @@
-using System;
-
-using FluentAssertions;
-
 using MediatR.CommandQuery.Queries;
 using MediatR.CommandQuery.Tests.Samples;
-
-using Xunit;
 
 namespace MediatR.CommandQuery.Tests.Queries;
 

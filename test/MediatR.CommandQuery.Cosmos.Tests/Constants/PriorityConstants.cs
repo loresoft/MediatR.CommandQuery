@@ -1,5 +1,3 @@
-using System;
-
 using MediatR.CommandQuery.Cosmos.Tests.Data.Entities;
 
 namespace MediatR.CommandQuery.Cosmos.Tests.Constants;

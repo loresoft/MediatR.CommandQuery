@@ -1,4 +1,3 @@
-using System;
 using System.Security.Principal;
 
 using MediatR.CommandQuery.Definitions;

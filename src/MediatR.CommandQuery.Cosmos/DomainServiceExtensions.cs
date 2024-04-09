@@ -18,37 +18,6 @@ namespace MediatR.CommandQuery.Cosmos;
 
 public static class DomainServiceExtensions
 {
-    public static IServiceCollection AddMediator(this IServiceCollection services)
-    {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
-
-        // Register MediatR
-        var serviceConfig = new MediatRServiceConfiguration();
-        ServiceRegistrar.AddRequiredServices(services, serviceConfig);
-
-        return services;
-    }
-
-    public static IServiceCollection AddValidatorsFromAssembly<T>(this IServiceCollection services)
-    {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
-
-        // Register validators
-        var scanner = AssemblyScanner.FindValidatorsInAssemblyContaining<T>();
-        foreach (var scanResult in scanner)
-        {
-            //Register as interface
-            services.TryAdd(new ServiceDescriptor(scanResult.InterfaceType, scanResult.ValidatorType, ServiceLifetime.Singleton));
-            //Register as self
-            services.TryAdd(new ServiceDescriptor(scanResult.ValidatorType, scanResult.ValidatorType, ServiceLifetime.Singleton));
-        }
-
-        return services;
-    }
-
-
     public static IServiceCollection AddEntityQueries<TRepository, TEntity, TReadModel>(this IServiceCollection services)
         where TRepository : ICosmosRepository<TEntity>
         where TEntity : class, IHaveIdentifier<string>, new()

@@ -1,5 +1,3 @@
-using FluentValidation;
-
 using MediatR.CommandQuery.Behaviors;
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
@@ -7,7 +5,6 @@ using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.MongoDB.Handlers;
 using MediatR.CommandQuery.Queries;
 using MediatR.CommandQuery.Services;
-using MediatR.Registration;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -18,37 +15,6 @@ namespace MediatR.CommandQuery.MongoDB;
 
 public static class DomainServiceExtensions
 {
-    public static IServiceCollection AddMediator(this IServiceCollection services)
-    {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
-
-        // Register MediatR
-        var serviceConfig = new MediatRServiceConfiguration();
-        ServiceRegistrar.AddRequiredServices(services, serviceConfig);
-
-        return services;
-    }
-
-    public static IServiceCollection AddValidatorsFromAssembly<T>(this IServiceCollection services)
-    {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
-
-        // Register validators
-        var scanner = AssemblyScanner.FindValidatorsInAssemblyContaining<T>();
-        foreach (var scanResult in scanner)
-        {
-            //Register as interface
-            services.TryAdd(new ServiceDescriptor(scanResult.InterfaceType, scanResult.ValidatorType, ServiceLifetime.Singleton));
-            //Register as self
-            services.TryAdd(new ServiceDescriptor(scanResult.ValidatorType, scanResult.ValidatorType, ServiceLifetime.Singleton));
-        }
-
-        return services;
-    }
-
-
     public static IServiceCollection AddEntityQueries<TRepository, TEntity, TKey, TReadModel>(this IServiceCollection services)
         where TRepository : IMongoRepository<TEntity, TKey>
         where TEntity : class, IHaveIdentifier<TKey>, new()

@@ -1,4 +1,3 @@
-using System;
 using System.Security.Claims;
 using System.Security.Principal;
 
@@ -6,7 +5,7 @@ using MediatR.CommandQuery.MongoDB.Tests.Constants;
 
 namespace MediatR.CommandQuery.MongoDB.Tests;
 
-public class MockPrincipal
+public static class MockPrincipal
 {
     static MockPrincipal()
     {

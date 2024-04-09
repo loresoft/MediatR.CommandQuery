@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities
 {
     public partial class SchemaVersions

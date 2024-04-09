@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-
 using AutoMapper;
-
-using Bogus;
 
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Constants;
@@ -14,8 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 using SystemTextJsonPatch;
 using SystemTextJsonPatch.Operations;
-
-using Xunit.Abstractions;
 
 using Task = System.Threading.Tasks.Task;
 

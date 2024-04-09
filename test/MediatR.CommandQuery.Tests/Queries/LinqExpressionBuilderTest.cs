@@ -1,10 +1,4 @@
-using System.Collections.Generic;
-
-using FluentAssertions;
-
 using MediatR.CommandQuery.Queries;
-
-using Xunit;
 
 namespace MediatR.CommandQuery.Tests.Queries;
 

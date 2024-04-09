@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace MediatR.CommandQuery.Definitions;
 
 public interface IDistributedCacheSerializer

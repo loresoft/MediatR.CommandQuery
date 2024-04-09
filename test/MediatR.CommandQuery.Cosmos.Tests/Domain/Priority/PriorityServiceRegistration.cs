@@ -1,8 +1,4 @@
-using System.Collections.Generic;
-
 using Cosmos.Abstracts;
-
-using Injectio.Attributes;
 
 using MediatR.CommandQuery.Cosmos.Tests.Domain.Models;
 

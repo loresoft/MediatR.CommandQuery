@@ -1,23 +1,14 @@
-using System;
-using System.Collections.Generic;
-
 using AutoMapper;
-
-using Bogus;
 
 using Cosmos.Abstracts;
 
 using MediatR.CommandQuery.Commands;
-using MediatR.CommandQuery.Cosmos.Tests.Data.Entities;
 using MediatR.CommandQuery.Cosmos.Tests.Domain.Models;
 using MediatR.CommandQuery.Queries;
 
 using Microsoft.Extensions.DependencyInjection;
 
 using SystemTextJsonPatch;
-using SystemTextJsonPatch.Operations;
-
-using Xunit.Abstractions;
 
 using Task = System.Threading.Tasks.Task;
 

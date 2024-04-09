@@ -1,4 +1,3 @@
-using System;
 using System.Security.Claims;
 using System.Security.Principal;
 
@@ -6,7 +5,7 @@ using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Constants;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests;
 
-public class MockPrincipal
+public static class MockPrincipal
 {
     static MockPrincipal()
     {

@@ -1,5 +1,5 @@
-using System;
 using FluentValidation;
+
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Models;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Validation

@@ -1,5 +1,3 @@
-using System;
-
 using MediatR.CommandQuery.MongoDB.Tests.Data.Entities;
 
 namespace MediatR.CommandQuery.MongoDB.Tests.Constants;

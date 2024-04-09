@@ -1,5 +1,3 @@
-using System;
-
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities;
 
 using Microsoft.EntityFrameworkCore;

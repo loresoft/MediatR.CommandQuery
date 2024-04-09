@@ -1,5 +1,3 @@
-using System;
-
 using FluentValidation;
 
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Status.Models;

@@ -1,7 +1,3 @@
-using System;
-
-using MediatR.CommandQuery.MongoDB.Tests.Domain;
-
 namespace MediatR.CommandQuery.MongoDB.Tests.Domain.Models;
 
 public partial class AuditCreateModel

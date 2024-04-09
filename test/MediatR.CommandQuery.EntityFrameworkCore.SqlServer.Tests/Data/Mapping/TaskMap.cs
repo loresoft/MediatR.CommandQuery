@@ -1,15 +1,11 @@
-using System;
-
-using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Entities;
-
 using Microsoft.EntityFrameworkCore;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data.Mapping;
 
 public partial class TaskMap
-    : IEntityTypeConfiguration<Task>
+    : IEntityTypeConfiguration<Entities.Task>
 {
-    public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Task> builder)
+    public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Entities.Task> builder)
     {
         #region Generated Configure
         // table

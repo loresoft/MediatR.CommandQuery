@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace MediatR.CommandQuery.EntityFrameworkCore.Tests.Samples;
 
 public class Fruit

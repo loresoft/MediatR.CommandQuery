@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31825.309
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0EE0FE20-53A5-41C9-BBAE-B2EC1B3808F8}"
+	ProjectSection(SolutionItems) = preProject
+		test\Directory.Build.props = test\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Tests", "test\MediatR.CommandQuery.Tests\MediatR.CommandQuery.Tests.csproj", "{22432F49-0412-4979-8C05-62768A48CA2E}"
 EndProject

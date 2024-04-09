@@ -1,5 +1,3 @@
-using System;
-
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Tests.Samples;
 

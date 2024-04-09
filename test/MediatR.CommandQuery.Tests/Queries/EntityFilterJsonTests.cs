@@ -1,12 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Text.Json;
 
-using FluentAssertions;
-
 using MediatR.CommandQuery.Queries;
-
-using Xunit;
 
 namespace MediatR.CommandQuery.Tests.Queries;
 

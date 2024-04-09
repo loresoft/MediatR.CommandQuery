@@ -1,5 +1,3 @@
-using System.Threading;
-
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Task.Models;
 using MediatR.CommandQuery.Notifications;
 

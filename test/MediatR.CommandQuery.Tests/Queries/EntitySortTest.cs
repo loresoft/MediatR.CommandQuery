@@ -1,9 +1,4 @@
-using FluentAssertions;
-
 using MediatR.CommandQuery.Queries;
-
-using Xunit;
-using Xunit.Abstractions;
 
 namespace MediatR.CommandQuery.Tests.Queries;
 

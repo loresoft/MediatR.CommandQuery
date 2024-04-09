@@ -1,5 +1,3 @@
-using System;
-
 using MediatR.CommandQuery.Models;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.Tests.Samples.Models;

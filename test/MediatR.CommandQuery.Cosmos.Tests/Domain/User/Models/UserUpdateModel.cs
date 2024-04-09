@@ -1,5 +1,3 @@
-using System;
-
 namespace MediatR.CommandQuery.Cosmos.Tests.Domain.Models;
 
 public partial class UserUpdateModel

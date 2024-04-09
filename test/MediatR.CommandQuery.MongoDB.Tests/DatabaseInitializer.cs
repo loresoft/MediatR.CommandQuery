@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-
 using MediatR.CommandQuery.MongoDB.Tests.Data.Entities;
 
 using Microsoft.Extensions.DependencyInjection;

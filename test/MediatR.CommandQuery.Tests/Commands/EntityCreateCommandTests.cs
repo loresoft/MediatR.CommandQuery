@@ -1,13 +1,5 @@
-using System;
-
-using Bogus;
-
-using FluentAssertions;
-
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Tests.Samples;
-
-using Xunit;
 
 namespace MediatR.CommandQuery.Tests.Commands;
 

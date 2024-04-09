@@ -3,7 +3,7 @@ using System.Security.Principal;
 
 namespace MediatR.CommandQuery.Tests.Samples;
 
-public class MockPrincipal
+public static class MockPrincipal
 {
     static MockPrincipal()
     {

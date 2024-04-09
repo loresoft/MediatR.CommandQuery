@@ -1,5 +1,3 @@
-using Xunit.Abstractions;
-
 namespace MediatR.CommandQuery.Tests;
 
 public abstract class UnitTestBase

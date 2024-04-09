@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace MediatR.CommandQuery.Models;
 
 public class EntityIdentifiersModel<TKey>

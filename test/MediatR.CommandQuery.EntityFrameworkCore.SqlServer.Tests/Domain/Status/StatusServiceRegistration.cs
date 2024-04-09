@@ -1,5 +1,3 @@
-using System;
-
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Data;
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Status.Models;
 

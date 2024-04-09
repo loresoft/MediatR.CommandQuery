@@ -5,7 +5,7 @@ using MediatR.CommandQuery.Cosmos.Tests.Constants;
 
 namespace MediatR.CommandQuery.Cosmos.Tests;
 
-public class MockPrincipal
+public static class MockPrincipal
 {
     static MockPrincipal()
     {

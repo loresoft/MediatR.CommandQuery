@@ -1,18 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Linq.Dynamic.Core.Exceptions;
-
-using Bogus;
-
-using FluentAssertions;
 
 using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.Queries;
 using MediatR.CommandQuery.Tests.Samples;
-
-using Xunit;
 
 namespace MediatR.CommandQuery.Tests.Extensions;
 

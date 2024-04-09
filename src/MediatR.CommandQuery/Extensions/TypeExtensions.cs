@@ -1,5 +1,3 @@
-using System;
-
 namespace MediatR.CommandQuery.Extensions;
 
 public static class TypeExtensions

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 using AutoMapper;
 
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Constants;
@@ -9,8 +5,6 @@ using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Priority.M
 using MediatR.CommandQuery.Queries;
 
 using Microsoft.Extensions.DependencyInjection;
-
-using Xunit.Abstractions;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Acceptance;
 

@@ -1,5 +1,3 @@
-using System;
-
 namespace MediatR.CommandQuery.MongoDB.Tests.Domain.Models;
 
 public partial class AuditReadModel

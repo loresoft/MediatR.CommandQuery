@@ -1,5 +1,3 @@
-using System;
-
 using Microsoft.EntityFrameworkCore;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.Tests.Samples.Data;
