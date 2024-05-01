@@ -6,8 +6,6 @@ using MediatR.CommandQuery.Definitions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-using SystemTextJsonPatch;
-
 namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers;
 
 public class EntityPatchCommandHandler<TContext, TEntity, TKey, TReadModel>

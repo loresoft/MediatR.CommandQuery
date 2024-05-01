@@ -1,5 +1,3 @@
-using FluentValidation;
-
 using MediatR.CommandQuery.Behaviors;
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
@@ -7,8 +5,6 @@ using MediatR.CommandQuery.EntityFrameworkCore.Handlers;
 using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.Queries;
 using MediatR.CommandQuery.Services;
-using MediatR.NotificationPublishers;
-using MediatR.Registration;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,5 +1,3 @@
-using System;
-
 using AutoMapper;
 
 using Cosmos.Abstracts;
