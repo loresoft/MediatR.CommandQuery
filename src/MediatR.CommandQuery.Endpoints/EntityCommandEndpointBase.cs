@@ -75,48 +75,48 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
 
 
     protected virtual async Task<TReadModel> CreateCommand(
-        CancellationToken cancellationToken,
-        ClaimsPrincipal user,
-        [FromBody] TCreateModel createModel)
+        [FromBody] TCreateModel createModel,
+        ClaimsPrincipal? user = default,
+        CancellationToken cancellationToken = default)
     {
         var command = new EntityCreateCommand<TCreateModel, TReadModel>(user, createModel);
         return await Mediator.Send(command, cancellationToken);
     }
 
     protected virtual async Task<TReadModel> UpdateCommand(
-        CancellationToken cancellationToken,
-        ClaimsPrincipal user,
         [FromRoute] TKey id,
-        [FromBody] TUpdateModel updateModel)
+        [FromBody] TUpdateModel updateModel,
+        ClaimsPrincipal? user = default,
+        CancellationToken cancellationToken = default)
     {
         var command = new EntityUpdateCommand<TKey, TUpdateModel, TReadModel>(user, id, updateModel);
         return await Mediator.Send(command, cancellationToken);
     }
 
     protected virtual async Task<TReadModel> UpsertCommand(
-        CancellationToken cancellationToken,
-        ClaimsPrincipal user,
         [FromRoute] TKey id,
-        [FromBody] TUpdateModel updateModel)
+        [FromBody] TUpdateModel updateModel,
+        ClaimsPrincipal? user = default,
+        CancellationToken cancellationToken = default)
     {
         var command = new EntityUpsertCommand<TKey, TUpdateModel, TReadModel>(user, id, updateModel);
         return await Mediator.Send(command, cancellationToken);
     }
 
     protected virtual async Task<TReadModel> PatchCommand(
-        CancellationToken cancellationToken,
-        ClaimsPrincipal user,
         [FromRoute] TKey id,
-        [FromBody] JsonPatchDocument jsonPatch)
+        [FromBody] JsonPatchDocument jsonPatch,
+        ClaimsPrincipal? user = default,
+        CancellationToken cancellationToken = default)
     {
         var command = new EntityPatchCommand<TKey, TReadModel>(user, id, jsonPatch);
         return await Mediator.Send(command, cancellationToken);
     }
 
     protected virtual async Task<TReadModel> DeleteCommand(
-        CancellationToken cancellationToken,
-        ClaimsPrincipal user,
-        [FromRoute] TKey id)
+        [FromRoute] TKey id,
+        ClaimsPrincipal? user = default,
+        CancellationToken cancellationToken = default)
     {
         var command = new EntityDeleteCommand<TKey, TReadModel>(user, id);
         return await Mediator.Send(command, cancellationToken);

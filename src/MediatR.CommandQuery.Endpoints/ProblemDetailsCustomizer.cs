@@ -14,7 +14,7 @@ public static class ProblemDetailsCustomizer
         options.CustomizeProblemDetails = CustomizeProblemDetails;
     }
 
-    private static void CustomizeProblemDetails(ProblemDetailsContext context)
+    public static void CustomizeProblemDetails(ProblemDetailsContext context)
     {
         var exception = GetException(context);
 

@@ -17,7 +17,9 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
-    public virtual async Task<ActionResult<TReadModel>> Get(CancellationToken cancellationToken, [FromRoute] TKey id)
+    public virtual async Task<ActionResult<TReadModel>> Get(
+        [FromRoute] TKey id,
+        CancellationToken cancellationToken = default)
     {
         return await GetQuery(id, cancellationToken);
     }
@@ -27,7 +29,9 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
-    public virtual async Task<ActionResult<EntityPagedResult<TListModel>>> Page(CancellationToken cancellationToken, [FromBody] EntityQuery query)
+    public virtual async Task<ActionResult<EntityPagedResult<TListModel>>> Page(
+        [FromBody] EntityQuery query,
+        CancellationToken cancellationToken = default)
     {
         return await PagedQuery(query, cancellationToken);
     }
@@ -35,7 +39,12 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
     [HttpGet("page")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
-    public virtual async Task<ActionResult<EntityPagedResult<TListModel>>> Page(CancellationToken cancellationToken, [FromQuery] string? q = null, [FromQuery] string? sort = null, [FromQuery] int page = 1, [FromQuery] int size = 20)
+    public virtual async Task<ActionResult<EntityPagedResult<TListModel>>> Page(
+        [FromQuery] string? q = null,
+        [FromQuery] string? sort = null,
+        [FromQuery] int page = 1,
+        [FromQuery] int size = 20,
+        CancellationToken cancellationToken = default)
     {
         var query = new EntityQuery(q, page, size, sort);
         return await PagedQuery(query, cancellationToken);
@@ -46,7 +55,9 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
-    public virtual async Task<ActionResult<IReadOnlyCollection<TListModel>>> Query(CancellationToken cancellationToken, [FromBody] EntitySelect query)
+    public virtual async Task<ActionResult<IReadOnlyCollection<TListModel>>> Query(
+        [FromBody] EntitySelect query,
+        CancellationToken cancellationToken = default)
     {
         var results = await SelectQuery(query, cancellationToken);
 
@@ -56,7 +67,10 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
     [HttpGet("")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
-    public virtual async Task<ActionResult<IReadOnlyCollection<TListModel>>> Query(CancellationToken cancellationToken, [FromQuery] string? q = null, [FromQuery] string? sort = null)
+    public virtual async Task<ActionResult<IReadOnlyCollection<TListModel>>> Query(
+        [FromQuery] string? q = null,
+        [FromQuery] string? sort = null,
+        CancellationToken cancellationToken = default)
     {
         var query = new EntitySelect(q, sort);
         var results = await SelectQuery(query, cancellationToken);

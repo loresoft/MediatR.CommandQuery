@@ -23,7 +23,9 @@ public abstract class EntityCommandControllerBase<TKey, TListModel, TReadModel, 
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
-    public virtual async Task<ActionResult<TReadModel>> Create(CancellationToken cancellationToken, [FromBody] TCreateModel createModel)
+    public virtual async Task<ActionResult<TReadModel>> Create(
+        [FromBody] TCreateModel createModel,
+        CancellationToken cancellationToken = default)
     {
         return await CreateCommand(createModel, cancellationToken);
     }
@@ -33,7 +35,10 @@ public abstract class EntityCommandControllerBase<TKey, TListModel, TReadModel, 
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
-    public virtual async Task<ActionResult<TReadModel>> Update(CancellationToken cancellationToken, [FromRoute] TKey id, [FromBody] TUpdateModel updateModel)
+    public virtual async Task<ActionResult<TReadModel>> Update(
+        [FromRoute] TKey id,
+        [FromBody] TUpdateModel updateModel,
+        CancellationToken cancellationToken = default)
     {
         return await UpdateCommand(id, updateModel, cancellationToken);
     }
@@ -43,7 +48,10 @@ public abstract class EntityCommandControllerBase<TKey, TListModel, TReadModel, 
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
-    public virtual async Task<ActionResult<TReadModel>> Patch(CancellationToken cancellationToken, [FromRoute] TKey id, [FromBody] JsonPatchDocument jsonPatch)
+    public virtual async Task<ActionResult<TReadModel>> Patch(
+        [FromRoute] TKey id,
+        [FromBody] JsonPatchDocument jsonPatch,
+        CancellationToken cancellationToken = default)
     {
         return await PatchCommand(id, jsonPatch, cancellationToken);
     }
@@ -51,7 +59,9 @@ public abstract class EntityCommandControllerBase<TKey, TListModel, TReadModel, 
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
-    public virtual async Task<ActionResult<TReadModel>> Delete(CancellationToken cancellationToken, [FromRoute] TKey id)
+    public virtual async Task<ActionResult<TReadModel>> Delete(
+        [FromRoute] TKey id,
+        CancellationToken cancellationToken = default)
     {
         return await DeleteCommand(id, cancellationToken);
     }

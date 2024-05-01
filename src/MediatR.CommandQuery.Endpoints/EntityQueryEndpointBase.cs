@@ -86,21 +86,21 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
 
 
     protected virtual async Task<TReadModel> GetQuery(
-        CancellationToken cancellationToken,
-        ClaimsPrincipal user,
-        [FromRoute] TKey id)
+        [FromRoute] TKey id,
+        ClaimsPrincipal? user = default,
+        CancellationToken cancellationToken = default)
     {
         var command = new EntityIdentifierQuery<TKey, TReadModel>(user, id);
         return await Mediator.Send(command, cancellationToken);
     }
 
     protected virtual async Task<EntityPagedResult<TListModel>> GetPagedQuery(
-        CancellationToken cancellationToken,
-        ClaimsPrincipal user,
         [FromQuery] string? q = null,
         [FromQuery] string? sort = null,
         [FromQuery] int? page = 1,
-        [FromQuery] int? size = 20)
+        [FromQuery] int? size = 20,
+        ClaimsPrincipal? user = default,
+        CancellationToken cancellationToken = default)
     {
         var entityQuery = new EntityQuery(q, page ?? 1, size ?? 20, sort);
         var command = new EntityPagedQuery<TListModel>(user, entityQuery);
@@ -108,19 +108,19 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
     }
 
     protected virtual async Task<EntityPagedResult<TListModel>> PostPagedQuery(
-        CancellationToken cancellationToken,
-        ClaimsPrincipal user,
-        [FromBody] EntityQuery entityQuery)
+        [FromBody] EntityQuery entityQuery,
+        ClaimsPrincipal? user = default,
+        CancellationToken cancellationToken = default)
     {
         var command = new EntityPagedQuery<TListModel>(user, entityQuery);
         return await Mediator.Send(command, cancellationToken);
     }
 
     protected virtual async Task<IReadOnlyCollection<TListModel>> GetSelectQuery(
-        CancellationToken cancellationToken,
-        ClaimsPrincipal user,
         [FromQuery] string? q = null,
-        [FromQuery] string? sort = null)
+        [FromQuery] string? sort = null,
+        ClaimsPrincipal? user = default,
+        CancellationToken cancellationToken = default)
     {
         var entitySelect = new EntitySelect(q, sort);
         var command = new EntitySelectQuery<TListModel>(user, entitySelect);
@@ -128,9 +128,9 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
     }
 
     protected virtual async Task<IReadOnlyCollection<TListModel>> PostSelectQuery(
-        CancellationToken cancellationToken,
-        ClaimsPrincipal user,
-        [FromBody] EntitySelect entitySelect)
+        [FromBody] EntitySelect entitySelect,
+        ClaimsPrincipal? user = default,
+        CancellationToken cancellationToken = default)
     {
         var command = new EntitySelectQuery<TListModel>(user, entitySelect);
         return await Mediator.Send(command, cancellationToken);
