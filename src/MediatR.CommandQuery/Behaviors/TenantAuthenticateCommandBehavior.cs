@@ -51,6 +51,8 @@ public class TenantAuthenticateCommandBehavior<TKey, TEntityModel, TResponse>
         if (Equals(tenantId, tenantModel.TenantId))
             return;
 
+        Logger.LogError("User {UserName} does not have access to specified tenant: {TenantId}", principal.Identity?.Name, tenantId);
+
         throw new DomainException(HttpStatusCode.Forbidden, "User does not have access to specified tenant.");
     }
 }

@@ -82,7 +82,7 @@ public partial class DistributedCacheQueryBehavior<TRequest, TResponse> : Pipeli
         return result;
     }
 
-    [LoggerMessage(1, LogLevel.Trace, "Cache {action}; Key: '{cacheKey}'")]
+    [LoggerMessage(1, LogLevel.Trace, "Cache {Action}; Key: '{CacheKey}'")]
     static partial void LogCacheAction(ILogger logger, string action, string cacheKey);
 
 }

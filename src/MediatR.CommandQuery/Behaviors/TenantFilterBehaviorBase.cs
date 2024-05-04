@@ -31,7 +31,10 @@ public abstract class TenantFilterBehaviorBase<TKey, TEntityModel, TRequest, TRe
 
         var tenantId = await TenantResolver.GetTenantId(principal).ConfigureAwait(false);
         if (Equals(tenantId, default(TKey)))
+        {
+            Logger.LogError("Could not find tenant for the query request.");
             throw new DomainException(500, "Could not find tenant for the query request.");
+        }
 
         var tenantFilter = new EntityFilter
         {

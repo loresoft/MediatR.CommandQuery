@@ -39,22 +39,26 @@ public abstract partial class RequestHandlerBase<TRequest, TResponse> : IRequest
 
             return response;
         }
+        catch (DomainException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
             LogError(Logger, _name, request, ex.Message, ex);
-            throw;
+            throw new DomainException(ex.Message, ex);
         }
     }
 
     protected abstract Task<TResponse> Process(TRequest request, CancellationToken cancellationToken);
 
 
-    [LoggerMessage(1, LogLevel.Trace, "Processing handler '{handler}' for request '{request}' ...")]
+    [LoggerMessage(1, LogLevel.Trace, "Processing handler '{Handler}' for request '{Request}' ...")]
     static partial void LogStart(ILogger logger, string handler, IRequest<TResponse> request);
 
-    [LoggerMessage(2, LogLevel.Trace, "Processed handler '{handler}' for request '{request}': {elapsed} ms")]
+    [LoggerMessage(2, LogLevel.Trace, "Processed handler '{Handler}' for request '{Request}': {Elapsed} ms")]
     static partial void LogFinish(ILogger logger, string handler, IRequest<TResponse> request, long elapsed);
 
-    [LoggerMessage(3, LogLevel.Trace, "Error processing handler '{handler}' for request '{request}': {errorMessage}")]
+    [LoggerMessage(3, LogLevel.Error, "Error processing handler '{Handler}' for request '{Request}': {ErrorMessage}")]
     static partial void LogError(ILogger logger, string handler, IRequest<TResponse> request, string errorMessage, Exception? exception);
 }

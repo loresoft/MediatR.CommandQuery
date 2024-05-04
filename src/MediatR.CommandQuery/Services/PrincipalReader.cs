@@ -46,6 +46,6 @@ public partial class PrincipalReader : IPrincipalReader
         return name;
     }
 
-    [LoggerMessage(1, LogLevel.Trace, "Resolved principal claim {type}: {value}")]
+    [LoggerMessage(1, LogLevel.Trace, "Resolved principal claim {Type}: {Value}")]
     static partial void LogPrincipal(ILogger logger, string type, string? value);
 }
