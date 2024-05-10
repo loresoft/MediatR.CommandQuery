@@ -1,5 +1,7 @@
 using System.Diagnostics;
 
+using MediatR.CommandQuery.Services;
+
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Behaviors;
@@ -35,26 +37,16 @@ public abstract partial class PipelineBehaviorBase<TRequest, TResponse>
         if (next is null)
             throw new ArgumentNullException(nameof(next));
 
+        var startTime = ActivityTimer.GetTimestamp();
         try
         {
             LogStart(Logger, _name, request);
-            var watch = Stopwatch.StartNew();
-
-            var response = await Process(request, next, cancellationToken).ConfigureAwait(false);
-
-            watch.Stop();
-            LogFinish(Logger, _name, request, watch.ElapsedMilliseconds);
-
-            return response;
+            return await Process(request, next, cancellationToken).ConfigureAwait(false);
         }
-        catch (DomainException)
+        finally
         {
-            throw;
-        }
-        catch (Exception ex)
-        {
-            LogError(Logger, _name, request, ex.Message, ex);
-            throw new DomainException(ex.Message, ex);
+            var elaspsed = ActivityTimer.GetElapsedTime(startTime);
+            LogFinish(Logger, _name, request, elaspsed.TotalMilliseconds);
         }
     }
 
@@ -68,8 +60,5 @@ public abstract partial class PipelineBehaviorBase<TRequest, TResponse>
     static partial void LogStart(ILogger logger, string behavior, IRequest<TResponse> request);
 
     [LoggerMessage(2, LogLevel.Trace, "Processed behavior '{Behavior}' for request '{Request}': {Elapsed} ms")]
-    static partial void LogFinish(ILogger logger, string behavior, IRequest<TResponse> request, long elapsed);
-
-    [LoggerMessage(3, LogLevel.Error, "Error processing behavior '{Behavior}' for request '{Request}': {ErrorMessage}")]
-    static partial void LogError(ILogger logger, string behavior, IRequest<TResponse> request, string errorMessage, Exception? exception);
+    static partial void LogFinish(ILogger logger, string behavior, IRequest<TResponse> request, double elapsed);
 }

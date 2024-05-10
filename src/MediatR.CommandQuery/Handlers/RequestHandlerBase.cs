@@ -1,5 +1,7 @@
 using System.Diagnostics;
 
+using MediatR.CommandQuery.Services;
+
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Handlers;
@@ -27,26 +29,16 @@ public abstract partial class RequestHandlerBase<TRequest, TResponse> : IRequest
         if (request is null)
             throw new ArgumentNullException(nameof(request));
 
+        var startTime = ActivityTimer.GetTimestamp();
         try
         {
             LogStart(Logger, _name, request);
-            var watch = Stopwatch.StartNew();
-
-            var response = await Process(request, cancellationToken).ConfigureAwait(false);
-
-            watch.Stop();
-            LogFinish(Logger, _name, request, watch.ElapsedMilliseconds);
-
-            return response;
+            return await Process(request, cancellationToken).ConfigureAwait(false);
         }
-        catch (DomainException)
+        finally
         {
-            throw;
-        }
-        catch (Exception ex)
-        {
-            LogError(Logger, _name, request, ex.Message, ex);
-            throw new DomainException(ex.Message, ex);
+            var elaspsed = ActivityTimer.GetElapsedTime(startTime);
+            LogFinish(Logger, _name, request, elaspsed.TotalMilliseconds);
         }
     }
 
@@ -57,8 +49,5 @@ public abstract partial class RequestHandlerBase<TRequest, TResponse> : IRequest
     static partial void LogStart(ILogger logger, string handler, IRequest<TResponse> request);
 
     [LoggerMessage(2, LogLevel.Trace, "Processed handler '{Handler}' for request '{Request}': {Elapsed} ms")]
-    static partial void LogFinish(ILogger logger, string handler, IRequest<TResponse> request, long elapsed);
-
-    [LoggerMessage(3, LogLevel.Error, "Error processing handler '{Handler}' for request '{Request}': {ErrorMessage}")]
-    static partial void LogError(ILogger logger, string handler, IRequest<TResponse> request, string errorMessage, Exception? exception);
+    static partial void LogFinish(ILogger logger, string handler, IRequest<TResponse> request, double elapsed);
 }

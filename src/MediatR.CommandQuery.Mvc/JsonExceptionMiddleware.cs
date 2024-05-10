@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Net;
 using System.Text.Json;
 
 using FluentValidation;
@@ -35,6 +36,13 @@ public class JsonExceptionMiddleware
         try
         {
             await _next(context).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            context.Response.StatusCode = 499; // Client Closed Request
+            context.Response.OnStarting(_clearCacheHeadersDelegate, context.Response);
+
+            return;
         }
         catch (Exception middlewareError)
         {
