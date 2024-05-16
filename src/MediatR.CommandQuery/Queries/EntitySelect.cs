@@ -20,20 +20,20 @@ public class EntitySelect
         Sort = new List<EntitySort> { entitySort };
     }
 
-    public EntitySelect(EntityFilter filter)
+    public EntitySelect(EntityFilter? filter)
     {
         Filter = filter;
     }
 
-    public EntitySelect(EntityFilter filter, EntitySort sort)
+    public EntitySelect(EntityFilter? filter, EntitySort? sort)
     {
         Filter = filter;
 
         if (sort != null)
-            Sort = new List<EntitySort> { sort };
+            Sort = [sort];
     }
 
-    public EntitySelect(EntityFilter filter, IEnumerable<EntitySort> sort)
+    public EntitySelect(EntityFilter? filter, IEnumerable<EntitySort>? sort)
     {
         Filter = filter;
         Sort = sort?.ToList();

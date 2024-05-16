@@ -17,17 +17,17 @@ public class EntityQuery : EntitySelect
         PageSize = pageSize;
     }
 
-    public EntityQuery(EntityFilter filter, int page = 1, int pageSize = 20)
+    public EntityQuery(EntityFilter? filter, int page = 1, int pageSize = 20)
         : this(filter, Enumerable.Empty<EntitySort>(), page, pageSize)
     {
     }
 
-    public EntityQuery(EntityFilter filter, EntitySort sort, int page = 1, int pageSize = 20)
-        : this(filter, new[] { sort }, page, pageSize)
+    public EntityQuery(EntityFilter? filter, EntitySort? sort, int page = 1, int pageSize = 20)
+        : this(filter, (sort != null) ? [sort] : null, page, pageSize)
     {
     }
 
-    public EntityQuery(EntityFilter filter, IEnumerable<EntitySort> sort, int page = 1, int pageSize = 20)
+    public EntityQuery(EntityFilter? filter, IEnumerable<EntitySort>? sort, int page = 1, int pageSize = 20)
         : base(filter, sort)
     {
         Page = page;
