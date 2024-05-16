@@ -1,6 +1,7 @@
 using System.Security.Claims;
 
 using MediatR.CommandQuery.Commands;
+using MediatR.CommandQuery.Queries;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -21,6 +22,16 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
     protected override void MapGroup(RouteGroupBuilder group)
     {
         base.MapGroup(group);
+
+        group
+            .MapGet("{id}/update", GetUpdateQuery)
+            .Produces<TUpdateModel>()
+            .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status500InternalServerError)
+            .WithTags(EntityName)
+            .WithName($"Get{EntityName}Update")
+            .WithSummary("Get an entity for update by id")
+            .WithDescription("Get an entity for update by id");
 
         group
             .MapPost("", CreateCommand)
@@ -73,6 +84,14 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
             .WithDescription("Delete entity");
     }
 
+    protected virtual async Task<TUpdateModel> GetUpdateQuery(
+        [FromRoute] TKey id,
+        ClaimsPrincipal? user = default,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new EntityIdentifierQuery<TKey, TUpdateModel>(user, id);
+        return await Mediator.Send(command, cancellationToken);
+    }
 
     protected virtual async Task<TReadModel> CreateCommand(
         [FromBody] TCreateModel createModel,

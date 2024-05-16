@@ -1,6 +1,7 @@
 using System.Net.Mime;
 
 using MediatR.CommandQuery.Commands;
+using MediatR.CommandQuery.Queries;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,15 @@ public abstract class EntityCommandControllerBase<TKey, TListModel, TReadModel, 
     {
     }
 
+    [HttpGet("{id}/update")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
+    public virtual async Task<ActionResult<TUpdateModel>> GetUpdate(
+        [FromRoute] TKey id,
+        CancellationToken cancellationToken = default)
+    {
+        return await GetUpdateQuery(id, cancellationToken);
+    }
 
     [HttpPost("")]
     [Consumes(MediaTypeNames.Application.Json)]
@@ -28,6 +38,19 @@ public abstract class EntityCommandControllerBase<TKey, TListModel, TReadModel, 
         CancellationToken cancellationToken = default)
     {
         return await CreateCommand(createModel, cancellationToken);
+    }
+
+    [HttpPost("{id}")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationProblemDetails))]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
+    public virtual async Task<ActionResult<TReadModel>> Upsert(
+        [FromRoute] TKey id,
+        [FromBody] TUpdateModel updateModel,
+        CancellationToken cancellationToken = default)
+    {
+        return await UpsertCommand(id, updateModel, cancellationToken);
     }
 
     [HttpPut("{id}")]
@@ -66,6 +89,11 @@ public abstract class EntityCommandControllerBase<TKey, TListModel, TReadModel, 
         return await DeleteCommand(id, cancellationToken);
     }
 
+    protected virtual async Task<TUpdateModel> GetUpdateQuery(TKey id, CancellationToken cancellationToken = default)
+    {
+        var command = new EntityIdentifierQuery<TKey, TUpdateModel>(User, id);
+        return await Mediator.Send(command, cancellationToken);
+    }
 
     protected virtual async Task<TReadModel> CreateCommand(TCreateModel createModel, CancellationToken cancellationToken = default)
     {
