@@ -12,4 +12,6 @@ public static class EntityFilterOperators
     public const string GreaterThan = "gt";
     public const string GreaterThanOrEqual = "gte";
     public const string In = "in";
+    public const string IsNull = "IsNull";
+    public const string IsNotNull = "IsNotNull";
 }

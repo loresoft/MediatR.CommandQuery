@@ -59,6 +59,11 @@ public static class QueryExtensions
         if (string.IsNullOrWhiteSpace(predicate))
             return query;
 
-        return query.Where(predicate, parameters);
+        var config = new ParsingConfig
+        {
+            UseParameterizedNamesInDynamicQuery = true,
+        };
+
+        return query.Where(config, predicate, parameters);
     }
 }

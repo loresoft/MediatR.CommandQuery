@@ -118,6 +118,39 @@ public class LinqExpressionBuilderTest
         builder.Parameters[0].Should().Be("Berry");
     }
 
+    [Fact]
+    public void FilterIsNull()
+    {
+        var entityFilter = new EntityFilter
+        {
+            Name = "Name",
+            Operator = EntityFilterOperators.IsNull
+        };
+        var builder = new LinqExpressionBuilder();
+        builder.Build(entityFilter);
+
+        builder.Expression.Should().NotBeEmpty();
+        builder.Expression.Should().Be("Name == NULL");
+
+        builder.Parameters.Count.Should().Be(0);
+    }
+
+    [Fact]
+    public void FilterIsNotNull()
+    {
+        var entityFilter = new EntityFilter
+        {
+            Name = "Name",
+            Operator = EntityFilterOperators.IsNotNull
+        };
+        var builder = new LinqExpressionBuilder();
+        builder.Build(entityFilter);
+
+        builder.Expression.Should().NotBeEmpty();
+        builder.Expression.Should().Be("Name != NULL");
+
+        builder.Parameters.Count.Should().Be(0);
+    }
 
     [Fact]
     public void FilterIn()

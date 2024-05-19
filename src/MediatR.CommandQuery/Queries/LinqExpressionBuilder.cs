@@ -14,7 +14,15 @@ public class LinqExpressionBuilder
         { EntityFilterOperators.LessThan, "<" },
         { EntityFilterOperators.LessThanOrEqual, "<=" },
         { EntityFilterOperators.GreaterThan, ">" },
-        { EntityFilterOperators.GreaterThanOrEqual, ">=" }
+        { EntityFilterOperators.GreaterThanOrEqual, ">=" },
+        { "equals", "==" },
+        { "not equals", "!=" },
+        { "starts with", EntityFilterOperators.StartsWith },
+        { "ends with", EntityFilterOperators.EndsWith },
+        { "is null", EntityFilterOperators.IsNull },
+        { "is empty", EntityFilterOperators.IsNull },
+        { "is not null", EntityFilterOperators.IsNotNull },
+        { "is not empty", EntityFilterOperators.IsNotNull },
     };
 
     private readonly StringBuilder _expression = new();
@@ -73,26 +81,48 @@ public class LinqExpressionBuilder
         var value = entityFilter.Value;
 
         // translate operator
-        var o = string.IsNullOrWhiteSpace(entityFilter.Operator) ? "==" : entityFilter.Operator;
-        _operatorMap.TryGetValue(o, out var comparison);
+        var operatorValue = string.IsNullOrWhiteSpace(entityFilter.Operator) ? "==" : entityFilter.Operator;
+        _operatorMap.TryGetValue(operatorValue, out var comparison);
         if (string.IsNullOrEmpty(comparison))
-            comparison = o.Trim();
+            comparison = operatorValue.Trim();
 
         // use function call
         var negation = comparison.StartsWith("!") || comparison.StartsWith("not", StringComparison.OrdinalIgnoreCase) ? "!" : string.Empty;
 
         if (comparison.EndsWith(EntityFilterOperators.StartsWith, StringComparison.OrdinalIgnoreCase))
+        {
             _expression.Append(negation).Append(name).Append(".StartsWith(@").Append(index).Append(')');
+            _values.Add(value);
+        }
         else if (comparison.EndsWith(EntityFilterOperators.EndsWith, StringComparison.OrdinalIgnoreCase))
+        {
             _expression.Append(negation).Append(name).Append(".EndsWith(@").Append(index).Append(')');
+            _values.Add(value);
+        }
         else if (comparison.EndsWith(EntityFilterOperators.Contains, StringComparison.OrdinalIgnoreCase))
+        {
             _expression.Append(negation).Append(name).Append(".Contains(@").Append(index).Append(')');
+            _values.Add(value);
+        }
+        else if (comparison.EndsWith(EntityFilterOperators.IsNull, StringComparison.OrdinalIgnoreCase))
+        {
+            _expression.Append(name).Append(" == NULL");
+        }
+        else if (comparison.EndsWith(EntityFilterOperators.IsNotNull, StringComparison.OrdinalIgnoreCase))
+        {
+            _expression.Append(name).Append(" != NULL");
+        }
         else if (comparison.EndsWith(EntityFilterOperators.In, StringComparison.OrdinalIgnoreCase))
+        {
             _expression.Append(negation).Append("it.").Append(name).Append(" in @").Append(index);
+            _values.Add(value);
+        }
         else
+        {
             _expression.Append(name).Append(' ').Append(comparison).Append(" @").Append(index);
+            _values.Add(value);
+        }
 
-        _values.Add(value);
     }
 
     private bool WriteGroup(EntityFilter entityFilter)

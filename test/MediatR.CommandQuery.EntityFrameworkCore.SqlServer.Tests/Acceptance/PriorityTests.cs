@@ -83,4 +83,77 @@ public class PriorityTests : DatabaseTestBase
         listResult.Should().NotBeNull();
         listResult.Total.Should().Be(2);
     }
+
+    [Fact]
+    [Trait("Category", "SqlServer")]
+    public async Task EntityQueryDescriptionNull()
+    {
+        var mediator = ServiceProvider.GetService<IMediator>();
+        mediator.Should().NotBeNull();
+
+        var mapper = ServiceProvider.GetService<IMapper>();
+        mapper.Should().NotBeNull();
+
+        // Query Entity
+        var entityQuery = new EntityQuery
+        {
+            Sort = new List<EntitySort> { new EntitySort { Name = "Updated", Direction = "Descending" } },
+            Filter = new EntityFilter { Name = "Description", Operator = "IsNull" }
+        };
+        var listQuery = new EntityPagedQuery<PriorityReadModel>(MockPrincipal.Default, entityQuery);
+
+        var listResult = await mediator.Send(listQuery);
+        listResult.Should().NotBeNull();
+    }
+
+    [Fact]
+    [Trait("Category", "SqlServer")]
+    public async Task EntityQueryDescriptionNOtNull()
+    {
+        var mediator = ServiceProvider.GetService<IMediator>();
+        mediator.Should().NotBeNull();
+
+        var mapper = ServiceProvider.GetService<IMapper>();
+        mapper.Should().NotBeNull();
+
+        // Query Entity
+        var entityQuery = new EntityQuery
+        {
+            Sort = new List<EntitySort> { new EntitySort { Name = "Updated", Direction = "Descending" } },
+            Filter = new EntityFilter { Name = "Description", Operator = "is not null" }
+        };
+        var listQuery = new EntityPagedQuery<PriorityReadModel>(MockPrincipal.Default, entityQuery);
+
+        var listResult = await mediator.Send(listQuery);
+        listResult.Should().NotBeNull();
+    }
+
+
+    [Fact]
+    [Trait("Category", "SqlServer")]
+    public async Task EntityQueryMultipleFilters()
+    {
+        var mediator = ServiceProvider.GetService<IMediator>();
+        mediator.Should().NotBeNull();
+
+        var mapper = ServiceProvider.GetService<IMapper>();
+        mapper.Should().NotBeNull();
+
+        // Query Entity
+        var entityQuery = new EntityQuery
+        {
+            Sort = new List<EntitySort> { new EntitySort { Name = "Updated", Direction = "Descending" } },
+            Filter = new EntityFilter
+            {
+                Filters = new List<EntityFilter> {
+                    new EntityFilter { Name = "Description", Operator = "is null" },
+                    new EntityFilter { Name = "Name", Operator = "equals", Value = "High" }
+                }
+            }
+        };
+        var listQuery = new EntityPagedQuery<PriorityReadModel>(MockPrincipal.Default, entityQuery);
+
+        var listResult = await mediator.Send(listQuery);
+        listResult.Should().NotBeNull();
+    }
 }
