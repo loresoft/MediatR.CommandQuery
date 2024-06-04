@@ -29,7 +29,8 @@ public class EntityChangeNotificationBehavior<TKey, TEntityModel, TResponse>
 
         var response = await next().ConfigureAwait(false);
 
-        await SendNotification(request, response, cancellationToken);
+        if (response is not null)
+            await SendNotification(request, response, cancellationToken);
 
         return response;
     }
