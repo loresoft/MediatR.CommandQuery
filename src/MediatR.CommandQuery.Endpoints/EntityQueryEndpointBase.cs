@@ -85,7 +85,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
     }
 
 
-    protected virtual async Task<TReadModel> GetQuery(
+    protected virtual async Task<TReadModel?> GetQuery(
         [FromRoute] TKey id,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)

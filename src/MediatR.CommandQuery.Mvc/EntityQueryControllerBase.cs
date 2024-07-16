@@ -17,7 +17,7 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ProblemDetails))]
-    public virtual async Task<ActionResult<TReadModel>> Get(
+    public virtual async Task<ActionResult<TReadModel?>> Get(
         [FromRoute] TKey id,
         CancellationToken cancellationToken = default)
     {
@@ -79,7 +79,7 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
     }
 
 
-    protected virtual async Task<TReadModel> GetQuery(TKey id, CancellationToken cancellationToken = default)
+    protected virtual async Task<TReadModel?> GetQuery(TKey id, CancellationToken cancellationToken = default)
     {
         var command = new EntityIdentifierQuery<TKey, TReadModel>(User, id);
         return await Mediator.Send(command, cancellationToken);

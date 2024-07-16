@@ -1,3 +1,5 @@
+// Ignore Spelling: Cacheable
+
 using System.Security.Principal;
 
 using MediatR.CommandQuery.Definitions;
