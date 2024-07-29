@@ -9,7 +9,7 @@ namespace MediatR.CommandQuery.Behaviors;
 
 public abstract class DeletedFilterBehaviorBase<TEntityModel, TRequest, TResponse>
     : PipelineBehaviorBase<TRequest, TResponse>
-    where TRequest : class, IRequest<TResponse>
+    where TRequest : notnull
 {
     // ReSharper disable once StaticMemberInGenericType
     private static readonly Lazy<bool> _supportsDelete = new(SupportsDelete);

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 namespace MediatR.CommandQuery.Behaviors;
 
 public partial class MemoryCacheQueryBehavior<TRequest, TResponse> : PipelineBehaviorBase<TRequest, TResponse>
-    where TRequest : class, IRequest<TResponse>
+    where TRequest : notnull
 {
     private readonly IMemoryCache _memoryCache;
 

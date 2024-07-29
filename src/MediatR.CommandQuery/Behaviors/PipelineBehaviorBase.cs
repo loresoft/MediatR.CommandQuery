@@ -1,5 +1,6 @@
 using System.Diagnostics;
 
+using MediatR.CommandQuery.Results;
 using MediatR.CommandQuery.Services;
 
 using Microsoft.Extensions.Logging;
@@ -8,7 +9,7 @@ namespace MediatR.CommandQuery.Behaviors;
 
 public abstract partial class PipelineBehaviorBase<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : class, IRequest<TResponse>
+     where TRequest : notnull
 {
     private readonly string _name;
 
@@ -57,8 +58,8 @@ public abstract partial class PipelineBehaviorBase<TRequest, TResponse>
 
 
     [LoggerMessage(1, LogLevel.Trace, "Processing behavior '{Behavior}' for request '{Request}' ...")]
-    static partial void LogStart(ILogger logger, string behavior, IRequest<TResponse> request);
+    static partial void LogStart(ILogger logger, string behavior, TRequest request);
 
     [LoggerMessage(2, LogLevel.Trace, "Processed behavior '{Behavior}' for request '{Request}': {Elapsed} ms")]
-    static partial void LogFinish(ILogger logger, string behavior, IRequest<TResponse> request, double elapsed);
+    static partial void LogFinish(ILogger logger, string behavior, TRequest request, double elapsed);
 }

@@ -10,7 +10,7 @@ namespace MediatR.CommandQuery.Behaviors;
 public abstract class TenantFilterBehaviorBase<TKey, TEntityModel, TRequest, TResponse>
     : PipelineBehaviorBase<TRequest, TResponse>
     where TEntityModel : class
-    where TRequest : class, IRequest<TResponse>
+    where TRequest : notnull
 {
     // ReSharper disable once StaticMemberInGenericType
     private static readonly Lazy<bool> _supportsTenant = new(SupportsTenant);
