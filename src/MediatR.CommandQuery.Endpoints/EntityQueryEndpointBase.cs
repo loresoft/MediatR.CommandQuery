@@ -1,6 +1,12 @@
+using System.Globalization;
 using System.Security.Claims;
+using System.Text.Json;
+
+using CsvHelper;
+using CsvHelper.Configuration;
 
 using MediatR.CommandQuery.Queries;
+using MediatR.CommandQuery.Services;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -82,6 +88,26 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
             .WithName($"Query{EntityName}List")
             .WithSummary("Get entities by query")
             .WithDescription("Get entities by query");
+
+        group
+            .MapPost("export", PostExportQuery)
+            .Produces<IResult>(200, "text/csv")
+            .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status500InternalServerError)
+            .WithTags(EntityName)
+            .WithName($"Export{EntityName}List")
+            .WithSummary("Export entities by query")
+            .WithDescription("Export entities by query");
+
+        group
+            .MapGet("export", GetExportQuery)
+            .Produces<IResult>(200, "text/csv")
+            .ProducesValidationProblem()
+            .ProducesProblem(StatusCodes.Status500InternalServerError)
+            .WithTags(EntityName)
+            .WithName($"GetExport{EntityName}List")
+            .WithSummary("Get Export entities by query")
+            .WithDescription("Get Export entities by query");
     }
 
 
@@ -134,5 +160,63 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
     {
         var command = new EntitySelectQuery<TListModel>(user, entitySelect);
         return await Mediator.Send(command, cancellationToken);
+    }
+
+    protected virtual async Task<IResult> PostExportQuery(
+        [FromBody] EntitySelect entitySelect,
+        [FromServices] CsvConfiguration? csvConfiguration = default,
+        ClaimsPrincipal? user = default,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new EntitySelectQuery<TListModel>(user, entitySelect);
+        var results = await Mediator.Send(command, cancellationToken);
+
+        csvConfiguration ??= new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = true };
+
+        await using var memoryStream = new MemoryStream();
+        await using var streamWriter = new StreamWriter(memoryStream);
+        await using var csvWriter = new CsvWriter(streamWriter, csvConfiguration);
+
+        WriteExportData(csvWriter, results);
+
+        streamWriter.Flush();
+
+        var buffer = memoryStream.ToArray();
+
+        return Results.File(buffer, "text/csv");
+    }
+
+    protected virtual async Task<IResult> GetExportQuery(
+        [FromQuery] string? encodedQuery = null,
+        [FromServices] CsvConfiguration? csvConfiguration = default,
+        [FromServices] JsonSerializerOptions? jsonSerializerOptions = default,
+        ClaimsPrincipal? user = default,
+        CancellationToken cancellationToken = default)
+    {
+        jsonSerializerOptions ??= new JsonSerializerOptions(JsonSerializerDefaults.Web);
+
+        var entitySelect = QueryStringEncoder.Decode<EntitySelect>(encodedQuery, jsonSerializerOptions) ?? new EntitySelect();
+        var command = new EntitySelectQuery<TListModel>(user, entitySelect);
+        var results = await Mediator.Send(command, cancellationToken);
+
+        csvConfiguration ??= new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = true };
+
+        await using var memoryStream = new MemoryStream();
+        await using var streamWriter = new StreamWriter(memoryStream);
+        await using var csvWriter = new CsvWriter(streamWriter, csvConfiguration);
+
+        WriteExportData(csvWriter, results);
+
+        streamWriter.Flush();
+
+        var buffer = memoryStream.ToArray();
+
+        return Results.File(buffer, "text/csv");
+    }
+
+
+    protected virtual void WriteExportData(CsvWriter csvWriter, IReadOnlyCollection<TListModel> results)
+    {
+        csvWriter.WriteRecords(results);
     }
 }
