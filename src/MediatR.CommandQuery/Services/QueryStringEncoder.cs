@@ -24,7 +24,7 @@ public static class QueryStringEncoder
         return Base64UrlEncode(jsonBytes);
     }
 
-    public static T? Decode<T>(string encodedQueryString, JsonSerializerOptions? jsonSerializerOptions = null)
+    public static T? Decode<T>(string? encodedQueryString, JsonSerializerOptions? jsonSerializerOptions = null)
     {
         if (string.IsNullOrWhiteSpace(encodedQueryString))
             return default;

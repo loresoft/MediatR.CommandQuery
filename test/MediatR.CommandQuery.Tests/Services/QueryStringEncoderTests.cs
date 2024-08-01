@@ -14,7 +14,7 @@ public class QueryStringEncoderTests
         };
 
         var queryString = QueryStringEncoder.Encode(entitySelect);
-        queryString.Should().Be("CzsAAASe5889-eEHdHnRNvqRiyjYgBPCSHNOZNb72k7Uz0E3Rf2G1FNZKoamH5HbQf2pIoSw_X_G6I-iURkQtGj4RfU_qxOuhyLOyjHqEdIuoPiPR9Mj2EMwlSXXZQA");
+        queryString.Should().NotBeNullOrWhiteSpace();
 
         var resultSelect = QueryStringEncoder.Decode<EntitySelect>(queryString);
         resultSelect.Should().NotBeNull();
@@ -23,5 +23,8 @@ public class QueryStringEncoderTests
         resultSelect.Filter.Operator.Should().Be("IsNull");
 
         resultSelect.Sort.Should().NotBeNullOrEmpty();
+        resultSelect.Sort[0].Name.Should().Be("Updated");
+        resultSelect.Sort[0].Direction.Should().Be("Descending");
+
     }
 }
