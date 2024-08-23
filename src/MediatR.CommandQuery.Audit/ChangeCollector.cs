@@ -3,6 +3,8 @@ using EntityChange.Extensions;
 
 using MediatR.CommandQuery.Definitions;
 
+using Microsoft.Extensions.Logging;
+
 namespace MediatR.CommandQuery.Audit;
 
 /// <summary>
@@ -11,18 +13,21 @@ namespace MediatR.CommandQuery.Audit;
 /// <typeparam name="TKey">The type of the key.</typeparam>
 /// <typeparam name="TEntity">The type of the entity.</typeparam>
 /// <seealso cref="MediatR.CommandQuery.Audit.IChangeCollector{TKey, TEntity}" />
-public class ChangeCollector<TKey, TEntity> : IChangeCollector<TKey, TEntity>
+public partial class ChangeCollector<TKey, TEntity> : IChangeCollector<TKey, TEntity>
     where TEntity : IHaveIdentifier<TKey>, ITrackUpdated, ITrackHistory
 {
     private readonly IEntityComparer _entityComparer;
+    private readonly ILogger _logger;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChangeCollector{TKey, TEntity}"/> class.
     /// </summary>
     /// <param name="entityComparer">The entity comparer.</param>
-    public ChangeCollector(IEntityComparer entityComparer)
+    /// <param name="loggerFactory">The logger factory.</param>
+    public ChangeCollector(IEntityComparer entityComparer, ILoggerFactory loggerFactory)
     {
         _entityComparer = entityComparer;
+        _logger = loggerFactory.CreateLogger<ChangeCollector<TKey, TEntity>>();
     }
 
     /// <summary>
@@ -65,12 +70,23 @@ public class ChangeCollector<TKey, TEntity> : IChangeCollector<TKey, TEntity>
 
         foreach (var group in entities.GroupBy(groupSelector))
         {
-            var groupList = group
-                .OrderBy(p => p.PeriodEnd)
-                .ToList();
+            try
+            {
+                LogCollectingChanges(_logger, entityName, group.Key);
 
-            var auditList = CollectChanges(groupList, entityName, descriptionFunction);
-            historyList.AddRange(auditList);
+                var groupList = group
+                    .OrderBy(p => p.PeriodEnd)
+                    .ToList();
+
+                var auditList = CollectChanges(groupList, entityName, descriptionFunction);
+                historyList.AddRange(auditList);
+            }
+            catch (Exception ex)
+            {
+                LogCollectingError(_logger, entityName, group.Key, ex.Message, ex);
+
+                throw;
+            }
         }
 
         return historyList;
@@ -159,5 +175,12 @@ public class ChangeCollector<TKey, TEntity> : IChangeCollector<TKey, TEntity>
 
         return historyRecords;
     }
+
+
+    [LoggerMessage(1, LogLevel.Debug, "Collecting changes for {EntityName} with key {EntityKey} ...")]
+    static partial void LogCollectingChanges(ILogger logger, string entityName, object entityKey);
+
+    [LoggerMessage(2, LogLevel.Error, "Error collecting changes for {EntityName} with key {EntityKey}: {ErrorMessage}")]
+    static partial void LogCollectingError(ILogger logger, string entityName, object entityKey, string errorMessage, Exception? exception);
 
 }
