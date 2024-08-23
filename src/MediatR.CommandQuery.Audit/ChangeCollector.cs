@@ -70,9 +70,11 @@ public partial class ChangeCollector<TKey, TEntity> : IChangeCollector<TKey, TEn
 
         foreach (var group in entities.GroupBy(groupSelector))
         {
+            var key = group.Key?.ToString();
+
             try
             {
-                LogCollectingChanges(_logger, entityName, group.Key);
+                LogCollectingChanges(_logger, entityName, key);
 
                 var groupList = group
                     .OrderBy(p => p.PeriodEnd)
@@ -83,7 +85,7 @@ public partial class ChangeCollector<TKey, TEntity> : IChangeCollector<TKey, TEn
             }
             catch (Exception ex)
             {
-                LogCollectingError(_logger, entityName, group.Key, ex.Message, ex);
+                LogCollectingError(_logger, entityName, key, ex.Message, ex);
 
                 throw;
             }
@@ -178,9 +180,9 @@ public partial class ChangeCollector<TKey, TEntity> : IChangeCollector<TKey, TEn
 
 
     [LoggerMessage(1, LogLevel.Debug, "Collecting changes for {EntityName} with key {EntityKey} ...")]
-    static partial void LogCollectingChanges(ILogger logger, string entityName, object entityKey);
+    static partial void LogCollectingChanges(ILogger logger, string entityName, string? entityKey);
 
     [LoggerMessage(2, LogLevel.Error, "Error collecting changes for {EntityName} with key {EntityKey}: {ErrorMessage}")]
-    static partial void LogCollectingError(ILogger logger, string entityName, object entityKey, string errorMessage, Exception? exception);
+    static partial void LogCollectingError(ILogger logger, string entityName, string? entityKey, string errorMessage, Exception? exception);
 
 }
