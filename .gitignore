@@ -349,3 +349,4 @@ MigrationBackup/
 *.GhostDoc.xml
 *.csv
 *.txt
+*.clef

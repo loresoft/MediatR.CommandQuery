@@ -1,16 +1,25 @@
+using System.Runtime.Serialization;
 using System.Security.Principal;
+using System.Text.Json.Serialization;
 
 namespace MediatR.CommandQuery.Commands;
 
 public abstract class PrincipalCommandBase<TResponse> : IRequest<TResponse>
 {
     protected PrincipalCommandBase(IPrincipal? principal)
+        : this(DateTimeOffset.UtcNow, principal?.Identity?.Name)
     {
         Principal = principal;
-        ActivatedBy = principal?.Identity?.Name;
-        Activated = DateTimeOffset.UtcNow;
     }
 
+    protected PrincipalCommandBase(DateTimeOffset activated, string? activatedBy)
+    {
+        Activated = activated;
+        ActivatedBy = activatedBy;
+    }
+
+    [JsonIgnore]
+    [IgnoreDataMember]
     public IPrincipal? Principal { get; }
 
     public DateTimeOffset Activated { get; }
@@ -19,7 +28,9 @@ public abstract class PrincipalCommandBase<TResponse> : IRequest<TResponse>
 
     public override string ToString()
     {
-        return $"Date: {Activated}; User: {ActivatedBy}";
+        return $"Activated: {Activated}; ActivatedBy: {ActivatedBy}";
     }
 
+    // ignore Principal property without attribute for JSON.NET
+    public bool ShouldSerializePrincipal() => false;
 }

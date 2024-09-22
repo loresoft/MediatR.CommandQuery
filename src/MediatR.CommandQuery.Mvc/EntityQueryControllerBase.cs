@@ -1,9 +1,16 @@
+using System.Globalization;
 using System.Net.Mime;
+using System.Text.Json;
+
+using CsvHelper;
+using CsvHelper.Configuration;
 
 using MediatR.CommandQuery.Queries;
+using MediatR.CommandQuery.Services;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MediatR.CommandQuery.Mvc;
 
@@ -79,6 +86,60 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
     }
 
 
+    [HttpPost("export")]
+    [Produces("text/csv")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public virtual async Task<ActionResult> Export(
+        [FromBody] EntitySelect query,
+        CancellationToken cancellationToken = default)
+    {
+        var results = await SelectQuery(query, cancellationToken);
+
+        var csvConfiguration = HttpContext.RequestServices.GetService<CsvConfiguration>()
+            ?? new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = true };
+
+        await using var memoryStream = new MemoryStream();
+        await using var streamWriter = new StreamWriter(memoryStream);
+        await using var csvWriter = new CsvWriter(streamWriter, csvConfiguration);
+
+        WriteExportData(csvWriter, results);
+
+        streamWriter.Flush();
+
+        var buffer = memoryStream.ToArray();
+
+        return File(buffer, "text/csv");
+    }
+
+    [HttpGet("export")]
+    [Produces("text/csv")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public virtual async Task<ActionResult> Export(
+        [FromQuery] string? encodedQuery = null,
+        CancellationToken cancellationToken = default)
+    {
+        var jsonSerializerOptions = HttpContext.RequestServices.GetService<JsonSerializerOptions>()
+            ?? new JsonSerializerOptions(JsonSerializerDefaults.Web);
+
+        var query = QueryStringEncoder.Decode<EntitySelect>(encodedQuery, jsonSerializerOptions) ?? new EntitySelect();
+        var results = await SelectQuery(query, cancellationToken);
+
+        var csvConfiguration = HttpContext.RequestServices.GetService<CsvConfiguration>()
+            ?? new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = true };
+
+        await using var memoryStream = new MemoryStream();
+        await using var streamWriter = new StreamWriter(memoryStream);
+        await using var csvWriter = new CsvWriter(streamWriter, csvConfiguration);
+
+        WriteExportData(csvWriter, results);
+
+        streamWriter.Flush();
+
+        var buffer = memoryStream.ToArray();
+
+        return File(buffer, "text/csv");
+    }
+
     protected virtual async Task<TReadModel?> GetQuery(TKey id, CancellationToken cancellationToken = default)
     {
         var command = new EntityIdentifierQuery<TKey, TReadModel>(User, id);
@@ -95,5 +156,11 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
     {
         var command = new EntitySelectQuery<TListModel>(User, entitySelect);
         return await Mediator.Send(command, cancellationToken);
+    }
+
+
+    protected virtual void WriteExportData(CsvWriter csvWriter, IReadOnlyCollection<TListModel> results)
+    {
+        csvWriter.WriteRecords(results);
     }
 }

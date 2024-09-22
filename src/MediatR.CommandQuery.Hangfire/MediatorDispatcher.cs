@@ -1,6 +1,7 @@
 using System.Diagnostics;
 
 using Hangfire;
+using Hangfire.Server;
 
 using MediatR.CommandQuery.Services;
 
@@ -20,11 +21,13 @@ public partial class MediatorDispatcher : IMediatorDispatcher
     }
 
     [JobDisplayName("Job: {0}")]
-    public async Task Send<TRequest>(TRequest request, CancellationToken cancellationToken)
+    public async Task Send<TRequest>(TRequest request, PerformContext? context, CancellationToken cancellationToken)
         where TRequest : IBaseRequest
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
+
+        var scope = _logger.BeginScope("Hangfire Job Id: {JobId}", context?.BackgroundJob?.Id);
 
         var startTime = ActivityTimer.GetTimestamp();
         try
@@ -46,16 +49,18 @@ public partial class MediatorDispatcher : IMediatorDispatcher
         {
             var elaspsed = ActivityTimer.GetElapsedTime(startTime);
             LogFinish(_logger, request, elaspsed.TotalMilliseconds);
+
+            scope?.Dispose();
         }
 
     }
 
-    [LoggerMessage(1, LogLevel.Trace, "Dispatching request '{request}' ...")]
+    [LoggerMessage(1, LogLevel.Trace, "Dispatching request '{Request}' ...")]
     static partial void LogStart(ILogger logger, IBaseRequest request);
 
-    [LoggerMessage(2, LogLevel.Trace, "Dispatched request '{request}': {elapsed} ms")]
+    [LoggerMessage(2, LogLevel.Trace, "Dispatched request '{Request}': {Elapsed} ms")]
     static partial void LogFinish(ILogger logger, IBaseRequest request, double elapsed);
 
-    [LoggerMessage(3, LogLevel.Error, "Error Dispatching request '{request}': {errorMessage}")]
+    [LoggerMessage(3, LogLevel.Error, "Error Dispatching request '{Request}': {ErrorMessage}")]
     static partial void LogError(ILogger logger, IBaseRequest request, string errorMessage, Exception? exception);
 }

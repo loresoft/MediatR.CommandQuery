@@ -15,15 +15,18 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
-    <PackageReference Include="Injectio" Version="3.1.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.7" />
-    <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.14" />
+    <PackageReference Include="Hangfire.SqlServer" Version="1.8.14" />
+    <PackageReference Include="Injectio" Version="3.3.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\MediatR.CommandQuery.Endpoints\MediatR.CommandQuery.Endpoints.csproj" />
     <ProjectReference Include="..\..\src\MediatR.CommandQuery.EntityFrameworkCore\MediatR.CommandQuery.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\src\MediatR.CommandQuery.Hangfire\MediatR.CommandQuery.Hangfire.csproj" />
     <ProjectReference Include="..\..\src\MediatR.CommandQuery.Mvc\MediatR.CommandQuery.Mvc.csproj" />
   </ItemGroup>
 

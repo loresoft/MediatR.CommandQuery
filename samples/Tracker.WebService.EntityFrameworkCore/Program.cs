@@ -4,13 +4,22 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
+using Hangfire;
+using Hangfire.SqlServer;
+
 using MediatR.CommandQuery.Endpoints;
+using MediatR.CommandQuery.Hangfire;
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 using Serilog;
 using Serilog.Events;
+using Serilog.Formatting.Compact;
 
 using Tracker.WebService.Domain;
 
@@ -22,10 +31,6 @@ public static class Program
 
     public static async Task<int> Main(string[] args)
     {
-        // azure home directory
-        var homeDirectory = Environment.GetEnvironmentVariable("HOME") ?? ".";
-        var logDirectory = Path.Combine(homeDirectory, "LogFiles");
-
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Verbose()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
@@ -39,23 +44,7 @@ public static class Program
 
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Host
-                .UseSerilog((context, services, configuration) => configuration
-                    .ReadFrom.Configuration(context.Configuration)
-                    .ReadFrom.Services(services)
-                    .Enrich.FromLogContext()
-                    .Enrich.WithProperty("ApplicationName", builder.Environment.ApplicationName)
-                    .Enrich.WithProperty("EnvironmentName", builder.Environment.EnvironmentName)
-                    .WriteTo.Console(outputTemplate: OutputTemplate)
-                    .WriteTo.File(
-                        path: $"{logDirectory}/log.txt",
-                        rollingInterval: RollingInterval.Day,
-                        shared: true,
-                        flushToDiskInterval: TimeSpan.FromSeconds(1),
-                        outputTemplate: OutputTemplate,
-                        retainedFileCountLimit: 10
-                    )
-                );
+            ConfigureLogging(builder);
 
             ConfigureServices(builder);
 
@@ -78,6 +67,34 @@ public static class Program
         }
     }
 
+    private static void ConfigureLogging(WebApplicationBuilder builder)
+    {
+        string logDirectory = GetLoggingPath();
+
+        builder.Host
+            .UseSerilog((context, services, configuration) => configuration
+                .ReadFrom.Configuration(context.Configuration)
+                .ReadFrom.Services(services)
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+                .MinimumLevel.Override("System.Net.Http.HttpClient", LogEventLevel.Debug)
+                .Enrich.FromLogContext()
+                .Enrich.WithProperty("ApplicationName", builder.Environment.ApplicationName)
+                .Enrich.WithProperty("EnvironmentName", builder.Environment.EnvironmentName)
+                .Filter.ByExcluding(logEvent => logEvent.Exception is OperationCanceledException)
+                .WriteTo.Console(outputTemplate: OutputTemplate)
+                .WriteTo.File(
+                    formatter: new RenderedCompactJsonFormatter(),
+                    path: $"{logDirectory}/log.clef",
+                    shared: true,
+                    flushToDiskInterval: TimeSpan.FromSeconds(1),
+                    rollingInterval: RollingInterval.Day,
+                    retainedFileCountLimit: 10
+                ));
+        ;
+    }
+
     private static void ConfigureServices(WebApplicationBuilder builder)
     {
         var services = builder.Services;
@@ -98,6 +115,32 @@ public static class Program
             options.SerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
             options.SerializerOptions.TypeInfoResolverChain.Add(DomainJsonContext.Default);
         });
+
+        // hangfire options
+        services.TryAddSingleton(new SqlServerStorageOptions
+        {
+            PrepareSchemaIfNecessary = true,
+            EnableHeavyMigrations = true,
+            SqlClientFactory = Microsoft.Data.SqlClient.SqlClientFactory.Instance
+        });
+
+        services.AddHangfire((serviceProvider, globalConfiguration) =>
+        {
+            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            var stroageOptions = serviceProvider.GetRequiredService<SqlServerStorageOptions>();
+            var connectionString = configuration.GetConnectionString("Tracker");
+
+            globalConfiguration
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseSqlServerStorage(connectionString, stroageOptions)
+                .UseMediatR();
+        });
+
+        services.AddMediatorDispatcher();
+
+        services.AddHangfireServer();
+
     }
 
     private static void ConfigureMiddleware(WebApplication app)
@@ -114,6 +157,16 @@ public static class Program
 
         app.UseAuthorization();
 
+        app.MapHangfireDashboard("/hangfire");
         app.MapFeatureEndpoints();
+    }
+
+    private static string GetLoggingPath()
+    {
+        // azure home directory
+        var homeDirectory = Environment.GetEnvironmentVariable("HOME") ?? ".";
+        var logDirectory = Path.Combine(homeDirectory, "LogFiles");
+
+        return Path.GetFullPath(logDirectory);
     }
 }

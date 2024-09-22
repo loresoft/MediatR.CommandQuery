@@ -14,7 +14,7 @@ public static class MediatorExtensions
             throw new ArgumentNullException(nameof(request));
 
 
-        BackgroundJob.Enqueue<IMediatorDispatcher>(dispatcher => dispatcher.Send(request, CancellationToken.None));
+        BackgroundJob.Enqueue<IMediatorDispatcher>(dispatcher => dispatcher.Send(request, null, CancellationToken.None));
 
         return Task.CompletedTask;
     }
