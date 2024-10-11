@@ -1,12 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Security.Principal;
+using System.Security.Claims;
 
 namespace MediatR.CommandQuery.Commands;
 
-public class EntityUpsertCommand<TKey, TUpdateModel, TReadModel>
+public record EntityUpsertCommand<TKey, TUpdateModel, TReadModel>
     : EntityModelCommand<TUpdateModel, TReadModel>
 {
-    public EntityUpsertCommand(IPrincipal? principal, [NotNull] TKey id, TUpdateModel model) : base(principal, model)
+    public EntityUpsertCommand(ClaimsPrincipal? principal, [NotNull] TKey id, TUpdateModel model) : base(principal, model)
     {
         if (id == null)
             throw new ArgumentNullException(nameof(id));
@@ -16,10 +16,4 @@ public class EntityUpsertCommand<TKey, TUpdateModel, TReadModel>
 
     [NotNull]
     public TKey Id { get; }
-
-    public override string ToString()
-    {
-        return $"Entity Upsert Command; Model: {typeof(TUpdateModel).Name}; Id: {Id}; {base.ToString()}";
-    }
-
 }

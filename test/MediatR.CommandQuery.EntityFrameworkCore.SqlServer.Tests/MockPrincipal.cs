@@ -13,7 +13,7 @@ public static class MockPrincipal
     }
 
 
-    public static IPrincipal Default { get; }
+    public static ClaimsPrincipal Default { get; }
 
 
 

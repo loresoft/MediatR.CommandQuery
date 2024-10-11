@@ -1,4 +1,4 @@
-using System.Security.Principal;
+using System.Security.Claims;
 
 using MediatR.CommandQuery.Definitions;
 using MediatR.CommandQuery.Queries;
@@ -18,7 +18,7 @@ public abstract class DeletedFilterBehaviorBase<TEntityModel, TRequest, TRespons
     {
     }
 
-    protected virtual EntityFilter? RewriteFilter(EntityFilter? originalFilter, IPrincipal? principal)
+    protected virtual EntityFilter? RewriteFilter(EntityFilter? originalFilter, ClaimsPrincipal? principal)
     {
         if (!_supportsDelete.Value)
             return originalFilter;

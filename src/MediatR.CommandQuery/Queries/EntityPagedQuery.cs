@@ -1,10 +1,10 @@
-using System.Security.Principal;
+using System.Security.Claims;
 
 namespace MediatR.CommandQuery.Queries;
 
-public class EntityPagedQuery<TReadModel> : CacheableQueryBase<EntityPagedResult<TReadModel>>
+public record EntityPagedQuery<TReadModel> : CacheableQueryBase<EntityPagedResult<TReadModel>>
 {
-    public EntityPagedQuery(IPrincipal? principal, EntityQuery? query)
+    public EntityPagedQuery(ClaimsPrincipal? principal, EntityQuery? query)
         : base(principal)
     {
         Query = query ?? new EntityQuery();

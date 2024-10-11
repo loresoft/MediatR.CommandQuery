@@ -1,12 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Security.Principal;
+using System.Security.Claims;
 
 namespace MediatR.CommandQuery.Commands;
 
-public abstract class EntityIdentifiersCommand<TKey, TResponse>
+public abstract record EntityIdentifiersCommand<TKey, TResponse>
     : PrincipalCommandBase<TResponse>
 {
-    protected EntityIdentifiersCommand(IPrincipal? principal, [NotNull] IEnumerable<TKey> ids)
+    protected EntityIdentifiersCommand(ClaimsPrincipal? principal, [NotNull] IEnumerable<TKey> ids)
         : base(principal)
     {
         if (ids is null)

@@ -1,11 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Security.Principal;
+using System.Security.Claims;
 
 namespace MediatR.CommandQuery.Queries;
 
-public class EntityIdentifiersQuery<TKey, TReadModel> : CacheableQueryBase<IReadOnlyCollection<TReadModel>>
+public record EntityIdentifiersQuery<TKey, TReadModel> : CacheableQueryBase<IReadOnlyCollection<TReadModel>>
 {
-    public EntityIdentifiersQuery(IPrincipal? principal, [NotNull] IEnumerable<TKey> ids)
+    public EntityIdentifiersQuery(ClaimsPrincipal? principal, [NotNull] IEnumerable<TKey> ids)
         : base(principal)
     {
         if (ids is null)

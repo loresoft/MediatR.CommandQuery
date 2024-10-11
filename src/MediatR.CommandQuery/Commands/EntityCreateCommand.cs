@@ -1,12 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Security.Principal;
+using System.Security.Claims;
 
 namespace MediatR.CommandQuery.Commands;
 
-public class EntityCreateCommand<TCreateModel, TReadModel>
+public record EntityCreateCommand<TCreateModel, TReadModel>
     : EntityModelCommand<TCreateModel, TReadModel>
 {
-    public EntityCreateCommand(IPrincipal? principal, [NotNull] TCreateModel model) : base(principal, model)
+    public EntityCreateCommand(ClaimsPrincipal? principal, [NotNull] TCreateModel model) : base(principal, model)
     {
     }
 

@@ -1,12 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Security.Principal;
+using System.Security.Claims;
 
 namespace MediatR.CommandQuery.Commands;
 
-public abstract class EntityModelCommand<TEntityModel, TReadModel>
+public abstract record EntityModelCommand<TEntityModel, TReadModel>
     : PrincipalCommandBase<TReadModel>
 {
-    protected EntityModelCommand(IPrincipal? principal, [NotNull] TEntityModel model)
+    protected EntityModelCommand(ClaimsPrincipal? principal, [NotNull] TEntityModel model)
         : base(principal)
     {
         if (model == null)

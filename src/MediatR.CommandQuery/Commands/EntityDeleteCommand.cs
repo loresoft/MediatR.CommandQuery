@@ -1,12 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Security.Principal;
+using System.Security.Claims;
 
 namespace MediatR.CommandQuery.Commands;
 
-public class EntityDeleteCommand<TKey, TReadModel>
+public record EntityDeleteCommand<TKey, TReadModel>
     : EntityIdentifierCommand<TKey, TReadModel>
 {
-    public EntityDeleteCommand(IPrincipal? principal, [NotNull] TKey id) : base(principal, id)
+    public EntityDeleteCommand(ClaimsPrincipal? principal, [NotNull] TKey id) : base(principal, id)
     {
     }
 

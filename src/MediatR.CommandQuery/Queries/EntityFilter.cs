@@ -1,5 +1,7 @@
 using System.Text.Json.Serialization;
 
+using MediatR.CommandQuery.Converters;
+
 namespace MediatR.CommandQuery.Queries;
 
 [JsonConverter(typeof(EntityFilterConverter))]

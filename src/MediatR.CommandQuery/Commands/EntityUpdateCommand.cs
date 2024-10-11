@@ -1,12 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Security.Principal;
+using System.Security.Claims;
 
 namespace MediatR.CommandQuery.Commands;
 
-public class EntityUpdateCommand<TKey, TUpdateModel, TReadModel>
+public record EntityUpdateCommand<TKey, TUpdateModel, TReadModel>
     : EntityModelCommand<TUpdateModel, TReadModel>
 {
-    public EntityUpdateCommand(IPrincipal? principal, [NotNull] TKey id, TUpdateModel model) : base(principal, model)
+    public EntityUpdateCommand(ClaimsPrincipal? principal, [NotNull] TKey id, TUpdateModel model) : base(principal, model)
     {
         if (id == null)
             throw new ArgumentNullException(nameof(id));

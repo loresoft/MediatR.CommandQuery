@@ -10,7 +10,7 @@ public class MockPrincipal
         Default = CreatePrincipal("test@mailinator.com", "Test User");
     }
 
-    public static IPrincipal CreatePrincipal(string email, string name)
+    public static ClaimsPrincipal CreatePrincipal(string email, string name)
     {
         var claimsIdentity = new ClaimsIdentity("JWT", "sub", "role");
         claimsIdentity.AddClaim(new Claim("sub", email));
@@ -22,6 +22,6 @@ public class MockPrincipal
     }
 
 
-    public static IPrincipal Default { get; }
+    public static ClaimsPrincipal Default { get; }
 
 }

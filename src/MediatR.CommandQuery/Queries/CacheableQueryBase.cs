@@ -1,17 +1,17 @@
 // Ignore Spelling: Cacheable
 
-using System.Security.Principal;
+using System.Security.Claims;
 
 using MediatR.CommandQuery.Definitions;
 
 namespace MediatR.CommandQuery.Queries;
 
-public abstract class CacheableQueryBase<TResponse> : PrincipalQueryBase<TResponse>, ICacheQueryResult
+public abstract record CacheableQueryBase<TResponse> : PrincipalQueryBase<TResponse>, ICacheQueryResult
 {
     private DateTimeOffset? _absoluteExpiration;
     private TimeSpan? _slidingExpiration;
 
-    protected CacheableQueryBase(IPrincipal? principal) : base(principal)
+    protected CacheableQueryBase(ClaimsPrincipal? principal) : base(principal)
     {
     }
 
