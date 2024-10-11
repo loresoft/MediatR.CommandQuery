@@ -4,13 +4,14 @@ using Cosmos.Abstracts;
 
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Cosmos.Handlers;
 
 public class EntityPatchCommandHandler<TRepository, TEntity, TReadModel>
-    : RepositoryHandlerBase<TRepository, TEntity, EntityPatchCommand<string, TReadModel>, TReadModel>
+    : RepositoryHandlerBase<TRepository, TEntity, EntityPatchCommand<string, TReadModel>, IResult<TReadModel>>
     where TRepository : ICosmosRepository<TEntity>
     where TEntity : class, IHaveIdentifier<string>, new()
 {
@@ -19,7 +20,7 @@ public class EntityPatchCommandHandler<TRepository, TEntity, TReadModel>
     {
     }
 
-    protected override async Task<TReadModel> Process(EntityPatchCommand<string, TReadModel> request, CancellationToken cancellationToken)
+    protected override async Task<IResult<TReadModel>> Process(EntityPatchCommand<string, TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -50,6 +51,7 @@ public class EntityPatchCommandHandler<TRepository, TEntity, TReadModel>
 
         // return read model
         var model = Mapper.Map<TReadModel>(savedEntity);
-        return model;
+
+        return Result.Ok(model);
     }
 }

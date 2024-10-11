@@ -2,6 +2,7 @@ using AutoMapper;
 
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -9,7 +10,7 @@ using Microsoft.Extensions.Logging;
 namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers;
 
 public class EntityUpdateCommandHandler<TContext, TEntity, TKey, TUpdateModel, TReadModel>
-    : EntityDataContextHandlerBase<TContext, TEntity, TKey, TReadModel, EntityUpdateCommand<TKey, TUpdateModel, TReadModel>, TReadModel>
+    : EntityDataContextHandlerBase<TContext, TEntity, TKey, TReadModel, EntityUpdateCommand<TKey, TUpdateModel, TReadModel>, IResult<TReadModel>>
     where TContext : DbContext
     where TEntity : class, IHaveIdentifier<TKey>, new()
 {
@@ -19,7 +20,7 @@ public class EntityUpdateCommandHandler<TContext, TEntity, TKey, TUpdateModel, T
 
     }
 
-    protected override async Task<TReadModel> Process(EntityUpdateCommand<TKey, TUpdateModel, TReadModel> request, CancellationToken cancellationToken)
+    protected override async Task<IResult<TReadModel>> Process(EntityUpdateCommand<TKey, TUpdateModel, TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -56,6 +57,6 @@ public class EntityUpdateCommandHandler<TContext, TEntity, TKey, TUpdateModel, T
         var readModel = await Read(entity.Id, cancellationToken)
             .ConfigureAwait(false);
 
-        return readModel;
+        return Result.Ok(readModel);
     }
 }

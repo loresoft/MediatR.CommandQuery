@@ -5,6 +5,7 @@ using MediatR.CommandQuery.Queries;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
@@ -84,61 +85,73 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
             .WithDescription("Delete entity");
     }
 
-    protected virtual async Task<TUpdateModel?> GetUpdateQuery(
+    protected virtual async Task<Results<ProblemHttpResult, Ok<TUpdateModel?>>> GetUpdateQuery(
         [FromRoute] TKey id,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
     {
-        var command = new EntityIdentifierQuery<TKey, TUpdateModel>(user, id);
-        return await Mediator.Send(command, cancellationToken);
+        var command = new EntityIdentifierQuery<TKey, TUpdateModel?>(user, id);
+        var result = await Mediator.Send(command, cancellationToken);
+
+        return Result(result);
     }
 
-    protected virtual async Task<TReadModel?> CreateCommand(
+    protected virtual async Task<Results<ProblemHttpResult, Ok<TReadModel?>>> CreateCommand(
         [FromBody] TCreateModel createModel,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
     {
-        var command = new EntityCreateCommand<TCreateModel, TReadModel>(user, createModel);
-        return await Mediator.Send(command, cancellationToken);
+        var command = new EntityCreateCommand<TCreateModel, TReadModel?>(user, createModel);
+        var result = await Mediator.Send(command, cancellationToken);
+
+        return Result(result);
     }
 
-    protected virtual async Task<TReadModel?> UpdateCommand(
+    protected virtual async Task<Results<ProblemHttpResult, Ok<TReadModel?>>> UpdateCommand(
         [FromRoute] TKey id,
         [FromBody] TUpdateModel updateModel,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
     {
-        var command = new EntityUpdateCommand<TKey, TUpdateModel, TReadModel>(user, id, updateModel);
-        return await Mediator.Send(command, cancellationToken);
+        var command = new EntityUpdateCommand<TKey, TUpdateModel, TReadModel?>(user, id, updateModel);
+        var result = await Mediator.Send(command, cancellationToken);
+
+        return Result(result);
     }
 
-    protected virtual async Task<TReadModel?> UpsertCommand(
+    protected virtual async Task<Results<ProblemHttpResult, Ok<TReadModel?>>> UpsertCommand(
         [FromRoute] TKey id,
         [FromBody] TUpdateModel updateModel,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
     {
-        var command = new EntityUpsertCommand<TKey, TUpdateModel, TReadModel>(user, id, updateModel);
-        return await Mediator.Send(command, cancellationToken);
+        var command = new EntityUpsertCommand<TKey, TUpdateModel, TReadModel?>(user, id, updateModel);
+        var result = await Mediator.Send(command, cancellationToken);
+
+        return Result(result);
     }
 
-    protected virtual async Task<TReadModel?> PatchCommand(
+    protected virtual async Task<Results<ProblemHttpResult, Ok<TReadModel?>>> PatchCommand(
         [FromRoute] TKey id,
         [FromBody] JsonPatchDocument jsonPatch,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
     {
-        var command = new EntityPatchCommand<TKey, TReadModel>(user, id, jsonPatch);
-        return await Mediator.Send(command, cancellationToken);
+        var command = new EntityPatchCommand<TKey, TReadModel?>(user, id, jsonPatch);
+        var result = await Mediator.Send(command, cancellationToken);
+
+        return Result(result);
     }
 
-    protected virtual async Task<TReadModel?> DeleteCommand(
+    protected virtual async Task<Results<ProblemHttpResult, Ok<TReadModel?>>> DeleteCommand(
         [FromRoute] TKey id,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
     {
-        var command = new EntityDeleteCommand<TKey, TReadModel>(user, id);
-        return await Mediator.Send(command, cancellationToken);
+        var command = new EntityDeleteCommand<TKey, TReadModel?>(user, id);
+        var result = await Mediator.Send(command, cancellationToken);
+
+        return Result(result);
     }
 
 }

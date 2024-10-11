@@ -7,13 +7,14 @@ using Cosmos.Abstracts.Extensions;
 
 using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.Queries;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Cosmos.Handlers;
 
 public class EntitySelectQueryHandler<TRepository, TEntity, TReadModel>
-    : RepositoryHandlerBase<TRepository, TEntity, EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>
+    : RepositoryHandlerBase<TRepository, TEntity, EntitySelectQuery<TReadModel>, IResult<IReadOnlyCollection<TReadModel>>>
     where TRepository : ICosmosRepository<TEntity>
     where TEntity : class
 {
@@ -22,7 +23,7 @@ public class EntitySelectQueryHandler<TRepository, TEntity, TReadModel>
     {
     }
 
-    protected override async Task<IReadOnlyCollection<TReadModel>> Process(EntitySelectQuery<TReadModel> request, CancellationToken cancellationToken)
+    protected override async Task<IResult<IReadOnlyCollection<TReadModel>>> Process(EntitySelectQuery<TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -37,7 +38,7 @@ public class EntitySelectQueryHandler<TRepository, TEntity, TReadModel>
         // page the query and convert to read model
         var result = await QueryList(request, query, cancellationToken).ConfigureAwait(false);
 
-        return result;
+        return Result.Ok(result);
     }
 
 

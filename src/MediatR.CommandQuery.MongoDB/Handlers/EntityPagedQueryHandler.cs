@@ -4,6 +4,7 @@ using AutoMapper;
 
 using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.Queries;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.Extensions.Logging;
 
@@ -14,7 +15,7 @@ using MongoDB.Driver.Linq;
 namespace MediatR.CommandQuery.MongoDB.Handlers;
 
 public class EntityPagedQueryHandler<TRepository, TEntity, TKey, TReadModel>
-    : RepositoryHandlerBase<TRepository, TEntity, TKey, EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>
+    : RepositoryHandlerBase<TRepository, TEntity, TKey, EntityPagedQuery<TReadModel>, IResult<EntityPagedResult<TReadModel>>>
     where TRepository : IMongoRepository<TEntity, TKey>
     where TEntity : class
 {
@@ -23,7 +24,7 @@ public class EntityPagedQueryHandler<TRepository, TEntity, TKey, TReadModel>
     {
     }
 
-    protected override async Task<EntityPagedResult<TReadModel>> Process(EntityPagedQuery<TReadModel> request, CancellationToken cancellationToken)
+    protected override async Task<IResult<EntityPagedResult<TReadModel>>> Process(EntityPagedQuery<TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -38,16 +39,18 @@ public class EntityPagedQueryHandler<TRepository, TEntity, TKey, TReadModel>
 
         // short circuit if total is zero
         if (total == 0)
-            return new EntityPagedResult<TReadModel> { Data = new List<TReadModel>() };
+            return Result.Ok(new EntityPagedResult<TReadModel> { Data = [] });
 
         // page the query and convert to read model
         var result = await QueryPaged(request, query, cancellationToken);
 
-        return new EntityPagedResult<TReadModel>
+        var pagedResult = new EntityPagedResult<TReadModel>
         {
             Total = total,
             Data = result
         };
+
+        return Result.Ok(pagedResult);
     }
 
 

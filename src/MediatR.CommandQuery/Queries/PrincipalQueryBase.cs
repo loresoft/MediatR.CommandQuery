@@ -2,9 +2,11 @@ using System.Runtime.Serialization;
 using System.Security.Principal;
 using System.Text.Json.Serialization;
 
+using MediatR.CommandQuery.Results;
+
 namespace MediatR.CommandQuery.Queries;
 
-public abstract class PrincipalQueryBase<TResponse> : IRequest<TResponse>
+public abstract class PrincipalQueryBase<TResponse> : IRequest<IResult<TResponse>>
 {
     protected PrincipalQueryBase(IPrincipal? principal)
         : this(DateTimeOffset.UtcNow, principal?.Identity?.Name)

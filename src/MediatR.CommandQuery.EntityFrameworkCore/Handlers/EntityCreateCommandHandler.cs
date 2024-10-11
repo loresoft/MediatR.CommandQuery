@@ -2,6 +2,7 @@ using AutoMapper;
 
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -9,7 +10,7 @@ using Microsoft.Extensions.Logging;
 namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers;
 
 public class EntityCreateCommandHandler<TContext, TEntity, TKey, TCreateModel, TReadModel>
-    : EntityDataContextHandlerBase<TContext, TEntity, TKey, TReadModel, EntityCreateCommand<TCreateModel, TReadModel>, TReadModel>
+    : EntityDataContextHandlerBase<TContext, TEntity, TKey, TReadModel, EntityCreateCommand<TCreateModel, TReadModel>, IResult<TReadModel>>
     where TContext : DbContext
     where TEntity : class, IHaveIdentifier<TKey>, new()
 {
@@ -18,7 +19,7 @@ public class EntityCreateCommandHandler<TContext, TEntity, TKey, TCreateModel, T
     {
     }
 
-    protected override async Task<TReadModel> Process(EntityCreateCommand<TCreateModel, TReadModel> request, CancellationToken cancellationToken)
+    protected override async Task<IResult<TReadModel>> Process(EntityCreateCommand<TCreateModel, TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -57,6 +58,6 @@ public class EntityCreateCommandHandler<TContext, TEntity, TKey, TCreateModel, T
         var readModel = await Read(entity.Id, cancellationToken)
             .ConfigureAwait(false);
 
-        return readModel;
+        return Result.Ok(readModel);
     }
 }

@@ -7,6 +7,7 @@ using Cosmos.Abstracts.Extensions;
 
 using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.Queries;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.Azure.Cosmos.Linq;
 using Microsoft.Extensions.Logging;
@@ -14,7 +15,7 @@ using Microsoft.Extensions.Logging;
 namespace MediatR.CommandQuery.Cosmos.Handlers;
 
 public class EntityPagedQueryHandler<TRepository, TEntity, TReadModel>
-    : RepositoryHandlerBase<TRepository, TEntity, EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>
+    : RepositoryHandlerBase<TRepository, TEntity, EntityPagedQuery<TReadModel>, IResult<EntityPagedResult<TReadModel>>>
     where TRepository : ICosmosRepository<TEntity>
     where TEntity : class
 {
@@ -23,7 +24,7 @@ public class EntityPagedQueryHandler<TRepository, TEntity, TReadModel>
     {
     }
 
-    protected override async Task<EntityPagedResult<TReadModel>> Process(EntityPagedQuery<TReadModel> request, CancellationToken cancellationToken)
+    protected override async Task<IResult<EntityPagedResult<TReadModel>>> Process(EntityPagedQuery<TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -41,17 +42,19 @@ public class EntityPagedQueryHandler<TRepository, TEntity, TReadModel>
 
         // short circuit if total is zero
         if (total == 0)
-            return new EntityPagedResult<TReadModel> { Data = new List<TReadModel>() };
+            return Result.Ok(new EntityPagedResult<TReadModel> { Data = [] });
 
         // page the query and convert to read model
         var result = await QueryPaged(request, query, cancellationToken)
             .ConfigureAwait(false);
 
-        return new EntityPagedResult<TReadModel>
+        var pagedResult = new EntityPagedResult<TReadModel>
         {
             Total = total,
             Data = result
         };
+
+        return Result.Ok(pagedResult);
     }
 
 

@@ -6,6 +6,7 @@ using CsvHelper;
 using CsvHelper.Configuration;
 
 using MediatR.CommandQuery.Queries;
+using MediatR.CommandQuery.Results;
 using MediatR.CommandQuery.Services;
 
 using Microsoft.AspNetCore.Http;
@@ -28,7 +29,8 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
         [FromRoute] TKey id,
         CancellationToken cancellationToken = default)
     {
-        return await GetQuery(id, cancellationToken);
+        var result = await GetQuery(id, cancellationToken);
+        return Result(result);
     }
 
     [HttpPost("page")]
@@ -40,7 +42,8 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
         [FromBody] EntityQuery query,
         CancellationToken cancellationToken = default)
     {
-        return await PagedQuery(query, cancellationToken);
+        var result = await PagedQuery(query, cancellationToken);
+        return Result(result);
     }
 
     [HttpGet("page")]
@@ -54,7 +57,8 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
         CancellationToken cancellationToken = default)
     {
         var query = new EntityQuery(q, page, size, sort);
-        return await PagedQuery(query, cancellationToken);
+        var result = await PagedQuery(query, cancellationToken);
+        return Result(result);
     }
 
     [HttpPost("query")]
@@ -66,9 +70,8 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
         [FromBody] EntitySelect query,
         CancellationToken cancellationToken = default)
     {
-        var results = await SelectQuery(query, cancellationToken);
-
-        return results.ToList();
+        var result = await SelectQuery(query, cancellationToken);
+        return Result(result);
     }
 
     [HttpGet("")]
@@ -80,9 +83,8 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
         CancellationToken cancellationToken = default)
     {
         var query = new EntitySelect(q, sort);
-        var results = await SelectQuery(query, cancellationToken);
-
-        return results.ToList();
+        var result = await SelectQuery(query, cancellationToken);
+        return Result(result);
     }
 
 
@@ -93,7 +95,14 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
         [FromBody] EntitySelect query,
         CancellationToken cancellationToken = default)
     {
-        var results = await SelectQuery(query, cancellationToken);
+        var result = await SelectQuery(query, cancellationToken);
+        if (result.IsFailed)
+        {
+            Response.ContentType = "application/problem+json";
+
+            var problemDetails = result.Error.Problem();
+            return StatusCode(result.Error.Status, problemDetails);
+        }
 
         var csvConfiguration = HttpContext.RequestServices.GetService<CsvConfiguration>()
             ?? new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = true };
@@ -102,7 +111,7 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
         await using var streamWriter = new StreamWriter(memoryStream);
         await using var csvWriter = new CsvWriter(streamWriter, csvConfiguration);
 
-        WriteExportData(csvWriter, results);
+        WriteExportData(csvWriter, result.Value);
 
         streamWriter.Flush();
 
@@ -122,7 +131,14 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
             ?? new JsonSerializerOptions(JsonSerializerDefaults.Web);
 
         var query = QueryStringEncoder.Decode<EntitySelect>(encodedQuery, jsonSerializerOptions) ?? new EntitySelect();
-        var results = await SelectQuery(query, cancellationToken);
+        var result = await SelectQuery(query, cancellationToken);
+        if (result.IsFailed)
+        {
+            Response.ContentType = "application/problem+json";
+
+            var problemDetails = result.Error.Problem();
+            return StatusCode(result.Error.Status, problemDetails);
+        }
 
         var csvConfiguration = HttpContext.RequestServices.GetService<CsvConfiguration>()
             ?? new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = true };
@@ -131,7 +147,7 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
         await using var streamWriter = new StreamWriter(memoryStream);
         await using var csvWriter = new CsvWriter(streamWriter, csvConfiguration);
 
-        WriteExportData(csvWriter, results);
+        WriteExportData(csvWriter, result.Value);
 
         streamWriter.Flush();
 
@@ -140,19 +156,19 @@ public abstract class EntityQueryControllerBase<TKey, TListModel, TReadModel> : 
         return File(buffer, "text/csv");
     }
 
-    protected virtual async Task<TReadModel?> GetQuery(TKey id, CancellationToken cancellationToken = default)
+    protected virtual async Task<IResult<TReadModel?>> GetQuery(TKey id, CancellationToken cancellationToken = default)
     {
         var command = new EntityIdentifierQuery<TKey, TReadModel>(User, id);
         return await Mediator.Send(command, cancellationToken);
     }
 
-    protected virtual async Task<EntityPagedResult<TListModel>> PagedQuery(EntityQuery entityQuery, CancellationToken cancellationToken = default)
+    protected virtual async Task<IResult<EntityPagedResult<TListModel>>> PagedQuery(EntityQuery entityQuery, CancellationToken cancellationToken = default)
     {
         var command = new EntityPagedQuery<TListModel>(User, entityQuery);
         return await Mediator.Send(command, cancellationToken);
     }
 
-    protected virtual async Task<IReadOnlyCollection<TListModel>> SelectQuery(EntitySelect entitySelect, CancellationToken cancellationToken = default)
+    protected virtual async Task<IResult<IReadOnlyCollection<TListModel>>> SelectQuery(EntitySelect entitySelect, CancellationToken cancellationToken = default)
     {
         var command = new EntitySelectQuery<TListModel>(User, entitySelect);
         return await Mediator.Send(command, cancellationToken);

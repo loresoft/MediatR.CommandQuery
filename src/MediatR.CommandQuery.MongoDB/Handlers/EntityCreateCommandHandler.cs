@@ -2,6 +2,7 @@ using AutoMapper;
 
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.Extensions.Logging;
 
@@ -10,7 +11,7 @@ using MongoDB.Abstracts;
 namespace MediatR.CommandQuery.MongoDB.Handlers;
 
 public class EntityCreateCommandHandler<TRepository, TEntity, TKey, TCreateModel, TReadModel>
-    : RepositoryHandlerBase<TRepository, TEntity, TKey, EntityCreateCommand<TCreateModel, TReadModel>, TReadModel>
+    : RepositoryHandlerBase<TRepository, TEntity, TKey, EntityCreateCommand<TCreateModel, TReadModel>, IResult<TReadModel>>
     where TRepository : IMongoRepository<TEntity, TKey>
     where TEntity : class, IHaveIdentifier<TKey>, new()
 {
@@ -19,7 +20,7 @@ public class EntityCreateCommandHandler<TRepository, TEntity, TKey, TCreateModel
     {
     }
 
-    protected override async Task<TReadModel> Process(EntityCreateCommand<TCreateModel, TReadModel> request, CancellationToken cancellationToken)
+    protected override async Task<IResult<TReadModel>> Process(EntityCreateCommand<TCreateModel, TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -46,6 +47,8 @@ public class EntityCreateCommandHandler<TRepository, TEntity, TKey, TCreateModel
             .ConfigureAwait(false);
 
         // convert to read model
-        return Mapper.Map<TReadModel>(result);
+        var model = Mapper.Map<TReadModel>(result);
+
+        return Result.Ok(model);
     }
 }

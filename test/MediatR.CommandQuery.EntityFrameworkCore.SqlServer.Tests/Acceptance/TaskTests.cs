@@ -47,10 +47,10 @@ public class TaskTests : DatabaseTestBase
         createResult.Should().NotBeNull();
 
         // Get Entity by Key
-        var identifierQuery = new EntityIdentifierQuery<Guid, TaskReadModel>(MockPrincipal.Default, createResult.Id);
+        var identifierQuery = new EntityIdentifierQuery<Guid, TaskReadModel>(MockPrincipal.Default, createResult.Value.Id);
         var identifierResult = await mediator.Send(identifierQuery);
         identifierResult.Should().NotBeNull();
-        identifierResult.Title.Should().Be(createModel.Title);
+        identifierResult.Value.Title.Should().Be(createModel.Title);
 
         // Query Entity
         var entityQuery = new EntityQuery
@@ -72,25 +72,25 @@ public class TaskTests : DatabaseTestBase
             Value = "Patch Update"
         });
 
-        var patchCommand = new EntityPatchCommand<Guid, TaskReadModel>(MockPrincipal.Default, createResult.Id, patchModel);
+        var patchCommand = new EntityPatchCommand<Guid, TaskReadModel>(MockPrincipal.Default, createResult.Value.Id, patchModel);
         var patchResult = await mediator.Send(patchCommand);
         patchResult.Should().NotBeNull();
-        patchResult.Title.Should().Be("Patch Update");
+        patchResult.Value.Title.Should().Be("Patch Update");
 
         // Update Entity
         var updateModel = mapper.Map<TaskUpdateModel>(patchResult);
         updateModel.Title = "Update Command";
 
-        var updateCommand = new EntityUpdateCommand<Guid, TaskUpdateModel, TaskReadModel>(MockPrincipal.Default, createResult.Id, updateModel);
+        var updateCommand = new EntityUpdateCommand<Guid, TaskUpdateModel, TaskReadModel>(MockPrincipal.Default, createResult.Value.Id, updateModel);
         var updateResult = await mediator.Send(updateCommand);
         updateResult.Should().NotBeNull();
-        updateResult.Title.Should().Be("Update Command");
+        updateResult.Value.Title.Should().Be("Update Command");
 
         // Delete Entity
-        var deleteCommand = new EntityDeleteCommand<Guid, TaskReadModel>(MockPrincipal.Default, createResult.Id);
+        var deleteCommand = new EntityDeleteCommand<Guid, TaskReadModel>(MockPrincipal.Default, createResult.Value.Id);
         var deleteResult = await mediator.Send(deleteCommand);
         deleteResult.Should().NotBeNull();
-        deleteResult.Id.Should().Be(createResult.Id);
+        deleteResult.Value.Id.Should().Be(createResult.Value.Id);
     }
 
     [Fact]
@@ -122,7 +122,7 @@ public class TaskTests : DatabaseTestBase
         var identifierQuery = new EntityIdentifierQuery<Guid, TaskReadModel>(MockPrincipal.Default, key);
         var identifierResult = await mediator.Send(identifierQuery);
         identifierResult.Should().NotBeNull();
-        identifierResult.Title.Should().Be(updateModel.Title);
+        identifierResult.Value.Title.Should().Be(updateModel.Title);
 
         // update model
         updateModel.Description = "Update " + DateTime.Now.Ticks;
@@ -131,7 +131,7 @@ public class TaskTests : DatabaseTestBase
         var upsertCommandUpdate = new EntityUpsertCommand<Guid, TaskUpdateModel, TaskReadModel>(MockPrincipal.Default, key, updateModel);
         var upsertResultUpdate = await mediator.Send(upsertCommandUpdate);
         upsertResultUpdate.Should().NotBeNull();
-        upsertResultUpdate.Description.Should().NotBe(upsertResultNew.Description);
+        upsertResultUpdate.Value.Description.Should().NotBe(upsertResultNew.Value.Description);
     }
 
     [Fact]
@@ -181,7 +181,7 @@ public class TaskTests : DatabaseTestBase
         var createResult = await mediator.Send(createCommand);
 
         createResult.Should().NotBeNull();
-        createResult.TenantId.Should().Be(TenantConstants.Test);
+        createResult.Value.TenantId.Should().Be(TenantConstants.Test);
     }
 
     [Fact]

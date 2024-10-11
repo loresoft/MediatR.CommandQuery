@@ -5,6 +5,7 @@ using AutoMapper.QueryableExtensions;
 
 using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.Queries;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -12,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers;
 
 public class EntityPagedQueryHandler<TContext, TEntity, TReadModel>
-    : DataContextHandlerBase<TContext, EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>
+    : DataContextHandlerBase<TContext, EntityPagedQuery<TReadModel>, IResult<EntityPagedResult<TReadModel>>>
     where TContext : DbContext
     where TEntity : class
 {
@@ -23,7 +24,7 @@ public class EntityPagedQueryHandler<TContext, TEntity, TReadModel>
     }
 
 
-    protected override async Task<EntityPagedResult<TReadModel>> Process(EntityPagedQuery<TReadModel> request, CancellationToken cancellationToken)
+    protected override async Task<IResult<EntityPagedResult<TReadModel>>> Process(EntityPagedQuery<TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -41,17 +42,19 @@ public class EntityPagedQueryHandler<TContext, TEntity, TReadModel>
 
         // short circuit if total is zero
         if (total == 0)
-            return new EntityPagedResult<TReadModel> { Data = new List<TReadModel>() };
+            return Result.Ok(new EntityPagedResult<TReadModel> { Data = [] });
 
         // page the query and convert to read model
         var result = await QueryPaged(request, query, cancellationToken)
             .ConfigureAwait(false);
 
-        return new EntityPagedResult<TReadModel>
+        var pagedResult = new EntityPagedResult<TReadModel>
         {
             Total = total,
             Data = result
         };
+
+        return Result.Ok(pagedResult);
     }
 
 

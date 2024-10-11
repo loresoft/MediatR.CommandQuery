@@ -51,11 +51,11 @@ public class AuditTests : DatabaseTestBase
         createResult.Should().NotBeNull();
 
         // Get Entity by Key
-        var key = createResult.Id;
+        var key = createResult.Value.Id;
         var identifierQuery = new EntityIdentifierQuery<string, AuditReadModel>(MockPrincipal.Default, key);
         var identifierResult = await mediator.Send(identifierQuery);
-        identifierResult.Should().NotBeNull();
-        identifierResult.Username.Should().Be(createModel.Username);
+        identifierResult.Value.Should().NotBeNull();
+        identifierResult.Value.Username.Should().Be(createModel.Username);
 
         // Query Entity
         var entityQuery = new EntityQuery
@@ -81,7 +81,7 @@ public class AuditTests : DatabaseTestBase
         var patchCommand = new EntityPatchCommand<string, AuditReadModel>(MockPrincipal.Default, key, patchModel);
         var patchResult = await mediator.Send(patchCommand);
         patchResult.Should().NotBeNull();
-        patchResult.Content.Should().Be("Patch Update");
+        patchResult.Value.Content.Should().Be("Patch Update");
 
         // Update Entity
         var updateModel = mapper.Map<AuditUpdateModel>(patchResult);
@@ -90,13 +90,13 @@ public class AuditTests : DatabaseTestBase
         var updateCommand = new EntityUpdateCommand<string, AuditUpdateModel, AuditReadModel>(MockPrincipal.Default, key, updateModel);
         var updateResult = await mediator.Send(updateCommand);
         updateResult.Should().NotBeNull();
-        updateResult.Content.Should().Be("Update Command");
+        updateResult.Value.Content.Should().Be("Update Command");
 
         // Delete Entity
         var deleteCommand = new EntityDeleteCommand<string, AuditReadModel>(MockPrincipal.Default, key);
         var deleteResult = await mediator.Send(deleteCommand);
         deleteResult.Should().NotBeNull();
-        deleteResult.Id.Should().Be(createResult.Id);
+        deleteResult.Value.Id.Should().Be(createResult.Value.Id);
     }
 
 
@@ -125,13 +125,13 @@ public class AuditTests : DatabaseTestBase
         var upsertCommandNew = new EntityUpsertCommand<string, AuditUpdateModel, AuditReadModel>(MockPrincipal.Default, key, updateModel);
         var upsertResultNew = await mediator.Send(upsertCommandNew);
         upsertResultNew.Should().NotBeNull();
-        upsertResultNew.Id.Should().Be(key);
+        upsertResultNew.Value.Id.Should().Be(key);
 
         // Get Entity by Key
         var identifierQuery = new EntityIdentifierQuery<string, AuditReadModel>(MockPrincipal.Default, key);
         var identifierResult = await mediator.Send(identifierQuery);
         identifierResult.Should().NotBeNull();
-        identifierResult.Username.Should().Be(updateModel.Username);
+        identifierResult.Value.Username.Should().Be(updateModel.Username);
 
         // update model
         updateModel.Content = "Update " + DateTime.Now.Ticks;
@@ -140,7 +140,7 @@ public class AuditTests : DatabaseTestBase
         var upsertCommandUpdate = new EntityUpsertCommand<string, AuditUpdateModel, AuditReadModel>(MockPrincipal.Default, key, updateModel);
         var upsertResultUpdate = await mediator.Send(upsertCommandUpdate);
         upsertResultUpdate.Should().NotBeNull();
-        upsertResultUpdate.Content.Should().NotBe(upsertResultNew.Content);
+        upsertResultUpdate.Value.Content.Should().NotBe(upsertResultNew.Value.Content);
     }
 
 }

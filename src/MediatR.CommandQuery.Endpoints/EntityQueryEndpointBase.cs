@@ -10,6 +10,7 @@ using MediatR.CommandQuery.Services;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
@@ -111,16 +112,18 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
     }
 
 
-    protected virtual async Task<TReadModel?> GetQuery(
+    protected virtual async Task<Results<ProblemHttpResult, Ok<TReadModel?>>> GetQuery(
         [FromRoute] TKey id,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
     {
-        var command = new EntityIdentifierQuery<TKey, TReadModel>(user, id);
-        return await Mediator.Send(command, cancellationToken);
+        var command = new EntityIdentifierQuery<TKey, TReadModel?>(user, id);
+        var result = await Mediator.Send(command, cancellationToken);
+
+        return Result(result);
     }
 
-    protected virtual async Task<EntityPagedResult<TListModel>> GetPagedQuery(
+    protected virtual async Task<Results<ProblemHttpResult, Ok<EntityPagedResult<TListModel>>>> GetPagedQuery(
         [FromQuery] string? q = null,
         [FromQuery] string? sort = null,
         [FromQuery] int? page = 1,
@@ -130,19 +133,23 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
     {
         var entityQuery = new EntityQuery(q, page ?? 1, size ?? 20, sort);
         var command = new EntityPagedQuery<TListModel>(user, entityQuery);
-        return await Mediator.Send(command, cancellationToken);
+        var result = await Mediator.Send(command, cancellationToken);
+
+        return Result(result);
     }
 
-    protected virtual async Task<EntityPagedResult<TListModel>> PostPagedQuery(
+    protected virtual async Task<Results<ProblemHttpResult, Ok<EntityPagedResult<TListModel>>>> PostPagedQuery(
         [FromBody] EntityQuery entityQuery,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
     {
         var command = new EntityPagedQuery<TListModel>(user, entityQuery);
-        return await Mediator.Send(command, cancellationToken);
+        var result = await Mediator.Send(command, cancellationToken);
+
+        return Result(result);
     }
 
-    protected virtual async Task<IReadOnlyCollection<TListModel>> GetSelectQuery(
+    protected virtual async Task<Results<ProblemHttpResult, Ok<IReadOnlyCollection<TListModel>>>> GetSelectQuery(
         [FromQuery] string? q = null,
         [FromQuery] string? sort = null,
         ClaimsPrincipal? user = default,
@@ -150,16 +157,20 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
     {
         var entitySelect = new EntitySelect(q, sort);
         var command = new EntitySelectQuery<TListModel>(user, entitySelect);
-        return await Mediator.Send(command, cancellationToken);
+        var result = await Mediator.Send(command, cancellationToken);
+
+        return Result(result);
     }
 
-    protected virtual async Task<IReadOnlyCollection<TListModel>> PostSelectQuery(
+    protected virtual async Task<Results<ProblemHttpResult, Ok<IReadOnlyCollection<TListModel>>>> PostSelectQuery(
         [FromBody] EntitySelect entitySelect,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
     {
         var command = new EntitySelectQuery<TListModel>(user, entitySelect);
-        return await Mediator.Send(command, cancellationToken);
+        var result = await Mediator.Send(command, cancellationToken);
+
+        return Result(result);
     }
 
     protected virtual async Task<IResult> PostExportQuery(
@@ -169,7 +180,12 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
         CancellationToken cancellationToken = default)
     {
         var command = new EntitySelectQuery<TListModel>(user, entitySelect);
-        var results = await Mediator.Send(command, cancellationToken);
+        var result = await Mediator.Send(command, cancellationToken);
+        if (result.IsFailed)
+        {
+            var problem = result.Error.Problem();
+            return TypedResults.Problem(problem);
+        }
 
         csvConfiguration ??= new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = true };
 
@@ -177,13 +193,13 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
         await using var streamWriter = new StreamWriter(memoryStream);
         await using var csvWriter = new CsvWriter(streamWriter, csvConfiguration);
 
-        WriteExportData(csvWriter, results);
+        WriteExportData(csvWriter, result.Value);
 
         streamWriter.Flush();
 
         var buffer = memoryStream.ToArray();
 
-        return Results.File(buffer, "text/csv");
+        return Microsoft.AspNetCore.Http.Results.File(buffer, "text/csv");
     }
 
     protected virtual async Task<IResult> GetExportQuery(
@@ -197,7 +213,12 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
 
         var entitySelect = QueryStringEncoder.Decode<EntitySelect>(encodedQuery, jsonSerializerOptions) ?? new EntitySelect();
         var command = new EntitySelectQuery<TListModel>(user, entitySelect);
-        var results = await Mediator.Send(command, cancellationToken);
+        var result = await Mediator.Send(command, cancellationToken);
+        if (result.IsFailed)
+        {
+            var problem = result.Error.Problem();
+            return TypedResults.Problem(problem);
+        }
 
         csvConfiguration ??= new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = true };
 
@@ -205,13 +226,13 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
         await using var streamWriter = new StreamWriter(memoryStream);
         await using var csvWriter = new CsvWriter(streamWriter, csvConfiguration);
 
-        WriteExportData(csvWriter, results);
+        WriteExportData(csvWriter, result.Value);
 
         streamWriter.Flush();
 
         var buffer = memoryStream.ToArray();
 
-        return Results.File(buffer, "text/csv");
+        return Microsoft.AspNetCore.Http.Results.File(buffer, "text/csv");
     }
 
 

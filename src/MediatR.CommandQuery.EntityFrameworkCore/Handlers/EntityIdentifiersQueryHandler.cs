@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 
 using MediatR.CommandQuery.Definitions;
 using MediatR.CommandQuery.Queries;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -10,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers;
 
 public class EntityIdentifiersQueryHandler<TContext, TEntity, TKey, TReadModel>
-    : EntityDataContextHandlerBase<TContext, TEntity, TKey, TReadModel, EntityIdentifiersQuery<TKey, TReadModel>, IReadOnlyCollection<TReadModel>>
+    : EntityDataContextHandlerBase<TContext, TEntity, TKey, TReadModel, EntityIdentifiersQuery<TKey, TReadModel>, IResult<IReadOnlyCollection<TReadModel>>>
     where TContext : DbContext
     where TEntity : class, IHaveIdentifier<TKey>, new()
 {
@@ -21,7 +22,7 @@ public class EntityIdentifiersQueryHandler<TContext, TEntity, TKey, TReadModel>
     }
 
 
-    protected override async Task<IReadOnlyCollection<TReadModel>> Process(EntityIdentifiersQuery<TKey, TReadModel> request, CancellationToken cancellationToken)
+    protected override async Task<IResult<IReadOnlyCollection<TReadModel>>> Process(EntityIdentifiersQuery<TKey, TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -34,6 +35,6 @@ public class EntityIdentifiersQueryHandler<TContext, TEntity, TKey, TReadModel>
             .ToListAsync(cancellationToken)
             .ConfigureAwait(false);
 
-        return models;
+        return Result.Ok(models);
     }
 }

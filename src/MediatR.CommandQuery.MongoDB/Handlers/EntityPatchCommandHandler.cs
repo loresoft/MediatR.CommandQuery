@@ -2,6 +2,7 @@ using AutoMapper;
 
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.Extensions.Logging;
 
@@ -10,7 +11,7 @@ using MongoDB.Abstracts;
 namespace MediatR.CommandQuery.MongoDB.Handlers;
 
 public class EntityPatchCommandHandler<TRepository, TEntity, TKey, TReadModel>
-    : RepositoryHandlerBase<TRepository, TEntity, TKey, EntityPatchCommand<TKey, TReadModel>, TReadModel>
+    : RepositoryHandlerBase<TRepository, TEntity, TKey, EntityPatchCommand<TKey, TReadModel>, IResult<TReadModel>>
     where TRepository : IMongoRepository<TEntity, TKey>
     where TEntity : class, IHaveIdentifier<TKey>, new()
 {
@@ -19,7 +20,7 @@ public class EntityPatchCommandHandler<TRepository, TEntity, TKey, TReadModel>
     {
     }
 
-    protected override async Task<TReadModel> Process(EntityPatchCommand<TKey, TReadModel> request, CancellationToken cancellationToken)
+    protected override async Task<IResult<TReadModel>> Process(EntityPatchCommand<TKey, TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -48,6 +49,7 @@ public class EntityPatchCommandHandler<TRepository, TEntity, TKey, TReadModel>
 
         // return read model
         var model = Mapper.Map<TReadModel>(savedEntity);
-        return model;
+
+        return Result.Ok(model);
     }
 }

@@ -27,7 +27,8 @@ public abstract class EntityCommandControllerBase<TKey, TListModel, TReadModel, 
         [FromRoute] TKey id,
         CancellationToken cancellationToken = default)
     {
-        return await GetUpdateQuery(id, cancellationToken);
+        var result = await GetUpdateQuery(id, cancellationToken);
+        return Result(result);
     }
 
     [HttpPost("")]
@@ -39,7 +40,8 @@ public abstract class EntityCommandControllerBase<TKey, TListModel, TReadModel, 
         [FromBody] TCreateModel createModel,
         CancellationToken cancellationToken = default)
     {
-        return await CreateCommand(createModel, cancellationToken);
+        var result = await CreateCommand(createModel, cancellationToken);
+        return Result(result);
     }
 
     [HttpPost("{id}")]
@@ -52,7 +54,8 @@ public abstract class EntityCommandControllerBase<TKey, TListModel, TReadModel, 
         [FromBody] TUpdateModel updateModel,
         CancellationToken cancellationToken = default)
     {
-        return await UpsertCommand(id, updateModel, cancellationToken);
+        var result = await UpsertCommand(id, updateModel, cancellationToken);
+        return Result(result);
     }
 
     [HttpPut("{id}")]
@@ -65,7 +68,8 @@ public abstract class EntityCommandControllerBase<TKey, TListModel, TReadModel, 
         [FromBody] TUpdateModel updateModel,
         CancellationToken cancellationToken = default)
     {
-        return await UpdateCommand(id, updateModel, cancellationToken);
+        var result = await UpdateCommand(id, updateModel, cancellationToken);
+        return Result(result);
     }
 
     [HttpPatch("{id}")]
@@ -78,7 +82,8 @@ public abstract class EntityCommandControllerBase<TKey, TListModel, TReadModel, 
         [FromBody] JsonPatchDocument jsonPatch,
         CancellationToken cancellationToken = default)
     {
-        return await PatchCommand(id, jsonPatch, cancellationToken);
+        var result = await PatchCommand(id, jsonPatch, cancellationToken);
+        return Result(result);
     }
 
     [HttpDelete("{id}")]
@@ -88,40 +93,41 @@ public abstract class EntityCommandControllerBase<TKey, TListModel, TReadModel, 
         [FromRoute] TKey id,
         CancellationToken cancellationToken = default)
     {
-        return await DeleteCommand(id, cancellationToken);
+        var result = await DeleteCommand(id, cancellationToken);
+        return Result(result);
     }
 
-    protected virtual async Task<TUpdateModel?> GetUpdateQuery(TKey id, CancellationToken cancellationToken = default)
+    protected virtual async Task<Results.IResult<TUpdateModel?>> GetUpdateQuery(TKey id, CancellationToken cancellationToken = default)
     {
         var command = new EntityIdentifierQuery<TKey, TUpdateModel>(User, id);
         return await Mediator.Send(command, cancellationToken);
     }
 
-    protected virtual async Task<TReadModel?> CreateCommand(TCreateModel createModel, CancellationToken cancellationToken = default)
+    protected virtual async Task<Results.IResult<TReadModel?>> CreateCommand(TCreateModel createModel, CancellationToken cancellationToken = default)
     {
         var command = new EntityCreateCommand<TCreateModel, TReadModel>(User, createModel);
         return await Mediator.Send(command, cancellationToken);
     }
 
-    protected virtual async Task<TReadModel?> UpdateCommand(TKey id, TUpdateModel updateModel, CancellationToken cancellationToken = default)
+    protected virtual async Task<Results.IResult<TReadModel?>> UpdateCommand(TKey id, TUpdateModel updateModel, CancellationToken cancellationToken = default)
     {
         var command = new EntityUpdateCommand<TKey, TUpdateModel, TReadModel>(User, id, updateModel);
         return await Mediator.Send(command, cancellationToken);
     }
 
-    protected virtual async Task<TReadModel?> UpsertCommand(TKey id, TUpdateModel updateModel, CancellationToken cancellationToken = default)
+    protected virtual async Task<Results.IResult<TReadModel?>> UpsertCommand(TKey id, TUpdateModel updateModel, CancellationToken cancellationToken = default)
     {
         var command = new EntityUpsertCommand<TKey, TUpdateModel, TReadModel>(User, id, updateModel);
         return await Mediator.Send(command, cancellationToken);
     }
 
-    protected virtual async Task<TReadModel?> PatchCommand(TKey id, JsonPatchDocument jsonPatch, CancellationToken cancellationToken = default)
+    protected virtual async Task<Results.IResult<TReadModel?>> PatchCommand(TKey id, JsonPatchDocument jsonPatch, CancellationToken cancellationToken = default)
     {
         var command = new EntityPatchCommand<TKey, TReadModel>(User, id, jsonPatch);
         return await Mediator.Send(command, cancellationToken);
     }
 
-    protected virtual async Task<TReadModel?> DeleteCommand(TKey id, CancellationToken cancellationToken = default)
+    protected virtual async Task<Results.IResult<TReadModel?>> DeleteCommand(TKey id, CancellationToken cancellationToken = default)
     {
         var command = new EntityDeleteCommand<TKey, TReadModel>(User, id);
         return await Mediator.Send(command, cancellationToken);

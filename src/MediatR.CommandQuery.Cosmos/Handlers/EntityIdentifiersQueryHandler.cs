@@ -5,6 +5,7 @@ using Cosmos.Abstracts.Extensions;
 
 using MediatR.CommandQuery.Definitions;
 using MediatR.CommandQuery.Queries;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
@@ -12,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace MediatR.CommandQuery.Cosmos.Handlers;
 
 public class EntityIdentifiersQueryHandler<TRepository, TEntity, TReadModel>
-    : RepositoryHandlerBase<TRepository, TEntity, EntityIdentifiersQuery<string, TReadModel>, IReadOnlyCollection<TReadModel>>
+    : RepositoryHandlerBase<TRepository, TEntity, EntityIdentifiersQuery<string, TReadModel>, IResult<IReadOnlyCollection<TReadModel>>>
     where TRepository : ICosmosRepository<TEntity>
     where TEntity : class, IHaveIdentifier<string>, new()
 {
@@ -20,7 +21,7 @@ public class EntityIdentifiersQueryHandler<TRepository, TEntity, TReadModel>
     {
     }
 
-    protected override async Task<IReadOnlyCollection<TReadModel>> Process(EntityIdentifiersQuery<string, TReadModel> request, CancellationToken cancellationToken)
+    protected override async Task<IResult<IReadOnlyCollection<TReadModel>>> Process(EntityIdentifiersQuery<string, TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new System.ArgumentNullException(nameof(request));
@@ -41,6 +42,8 @@ public class EntityIdentifiersQueryHandler<TRepository, TEntity, TReadModel>
             .ToListAsync(cancellationToken)
             .ConfigureAwait(false);
 
-        return Mapper.Map<IList<TEntity>, IReadOnlyCollection<TReadModel>>(results);
+        var models = Mapper.Map<IList<TEntity>, IReadOnlyCollection<TReadModel>>(results);
+
+        return Result.Ok(models);
     }
 }

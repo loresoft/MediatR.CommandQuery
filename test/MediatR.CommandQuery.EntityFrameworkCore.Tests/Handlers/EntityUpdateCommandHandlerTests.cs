@@ -68,10 +68,10 @@ public class EntityUpdateCommandHandlerTests
         var readModel = await updateCommandHandler.Handle(updateCommand, CancellationToken.None);
 
         readModel.Should().NotBeNull();
-        readModel.Id.Should().NotBe(Guid.Empty);
-        readModel.Id.Should().Be(original.Id);
+        readModel.Value.Id.Should().NotBe(Guid.Empty);
+        readModel.Value.Id.Should().Be(original.Id);
 
-        readModel.Name.Should().Be(updateModel.Name);
+        readModel.Value.Name.Should().Be(updateModel.Name);
     }
 
 }

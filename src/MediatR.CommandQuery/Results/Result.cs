@@ -38,6 +38,17 @@ public sealed class Result : IResult
     /// <inheritdoc />
     public IReadOnlyCollection<IError> Errors => _errors;
 
+    /// <inheritdoc />
+    public IError Error
+    {
+        get
+        {
+            if (IsSuccess)
+                throw new InvalidOperationException($"{nameof(Result)} is successful. {nameof(Error)} is not set.");
+
+            return _errors[0];
+        }
+    }
 
     /// <summary>Creates a success result.</summary>
     /// <returns>A new instance of <see cref="Result" /> representing a success result with the specified value.</returns>
@@ -68,7 +79,7 @@ public sealed class Result : IResult
     /// <returns>A new instance of <see cref="Result" /> representing a failed result with the specified error message.</returns>
     public static Result Fail(string errorMessage)
     {
-        var error = new Error(errorMessage);
+        var error = new Error(500, errorMessage);
         return Fail(error);
     }
 
@@ -78,7 +89,7 @@ public sealed class Result : IResult
     /// <returns>A new instance of <see cref="Result" /> representing a failed result with the specified error message and metadata.</returns>
     public static Result Fail(string errorMessage, (string Key, object Value) metadata)
     {
-        var error = new Error(errorMessage, metadata);
+        var error = new Error(500, errorMessage, metadata);
         return Fail(error);
     }
 
@@ -86,9 +97,9 @@ public sealed class Result : IResult
     /// <param name="metadata">The metadata associated with the failure.</param>
     /// <param name="errorMessage">The error message associated with the failure.</param>
     /// <returns>A new instance of <see cref="Result" /> representing a failed result with the specified error message and metadata.</returns>
-    public static Result Fail(string errorMessage, IReadOnlyDictionary<string, object> metadata)
+    public static Result Fail(string errorMessage, IReadOnlyDictionary<string, object?> metadata)
     {
-        var error = new Error(errorMessage, metadata);
+        var error = new Error(500, errorMessage, metadata);
         return Fail(error);
     }
 
@@ -123,7 +134,7 @@ public sealed class Result : IResult
     /// <returns>A new instance of <see cref="Result{TValue}" /> representing a failed result with the specified error message.</returns>
     public static Result<TValue> Fail<TValue>(string errorMessage)
     {
-        var error = new Error(errorMessage);
+        var error = new Error(500, errorMessage);
         return Result<TValue>.Fail(error);
     }
 
@@ -134,7 +145,7 @@ public sealed class Result : IResult
     /// <returns>A new instance of <see cref="Result{TValue}" /> representing a failed result with the specified error message and metadata.</returns>
     public static Result<TValue> Fail<TValue>(string errorMessage, (string Key, object Value) metadata)
     {
-        var error = new Error(errorMessage, metadata);
+        var error = new Error(500, errorMessage, metadata);
         return Result<TValue>.Fail(error);
     }
 
@@ -143,9 +154,9 @@ public sealed class Result : IResult
     /// <param name="metadata">The metadata associated with the failure.</param>
     /// <typeparam name="TValue">The type of the value in the result.</typeparam>
     /// <returns>A new instance of <see cref="Result{TValue}" /> representing a failed result with the specified error message and metadata.</returns>
-    public static Result<TValue> Fail<TValue>(string errorMessage, IReadOnlyDictionary<string, object> metadata)
+    public static Result<TValue> Fail<TValue>(string errorMessage, IReadOnlyDictionary<string, object?> metadata)
     {
-        var error = new Error(errorMessage, metadata);
+        var error = new Error(500, errorMessage, metadata);
         return Result<TValue>.Fail(error);
     }
 

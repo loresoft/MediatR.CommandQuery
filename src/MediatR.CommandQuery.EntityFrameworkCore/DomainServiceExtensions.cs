@@ -4,6 +4,7 @@ using MediatR.CommandQuery.Definitions;
 using MediatR.CommandQuery.EntityFrameworkCore.Handlers;
 using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.Queries;
+using MediatR.CommandQuery.Results;
 using MediatR.CommandQuery.Services;
 
 using Microsoft.EntityFrameworkCore;
@@ -23,20 +24,20 @@ public static class DomainServiceExtensions
             throw new System.ArgumentNullException(nameof(services));
 
         // standard queries
-        services.TryAddTransient<IRequestHandler<EntityIdentifierQuery<TKey, TReadModel>, TReadModel>, EntityIdentifierQueryHandler<TContext, TEntity, TKey, TReadModel>>();
-        services.TryAddTransient<IRequestHandler<EntityIdentifiersQuery<TKey, TReadModel>, IReadOnlyCollection<TReadModel>>, EntityIdentifiersQueryHandler<TContext, TEntity, TKey, TReadModel>>();
-        services.TryAddTransient<IRequestHandler<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>, EntityPagedQueryHandler<TContext, TEntity, TReadModel>>();
-        services.TryAddTransient<IRequestHandler<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>, EntitySelectQueryHandler<TContext, TEntity, TReadModel>>();
+        services.TryAddTransient<IRequestHandler<EntityIdentifierQuery<TKey, TReadModel>, IResult<TReadModel>>, EntityIdentifierQueryHandler<TContext, TEntity, TKey, TReadModel>>();
+        services.TryAddTransient<IRequestHandler<EntityIdentifiersQuery<TKey, TReadModel>, IResult<IReadOnlyCollection<TReadModel>>>, EntityIdentifiersQueryHandler<TContext, TEntity, TKey, TReadModel>>();
+        services.TryAddTransient<IRequestHandler<EntityPagedQuery<TReadModel>, IResult<EntityPagedResult<TReadModel>>>, EntityPagedQueryHandler<TContext, TEntity, TReadModel>>();
+        services.TryAddTransient<IRequestHandler<EntitySelectQuery<TReadModel>, IResult<IReadOnlyCollection<TReadModel>>>, EntitySelectQueryHandler<TContext, TEntity, TReadModel>>();
 
         // pipeline registration, run in order registered
-        bool supportsTenant = typeof(TReadModel).Implements<IHaveTenant<TKey>>();
+        bool supportsTenant = typeof(IResult<TReadModel>).Implements<IHaveTenant<TKey>>();
         if (supportsTenant)
         {
             services.AddTransient<IPipelineBehavior<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>, TenantPagedQueryBehavior<TKey, TReadModel>>();
             services.AddTransient<IPipelineBehavior<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>, TenantSelectQueryBehavior<TKey, TReadModel>>();
         }
 
-        bool supportsDeleted = typeof(TReadModel).Implements<ITrackDeleted>();
+        bool supportsDeleted = typeof(IResult<TReadModel>).Implements<ITrackDeleted>();
         if (supportsDeleted)
         {
             services.AddTransient<IPipelineBehavior<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>, DeletedPagedQueryBehavior<TReadModel>>();
@@ -108,7 +109,7 @@ public static class DomainServiceExtensions
             throw new System.ArgumentNullException(nameof(services));
 
         // standard crud commands
-        services.TryAddTransient<IRequestHandler<EntityCreateCommand<TCreateModel, TReadModel>, TReadModel>, EntityCreateCommandHandler<TContext, TEntity, TKey, TCreateModel, TReadModel>>();
+        services.TryAddTransient<IRequestHandler<EntityCreateCommand<TCreateModel, TReadModel>, IResult<TReadModel>>, EntityCreateCommandHandler<TContext, TEntity, TKey, TCreateModel, TReadModel>>();
 
         // pipeline registration, run in order registered
         var createType = typeof(TCreateModel);
@@ -138,11 +139,11 @@ public static class DomainServiceExtensions
             throw new System.ArgumentNullException(nameof(services));
 
         // allow query for update models
-        services.TryAddTransient<IRequestHandler<EntityIdentifierQuery<TKey, TUpdateModel>, TUpdateModel>, EntityIdentifierQueryHandler<TContext, TEntity, TKey, TUpdateModel>>();
-        services.TryAddTransient<IRequestHandler<EntityIdentifiersQuery<TKey, TUpdateModel>, IReadOnlyCollection<TUpdateModel>>, EntityIdentifiersQueryHandler<TContext, TEntity, TKey, TUpdateModel>>();
+        services.TryAddTransient<IRequestHandler<EntityIdentifierQuery<TKey, TUpdateModel>, IResult<TUpdateModel>>, EntityIdentifierQueryHandler<TContext, TEntity, TKey, TUpdateModel>>();
+        services.TryAddTransient<IRequestHandler<EntityIdentifiersQuery<TKey, TUpdateModel>, IResult<IReadOnlyCollection<TUpdateModel>>>, EntityIdentifiersQueryHandler<TContext, TEntity, TKey, TUpdateModel>>();
 
         // standard crud commands
-        services.TryAddTransient<IRequestHandler<EntityUpdateCommand<TKey, TUpdateModel, TReadModel>, TReadModel>, EntityUpdateCommandHandler<TContext, TEntity, TKey, TUpdateModel, TReadModel>>();
+        services.TryAddTransient<IRequestHandler<EntityUpdateCommand<TKey, TUpdateModel, TReadModel>, IResult<TReadModel>>, EntityUpdateCommandHandler<TContext, TEntity, TKey, TUpdateModel, TReadModel>>();
 
         // pipeline registration, run in order registered
         var updateType = typeof(TUpdateModel);
@@ -172,7 +173,7 @@ public static class DomainServiceExtensions
             throw new System.ArgumentNullException(nameof(services));
 
         // standard crud commands
-        services.TryAddTransient<IRequestHandler<EntityUpsertCommand<TKey, TUpdateModel, TReadModel>, TReadModel>, EntityUpsertCommandHandler<TContext, TEntity, TKey, TUpdateModel, TReadModel>>();
+        services.TryAddTransient<IRequestHandler<EntityUpsertCommand<TKey, TUpdateModel, TReadModel>, IResult<TReadModel>>, EntityUpsertCommandHandler<TContext, TEntity, TKey, TUpdateModel, TReadModel>>();
 
         // pipeline registration, run in order registered
         var updateType = typeof(TUpdateModel);
@@ -201,7 +202,7 @@ public static class DomainServiceExtensions
             throw new System.ArgumentNullException(nameof(services));
 
         // standard crud commands
-        services.TryAddTransient<IRequestHandler<EntityPatchCommand<TKey, TReadModel>, TReadModel>, EntityPatchCommandHandler<TContext, TEntity, TKey, TReadModel>>();
+        services.TryAddTransient<IRequestHandler<EntityPatchCommand<TKey, TReadModel>, IResult<TReadModel>>, EntityPatchCommandHandler<TContext, TEntity, TKey, TReadModel>>();
 
         // pipeline registration, run in order registered
         services.AddTransient<IPipelineBehavior<EntityPatchCommand<TKey, TReadModel>, TReadModel>, EntityChangeNotificationBehavior<TKey, TEntity, TReadModel>>();
@@ -217,7 +218,7 @@ public static class DomainServiceExtensions
             throw new System.ArgumentNullException(nameof(services));
 
         // standard crud commands
-        services.TryAddTransient<IRequestHandler<EntityDeleteCommand<TKey, TReadModel>, TReadModel>, EntityDeleteCommandHandler<TContext, TEntity, TKey, TReadModel>>();
+        services.TryAddTransient<IRequestHandler<EntityDeleteCommand<TKey, TReadModel>, IResult<TReadModel>>, EntityDeleteCommandHandler<TContext, TEntity, TKey, TReadModel>>();
 
         // pipeline registration, run in order registered
         services.AddTransient<IPipelineBehavior<EntityDeleteCommand<TKey, TReadModel>, TReadModel>, EntityChangeNotificationBehavior<TKey, TEntity, TReadModel>>();

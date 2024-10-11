@@ -2,6 +2,7 @@ using AutoMapper;
 
 using MediatR.CommandQuery.Definitions;
 using MediatR.CommandQuery.Queries;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.Extensions.Logging;
 
@@ -12,7 +13,7 @@ using MongoDB.Driver.Linq;
 namespace MediatR.CommandQuery.MongoDB.Handlers;
 
 public class EntityIdentifiersQueryHandler<TRepository, TEntity, TKey, TReadModel>
-    : RepositoryHandlerBase<TRepository, TEntity, TKey, EntityIdentifiersQuery<TKey, TReadModel>, IReadOnlyCollection<TReadModel>>
+    : RepositoryHandlerBase<TRepository, TEntity, TKey, EntityIdentifiersQuery<TKey, TReadModel>, IResult<IReadOnlyCollection<TReadModel>>>
     where TRepository : IMongoRepository<TEntity, TKey>
     where TEntity : class, IHaveIdentifier<TKey>, new()
 {
@@ -20,7 +21,7 @@ public class EntityIdentifiersQueryHandler<TRepository, TEntity, TKey, TReadMode
     {
     }
 
-    protected override async Task<IReadOnlyCollection<TReadModel>> Process(EntityIdentifiersQuery<TKey, TReadModel> request, CancellationToken cancellationToken)
+    protected override async Task<IResult<IReadOnlyCollection<TReadModel>>> Process(EntityIdentifiersQuery<TKey, TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -33,6 +34,8 @@ public class EntityIdentifiersQueryHandler<TRepository, TEntity, TKey, TReadMode
             .ToListAsync(cancellationToken)
             .ConfigureAwait(false);
 
-        return Mapper.Map<IList<TEntity>, IReadOnlyCollection<TReadModel>>(results);
+        var models = Mapper.Map<IList<TEntity>, IReadOnlyCollection<TReadModel>>(results);
+
+        return Result.Ok(models);
     }
 }

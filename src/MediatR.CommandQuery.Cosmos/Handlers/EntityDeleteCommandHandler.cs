@@ -4,13 +4,14 @@ using Cosmos.Abstracts;
 
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Cosmos.Handlers;
 
 public class EntityDeleteCommandHandler<TRepository, TEntity, TReadModel>
-    : RepositoryHandlerBase<TRepository, TEntity, EntityDeleteCommand<string, TReadModel>, TReadModel>
+    : RepositoryHandlerBase<TRepository, TEntity, EntityDeleteCommand<string, TReadModel>, IResult<TReadModel>>
     where TRepository : ICosmosRepository<TEntity>
     where TEntity : class, IHaveIdentifier<string>, new()
 {
@@ -20,7 +21,7 @@ public class EntityDeleteCommandHandler<TRepository, TEntity, TReadModel>
     {
     }
 
-    protected override async Task<TReadModel> Process(EntityDeleteCommand<string, TReadModel> request, CancellationToken cancellationToken)
+    protected override async Task<IResult<TReadModel>> Process(EntityDeleteCommand<string, TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -73,7 +74,8 @@ public class EntityDeleteCommandHandler<TRepository, TEntity, TReadModel>
 
         // convert deleted entity to read model
         var model = Mapper.Map<TReadModel>(savedEntity);
-        return model;
+
+        return Result.Ok(model);
     }
 
 }

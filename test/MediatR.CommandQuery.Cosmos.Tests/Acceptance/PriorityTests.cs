@@ -29,7 +29,7 @@ public class PriorityTests : DatabaseTestBase
         var identifierQuery = new EntityIdentifierQuery<string, PriorityReadModel>(MockPrincipal.Default, PriorityConstants.Normal.ToCosmosKey());
         var identifierResult = await mediator.Send(identifierQuery);
         identifierResult.Should().NotBeNull();
-        identifierResult.Id.Should().Be(PriorityConstants.Normal.Id);
+        identifierResult.Value.Id.Should().Be(PriorityConstants.Normal.Id);
     }
 
     [Fact]
@@ -52,7 +52,7 @@ public class PriorityTests : DatabaseTestBase
         var identifierResults = await mediator.Send(identifierQuery);
 
         identifierResults.Should().NotBeNull();
-        identifierResults.Count.Should().Be(2);
+        identifierResults.Value.Count.Should().Be(2);
     }
 
     [Fact]
@@ -81,7 +81,7 @@ public class PriorityTests : DatabaseTestBase
 
         var listResult = await mediator.Send(listQuery);
         listResult.Should().NotBeNull();
-        listResult.Total.Should().Be(2);
+        listResult.Value.Total.Should().Be(2);
     }
 
 }

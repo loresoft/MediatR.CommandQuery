@@ -53,6 +53,6 @@ public class EntityCreateCommandHandlerTests
         var readModel = await createHandler.Handle(createCommand, CancellationToken.None);
 
         readModel.Should().NotBeNull();
-        readModel.Id.Should().NotBe(Guid.Empty);
+        readModel.Value.Id.Should().NotBe(Guid.Empty);
     }
 }

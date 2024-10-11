@@ -5,6 +5,7 @@ using AutoMapper.QueryableExtensions;
 
 using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.Queries;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -12,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace MediatR.CommandQuery.EntityFrameworkCore.Handlers;
 
 public class EntitySelectQueryHandler<TContext, TEntity, TReadModel>
-    : DataContextHandlerBase<TContext, EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>
+    : DataContextHandlerBase<TContext, EntitySelectQuery<TReadModel>, IResult<IReadOnlyCollection<TReadModel>>>
     where TContext : DbContext
     where TEntity : class
 {
@@ -22,7 +23,7 @@ public class EntitySelectQueryHandler<TContext, TEntity, TReadModel>
     }
 
 
-    protected override async Task<IReadOnlyCollection<TReadModel>> Process(EntitySelectQuery<TReadModel> request, CancellationToken cancellationToken)
+    protected override async Task<IResult<IReadOnlyCollection<TReadModel>>> Process(EntitySelectQuery<TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -37,7 +38,7 @@ public class EntitySelectQueryHandler<TContext, TEntity, TReadModel>
         // page the query and convert to read model
         var result = await QueryList(request, query, cancellationToken).ConfigureAwait(false);
 
-        return result;
+        return Result.Ok(result);
     }
 
 

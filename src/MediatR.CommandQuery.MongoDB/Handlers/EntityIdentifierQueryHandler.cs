@@ -2,6 +2,7 @@ using AutoMapper;
 
 using MediatR.CommandQuery.Definitions;
 using MediatR.CommandQuery.Queries;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.Extensions.Logging;
 
@@ -10,7 +11,7 @@ using MongoDB.Abstracts;
 namespace MediatR.CommandQuery.MongoDB.Handlers;
 
 public class EntityIdentifierQueryHandler<TRepository, TEntity, TKey, TReadModel>
-    : RepositoryHandlerBase<TRepository, TEntity, TKey, EntityIdentifierQuery<TKey, TReadModel>, TReadModel>
+    : RepositoryHandlerBase<TRepository, TEntity, TKey, EntityIdentifierQuery<TKey, TReadModel>, IResult<TReadModel>>
     where TRepository : IMongoRepository<TEntity, TKey>
     where TEntity : class, IHaveIdentifier<TKey>, new()
 {
@@ -18,7 +19,7 @@ public class EntityIdentifierQueryHandler<TRepository, TEntity, TKey, TReadModel
     {
     }
 
-    protected override async Task<TReadModel> Process(EntityIdentifierQuery<TKey, TReadModel> request, CancellationToken cancellationToken)
+    protected override async Task<IResult<TReadModel>> Process(EntityIdentifierQuery<TKey, TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -30,6 +31,6 @@ public class EntityIdentifierQueryHandler<TRepository, TEntity, TKey, TReadModel
         // convert entity to read model
         var model = Mapper.Map<TReadModel>(entity);
 
-        return model;
+        return Result.Ok(model);
     }
 }

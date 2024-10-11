@@ -2,6 +2,7 @@ using AutoMapper;
 
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.Extensions.Logging;
 
@@ -10,7 +11,7 @@ using MongoDB.Abstracts;
 namespace MediatR.CommandQuery.MongoDB.Handlers;
 
 public class EntityDeleteCommandHandler<TRepository, TEntity, TKey, TReadModel>
-    : RepositoryHandlerBase<TRepository, TEntity, TKey, EntityDeleteCommand<TKey, TReadModel>, TReadModel>
+    : RepositoryHandlerBase<TRepository, TEntity, TKey, EntityDeleteCommand<TKey, TReadModel>, IResult<TReadModel>>
     where TRepository : IMongoRepository<TEntity, TKey>
     where TEntity : class, IHaveIdentifier<TKey>, new()
 {
@@ -20,7 +21,7 @@ public class EntityDeleteCommandHandler<TRepository, TEntity, TKey, TReadModel>
     {
     }
 
-    protected override async Task<TReadModel> Process(EntityDeleteCommand<TKey, TReadModel> request, CancellationToken cancellationToken)
+    protected override async Task<IResult<TReadModel>> Process(EntityDeleteCommand<TKey, TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -71,7 +72,8 @@ public class EntityDeleteCommandHandler<TRepository, TEntity, TKey, TReadModel>
 
         // convert deleted entity to read model
         var model = Mapper.Map<TReadModel>(savedEntity);
-        return model;
+
+        return Result.Ok(model);
     }
 
 }

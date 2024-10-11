@@ -4,6 +4,7 @@ using AutoMapper;
 
 using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.Queries;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.Extensions.Logging;
 
@@ -12,7 +13,7 @@ using MongoDB.Abstracts;
 namespace MediatR.CommandQuery.MongoDB.Handlers;
 
 public class EntitySelectQueryHandler<TRepository, TEntity, TKey, TReadModel>
-    : RepositoryHandlerBase<TRepository, TEntity, TKey, EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>
+    : RepositoryHandlerBase<TRepository, TEntity, TKey, EntitySelectQuery<TReadModel>, IResult<IReadOnlyCollection<TReadModel>>>
     where TRepository : IMongoRepository<TEntity, TKey>
     where TEntity : class
 {
@@ -21,7 +22,7 @@ public class EntitySelectQueryHandler<TRepository, TEntity, TKey, TReadModel>
     {
     }
 
-    protected override Task<IReadOnlyCollection<TReadModel>> Process(EntitySelectQuery<TReadModel> request, CancellationToken cancellationToken)
+    protected override Task<IResult<IReadOnlyCollection<TReadModel>>> Process(EntitySelectQuery<TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -35,7 +36,7 @@ public class EntitySelectQueryHandler<TRepository, TEntity, TKey, TReadModel>
         var result = QueryList(request, query, cancellationToken);
 
         //TODO make async?
-        return Task.FromResult(result);
+        return Task.FromResult<IResult<IReadOnlyCollection<TReadModel>>>(Result.Ok(result));
     }
 
 

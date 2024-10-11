@@ -2,6 +2,7 @@ using AutoMapper;
 
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
+using MediatR.CommandQuery.Results;
 
 using Microsoft.Extensions.Logging;
 
@@ -10,7 +11,7 @@ using MongoDB.Abstracts;
 namespace MediatR.CommandQuery.MongoDB.Handlers;
 
 public class EntityUpsertCommandHandler<TRepository, TEntity, TKey, TUpdateModel, TReadModel>
-    : RepositoryHandlerBase<TRepository, TEntity, TKey, EntityUpsertCommand<TKey, TUpdateModel, TReadModel>, TReadModel>
+    : RepositoryHandlerBase<TRepository, TEntity, TKey, EntityUpsertCommand<TKey, TUpdateModel, TReadModel>, IResult<TReadModel>>
     where TRepository : IMongoRepository<TEntity, TKey>
     where TEntity : class, IHaveIdentifier<TKey>, new()
 {
@@ -19,7 +20,7 @@ public class EntityUpsertCommandHandler<TRepository, TEntity, TKey, TUpdateModel
     {
     }
 
-    protected override async Task<TReadModel> Process(EntityUpsertCommand<TKey, TUpdateModel, TReadModel> request, CancellationToken cancellationToken)
+    protected override async Task<IResult<TReadModel>> Process(EntityUpsertCommand<TKey, TUpdateModel, TReadModel> request, CancellationToken cancellationToken)
     {
         if (request is null)
             throw new ArgumentNullException(nameof(request));
@@ -58,6 +59,7 @@ public class EntityUpsertCommandHandler<TRepository, TEntity, TKey, TUpdateModel
 
         // return read model
         var model = Mapper.Map<TReadModel>(savedEntity);
-        return model;
+
+        return Result.Ok(model);
     }
 }

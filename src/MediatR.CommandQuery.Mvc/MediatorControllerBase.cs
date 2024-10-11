@@ -1,4 +1,6 @@
 
+using MediatR.CommandQuery.Results;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace MediatR.CommandQuery.Mvc;
@@ -13,4 +15,15 @@ public abstract class MediatorControllerBase : ControllerBase
     }
 
     public IMediator Mediator { get; }
+
+    protected virtual ActionResult<T> Result<T>(IResult<T> result)
+    {
+        if (result.IsSuccess)
+            return Ok(result.Value);
+
+        Response.ContentType = "application/problem+json";
+
+        var problemDetails = result.Error.Problem();
+        return StatusCode(result.Error.Status, problemDetails);
+    }
 }
