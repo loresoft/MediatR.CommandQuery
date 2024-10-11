@@ -17,10 +17,4 @@ public abstract record EntityIdentifierCommand<TKey, TResponse>
 
     [NotNull]
     public TKey Id { get; }
-
-    public override string ToString()
-    {
-        return $"Id: {Id}; {base.ToString()}";
-    }
-
 }

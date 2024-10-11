@@ -32,7 +32,7 @@ public class SerializationTests
         json.Should().NotBeNullOrEmpty();
 
 
-        var deserializeCommand = JsonSerializer.Deserialize<EntityCreateCommand<AuditCreateModel, AuditReadModel>>(json);
+        var deserializeCommand = JsonSerializer.Deserialize<EntityCreateCommand<AuditCreateModel, AuditReadModel>>(json, options);
         deserializeCommand.Should().NotBeNull();
     }
 

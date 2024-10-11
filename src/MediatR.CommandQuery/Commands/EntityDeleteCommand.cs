@@ -9,10 +9,4 @@ public record EntityDeleteCommand<TKey, TReadModel>
     public EntityDeleteCommand(ClaimsPrincipal? principal, [NotNull] TKey id) : base(principal, id)
     {
     }
-
-    public override string ToString()
-    {
-        return $"Entity Delete Command; Model: {typeof(TReadModel).Name}; {base.ToString()}";
-    }
-
 }
