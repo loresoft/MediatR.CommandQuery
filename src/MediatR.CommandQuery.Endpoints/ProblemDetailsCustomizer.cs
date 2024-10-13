@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -84,5 +85,54 @@ public static class ProblemDetailsCustomizer
 #else
         context.ProblemDetails.Extensions.Add("errors", errors);
 #endif
+    }
+
+    public static ProblemDetails ToProblemDetails(this Exception exception)
+    {
+        var problemDetails = new ProblemDetails();
+        switch (exception)
+        {
+            case FluentValidation.ValidationException fluentException:
+            {
+                var errors = fluentException.Errors
+                    .GroupBy(x => x.PropertyName)
+                    .ToDictionary(g => g.Key, g => g.Select(x => x.ErrorMessage).ToArray());
+
+                problemDetails.Title = "One or more validation errors occurred.";
+                problemDetails.Status = StatusCodes.Status400BadRequest;
+                problemDetails.Extensions.Add("errors", errors);
+                break;
+            }
+            case System.ComponentModel.DataAnnotations.ValidationException validationException:
+            {
+                var errors = new Dictionary<string, string[]>();
+
+                if (validationException.ValidationResult.ErrorMessage != null)
+                    foreach (var memberName in validationException.ValidationResult.MemberNames)
+                        errors[memberName] = [validationException.ValidationResult.ErrorMessage];
+
+                problemDetails.Title = "One or more validation errors occurred.";
+                problemDetails.Status = StatusCodes.Status400BadRequest;
+                problemDetails.Extensions.Add("errors", errors);
+                break;
+            }
+            case MediatR.CommandQuery.DomainException domainException:
+            {
+                problemDetails.Title = "Internal Server Error.";
+                problemDetails.Status = domainException.StatusCode;
+                break;
+            }
+            default:
+            {
+                problemDetails.Title = "Internal Server Error.";
+                problemDetails.Status = 500;
+                break;
+            }
+        }
+
+        problemDetails.Detail = exception?.Message;
+        problemDetails.Extensions.Add("exception", exception?.ToString());
+
+        return problemDetails;
     }
 }

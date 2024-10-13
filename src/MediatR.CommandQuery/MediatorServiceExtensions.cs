@@ -1,5 +1,6 @@
 using FluentValidation;
 
+using MediatR.CommandQuery.Dispatcher;
 using MediatR.NotificationPublishers;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -36,6 +37,22 @@ public static class MediatorServiceExtensions
             //Register as self
             services.TryAdd(new ServiceDescriptor(scanResult.ValidatorType, scanResult.ValidatorType, ServiceLifetime.Singleton));
         }
+
+        return services;
+    }
+
+    public static IServiceCollection AddRemoteDispatcher(this IServiceCollection services)
+    {
+        services.TryAddTransient<IDispatcher>(sp => sp.GetRequiredService<RemoteDispatcher>());
+        services.AddOptions<DispatcherOptions>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddServerDispatcher(this IServiceCollection services)
+    {
+        services.TryAddTransient<IDispatcher, MediatorDispatcher>();
+        services.AddOptions<DispatcherOptions>();
 
         return services;
     }
