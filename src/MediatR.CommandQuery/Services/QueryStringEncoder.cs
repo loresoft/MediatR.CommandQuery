@@ -66,8 +66,7 @@ public static class QueryStringEncoder
 
     public static byte[] Base64UrlDecode(string input)
     {
-        if (input is null)
-            throw new ArgumentNullException(nameof(input));
+        ArgumentNullException.ThrowIfNull(input);
 
         var count = input.Length;
         if (count == 0)

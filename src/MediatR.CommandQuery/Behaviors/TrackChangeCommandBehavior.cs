@@ -21,6 +21,9 @@ public class TrackChangeCommandBehavior<TEntityModel, TResponse>
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(next);
+
         TrackChange(request);
 
         // continue pipeline
@@ -29,9 +32,6 @@ public class TrackChangeCommandBehavior<TEntityModel, TResponse>
 
     private void TrackChange(EntityModelCommand<TEntityModel, TResponse> request)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
-
         var identityName = _principalReader.GetIdentifier(request.Principal);
         var model = request.Model;
 

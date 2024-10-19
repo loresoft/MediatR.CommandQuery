@@ -12,7 +12,7 @@ public static class QueryExtensions
         if (sort == null)
             return query;
 
-        return Sort(query, new[] { sort });
+        return Sort(query, [sort]);
     }
 
     public static IQueryable<T> Sort<T>(this IQueryable<T> query, IEnumerable<EntitySort>? sorts)
@@ -20,8 +20,7 @@ public static class QueryExtensions
         if (sorts?.Any() != true)
             return query;
 
-        if (query is null)
-            throw new ArgumentNullException(nameof(query));
+        ArgumentNullException.ThrowIfNull(query);
 
         // Create ordering expression e.g. Field1 asc, Field2 desc
         var builder = new StringBuilder();
@@ -30,7 +29,7 @@ public static class QueryExtensions
             if (builder.Length > 0)
                 builder.Append(",");
 
-            builder.Append(sort.Name).Append(" ");
+            builder.Append(sort.Name).Append(' ');
 
             var isDescending = !string.IsNullOrWhiteSpace(sort.Direction)
                 && sort.Direction.StartsWith(EntitySortDirections.Descending, StringComparison.OrdinalIgnoreCase);
@@ -46,8 +45,7 @@ public static class QueryExtensions
         if (filter is null)
             return query;
 
-        if (query is null)
-            throw new ArgumentNullException(nameof(query));
+        ArgumentNullException.ThrowIfNull(query);
 
         var builder = new LinqExpressionBuilder();
         builder.Build(filter);

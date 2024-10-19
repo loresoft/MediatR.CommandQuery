@@ -22,11 +22,8 @@ public class ValidateEntityModelCommandBehavior<TEntityModel, TResponse>
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
-
-        if (next is null)
-            throw new ArgumentNullException(nameof(next));
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(next);
 
         // validate before processing
         await _validator.ValidateAndThrowAsync(request.Model, cancellationToken: cancellationToken).ConfigureAwait(false);

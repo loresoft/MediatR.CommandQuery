@@ -23,8 +23,7 @@ public class EntitySelectQueryHandler<TRepository, TEntity, TKey, TReadModel>
 
     protected override Task<IReadOnlyCollection<TReadModel>> Process(EntitySelectQuery<TReadModel> request, CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
         var query = Repository.All();
 

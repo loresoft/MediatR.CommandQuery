@@ -24,8 +24,7 @@ public class EntitySelectQueryHandler<TRepository, TEntity, TReadModel>
 
     protected override async Task<IReadOnlyCollection<TReadModel>> Process(EntitySelectQuery<TReadModel> request, CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
         var cosmosQuery = await Repository
             .GetQueryableAsync()
@@ -43,10 +42,8 @@ public class EntitySelectQueryHandler<TRepository, TEntity, TReadModel>
 
     protected virtual IQueryable<TEntity> BuildQuery(EntitySelectQuery<TReadModel> request, IQueryable<TEntity> query)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
-        if (query is null)
-            throw new ArgumentNullException(nameof(query));
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(query);
 
         var entitySelect = request?.Select;
 
@@ -63,8 +60,7 @@ public class EntitySelectQueryHandler<TRepository, TEntity, TReadModel>
 
     protected virtual async Task<IReadOnlyCollection<TReadModel>> QueryList(EntitySelectQuery<TReadModel> request, IQueryable<TEntity> query, CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
         var results = await query
             .Sort(request.Select?.Sort)

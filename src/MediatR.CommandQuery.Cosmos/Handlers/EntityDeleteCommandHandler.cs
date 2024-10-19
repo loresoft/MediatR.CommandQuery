@@ -22,8 +22,7 @@ public class EntityDeleteCommandHandler<TRepository, TEntity, TReadModel>
 
     protected override async Task<TReadModel> Process(EntityDeleteCommand<string, TReadModel> request, CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
         if (!CosmosKey.TryDecode(request.Id, out var id, out var partitionKey))
             throw new InvalidOperationException("Invalid Cosmos Key format");
 

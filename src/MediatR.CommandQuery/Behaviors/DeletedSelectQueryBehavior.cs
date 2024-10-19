@@ -17,11 +17,8 @@ public class DeletedSelectQueryBehavior<TEntityModel>
         RequestHandlerDelegate<IReadOnlyCollection<TEntityModel>> next,
         CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
-
-        if (next is null)
-            throw new ArgumentNullException(nameof(next));
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(next);
 
         // add delete filter
         request.Select.Filter = RewriteFilter(request.Select?.Filter, request.Principal);

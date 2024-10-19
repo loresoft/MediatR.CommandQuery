@@ -17,11 +17,8 @@ public class DeletedPagedQueryBehavior<TEntityModel>
         RequestHandlerDelegate<EntityPagedResult<TEntityModel>> next,
         CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
-
-        if (next is null)
-            throw new ArgumentNullException(nameof(next));
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(next);
 
         // add delete filter
         request.Query.Filter = RewriteFilter(request.Query?.Filter, request.Principal);

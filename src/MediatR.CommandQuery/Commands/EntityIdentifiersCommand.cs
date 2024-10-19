@@ -9,8 +9,7 @@ public abstract record EntityIdentifiersCommand<TKey, TResponse>
     protected EntityIdentifiersCommand(ClaimsPrincipal? principal, [NotNull] IEnumerable<TKey> ids)
         : base(principal)
     {
-        if (ids is null)
-            throw new ArgumentNullException(nameof(ids));
+        ArgumentNullException.ThrowIfNull(ids);
 
         Ids = ids.ToList();
     }

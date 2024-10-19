@@ -12,8 +12,7 @@ public static class TypeExtensions
     public static bool Implements<TInterface>(this Type type)
         where TInterface : class
     {
-        if (type is null)
-            throw new ArgumentNullException(nameof(type));
+        ArgumentNullException.ThrowIfNull(type);
 
         var interfaceType = typeof(TInterface);
 

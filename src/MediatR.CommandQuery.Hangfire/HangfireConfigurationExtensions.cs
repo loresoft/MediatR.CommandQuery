@@ -11,8 +11,7 @@ public static class HangfireConfigurationExtensions
 {
     public static IGlobalConfiguration UseMediatR(this IGlobalConfiguration configuration)
     {
-        if (configuration is null)
-            throw new ArgumentNullException(nameof(configuration));
+        ArgumentNullException.ThrowIfNull(configuration);
 
         var jsonSettings = new JsonSerializerSettings
         {
@@ -25,8 +24,7 @@ public static class HangfireConfigurationExtensions
 
     public static IServiceCollection AddMediatorDispatcher(this IServiceCollection services)
     {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         services.TryAddScoped<IMediatorDispatcher, MediatorDispatcher>();
 

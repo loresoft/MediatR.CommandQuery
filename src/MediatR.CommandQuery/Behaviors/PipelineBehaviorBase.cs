@@ -14,8 +14,7 @@ public abstract partial class PipelineBehaviorBase<TRequest, TResponse>
 
     protected PipelineBehaviorBase(ILoggerFactory loggerFactory)
     {
-        if (loggerFactory is null)
-            throw new ArgumentNullException(nameof(loggerFactory));
+        ArgumentNullException.ThrowIfNull(loggerFactory);
 
         var type = GetType();
 
@@ -31,11 +30,9 @@ public abstract partial class PipelineBehaviorBase<TRequest, TResponse>
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
-        if (next is null)
-            throw new ArgumentNullException(nameof(next));
+        ArgumentNullException.ThrowIfNull(next);
 
         var startTime = ActivityTimer.GetTimestamp();
         try

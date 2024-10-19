@@ -23,8 +23,7 @@ public class EntityIdentifiersQueryHandler<TContext, TEntity, TKey, TReadModel>
 
     protected override async Task<IReadOnlyCollection<TReadModel>> Process(EntityIdentifiersQuery<TKey, TReadModel> request, CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
         var models = await DataContext
             .Set<TEntity>()

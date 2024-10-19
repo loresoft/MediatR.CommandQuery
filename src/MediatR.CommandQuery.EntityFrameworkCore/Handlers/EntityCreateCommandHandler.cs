@@ -20,8 +20,7 @@ public class EntityCreateCommandHandler<TContext, TEntity, TKey, TCreateModel, T
 
     protected override async Task<TReadModel> Process(EntityCreateCommand<TCreateModel, TReadModel> request, CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
         // create new entity from model
         var entity = Mapper.Map<TEntity>(request.Model);

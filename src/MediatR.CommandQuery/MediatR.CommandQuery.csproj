@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <NoWarn>1591</NoWarn>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -9,11 +9,9 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.10.0" />
     <PackageReference Include="MediatR" Version="12.4.1" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Hybrid" Version="9.0.0-preview.9.24507.7" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.4.6" />
-    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="System.Text.Json" Version="9.0.0-rc.2.24473.5" />
     <PackageReference Include="SystemTextJsonPatch" Version="3.3.0" />
   </ItemGroup>
 

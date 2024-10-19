@@ -19,11 +19,8 @@ public class TenantPagedQueryBehavior<TKey, TEntityModel>
         RequestHandlerDelegate<EntityPagedResult<TEntityModel>> next,
         CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
-
-        if (next is null)
-            throw new ArgumentNullException(nameof(next));
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(next);
 
         // add tenant filter
         request.Query.Filter = await RewriteFilter(request.Query?.Filter, request.Principal).ConfigureAwait(false);

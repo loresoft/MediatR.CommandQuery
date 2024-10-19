@@ -1,6 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 
+using Microsoft.Extensions.Logging;
+
 namespace MediatR.CommandQuery.Commands;
 
 public abstract record EntityIdentifierCommand<TKey, TResponse>
@@ -9,8 +11,7 @@ public abstract record EntityIdentifierCommand<TKey, TResponse>
     protected EntityIdentifierCommand(ClaimsPrincipal? principal, [NotNull] TKey id)
         : base(principal)
     {
-        if (id == null)
-            throw new ArgumentNullException(nameof(id));
+        ArgumentNullException.ThrowIfNull(id);
 
         Id = id;
     }

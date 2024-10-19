@@ -25,11 +25,8 @@ public class TenantAuthenticateCommandBehavior<TKey, TEntityModel, TResponse>
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
-
-        if (next is null)
-            throw new ArgumentNullException(nameof(next));
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(next);
 
         await Authorize(request).ConfigureAwait(false);
 

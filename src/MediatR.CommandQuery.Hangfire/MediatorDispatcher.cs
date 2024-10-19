@@ -24,8 +24,7 @@ public partial class MediatorDispatcher : IMediatorDispatcher
     public async Task Send<TRequest>(TRequest request, PerformContext? context, CancellationToken cancellationToken)
         where TRequest : IBaseRequest
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
         var scope = _logger.BeginScope("Hangfire Job Id: {JobId}", context?.BackgroundJob?.Id);
 

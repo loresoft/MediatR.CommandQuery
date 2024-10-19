@@ -1,4 +1,4 @@
-﻿namespace MediatR.CommandQuery.Dispatcher;
+namespace MediatR.CommandQuery.Dispatcher;
 
 public class MediatorDispatcher : IDispatcher
 {
@@ -6,7 +6,7 @@ public class MediatorDispatcher : IDispatcher
 
     public MediatorDispatcher(ISender sender)
     {
-        _sender = sender;
+        _sender = sender ?? throw new ArgumentNullException(nameof(sender));
     }
 
     public async Task<TResponse?> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)

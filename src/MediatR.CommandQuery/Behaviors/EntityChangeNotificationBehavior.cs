@@ -13,7 +13,9 @@ public class EntityChangeNotificationBehavior<TKey, TEntityModel, TResponse>
 
     public EntityChangeNotificationBehavior(ILoggerFactory loggerFactory, IMediator mediator) : base(loggerFactory)
     {
-        _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        ArgumentNullException.ThrowIfNull(mediator);
+
+        _mediator = mediator;
     }
 
     protected override async Task<TResponse> Process(
@@ -21,11 +23,8 @@ public class EntityChangeNotificationBehavior<TKey, TEntityModel, TResponse>
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
-
-        if (next is null)
-            throw new ArgumentNullException(nameof(next));
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(next);
 
         var response = await next().ConfigureAwait(false);
 

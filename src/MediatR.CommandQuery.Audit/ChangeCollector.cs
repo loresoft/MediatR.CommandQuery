@@ -57,14 +57,9 @@ public partial class ChangeCollector<TKey, TEntity> : IChangeCollector<TKey, TEn
     /// </returns>
     public IReadOnlyList<AuditRecord<TKey>> CollectGroupChanges<TProperty>(IEnumerable<TEntity> entities, string entityName, Func<TEntity, TProperty> groupSelector, Func<TEntity, string>? descriptionFunction = null)
     {
-        if (entities is null)
-            throw new ArgumentNullException(nameof(entities));
-        if (entityName is null)
-            throw new ArgumentNullException(nameof(entityName));
-        if (entityName.Length == 0)
-            throw new ArgumentException("Invalid entity name", nameof(entityName));
-        if (groupSelector is null)
-            throw new ArgumentNullException(nameof(groupSelector));
+        ArgumentNullException.ThrowIfNull(entities);
+        ArgumentException.ThrowIfNullOrEmpty(entityName);
+        ArgumentNullException.ThrowIfNull(groupSelector);
 
         var historyList = new List<AuditRecord<TKey>>();
 
@@ -107,10 +102,8 @@ public partial class ChangeCollector<TKey, TEntity> : IChangeCollector<TKey, TEn
     /// <exception cref="ArgumentException">When entity name is empty</exception>
     public IEnumerable<AuditRecord<TKey>> CollectChanges(IEnumerable<TEntity> entities, string entityName, Func<TEntity, string>? descriptionFunction = null)
     {
-        if (entities == null)
-            throw new ArgumentNullException(nameof(entities));
-        if (entityName == null)
-            throw new ArgumentNullException(nameof(entityName));
+        ArgumentNullException.ThrowIfNull(entities);
+        ArgumentNullException.ThrowIfNull(entityName);
         if (entityName.Length == 0)
             throw new ArgumentException("Invalid entity name", nameof(entityName));
 

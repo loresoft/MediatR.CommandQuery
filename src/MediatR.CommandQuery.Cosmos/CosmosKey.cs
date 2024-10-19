@@ -65,8 +65,7 @@ public static class CosmosKey
 
     public static string ToCosmosKey(this ICosmosEntity cosmosEntity)
     {
-        if (cosmosEntity == null)
-            throw new ArgumentNullException(nameof(cosmosEntity));
+        ArgumentNullException.ThrowIfNull(cosmosEntity);
 
         var partitionKey = cosmosEntity.GetPartitionKey();
 

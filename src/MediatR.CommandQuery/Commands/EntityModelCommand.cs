@@ -9,8 +9,7 @@ public abstract record EntityModelCommand<TEntityModel, TReadModel>
     protected EntityModelCommand(ClaimsPrincipal? principal, [NotNull] TEntityModel model)
         : base(principal)
     {
-        if (model == null)
-            throw new ArgumentNullException(nameof(model));
+        ArgumentNullException.ThrowIfNull(model);
 
         Model = model;
     }

@@ -20,8 +20,7 @@ public static class DomainServiceExtensions
         where TEntity : class, IHaveIdentifier<string>, new()
         where TReadModel : class
     {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         // standard queries
         services.TryAddTransient<IRequestHandler<EntityIdentifierQuery<string, TReadModel>, TReadModel>, EntityIdentifierQueryHandler<TRepository, TEntity, TReadModel>>();
@@ -51,8 +50,7 @@ public static class DomainServiceExtensions
         where TRepository : ICosmosRepository<TEntity>
         where TEntity : class, IHaveIdentifier<string>, new()
     {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         services.AddTransient<IPipelineBehavior<EntityIdentifierQuery<string, TReadModel>, TReadModel>, MemoryCacheQueryBehavior<EntityIdentifierQuery<string, TReadModel>, TReadModel>>();
         services.AddTransient<IPipelineBehavior<EntityIdentifiersQuery<string, TReadModel>, IReadOnlyCollection<TReadModel>>, MemoryCacheQueryBehavior<EntityIdentifiersQuery<string, TReadModel>, IReadOnlyCollection<TReadModel>>>();
@@ -66,8 +64,7 @@ public static class DomainServiceExtensions
         where TRepository : ICosmosRepository<TEntity>
         where TEntity : class, IHaveIdentifier<string>, new()
     {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         services.AddTransient<IPipelineBehavior<EntityIdentifierQuery<string, TReadModel>, TReadModel>, DistributedCacheQueryBehavior<EntityIdentifierQuery<string, TReadModel>, TReadModel>>();
         services.AddTransient<IPipelineBehavior<EntityIdentifiersQuery<string, TReadModel>, IReadOnlyCollection<TReadModel>>, DistributedCacheQueryBehavior<EntityIdentifiersQuery<string, TReadModel>, IReadOnlyCollection<TReadModel>>>();
@@ -84,10 +81,7 @@ public static class DomainServiceExtensions
         where TCreateModel : class
         where TUpdateModel : class
     {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
-
-        services.TryAddSingleton<IPrincipalReader, PrincipalReader>();
+        ArgumentNullException.ThrowIfNull(services);
 
         services
             .AddEntityCreateCommand<TRepository, TEntity, TReadModel, TCreateModel>()
@@ -105,8 +99,7 @@ public static class DomainServiceExtensions
         where TEntity : class, IHaveIdentifier<string>, new()
         where TCreateModel : class
     {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         // standard crud commands
         services.TryAddTransient<IRequestHandler<EntityCreateCommand<TCreateModel, TReadModel>, TReadModel>, EntityCreateCommandHandler<TRepository, TEntity, TCreateModel, TReadModel>>();
@@ -135,8 +128,7 @@ public static class DomainServiceExtensions
         where TEntity : class, IHaveIdentifier<string>, new()
         where TUpdateModel : class
     {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         // allow query for update models
         services.TryAddTransient<IRequestHandler<EntityIdentifierQuery<string, TUpdateModel>, TUpdateModel>, EntityIdentifierQueryHandler<TRepository, TEntity, TUpdateModel>>();
@@ -169,8 +161,7 @@ public static class DomainServiceExtensions
         where TEntity : class, IHaveIdentifier<string>, new()
         where TUpdateModel : class
     {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         // standard crud commands
         services.TryAddTransient<IRequestHandler<EntityUpsertCommand<string, TUpdateModel, TReadModel>, TReadModel>, EntityUpsertCommandHandler<TRepository, TEntity, TUpdateModel, TReadModel>>();
@@ -198,8 +189,7 @@ public static class DomainServiceExtensions
         where TRepository : ICosmosRepository<TEntity>
         where TEntity : class, IHaveIdentifier<string>, new()
     {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         // standard crud commands
         services.TryAddTransient<IRequestHandler<EntityPatchCommand<string, TReadModel>, TReadModel>, EntityPatchCommandHandler<TRepository, TEntity, TReadModel>>();
@@ -214,8 +204,7 @@ public static class DomainServiceExtensions
         where TRepository : ICosmosRepository<TEntity>
         where TEntity : class, IHaveIdentifier<string>, new()
     {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         // standard crud commands
         services.TryAddTransient<IRequestHandler<EntityDeleteCommand<string, TReadModel>, TReadModel>, EntityDeleteCommandHandler<TRepository, TEntity, TReadModel>>();

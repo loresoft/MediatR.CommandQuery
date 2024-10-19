@@ -15,10 +15,8 @@ public abstract class RepositoryHandlerBase<TRepository, TEntity, TRequest, TRes
 {
     protected RepositoryHandlerBase(ILoggerFactory loggerFactory, TRepository repository, IMapper mapper) : base(loggerFactory)
     {
-        if (repository is null)
-            throw new ArgumentNullException(nameof(repository));
-        if (mapper is null)
-            throw new ArgumentNullException(nameof(mapper));
+        ArgumentNullException.ThrowIfNull(repository);
+        ArgumentNullException.ThrowIfNull(mapper);
 
         Repository = repository;
         Mapper = mapper;

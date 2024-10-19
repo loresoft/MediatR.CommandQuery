@@ -24,8 +24,7 @@ public class EntitySelectQueryHandler<TContext, TEntity, TReadModel>
 
     protected override async Task<IReadOnlyCollection<TReadModel>> Process(EntitySelectQuery<TReadModel> request, CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
         var query = DataContext
             .Set<TEntity>()

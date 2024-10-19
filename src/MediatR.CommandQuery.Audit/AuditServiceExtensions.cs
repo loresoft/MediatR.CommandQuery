@@ -9,8 +9,7 @@ public static class AuditServiceExtensions
 {
     public static IServiceCollection AddEntityAudit(this IServiceCollection services)
     {
-        if (services is null)
-            throw new ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         services.TryAddSingleton<IEntityConfiguration>(sp => new EntityConfiguration(sp.GetServices<IEntityProfile>()));
         services.TryAddSingleton<IEntityComparer>(sp => new EntityComparer(sp.GetRequiredService<IEntityConfiguration>()));

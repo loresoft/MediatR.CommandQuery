@@ -13,8 +13,7 @@ public abstract partial class RequestHandlerBase<TRequest, TResponse> : IRequest
 
     protected RequestHandlerBase(ILoggerFactory loggerFactory)
     {
-        if (loggerFactory is null)
-            throw new ArgumentNullException(nameof(loggerFactory));
+        ArgumentNullException.ThrowIfNull(loggerFactory);
 
         var type = GetType();
 
@@ -26,8 +25,7 @@ public abstract partial class RequestHandlerBase<TRequest, TResponse> : IRequest
 
     public virtual async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
         var startTime = ActivityTimer.GetTimestamp();
         try
@@ -37,8 +35,8 @@ public abstract partial class RequestHandlerBase<TRequest, TResponse> : IRequest
         }
         finally
         {
-            var elaspsed = ActivityTimer.GetElapsedTime(startTime);
-            LogFinish(Logger, _name, request, elaspsed.TotalMilliseconds);
+            var elapsed = ActivityTimer.GetElapsedTime(startTime);
+            LogFinish(Logger, _name, request, elapsed.TotalMilliseconds);
         }
     }
 

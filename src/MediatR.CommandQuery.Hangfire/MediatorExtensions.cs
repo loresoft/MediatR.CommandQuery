@@ -8,11 +8,8 @@ public static class MediatorExtensions
     public static Task Enqueue<TRequest>(this IMediator mediator, TRequest request, CancellationToken cancellationToken = default)
         where TRequest : IBaseRequest
     {
-        if (mediator is null)
-            throw new ArgumentNullException(nameof(mediator));
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
-
+        ArgumentNullException.ThrowIfNull(mediator);
+        ArgumentNullException.ThrowIfNull(request);
 
         BackgroundJob.Enqueue<IMediatorDispatcher>(dispatcher => dispatcher.Send(request, null, CancellationToken.None));
 

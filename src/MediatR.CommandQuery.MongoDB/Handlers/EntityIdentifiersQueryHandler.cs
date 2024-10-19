@@ -22,8 +22,7 @@ public class EntityIdentifiersQueryHandler<TRepository, TEntity, TKey, TReadMode
 
     protected override async Task<IReadOnlyCollection<TReadModel>> Process(EntityIdentifiersQuery<TKey, TReadModel> request, CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
         var keys = new HashSet<TKey>(request.Ids);
 

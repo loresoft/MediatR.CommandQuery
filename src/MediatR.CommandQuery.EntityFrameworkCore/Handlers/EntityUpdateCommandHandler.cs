@@ -21,8 +21,7 @@ public class EntityUpdateCommandHandler<TContext, TEntity, TKey, TUpdateModel, T
 
     protected override async Task<TReadModel> Process(EntityUpdateCommand<TKey, TUpdateModel, TReadModel> request, CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
         var dbSet = DataContext
             .Set<TEntity>();

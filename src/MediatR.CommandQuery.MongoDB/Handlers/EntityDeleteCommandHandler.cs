@@ -22,8 +22,7 @@ public class EntityDeleteCommandHandler<TRepository, TEntity, TKey, TReadModel>
 
     protected override async Task<TReadModel> Process(EntityDeleteCommand<TKey, TReadModel> request, CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
+        ArgumentNullException.ThrowIfNull(request);
 
         var entity = await Repository
             .FindAsync(request.Id, cancellationToken)

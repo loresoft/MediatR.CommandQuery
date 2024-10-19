@@ -19,11 +19,8 @@ public class TenantSelectQueryBehavior<TKey, TEntityModel>
         RequestHandlerDelegate<IReadOnlyCollection<TEntityModel>> next,
         CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
-
-        if (next is null)
-            throw new ArgumentNullException(nameof(next));
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(next);
 
         // add tenant filter
         request.Select.Filter = await RewriteFilter(request.Select?.Filter, request.Principal).ConfigureAwait(false);
