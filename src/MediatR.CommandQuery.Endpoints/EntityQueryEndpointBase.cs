@@ -21,7 +21,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
     protected EntityQueryEndpointBase(IMediator mediator, string entityName) : base(mediator)
     {
         EntityName = entityName;
-        RoutePrefix = $"/api/{EntityName}";
+        RoutePrefix = EntityName;
     }
 
     public string EntityName { get; }

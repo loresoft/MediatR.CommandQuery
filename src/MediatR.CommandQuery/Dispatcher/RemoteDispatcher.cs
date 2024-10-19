@@ -1,8 +1,10 @@
 using System.Net.Http.Json;
 using System.Text.Json;
 
+using MediatR.CommandQuery.Definitions;
 using MediatR.CommandQuery.Models;
 
+using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Options;
 
 namespace MediatR.CommandQuery.Dispatcher;
@@ -12,15 +14,46 @@ public class RemoteDispatcher : IDispatcher
     private readonly HttpClient _httpClient;
     private readonly JsonSerializerOptions _serializerOptions;
     private readonly DispatcherOptions _dispatcherOptions;
+    private readonly HybridCache _hybridCache;
 
-    public RemoteDispatcher(HttpClient httpClient, JsonSerializerOptions serializerOptions, IOptions<DispatcherOptions> dispatcherOptions)
+    public RemoteDispatcher(HttpClient httpClient, JsonSerializerOptions serializerOptions, IOptions<DispatcherOptions> dispatcherOptions, HybridCache hybridCache)
     {
+        ArgumentNullException.ThrowIfNull(httpClient);
+        ArgumentNullException.ThrowIfNull(serializerOptions);
+        ArgumentNullException.ThrowIfNull(dispatcherOptions);
+        ArgumentNullException.ThrowIfNull(hybridCache);
+
         _httpClient = httpClient;
         _serializerOptions = serializerOptions;
         _dispatcherOptions = dispatcherOptions.Value;
+        _hybridCache = hybridCache;
     }
 
     public async Task<TResponse?> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+
+        // cache only if implements interface
+        var cacheRequest = request as ICacheResult;
+        if (cacheRequest?.IsCacheable() != true)
+            return await SendCore(request, cancellationToken);
+
+        var cacheKey = cacheRequest.GetCacheKey();
+        var cacheTag = cacheRequest.GetCacheTag();
+        var cacheOptions = new HybridCacheEntryOptions
+        {
+            Expiration = cacheRequest.SlidingExpiration()
+        };
+
+        return await _hybridCache.GetOrCreateAsync(
+            key: cacheKey,
+            factory: async token => await SendCore(request, token),
+            options: cacheOptions,
+            tags: string.IsNullOrEmpty(cacheTag) ? null : [cacheTag],
+            cancellationToken: cancellationToken);
+    }
+
+    private async Task<TResponse?> SendCore<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken)
     {
         var requestUri = Combine(_dispatcherOptions.RoutePrefix, _dispatcherOptions.SendRoute);
 
@@ -34,9 +67,19 @@ public class RemoteDispatcher : IDispatcher
 
         await EnsureSuccessStatusCode(responseMessage, cancellationToken);
 
-        return await responseMessage.Content.ReadFromJsonAsync<TResponse>(
+        var response = await responseMessage.Content.ReadFromJsonAsync<TResponse>(
             options: _serializerOptions,
             cancellationToken: cancellationToken);
+
+        // expire cache 
+        if (request is not ICacheExpire cacheRequest)
+            return response;
+
+        var cacheTag = cacheRequest.GetCacheTag();
+        if (!string.IsNullOrEmpty(cacheTag))
+            await _hybridCache.RemoveByTagAsync(cacheTag, cancellationToken);
+
+        return response;
     }
 
     private async Task EnsureSuccessStatusCode(HttpResponseMessage responseMessage, CancellationToken cancellationToken = default)

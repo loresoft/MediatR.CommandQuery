@@ -12,16 +12,11 @@ public class ClaimsPrincipalConverter : JsonConverter<ClaimsPrincipal>
         JsonSerializerOptions options
     )
     {
-        var claimsPrincipalProxy = JsonSerializer.Deserialize<ClaimsPrincipalProxy>(
-            ref reader,
-            options
-        );
+        var claimsPrincipalProxy = JsonSerializer.Deserialize<ClaimsPrincipalProxy>(ref reader, options);
 
         if (claimsPrincipalProxy is null)
-        {
             return null;
-        }
-
+        
         return new(
             new ClaimsIdentity(
                 claimsPrincipalProxy.Claims.Select(c => new Claim(c.Type, c.Value)),

@@ -19,8 +19,9 @@ public static class DomainServiceExtensions
         where TEntity : class, IHaveIdentifier<TKey>, new()
         where TReadModel : class
     {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
+
+        CacheTagger.SetTag<TReadModel, TEntity>();
 
         // standard queries
         services.TryAddTransient<IRequestHandler<EntityIdentifierQuery<TKey, TReadModel>, TReadModel>, EntityIdentifierQueryHandler<TContext, TEntity, TKey, TReadModel>>();
@@ -46,36 +47,6 @@ public static class DomainServiceExtensions
         return services;
     }
 
-    public static IServiceCollection AddEntityQueryMemoryCache<TContext, TEntity, TKey, TReadModel>(this IServiceCollection services)
-        where TContext : DbContext
-        where TEntity : class, IHaveIdentifier<TKey>, new()
-    {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
-
-        services.AddTransient<IPipelineBehavior<EntityIdentifierQuery<TKey, TReadModel>, TReadModel>, MemoryCacheQueryBehavior<EntityIdentifierQuery<TKey, TReadModel>, TReadModel>>();
-        services.AddTransient<IPipelineBehavior<EntityIdentifiersQuery<TKey, TReadModel>, IReadOnlyCollection<TReadModel>>, MemoryCacheQueryBehavior<EntityIdentifiersQuery<TKey, TReadModel>, IReadOnlyCollection<TReadModel>>>();
-        services.AddTransient<IPipelineBehavior<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>, MemoryCacheQueryBehavior<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>>();
-        services.AddTransient<IPipelineBehavior<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>, MemoryCacheQueryBehavior<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddEntityQueryDistributedCache<TContext, TEntity, TKey, TReadModel>(this IServiceCollection services)
-        where TContext : DbContext
-        where TEntity : class, IHaveIdentifier<TKey>, new()
-    {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
-
-        services.AddTransient<IPipelineBehavior<EntityIdentifierQuery<TKey, TReadModel>, TReadModel>, DistributedCacheQueryBehavior<EntityIdentifierQuery<TKey, TReadModel>, TReadModel>>();
-        services.AddTransient<IPipelineBehavior<EntityIdentifiersQuery<TKey, TReadModel>, IReadOnlyCollection<TReadModel>>, DistributedCacheQueryBehavior<EntityIdentifiersQuery<TKey, TReadModel>, IReadOnlyCollection<TReadModel>>>();
-        services.AddTransient<IPipelineBehavior<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>, DistributedCacheQueryBehavior<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>>();
-        services.AddTransient<IPipelineBehavior<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>, DistributedCacheQueryBehavior<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>>();
-
-        return services;
-    }
-
 
     public static IServiceCollection AddEntityCommands<TContext, TEntity, TKey, TReadModel, TCreateModel, TUpdateModel>(this IServiceCollection services)
         where TContext : DbContext
@@ -83,10 +54,11 @@ public static class DomainServiceExtensions
         where TCreateModel : class
         where TUpdateModel : class
     {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
-        services.TryAddSingleton<IPrincipalReader, PrincipalReader>();
+        CacheTagger.SetTag<TReadModel, TEntity>();
+        CacheTagger.SetTag<TCreateModel, TEntity>();
+        CacheTagger.SetTag<TUpdateModel, TEntity>();
 
         services
             .AddEntityCreateCommand<TContext, TEntity, TKey, TReadModel, TCreateModel>()
@@ -104,8 +76,7 @@ public static class DomainServiceExtensions
         where TEntity : class, IHaveIdentifier<TKey>, new()
         where TCreateModel : class
     {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         // standard crud commands
         services.TryAddTransient<IRequestHandler<EntityCreateCommand<TCreateModel, TReadModel>, TReadModel>, EntityCreateCommandHandler<TContext, TEntity, TKey, TCreateModel, TReadModel>>();
@@ -134,8 +105,7 @@ public static class DomainServiceExtensions
         where TEntity : class, IHaveIdentifier<TKey>, new()
         where TUpdateModel : class
     {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         // allow query for update models
         services.TryAddTransient<IRequestHandler<EntityIdentifierQuery<TKey, TUpdateModel>, TUpdateModel>, EntityIdentifierQueryHandler<TContext, TEntity, TKey, TUpdateModel>>();
@@ -168,8 +138,7 @@ public static class DomainServiceExtensions
         where TEntity : class, IHaveIdentifier<TKey>, new()
         where TUpdateModel : class
     {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         // standard crud commands
         services.TryAddTransient<IRequestHandler<EntityUpsertCommand<TKey, TUpdateModel, TReadModel>, TReadModel>, EntityUpsertCommandHandler<TContext, TEntity, TKey, TUpdateModel, TReadModel>>();
@@ -197,8 +166,7 @@ public static class DomainServiceExtensions
         where TContext : DbContext
         where TEntity : class, IHaveIdentifier<TKey>, new()
     {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         // standard crud commands
         services.TryAddTransient<IRequestHandler<EntityPatchCommand<TKey, TReadModel>, TReadModel>, EntityPatchCommandHandler<TContext, TEntity, TKey, TReadModel>>();
@@ -213,8 +181,7 @@ public static class DomainServiceExtensions
         where TContext : DbContext
         where TEntity : class, IHaveIdentifier<TKey>, new()
     {
-        if (services is null)
-            throw new System.ArgumentNullException(nameof(services));
+        ArgumentNullException.ThrowIfNull(services);
 
         // standard crud commands
         services.TryAddTransient<IRequestHandler<EntityDeleteCommand<TKey, TReadModel>, TReadModel>, EntityDeleteCommandHandler<TContext, TEntity, TKey, TReadModel>>();

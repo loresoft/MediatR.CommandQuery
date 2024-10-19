@@ -16,7 +16,7 @@ public class EntitySort
         if (string.IsNullOrEmpty(sortString))
             return null;
 
-        var parts = sortString.Split(new[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
+        var parts = sortString.Split([':'], StringSplitOptions.RemoveEmptyEntries);
         if (parts is null || parts.Length == 0)
             return null;
 

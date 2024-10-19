@@ -1,5 +1,7 @@
 using System.Security.Claims;
 
+using MediatR.CommandQuery.Services;
+
 namespace MediatR.CommandQuery.Queries;
 
 public record EntityPagedQuery<TReadModel> : CacheableQueryBase<EntityPagedResult<TReadModel>>
@@ -14,8 +16,8 @@ public record EntityPagedQuery<TReadModel> : CacheableQueryBase<EntityPagedResul
 
 
     public override string GetCacheKey()
-    {
-        var hash = Query.GetHashCode();
-        return $"{typeof(TReadModel).FullName}-Paged-{hash}";
-    }
+        => CacheTagger.GetKey<TReadModel, int>(CacheTagger.Buckets.Paged, Query.GetHashCode());
+
+    public override string? GetCacheTag()
+        => CacheTagger.GetTag<TReadModel>();
 }

@@ -6,7 +6,7 @@ using MediatR.CommandQuery.Definitions;
 
 namespace MediatR.CommandQuery.Queries;
 
-public abstract record CacheableQueryBase<TResponse> : PrincipalQueryBase<TResponse>, ICacheQueryResult
+public abstract record CacheableQueryBase<TResponse> : PrincipalQueryBase<TResponse>, ICacheResult
 {
     private DateTimeOffset? _absoluteExpiration;
     private TimeSpan? _slidingExpiration;
@@ -18,6 +18,8 @@ public abstract record CacheableQueryBase<TResponse> : PrincipalQueryBase<TRespo
 
     public abstract string GetCacheKey();
 
+    public abstract string? GetCacheTag();
+
     public bool IsCacheable()
     {
         return _absoluteExpiration.HasValue
@@ -25,19 +27,23 @@ public abstract record CacheableQueryBase<TResponse> : PrincipalQueryBase<TRespo
     }
 
 
-    public void Cache(DateTimeOffset? absoluteExpiration = null, TimeSpan? slidingExpiration = null)
+    public void Cache(DateTimeOffset absoluteExpiration)
     {
         _absoluteExpiration = absoluteExpiration;
-        _slidingExpiration = slidingExpiration;
+    }
+
+    public void Cache(TimeSpan expiration)
+    {
+        _slidingExpiration = expiration;
     }
 
 
-    DateTimeOffset? ICacheQueryResult.AbsoluteExpiration()
+    DateTimeOffset? ICacheResult.AbsoluteExpiration()
     {
         return _absoluteExpiration;
     }
 
-    TimeSpan? ICacheQueryResult.SlidingExpiration()
+    TimeSpan? ICacheResult.SlidingExpiration()
     {
         return _slidingExpiration;
     }

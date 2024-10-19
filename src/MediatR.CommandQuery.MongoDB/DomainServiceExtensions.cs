@@ -22,6 +22,8 @@ public static class DomainServiceExtensions
     {
         ArgumentNullException.ThrowIfNull(services);
 
+        CacheTagger.SetTag<TReadModel, TEntity>();
+
         // standard queries
         services.TryAddTransient<IRequestHandler<EntityIdentifierQuery<TKey, TReadModel>, TReadModel>, EntityIdentifierQueryHandler<TRepository, TEntity, TKey, TReadModel>>();
         services.TryAddTransient<IRequestHandler<EntityIdentifiersQuery<TKey, TReadModel>, IReadOnlyCollection<TReadModel>>, EntityIdentifiersQueryHandler<TRepository, TEntity, TKey, TReadModel>>();
@@ -46,34 +48,6 @@ public static class DomainServiceExtensions
         return services;
     }
 
-    public static IServiceCollection AddEntityQueryMemoryCache<TRepository, TEntity, TKey, TReadModel>(this IServiceCollection services)
-        where TRepository : IMongoRepository<TEntity, TKey>
-        where TEntity : class, IHaveIdentifier<TKey>, new()
-    {
-        ArgumentNullException.ThrowIfNull(services);
-
-        services.AddTransient<IPipelineBehavior<EntityIdentifierQuery<TKey, TReadModel>, TReadModel>, MemoryCacheQueryBehavior<EntityIdentifierQuery<TKey, TReadModel>, TReadModel>>();
-        services.AddTransient<IPipelineBehavior<EntityIdentifiersQuery<TKey, TReadModel>, IReadOnlyCollection<TReadModel>>, MemoryCacheQueryBehavior<EntityIdentifiersQuery<TKey, TReadModel>, IReadOnlyCollection<TReadModel>>>();
-        services.AddTransient<IPipelineBehavior<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>, MemoryCacheQueryBehavior<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>>();
-        services.AddTransient<IPipelineBehavior<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>, MemoryCacheQueryBehavior<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddEntityQueryDistributedCache<TRepository, TEntity, TKey, TReadModel>(this IServiceCollection services)
-        where TRepository : IMongoRepository<TEntity, TKey>
-        where TEntity : class, IHaveIdentifier<TKey>, new()
-    {
-        ArgumentNullException.ThrowIfNull(services);
-
-        services.AddTransient<IPipelineBehavior<EntityIdentifierQuery<TKey, TReadModel>, TReadModel>, DistributedCacheQueryBehavior<EntityIdentifierQuery<TKey, TReadModel>, TReadModel>>();
-        services.AddTransient<IPipelineBehavior<EntityIdentifiersQuery<TKey, TReadModel>, IReadOnlyCollection<TReadModel>>, DistributedCacheQueryBehavior<EntityIdentifiersQuery<TKey, TReadModel>, IReadOnlyCollection<TReadModel>>>();
-        services.AddTransient<IPipelineBehavior<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>, DistributedCacheQueryBehavior<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>>();
-        services.AddTransient<IPipelineBehavior<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>, DistributedCacheQueryBehavior<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>>();
-
-        return services;
-    }
-
 
     public static IServiceCollection AddEntityCommands<TRepository, TEntity, TKey, TReadModel, TCreateModel, TUpdateModel>(this IServiceCollection services)
         where TRepository : IMongoRepository<TEntity, TKey>
@@ -82,6 +56,10 @@ public static class DomainServiceExtensions
         where TUpdateModel : class
     {
         ArgumentNullException.ThrowIfNull(services);
+
+        CacheTagger.SetTag<TReadModel, TEntity>();
+        CacheTagger.SetTag<TCreateModel, TEntity>();
+        CacheTagger.SetTag<TUpdateModel, TEntity>();
 
         services
             .AddEntityCreateCommand<TRepository, TEntity, TKey, TReadModel, TCreateModel>()

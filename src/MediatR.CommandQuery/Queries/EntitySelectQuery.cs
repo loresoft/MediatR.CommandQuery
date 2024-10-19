@@ -1,5 +1,7 @@
 using System.Security.Claims;
 
+using MediatR.CommandQuery.Services;
+
 namespace MediatR.CommandQuery.Queries;
 
 public record EntitySelectQuery<TReadModel> : CacheableQueryBase<IReadOnlyCollection<TReadModel>>
@@ -15,7 +17,7 @@ public record EntitySelectQuery<TReadModel> : CacheableQueryBase<IReadOnlyCollec
     }
 
     public EntitySelectQuery(ClaimsPrincipal? principal, EntityFilter filter, EntitySort sort)
-        : this(principal, filter, new[] { sort })
+        : this(principal, filter, [sort])
     {
     }
 
@@ -35,9 +37,8 @@ public record EntitySelectQuery<TReadModel> : CacheableQueryBase<IReadOnlyCollec
 
 
     public override string GetCacheKey()
-    {
-        var hash = Select.GetHashCode();
+        => CacheTagger.GetKey<TReadModel, int>(CacheTagger.Buckets.List, Select.GetHashCode());
 
-        return $"{typeof(TReadModel).FullName}-Select-{hash}";
-    }
+    public override string? GetCacheTag()
+        => CacheTagger.GetTag<TReadModel>();
 }

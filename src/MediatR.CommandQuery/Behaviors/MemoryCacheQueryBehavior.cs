@@ -20,14 +20,11 @@ public partial class MemoryCacheQueryBehavior<TRequest, TResponse> : PipelineBeh
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        if (request is null)
-            throw new ArgumentNullException(nameof(request));
-
-        if (next is null)
-            throw new ArgumentNullException(nameof(next));
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(next);
 
         // cache only if implements interface
-        var cacheRequest = request as ICacheQueryResult;
+        var cacheRequest = request as ICacheResult;
         if (cacheRequest?.IsCacheable() != true)
             return await next().ConfigureAwait(false);
 

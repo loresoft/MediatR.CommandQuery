@@ -28,7 +28,10 @@ public class DispatcherEndpoint : IFeatureEndpoint
 
         group
             .MapPost(_dispatcherOptions.SendRoute, Send)
-            .ExcludeFromDescription();
+            .WithTags("Dispatcher")
+            .WithName($"Send")
+            .WithSummary("Send Mediator command")
+            .WithDescription("Send Mediator command");
     }
 
     protected virtual async Task<IResult> Send(

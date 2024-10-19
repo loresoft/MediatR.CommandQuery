@@ -46,34 +46,6 @@ public static class DomainServiceExtensions
         return services;
     }
 
-    public static IServiceCollection AddEntityQueryMemoryCache<TRepository, TEntity, TReadModel>(this IServiceCollection services)
-        where TRepository : ICosmosRepository<TEntity>
-        where TEntity : class, IHaveIdentifier<string>, new()
-    {
-        ArgumentNullException.ThrowIfNull(services);
-
-        services.AddTransient<IPipelineBehavior<EntityIdentifierQuery<string, TReadModel>, TReadModel>, MemoryCacheQueryBehavior<EntityIdentifierQuery<string, TReadModel>, TReadModel>>();
-        services.AddTransient<IPipelineBehavior<EntityIdentifiersQuery<string, TReadModel>, IReadOnlyCollection<TReadModel>>, MemoryCacheQueryBehavior<EntityIdentifiersQuery<string, TReadModel>, IReadOnlyCollection<TReadModel>>>();
-        services.AddTransient<IPipelineBehavior<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>, MemoryCacheQueryBehavior<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>>();
-        services.AddTransient<IPipelineBehavior<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>, MemoryCacheQueryBehavior<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddEntityQueryDistributedCache<TRepository, TEntity, TReadModel>(this IServiceCollection services)
-        where TRepository : ICosmosRepository<TEntity>
-        where TEntity : class, IHaveIdentifier<string>, new()
-    {
-        ArgumentNullException.ThrowIfNull(services);
-
-        services.AddTransient<IPipelineBehavior<EntityIdentifierQuery<string, TReadModel>, TReadModel>, DistributedCacheQueryBehavior<EntityIdentifierQuery<string, TReadModel>, TReadModel>>();
-        services.AddTransient<IPipelineBehavior<EntityIdentifiersQuery<string, TReadModel>, IReadOnlyCollection<TReadModel>>, DistributedCacheQueryBehavior<EntityIdentifiersQuery<string, TReadModel>, IReadOnlyCollection<TReadModel>>>();
-        services.AddTransient<IPipelineBehavior<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>, DistributedCacheQueryBehavior<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>>();
-        services.AddTransient<IPipelineBehavior<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>, DistributedCacheQueryBehavior<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>>();
-
-        return services;
-    }
-
 
     public static IServiceCollection AddEntityCommands<TRepository, TEntity, TReadModel, TCreateModel, TUpdateModel>(this IServiceCollection services)
         where TRepository : ICosmosRepository<TEntity>

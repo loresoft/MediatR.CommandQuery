@@ -1,6 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 
+using MediatR.CommandQuery.Services;
+
 namespace MediatR.CommandQuery.Queries;
 
 public record EntityIdentifiersQuery<TKey, TReadModel> : CacheableQueryBase<IReadOnlyCollection<TReadModel>>
@@ -8,8 +10,7 @@ public record EntityIdentifiersQuery<TKey, TReadModel> : CacheableQueryBase<IRea
     public EntityIdentifiersQuery(ClaimsPrincipal? principal, [NotNull] IEnumerable<TKey> ids)
         : base(principal)
     {
-        if (ids is null)
-            throw new ArgumentNullException(nameof(ids));
+        ArgumentNullException.ThrowIfNull(ids);
 
         Ids = ids.ToList();
     }
@@ -24,6 +25,9 @@ public record EntityIdentifiersQuery<TKey, TReadModel> : CacheableQueryBase<IRea
         foreach (var id in Ids)
             hash.Add(id);
 
-        return $"{typeof(TReadModel).FullName}-{hash.ToHashCode()}";
+        return CacheTagger.GetKey<TReadModel, int>(CacheTagger.Buckets.Identifiers, hash.ToHashCode());
     }
+
+    public override string? GetCacheTag()
+        => CacheTagger.GetTag<TReadModel>();
 }

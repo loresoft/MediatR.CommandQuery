@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,12 +13,14 @@ public static class FeatureEndpointExtensions
         return services;
     }
 
-    public static IEndpointRouteBuilder MapFeatureEndpoints(this IEndpointRouteBuilder builder)
+    public static IEndpointConventionBuilder MapFeatureEndpoints(this IEndpointRouteBuilder builder, string prefix = "/api")
     {
+        var featureGroup = builder.MapGroup(prefix);
+
         var features = builder.ServiceProvider.GetServices<IFeatureEndpoint>();
         foreach (var feature in features)
-            feature.AddRoutes(builder);
-
-        return builder;
+            feature.AddRoutes(featureGroup);
+                
+        return featureGroup;
     }
 }

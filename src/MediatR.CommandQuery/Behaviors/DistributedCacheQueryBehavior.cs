@@ -17,8 +17,11 @@ public partial class DistributedCacheQueryBehavior<TRequest, TResponse> : Pipeli
         IDistributedCacheSerializer distributedCacheSerializer)
         : base(loggerFactory)
     {
-        _distributedCache = distributedCache ?? throw new ArgumentNullException(nameof(distributedCache));
-        _distributedCacheSerializer = distributedCacheSerializer ?? throw new ArgumentNullException(nameof(distributedCacheSerializer));
+        ArgumentNullException.ThrowIfNull(distributedCache);
+        ArgumentNullException.ThrowIfNull(distributedCacheSerializer);
+
+        _distributedCache = distributedCache;
+        _distributedCacheSerializer = distributedCacheSerializer;
     }
 
     protected override async Task<TResponse> Process(
@@ -26,14 +29,11 @@ public partial class DistributedCacheQueryBehavior<TRequest, TResponse> : Pipeli
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        if (next is null)
-            throw new ArgumentNullException(nameof(next));
-
-        if (next is null)
-            throw new ArgumentNullException(nameof(next));
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(next);
 
         // cache only if implements interface
-        var cacheRequest = request as ICacheQueryResult;
+        var cacheRequest = request as ICacheResult;
         if (cacheRequest?.IsCacheable() != true)
             return await next().ConfigureAwait(false);
 
@@ -70,7 +70,8 @@ public partial class DistributedCacheQueryBehavior<TRequest, TResponse> : Pipeli
         var options = new DistributedCacheEntryOptions
         {
             SlidingExpiration = cacheRequest.SlidingExpiration(),
-            AbsoluteExpiration = cacheRequest.AbsoluteExpiration()
+            AbsoluteExpiration = cacheRequest.AbsoluteExpiration(),
+            
         };
 
         await _distributedCache
