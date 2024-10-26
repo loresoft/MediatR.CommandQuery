@@ -7,5 +7,5 @@ namespace MediatR.CommandQuery.Models;
 public class EntityIdentifierModel<TKey> : IHaveIdentifier<TKey>
 {
     [NotNull]
-    public required TKey Id { get; set; } = default!;
+    public TKey Id { get; set; } = default!;
 }

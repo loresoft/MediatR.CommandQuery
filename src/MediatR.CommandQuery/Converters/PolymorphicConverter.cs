@@ -68,7 +68,7 @@ public class PolymorphicConverter<T> : JsonConverter<T>
         writer.WriteString(TypeDiscriminator, type.AssemblyQualifiedName);
         writer.WritePropertyName(TypeInstance);
 
-        JsonSerializer.Serialize(writer, value, type);
+        JsonSerializer.Serialize(writer, value, type, options);
 
         writer.WriteEndObject();
     }

@@ -5,5 +5,5 @@ namespace MediatR.CommandQuery.Models;
 public class EntityIdentifiersModel<TKey>
 {
     [NotNull]
-    public required IReadOnlyCollection<TKey> Ids { get; set; } = null!;
+    public IReadOnlyCollection<TKey> Ids { get; set; } = null!;
 }

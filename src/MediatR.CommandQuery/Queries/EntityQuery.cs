@@ -4,6 +4,7 @@ namespace MediatR.CommandQuery.Queries;
 
 public class EntityQuery : EntitySelect
 {
+    [JsonConstructor]
     public EntityQuery()
     {
         Page = 1;

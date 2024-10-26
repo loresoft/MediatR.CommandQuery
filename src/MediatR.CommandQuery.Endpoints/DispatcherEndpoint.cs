@@ -24,7 +24,7 @@ public class DispatcherEndpoint : IFeatureEndpoint
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         var group = app
-            .MapGroup(_dispatcherOptions.RoutePrefix);
+            .MapGroup(_dispatcherOptions.DispatcherPrefix);
 
         group
             .MapPost(_dispatcherOptions.SendRoute, Send)

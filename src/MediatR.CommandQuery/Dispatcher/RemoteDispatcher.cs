@@ -2,6 +2,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 
 using MediatR.CommandQuery.Definitions;
+using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.Models;
 
 using Microsoft.Extensions.Caching.Hybrid;
@@ -55,7 +56,9 @@ public class RemoteDispatcher : IDispatcher
 
     private async Task<TResponse?> SendCore<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken)
     {
-        var requestUri = Combine(_dispatcherOptions.RoutePrefix, _dispatcherOptions.SendRoute);
+        var requestUri = _dispatcherOptions.FeaturePrefix
+            .Combine(_dispatcherOptions.DispatcherPrefix)
+            .Combine(_dispatcherOptions.SendRoute);
 
         var dispatchRequest = new DispatchRequest { Request = request };
 
@@ -67,9 +70,13 @@ public class RemoteDispatcher : IDispatcher
 
         await EnsureSuccessStatusCode(responseMessage, cancellationToken);
 
-        var response = await responseMessage.Content.ReadFromJsonAsync<TResponse>(
-            options: _serializerOptions,
-            cancellationToken: cancellationToken);
+        using var stream = await responseMessage.Content.ReadAsStreamAsync(cancellationToken);
+
+        // no content, return null
+        if (stream.Length == 0)
+            return default;
+
+        var response = await JsonSerializer.DeserializeAsync<TResponse>(stream, _serializerOptions, cancellationToken);
 
         // expire cache 
         if (request is not ICacheExpire cacheRequest)
@@ -116,18 +123,4 @@ public class RemoteDispatcher : IDispatcher
             statusCode: status);
     }
 
-    private static string Combine(string first, string second)
-    {
-        if (string.IsNullOrEmpty(first))
-            return second;
-
-        if (string.IsNullOrEmpty(second))
-            return first;
-
-        bool hasSeparator = first[^1] == '/' || second[0] == '/';
-
-        return hasSeparator
-            ? string.Concat(first, second)
-            : $"{first}/{second}";
-    }
 }

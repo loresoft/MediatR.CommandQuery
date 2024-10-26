@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Text.Json.Serialization;
 
 using MediatR.CommandQuery.Services;
 
@@ -27,6 +28,7 @@ public record EntitySelectQuery<TReadModel> : CacheableQueryBase<IReadOnlyCollec
 
     }
 
+    [JsonConstructor]
     public EntitySelectQuery(ClaimsPrincipal? principal, EntitySelect select)
         : base(principal)
     {
