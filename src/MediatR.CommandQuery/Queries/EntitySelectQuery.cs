@@ -29,7 +29,7 @@ public record EntitySelectQuery<TReadModel> : CacheableQueryBase<IReadOnlyCollec
     }
 
     [JsonConstructor]
-    public EntitySelectQuery(ClaimsPrincipal? principal, EntitySelect select)
+    public EntitySelectQuery(ClaimsPrincipal? principal, EntitySelect? select)
         : base(principal)
     {
         Select = select ?? new EntitySelect();

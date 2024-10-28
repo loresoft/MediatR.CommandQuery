@@ -1,5 +1,7 @@
 using System.Collections.Concurrent;
 
+using MediatR.CommandQuery.Definitions;
+
 namespace MediatR.CommandQuery.Services;
 
 public static class CacheTagger
@@ -18,10 +20,11 @@ public static class CacheTagger
 
     public static string? GetTag<TModel>()
     {
-        if (_typeTags.TryGetValue(typeof(TModel), out var tag))
+        var type = typeof(TModel);
+        if (_typeTags.TryGetValue(type, out var tag))
             return tag;
 
-        return typeof(TModel).FullName;
+        return type.FullName;
     }
 
     public static string GetKey<TModel, TValue>(string bucket, TValue value, string delimiter = ".")

@@ -27,12 +27,12 @@ public abstract record CacheableQueryBase<TResponse> : PrincipalQueryBase<TRespo
     }
 
 
-    public void Cache(DateTimeOffset absoluteExpiration)
+    public void Cache(DateTimeOffset? absoluteExpiration)
     {
         _absoluteExpiration = absoluteExpiration;
     }
 
-    public void Cache(TimeSpan expiration)
+    public void Cache(TimeSpan? expiration)
     {
         _slidingExpiration = expiration;
     }

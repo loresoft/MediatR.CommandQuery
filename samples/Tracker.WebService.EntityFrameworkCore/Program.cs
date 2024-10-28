@@ -14,8 +14,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 using Serilog;
 using Serilog.Events;
@@ -138,6 +136,7 @@ public static class Program
         });
 
         services.AddMediatorDispatcher();
+        services.AddFeatureEndpoints();
 
         services.AddHangfireServer();
 
@@ -158,6 +157,7 @@ public static class Program
         app.UseAuthorization();
 
         app.MapHangfireDashboard("/hangfire");
+
         app.MapFeatureEndpoints();
     }
 
