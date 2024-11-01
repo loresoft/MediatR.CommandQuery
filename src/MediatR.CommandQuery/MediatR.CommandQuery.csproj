@@ -10,7 +10,7 @@
     <PackageReference Include="FluentValidation" Version="11.10.0" />
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.Extensions.Caching.Hybrid" Version="9.0.0-preview.9.24507.7" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.4.7" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.4.8" />
     <PackageReference Include="System.Text.Json" Version="9.0.0-rc.2.24473.5" />
     <PackageReference Include="SystemTextJsonPatch" Version="4.0.0" />
   </ItemGroup>
