@@ -30,7 +30,7 @@ public partial class HybridCacheExpireBehavior<TRequest, TResponse> : PipelineBe
 
         var response = await next().ConfigureAwait(false);
 
-        // expire cache 
+        // expire cache
         if (request is not ICacheExpire cacheRequest)
             return response;
 

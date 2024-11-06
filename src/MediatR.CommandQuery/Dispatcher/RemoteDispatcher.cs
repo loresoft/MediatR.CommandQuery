@@ -78,7 +78,7 @@ public class RemoteDispatcher : IDispatcher
 
         var response = await JsonSerializer.DeserializeAsync<TResponse>(stream, _serializerOptions, cancellationToken);
 
-        // expire cache 
+        // expire cache
         if (request is not ICacheExpire cacheRequest)
             return response;
 

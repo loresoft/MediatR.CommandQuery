@@ -71,7 +71,7 @@ public partial class DistributedCacheQueryBehavior<TRequest, TResponse> : Pipeli
         {
             SlidingExpiration = cacheRequest.SlidingExpiration(),
             AbsoluteExpiration = cacheRequest.AbsoluteExpiration(),
-            
+
         };
 
         await _distributedCache
