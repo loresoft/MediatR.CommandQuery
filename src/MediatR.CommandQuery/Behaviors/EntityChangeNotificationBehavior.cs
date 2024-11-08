@@ -29,7 +29,7 @@ public class EntityChangeNotificationBehavior<TKey, TEntityModel, TResponse>
         var response = await next().ConfigureAwait(false);
 
         if (response is not null)
-            await SendNotification(request, response, cancellationToken);
+            await SendNotification(request, response, cancellationToken).ConfigureAwait(false);
 
         return response;
     }
@@ -47,6 +47,6 @@ public class EntityChangeNotificationBehavior<TKey, TEntityModel, TResponse>
         };
 
         var notification = new EntityChangeNotification<TResponse>(response, operation);
-        await _mediator.Publish(notification, cancellationToken);
+        await _mediator.Publish(notification, cancellationToken).ConfigureAwait(false);
     }
 }

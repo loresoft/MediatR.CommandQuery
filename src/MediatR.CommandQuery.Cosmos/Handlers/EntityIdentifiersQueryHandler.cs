@@ -24,7 +24,7 @@ public class EntityIdentifiersQueryHandler<TRepository, TEntity, TReadModel>
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var keys = new HashSet<string>();
+        var keys = new HashSet<string>(StringComparer.Ordinal);
         foreach (var requestId in request.Ids)
         {
             if (CosmosKey.TryDecode(requestId, out var id, out PartitionKey partitionKey))

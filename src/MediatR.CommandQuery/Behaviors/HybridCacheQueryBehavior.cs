@@ -40,11 +40,13 @@ public partial class HybridCacheQueryBehavior<TRequest, TResponse> : PipelineBeh
             LocalCacheExpiration = cacheRequest.SlidingExpiration(),
         };
 
-        return await _hybridCache.GetOrCreateAsync(
-            key: cacheKey,
-            factory: async token => await next().ConfigureAwait(false),
-            options: cacheOptions,
-            tags: string.IsNullOrEmpty(cacheTag) ? null : [cacheTag],
-            cancellationToken: cancellationToken);
+        return await _hybridCache
+            .GetOrCreateAsync(
+                key: cacheKey,
+                factory: async token => await next().ConfigureAwait(false),
+                options: cacheOptions,
+                tags: string.IsNullOrEmpty(cacheTag) ? null : [cacheTag],
+                cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
     }
 }

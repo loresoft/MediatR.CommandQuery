@@ -61,7 +61,7 @@ public abstract class DeletedFilterBehaviorBase<TEntityModel, TRequest, TRespons
         while (stack.Count > 0)
         {
             var filter = stack.Pop();
-            if (!string.IsNullOrEmpty(filter.Name) && filter.Name == nameof(ITrackDeleted.IsDeleted))
+            if (!string.IsNullOrEmpty(filter.Name) && string.Equals(filter.Name, nameof(ITrackDeleted.IsDeleted), StringComparison.Ordinal))
                 return true;
 
             if (filter.Filters == null)

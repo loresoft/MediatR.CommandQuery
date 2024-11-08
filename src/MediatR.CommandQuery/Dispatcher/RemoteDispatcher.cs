@@ -37,7 +37,7 @@ public class RemoteDispatcher : IDispatcher
         // cache only if implements interface
         var cacheRequest = request as ICacheResult;
         if (cacheRequest?.IsCacheable() != true)
-            return await SendCore(request, cancellationToken);
+            return await SendCore(request, cancellationToken).ConfigureAwait(false);
 
         var cacheKey = cacheRequest.GetCacheKey();
         var cacheTag = cacheRequest.GetCacheTag();
@@ -46,12 +46,14 @@ public class RemoteDispatcher : IDispatcher
             Expiration = cacheRequest.SlidingExpiration()
         };
 
-        return await _hybridCache.GetOrCreateAsync(
-            key: cacheKey,
-            factory: async token => await SendCore(request, token),
-            options: cacheOptions,
-            tags: string.IsNullOrEmpty(cacheTag) ? null : [cacheTag],
-            cancellationToken: cancellationToken);
+        return await _hybridCache
+            .GetOrCreateAsync(
+                key: cacheKey,
+                factory: async token => await SendCore(request, token).ConfigureAwait(false),
+                options: cacheOptions,
+                tags: string.IsNullOrEmpty(cacheTag) ? null : [cacheTag],
+                cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
     }
 
     private async Task<TResponse?> SendCore<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken)
@@ -62,21 +64,23 @@ public class RemoteDispatcher : IDispatcher
 
         var dispatchRequest = new DispatchRequest { Request = request };
 
-        var responseMessage = await _httpClient.PostAsJsonAsync(
-            requestUri: requestUri,
-            value: dispatchRequest,
-            options: _serializerOptions,
-            cancellationToken: cancellationToken);
+        var responseMessage = await _httpClient
+            .PostAsJsonAsync(
+                requestUri: requestUri,
+                value: dispatchRequest,
+                options: _serializerOptions,
+                cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
 
-        await EnsureSuccessStatusCode(responseMessage, cancellationToken);
+        await EnsureSuccessStatusCode(responseMessage, cancellationToken).ConfigureAwait(false);
 
-        using var stream = await responseMessage.Content.ReadAsStreamAsync(cancellationToken);
+        using var stream = await responseMessage.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
 
         // no content, return null
         if (stream.Length == 0)
             return default;
 
-        var response = await JsonSerializer.DeserializeAsync<TResponse>(stream, _serializerOptions, cancellationToken);
+        var response = await JsonSerializer.DeserializeAsync<TResponse>(stream, _serializerOptions, cancellationToken).ConfigureAwait(false);
 
         // expire cache
         if (request is not ICacheExpire cacheRequest)
@@ -84,7 +88,7 @@ public class RemoteDispatcher : IDispatcher
 
         var cacheTag = cacheRequest.GetCacheTag();
         if (!string.IsNullOrEmpty(cacheTag))
-            await _hybridCache.RemoveByTagAsync(cacheTag, cancellationToken);
+            await _hybridCache.RemoveByTagAsync(cacheTag, cancellationToken).ConfigureAwait(false);
 
         return response;
     }
@@ -100,9 +104,11 @@ public class RemoteDispatcher : IDispatcher
         if (!string.Equals(mediaType, "application/problem+json", StringComparison.OrdinalIgnoreCase))
             throw new HttpRequestException(message, inner: null, responseMessage.StatusCode);
 
-        var problemDetails = await responseMessage.Content.ReadFromJsonAsync<ProblemDetails>(
-            options: _serializerOptions,
-            cancellationToken: cancellationToken);
+        var problemDetails = await responseMessage.Content
+            .ReadFromJsonAsync<ProblemDetails>(
+                options: _serializerOptions,
+                cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
 
         if (problemDetails == null)
             throw new HttpRequestException(message, inner: null, responseMessage.StatusCode);

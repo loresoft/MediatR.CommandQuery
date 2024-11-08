@@ -33,7 +33,6 @@ public class EntitySelectQueryHandler<TRepository, TEntity, TKey, TReadModel>
         // page the query and convert to read model
         var result = QueryList(request, query, cancellationToken);
 
-        //TODO make async?
         return Task.FromResult(result);
     }
 

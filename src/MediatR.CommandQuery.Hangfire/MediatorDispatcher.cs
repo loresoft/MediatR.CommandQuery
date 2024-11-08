@@ -34,7 +34,7 @@ public partial class MediatorDispatcher : IMediatorDispatcher
             LogStart(_logger, request);
             var watch = Stopwatch.StartNew();
 
-            var response = await _mediator.Send(request, cancellationToken);
+            var response = await _mediator.Send(request, cancellationToken).ConfigureAwait(false);
 
             watch.Stop();
             LogFinish(_logger, request, watch.ElapsedMilliseconds);
@@ -46,8 +46,8 @@ public partial class MediatorDispatcher : IMediatorDispatcher
         }
         finally
         {
-            var elaspsed = ActivityTimer.GetElapsedTime(startTime);
-            LogFinish(_logger, request, elaspsed.TotalMilliseconds);
+            var elapsed = ActivityTimer.GetElapsedTime(startTime);
+            LogFinish(_logger, request, elapsed.TotalMilliseconds);
 
             scope?.Dispose();
         }

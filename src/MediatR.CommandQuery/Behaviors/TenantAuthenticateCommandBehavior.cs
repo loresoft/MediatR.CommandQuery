@@ -44,7 +44,7 @@ public class TenantAuthenticateCommandBehavior<TKey, TEntityModel, TResponse>
         if (request.Model is not IHaveTenant<TKey> tenantModel)
             return;
 
-        var tenantId = await _tenantResolver.GetTenantId(principal);
+        var tenantId = await _tenantResolver.GetTenantId(principal).ConfigureAwait(false);
         if (Equals(tenantId, tenantModel.TenantId))
             return;
 

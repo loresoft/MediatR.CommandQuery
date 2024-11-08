@@ -36,7 +36,7 @@ public partial class HybridCacheExpireBehavior<TRequest, TResponse> : PipelineBe
 
         var cacheTag = cacheRequest.GetCacheTag();
         if (!string.IsNullOrEmpty(cacheTag))
-            await _hybridCache.RemoveByTagAsync(cacheTag, cancellationToken);
+            await _hybridCache.RemoveByTagAsync(cacheTag, cancellationToken).ConfigureAwait(false);
 
         return response;
     }

@@ -42,7 +42,7 @@ public class DispatcherEndpoint : IFeatureEndpoint
         try
         {
             var request = dispatchRequest.Request;
-            var result = await _sender.Send(request, cancellationToken);
+            var result = await _sender.Send(request, cancellationToken).ConfigureAwait(false);
             return Results.Ok(result);
         }
         catch (Exception ex)

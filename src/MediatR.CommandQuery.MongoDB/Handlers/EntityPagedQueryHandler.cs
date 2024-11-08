@@ -40,7 +40,7 @@ public class EntityPagedQueryHandler<TRepository, TEntity, TKey, TReadModel>
             return new EntityPagedResult<TReadModel> { Data = new List<TReadModel>() };
 
         // page the query and convert to read model
-        var result = await QueryPaged(request, query, cancellationToken);
+        var result = await QueryPaged(request, query, cancellationToken).ConfigureAwait(false);
 
         return new EntityPagedResult<TReadModel>
         {

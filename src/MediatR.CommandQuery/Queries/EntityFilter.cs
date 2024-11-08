@@ -20,7 +20,7 @@ public class EntityFilter
     public string? Logic { get; set; }
 
     [JsonPropertyName("filters")]
-    public List<EntityFilter>? Filters { get; set; }
+    public IList<EntityFilter>? Filters { get; set; }
 
 
     public override int GetHashCode()

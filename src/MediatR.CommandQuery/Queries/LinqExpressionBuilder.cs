@@ -87,7 +87,7 @@ public class LinqExpressionBuilder
             comparison = operatorValue.Trim();
 
         // use function call
-        var negation = comparison.StartsWith("!") || comparison.StartsWith("not", StringComparison.OrdinalIgnoreCase) ? "!" : string.Empty;
+        var negation = comparison.StartsWith('!') || comparison.StartsWith("not", StringComparison.OrdinalIgnoreCase) ? "!" : string.Empty;
 
         if (comparison.EndsWith(EntityFilterOperators.StartsWith, StringComparison.OrdinalIgnoreCase))
         {

@@ -11,6 +11,6 @@ public class MediatorDispatcher : IDispatcher
 
     public async Task<TResponse?> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
     {
-        return await _sender.Send(request, cancellationToken);
+        return await _sender.Send(request, cancellationToken).ConfigureAwait(false);
     }
 }

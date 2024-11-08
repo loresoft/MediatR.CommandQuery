@@ -100,7 +100,9 @@ public partial class ChangeCollector<TKey, TEntity> : IChangeCollector<TKey, TEn
     /// </returns>
     /// <exception cref="ArgumentNullException">When entities or entityName is null</exception>
     /// <exception cref="ArgumentException">When entity name is empty</exception>
+#pragma warning disable MA0051 // Method is too long
     public IEnumerable<AuditRecord<TKey>> CollectChanges(IEnumerable<TEntity> entities, string entityName, Func<TEntity, string>? descriptionFunction = null)
+#pragma warning restore MA0051 // Method is too long
     {
         ArgumentNullException.ThrowIfNull(entities);
         ArgumentNullException.ThrowIfNull(entityName);

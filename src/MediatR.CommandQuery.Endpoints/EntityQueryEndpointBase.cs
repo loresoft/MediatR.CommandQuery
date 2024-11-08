@@ -37,7 +37,9 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
     }
 
 
+#pragma warning disable MA0051 // Method is too long
     protected virtual void MapGroup(RouteGroupBuilder group)
+#pragma warning restore MA0051 // Method is too long
     {
         group
             .MapGet("{id}", GetQuery)
@@ -117,7 +119,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
         CancellationToken cancellationToken = default)
     {
         var command = new EntityIdentifierQuery<TKey, TReadModel>(user, id);
-        return await Mediator.Send(command, cancellationToken);
+        return await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
     }
 
     protected virtual async Task<EntityPagedResult<TListModel>> GetPagedQuery(
@@ -130,7 +132,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
     {
         var entityQuery = new EntityQuery(q, page ?? 1, size ?? 20, sort);
         var command = new EntityPagedQuery<TListModel>(user, entityQuery);
-        return await Mediator.Send(command, cancellationToken);
+        return await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
     }
 
     protected virtual async Task<EntityPagedResult<TListModel>> PostPagedQuery(
@@ -139,7 +141,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
         CancellationToken cancellationToken = default)
     {
         var command = new EntityPagedQuery<TListModel>(user, entityQuery);
-        return await Mediator.Send(command, cancellationToken);
+        return await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
     }
 
     protected virtual async Task<IReadOnlyCollection<TListModel>> GetSelectQuery(
@@ -150,7 +152,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
     {
         var entitySelect = new EntitySelect(q, sort);
         var command = new EntitySelectQuery<TListModel>(user, entitySelect);
-        return await Mediator.Send(command, cancellationToken);
+        return await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
     }
 
     protected virtual async Task<IReadOnlyCollection<TListModel>> PostSelectQuery(
@@ -159,7 +161,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
         CancellationToken cancellationToken = default)
     {
         var command = new EntitySelectQuery<TListModel>(user, entitySelect);
-        return await Mediator.Send(command, cancellationToken);
+        return await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
     }
 
     protected virtual async Task<IResult> PostExportQuery(
@@ -169,13 +171,15 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
         CancellationToken cancellationToken = default)
     {
         var command = new EntitySelectQuery<TListModel>(user, entitySelect);
-        var results = await Mediator.Send(command, cancellationToken);
+        var results = await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
 
         csvConfiguration ??= new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = true };
 
+#pragma warning disable MA0004 // Use Task.ConfigureAwait
         await using var memoryStream = new MemoryStream();
         await using var streamWriter = new StreamWriter(memoryStream);
         await using var csvWriter = new CsvWriter(streamWriter, csvConfiguration);
+#pragma warning restore MA0004 // Use Task.ConfigureAwait
 
         WriteExportData(csvWriter, results);
 
@@ -197,13 +201,15 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
 
         var entitySelect = QueryStringEncoder.Decode<EntitySelect>(encodedQuery, jsonSerializerOptions) ?? new EntitySelect();
         var command = new EntitySelectQuery<TListModel>(user, entitySelect);
-        var results = await Mediator.Send(command, cancellationToken);
+        var results = await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
 
         csvConfiguration ??= new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = true };
 
+#pragma warning disable MA0004 // Use Task.ConfigureAwait
         await using var memoryStream = new MemoryStream();
         await using var streamWriter = new StreamWriter(memoryStream);
         await using var csvWriter = new CsvWriter(streamWriter, csvConfiguration);
+#pragma warning restore MA0004 // Use Task.ConfigureAwait
 
         WriteExportData(csvWriter, results);
 

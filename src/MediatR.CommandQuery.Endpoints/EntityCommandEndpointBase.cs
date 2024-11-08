@@ -19,7 +19,9 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
     {
     }
 
+#pragma warning disable MA0051 // Method is too long
     protected override void MapGroup(RouteGroupBuilder group)
+#pragma warning restore MA0051 // Method is too long
     {
         base.MapGroup(group);
 
@@ -90,7 +92,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
         CancellationToken cancellationToken = default)
     {
         var command = new EntityIdentifierQuery<TKey, TUpdateModel>(user, id);
-        return await Mediator.Send(command, cancellationToken);
+        return await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
     }
 
     protected virtual async Task<TReadModel?> CreateCommand(
@@ -99,7 +101,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
         CancellationToken cancellationToken = default)
     {
         var command = new EntityCreateCommand<TCreateModel, TReadModel>(user, createModel);
-        return await Mediator.Send(command, cancellationToken);
+        return await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
     }
 
     protected virtual async Task<TReadModel?> UpdateCommand(
@@ -109,7 +111,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
         CancellationToken cancellationToken = default)
     {
         var command = new EntityUpdateCommand<TKey, TUpdateModel, TReadModel>(user, id, updateModel);
-        return await Mediator.Send(command, cancellationToken);
+        return await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
     }
 
     protected virtual async Task<TReadModel?> UpsertCommand(
@@ -119,7 +121,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
         CancellationToken cancellationToken = default)
     {
         var command = new EntityUpsertCommand<TKey, TUpdateModel, TReadModel>(user, id, updateModel);
-        return await Mediator.Send(command, cancellationToken);
+        return await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
     }
 
     protected virtual async Task<TReadModel?> PatchCommand(
@@ -129,7 +131,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
         CancellationToken cancellationToken = default)
     {
         var command = new EntityPatchCommand<TKey, TReadModel>(user, id, jsonPatch);
-        return await Mediator.Send(command, cancellationToken);
+        return await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
     }
 
     protected virtual async Task<TReadModel?> DeleteCommand(
@@ -138,7 +140,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
         CancellationToken cancellationToken = default)
     {
         var command = new EntityDeleteCommand<TKey, TReadModel>(user, id);
-        return await Mediator.Send(command, cancellationToken);
+        return await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
     }
 
 }

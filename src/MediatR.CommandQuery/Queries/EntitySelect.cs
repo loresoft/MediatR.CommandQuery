@@ -44,7 +44,7 @@ public class EntitySelect
     public string? Query { get; set; }
 
     [JsonPropertyName("sort")]
-    public List<EntitySort>? Sort { get; set; }
+    public IList<EntitySort>? Sort { get; set; }
 
     [JsonPropertyName("filter")]
     public EntityFilter? Filter { get; set; }

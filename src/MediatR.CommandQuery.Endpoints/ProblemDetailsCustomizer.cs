@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,8 +23,12 @@ public static class ProblemDetailsCustomizer
             case FluentValidation.ValidationException fluentException:
             {
 
-                var errors = fluentException.Errors.GroupBy(x => x.PropertyName)
-                    .ToDictionary(g => g.Key, g => g.Select(x => x.ErrorMessage).ToArray());
+                var errors = fluentException.Errors
+                    .GroupBy(x => x.PropertyName, StringComparer.Ordinal)
+                    .ToDictionary(
+                        keySelector: g => g.Key,
+                        elementSelector: g => g.Select(x => x.ErrorMessage).ToArray(),
+                        comparer: StringComparer.Ordinal);
 
                 AddValidationErrors(context, errors);
 
@@ -35,7 +38,7 @@ public static class ProblemDetailsCustomizer
             }
             case System.ComponentModel.DataAnnotations.ValidationException validationException:
             {
-                var errors = new Dictionary<string, string[]>();
+                var errors = new Dictionary<string, string[]>(StringComparer.Ordinal);
 
                 if (validationException.ValidationResult.ErrorMessage != null)
                     foreach (var memberName in validationException.ValidationResult.MemberNames)
@@ -95,8 +98,8 @@ public static class ProblemDetailsCustomizer
             case FluentValidation.ValidationException fluentException:
             {
                 var errors = fluentException.Errors
-                    .GroupBy(x => x.PropertyName)
-                    .ToDictionary(g => g.Key, g => g.Select(x => x.ErrorMessage).ToArray());
+                    .GroupBy(x => x.PropertyName, StringComparer.Ordinal)
+                    .ToDictionary(g => g.Key, g => g.Select(x => x.ErrorMessage).ToArray(), StringComparer.Ordinal);
 
                 problemDetails.Title = "One or more validation errors occurred.";
                 problemDetails.Status = StatusCodes.Status400BadRequest;
@@ -105,7 +108,7 @@ public static class ProblemDetailsCustomizer
             }
             case System.ComponentModel.DataAnnotations.ValidationException validationException:
             {
-                var errors = new Dictionary<string, string[]>();
+                var errors = new Dictionary<string, string[]>(StringComparer.Ordinal);
 
                 if (validationException.ValidationResult.ErrorMessage != null)
                     foreach (var memberName in validationException.ValidationResult.MemberNames)

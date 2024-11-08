@@ -39,7 +39,7 @@ public class TenantDefaultCommandBehavior<TKey, TEntityModel, TResponse>
         if (!Equals(tenantModel.TenantId, default(TKey)))
             return;
 
-        var tenantId = await _tenantResolver.GetTenantId(request.Principal);
+        var tenantId = await _tenantResolver.GetTenantId(request.Principal).ConfigureAwait(false);
         tenantModel.TenantId = tenantId!;
     }
 }
