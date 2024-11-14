@@ -1,6 +1,9 @@
 using System;
 using MediatR;
 using MediatR.CommandQuery.Endpoints;
+
+using Microsoft.Extensions.Logging;
+
 using Tracker.WebService.Domain.Models;
 
 namespace Tracker.WebService.Endpoints;
@@ -8,7 +11,8 @@ namespace Tracker.WebService.Endpoints;
 [RegisterTransient<IFeatureEndpoint>(Duplicate = DuplicateStrategy.Append)]
 public class AuditEndpoint : EntityCommandEndpointBase<Guid, AuditReadModel, AuditReadModel, AuditCreateModel, AuditUpdateModel>
 {
-    public AuditEndpoint(IMediator mediator) : base(mediator, "Audit")
+    public AuditEndpoint(ILoggerFactory loggerFactory, IMediator mediator)
+        : base(loggerFactory, mediator, "Audit")
     {
 
     }

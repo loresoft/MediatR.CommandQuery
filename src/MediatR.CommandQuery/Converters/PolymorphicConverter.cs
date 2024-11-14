@@ -19,34 +19,33 @@ public class PolymorphicConverter<T> : JsonConverter<T>
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.StartObject)
-            throw new JsonException();
+            throw new JsonException("JsonReader expected start object token type");
 
         reader.Read();
         if (reader.TokenType != JsonTokenType.PropertyName)
-            throw new JsonException();
-
+            throw new JsonException("JsonReader expected property name token type");
 
         if (!reader.ValueTextEquals(TypeDiscriminator.EncodedUtf8Bytes))
-            throw new JsonException();
+            throw new JsonException("JsonReader expected '$type' property name");
 
         reader.Read();
         if (reader.TokenType != JsonTokenType.String)
-            throw new JsonException();
+            throw new JsonException("JsonReader expected string token type");
 
         var typeDiscriminator = reader.GetString();
         if (typeDiscriminator == null)
-            throw new JsonException();
+            throw new JsonException("JsonReader expected non null string value");
 
         var type = Type.GetType(typeDiscriminator);
         if (type == null)
-            throw new JsonException();
+            throw new JsonException($"JsonReader could not resolve type {typeDiscriminator}");
 
         reader.Read();
         if (reader.TokenType != JsonTokenType.PropertyName)
-            throw new JsonException();
+            throw new JsonException("JsonReader expected property name token type");
 
         if (!reader.ValueTextEquals(TypeInstance.EncodedUtf8Bytes))
-            throw new JsonException();
+            throw new JsonException("JsonReader expected '$instance' property name");
 
         var instance = JsonSerializer.Deserialize(ref reader, type, options);
 

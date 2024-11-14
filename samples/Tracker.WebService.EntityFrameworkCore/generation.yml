@@ -6,6 +6,8 @@ project:
 database:
   provider: SqlServer
   connectionString: 'Data Source=(local);Initial Catalog=TrackerService;Integrated Security=True;TrustServerCertificate=True'
+  schemas:
+    - dbo
 data:
   context:
     name: '{Database.Name}Context'

@@ -111,8 +111,10 @@ public static class ProblemDetailsCustomizer
                 var errors = new Dictionary<string, string[]>(StringComparer.Ordinal);
 
                 if (validationException.ValidationResult.ErrorMessage != null)
+                {
                     foreach (var memberName in validationException.ValidationResult.MemberNames)
                         errors[memberName] = [validationException.ValidationResult.ErrorMessage];
+                }
 
                 problemDetails.Title = "One or more validation errors occurred.";
                 problemDetails.Status = StatusCodes.Status400BadRequest;
@@ -133,8 +135,11 @@ public static class ProblemDetailsCustomizer
             }
         }
 
-        problemDetails.Detail = exception?.Message;
-        problemDetails.Extensions.Add("exception", exception?.ToString());
+        if (exception != null)
+        {
+            problemDetails.Detail = exception.Message;
+            problemDetails.Extensions.Add("exception", exception.ToString());
+        }
 
         return problemDetails;
     }

@@ -4,8 +4,10 @@ using MediatR.CommandQuery.Dispatcher;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace MediatR.CommandQuery.Endpoints;
@@ -14,11 +16,17 @@ public class DispatcherEndpoint : IFeatureEndpoint
 {
     private readonly ISender _sender;
     private readonly DispatcherOptions _dispatcherOptions;
+    private readonly ILogger<DispatcherEndpoint> _logger;
 
-    public DispatcherEndpoint(ISender sender, IOptions<DispatcherOptions> dispatcherOptions)
+    public DispatcherEndpoint(ILogger<DispatcherEndpoint> logger, ISender sender, IOptions<DispatcherOptions> dispatcherOptions)
     {
+        ArgumentNullException.ThrowIfNull(logger);
+        ArgumentNullException.ThrowIfNull(sender);
+        ArgumentNullException.ThrowIfNull(dispatcherOptions);
+
         _sender = sender;
         _dispatcherOptions = dispatcherOptions.Value;
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public void AddRoutes(IEndpointRouteBuilder app)
@@ -28,13 +36,13 @@ public class DispatcherEndpoint : IFeatureEndpoint
 
         group
             .MapPost(_dispatcherOptions.SendRoute, Send)
-            .WithTags("Dispatcher")
+            .WithEntityMetadata("Dispatcher")
             .WithName($"Send")
             .WithSummary("Send Mediator command")
             .WithDescription("Send Mediator command");
     }
 
-    protected virtual async Task<IResult> Send(
+    protected virtual async Task<Results<Ok<object>, ProblemHttpResult>> Send(
         [FromBody] DispatchRequest dispatchRequest,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
@@ -42,13 +50,16 @@ public class DispatcherEndpoint : IFeatureEndpoint
         try
         {
             var request = dispatchRequest.Request;
+
             var result = await _sender.Send(request, cancellationToken).ConfigureAwait(false);
-            return Results.Ok(result);
+            return TypedResults.Ok(result);
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Error dispatching request: {ErrorMessage}", ex.Message);
+
             var details = ex.ToProblemDetails();
-            return Results.Problem(details);
+            return TypedResults.Problem(details);
         }
     }
 }

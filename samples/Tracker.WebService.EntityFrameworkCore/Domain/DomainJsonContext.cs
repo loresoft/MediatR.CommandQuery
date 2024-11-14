@@ -11,7 +11,7 @@ using Tracker.WebService.Domain.Models;
 namespace Tracker.WebService.Domain;
 
 [JsonSourceGenerationOptions(
-    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+    DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase)]
 #region Generated Attributes
 [JsonSerializable(typeof(AuditReadModel))]
@@ -51,7 +51,7 @@ namespace Tracker.WebService.Domain;
 [JsonSerializable(typeof(UserUpdateModel))]
 [JsonSerializable(typeof(EntityQuery))]
 [JsonSerializable(typeof(EntitySelect))]
-[JsonSerializable(typeof(JsonPatchDocument))]
+[JsonSerializable(typeof(IJsonPatchDocument))]
 #endregion
 public partial class DomainJsonContext : JsonSerializerContext
 {

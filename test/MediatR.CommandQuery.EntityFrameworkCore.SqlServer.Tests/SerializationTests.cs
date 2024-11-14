@@ -3,6 +3,8 @@ using System.Text.Json;
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Converters;
 using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Audit.Models;
+using MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.Domain.Priority.Models;
+using MediatR.CommandQuery.Queries;
 
 namespace MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests;
 
@@ -58,6 +60,21 @@ public class SerializationTests
         var options = SerializerOptions();
 
         var json = JsonSerializer.Serialize<IBaseRequest>(createCommand, options);
+        json.Should().NotBeNullOrEmpty();
+
+        var deserializeCommand = JsonSerializer.Deserialize(json, typeof(IBaseRequest), options);
+        deserializeCommand.Should().NotBeNull();
+        deserializeCommand.Should().BeAssignableTo<IBaseRequest>();
+    }
+
+    [Fact]
+    public void PolymorphicConverterEntityIdentifierQueryTest()
+    {
+        var queryCommand = new EntityIdentifierQuery<Guid, PriorityReadModel>(null, Constants.PriorityConstants.Normal);
+
+        var options = SerializerOptions();
+
+        var json = JsonSerializer.Serialize<IBaseRequest>(queryCommand, options);
         json.Should().NotBeNullOrEmpty();
 
         var deserializeCommand = JsonSerializer.Deserialize(json, typeof(IBaseRequest), options);

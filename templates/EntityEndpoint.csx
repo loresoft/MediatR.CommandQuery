@@ -32,6 +32,7 @@ public string WriteCode()
     CodeBuilder.AppendLine("using System;");
     CodeBuilder.AppendLine("using MediatR;");
     CodeBuilder.AppendLine("using MediatR.CommandQuery.Endpoints;");
+    CodeBuilder.AppendLine("using Microsoft.Extensions.Logging;");
 
     if (!string.IsNullOrEmpty(modelNamespace))
         CodeBuilder.AppendLine($"using {modelNamespace};");
@@ -73,7 +74,8 @@ private void GenerateClass(string readModel, string createModel, string updateMo
 
 private void GenerateConstructor(string className)
 {
-    CodeBuilder.AppendLine($"public {className}(IMediator mediator) : base(mediator, \"{Entity.EntityClass}\")");
+    CodeBuilder.AppendLine($"public {className}(ILoggerFactory loggerFactory, IMediator mediator)");
+    CodeBuilder.AppendLine($"    : base(loggerFactory, mediator, \"{Entity.EntityClass}\")");
     CodeBuilder.AppendLine("{");
     CodeBuilder.AppendLine();
     CodeBuilder.AppendLine("}");

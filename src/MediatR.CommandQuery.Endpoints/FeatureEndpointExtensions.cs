@@ -20,7 +20,7 @@ public static class FeatureEndpointExtensions
         var features = builder.ServiceProvider.GetServices<IFeatureEndpoint>();
         foreach (var feature in features)
             feature.AddRoutes(featureGroup);
-                
+
         return featureGroup;
     }
 }

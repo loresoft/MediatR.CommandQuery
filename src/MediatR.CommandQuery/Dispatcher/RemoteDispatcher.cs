@@ -43,7 +43,7 @@ public class RemoteDispatcher : IDispatcher
         var cacheTag = cacheRequest.GetCacheTag();
         var cacheOptions = new HybridCacheEntryOptions
         {
-            Expiration = cacheRequest.SlidingExpiration()
+            Expiration = cacheRequest.SlidingExpiration(),
         };
 
         return await _hybridCache
