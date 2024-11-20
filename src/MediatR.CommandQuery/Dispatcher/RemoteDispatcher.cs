@@ -15,14 +15,13 @@ public class RemoteDispatcher : IDispatcher
     private readonly HttpClient _httpClient;
     private readonly JsonSerializerOptions _serializerOptions;
     private readonly DispatcherOptions _dispatcherOptions;
-    private readonly HybridCache _hybridCache;
+    private readonly HybridCache? _hybridCache;
 
-    public RemoteDispatcher(HttpClient httpClient, JsonSerializerOptions serializerOptions, IOptions<DispatcherOptions> dispatcherOptions, HybridCache hybridCache)
+    public RemoteDispatcher(HttpClient httpClient, JsonSerializerOptions serializerOptions, IOptions<DispatcherOptions> dispatcherOptions, HybridCache? hybridCache = null)
     {
         ArgumentNullException.ThrowIfNull(httpClient);
         ArgumentNullException.ThrowIfNull(serializerOptions);
         ArgumentNullException.ThrowIfNull(dispatcherOptions);
-        ArgumentNullException.ThrowIfNull(hybridCache);
 
         _httpClient = httpClient;
         _serializerOptions = serializerOptions;
@@ -36,7 +35,7 @@ public class RemoteDispatcher : IDispatcher
 
         // cache only if implements interface
         var cacheRequest = request as ICacheResult;
-        if (cacheRequest?.IsCacheable() != true)
+        if (_hybridCache is null || cacheRequest?.IsCacheable() != true)
             return await SendCore(request, cancellationToken).ConfigureAwait(false);
 
         var cacheKey = cacheRequest.GetCacheKey();
@@ -83,7 +82,7 @@ public class RemoteDispatcher : IDispatcher
         var response = await JsonSerializer.DeserializeAsync<TResponse>(stream, _serializerOptions, cancellationToken).ConfigureAwait(false);
 
         // expire cache
-        if (request is not ICacheExpire cacheRequest)
+        if (_hybridCache is null || request is not ICacheExpire cacheRequest)
             return response;
 
         var cacheTag = cacheRequest.GetCacheTag();
