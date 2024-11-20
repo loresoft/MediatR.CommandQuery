@@ -51,6 +51,7 @@ public static class MediatorServiceExtensions
     {
         ArgumentNullException.ThrowIfNull(services);
 
+        // up to client to register RemoteDispatcher with correct HttpClient
         services.TryAddTransient<IDispatcher>(sp => sp.GetRequiredService<RemoteDispatcher>());
         services.AddOptions<DispatcherOptions>();
 
