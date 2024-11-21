@@ -4,8 +4,6 @@ using System.Security.Claims;
 using MediatR.CommandQuery.Definitions;
 using MediatR.CommandQuery.Services;
 
-using Microsoft.Extensions.Logging;
-
 namespace MediatR.CommandQuery.Commands;
 
 public record EntityUpdateCommand<TKey, TUpdateModel, TReadModel>

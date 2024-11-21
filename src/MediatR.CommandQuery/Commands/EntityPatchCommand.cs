@@ -4,8 +4,6 @@ using System.Security.Claims;
 using MediatR.CommandQuery.Definitions;
 using MediatR.CommandQuery.Services;
 
-using Microsoft.Extensions.Logging;
-
 using SystemTextJsonPatch;
 
 namespace MediatR.CommandQuery.Commands;

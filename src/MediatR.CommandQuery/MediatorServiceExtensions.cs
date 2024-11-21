@@ -55,6 +55,8 @@ public static class MediatorServiceExtensions
         services.TryAddTransient<IDispatcher>(sp => sp.GetRequiredService<RemoteDispatcher>());
         services.AddOptions<DispatcherOptions>();
 
+        services.TryAddTransient<IDispatcherDataService, DispatcherDataService>();
+
         return services;
     }
 
@@ -64,6 +66,8 @@ public static class MediatorServiceExtensions
 
         services.TryAddTransient<IDispatcher, MediatorDispatcher>();
         services.AddOptions<DispatcherOptions>();
+
+        services.TryAddTransient<IDispatcherDataService, DispatcherDataService>();
 
         return services;
     }

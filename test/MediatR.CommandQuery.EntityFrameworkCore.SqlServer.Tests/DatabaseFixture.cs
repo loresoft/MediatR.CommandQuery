@@ -24,6 +24,8 @@ public class DatabaseFixture : TestApplicationFixture
         services.AddMediator();
         services.AddValidatorsFromAssembly<DatabaseFixture>();
 
+        services.AddServerDispatcher();
+
         services.AddMediatRCommandQueryEntityFrameworkCoreSqlServerTests();
     }
 }
