@@ -18,7 +18,7 @@ public abstract record CacheableQueryBase<TResponse> : PrincipalQueryBase<TRespo
 
     public abstract string GetCacheKey();
 
-    public abstract string? GetCacheTag();
+    public virtual string? GetCacheTag() => null;
 
     public bool IsCacheable()
     {
