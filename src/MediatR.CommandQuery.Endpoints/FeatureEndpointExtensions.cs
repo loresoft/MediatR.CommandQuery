@@ -13,11 +13,14 @@ public static class FeatureEndpointExtensions
         return services;
     }
 
-    public static IEndpointConventionBuilder MapFeatureEndpoints(this IEndpointRouteBuilder builder, string prefix = "/api")
+    public static IEndpointConventionBuilder MapFeatureEndpoints(this IEndpointRouteBuilder builder, string prefix = "/api", string? serviceKey = null)
     {
         var featureGroup = builder.MapGroup(prefix);
 
-        var features = builder.ServiceProvider.GetServices<IFeatureEndpoint>();
+        var features = string.IsNullOrEmpty(serviceKey)
+            ? builder.ServiceProvider.GetServices<IFeatureEndpoint>()
+            : builder.ServiceProvider.GetKeyedServices<IFeatureEndpoint>(serviceKey);
+
         foreach (var feature in features)
             feature.AddRoutes(featureGroup);
 
