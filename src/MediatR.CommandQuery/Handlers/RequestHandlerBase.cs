@@ -1,11 +1,15 @@
 using System.Diagnostics;
 
-using MediatR.CommandQuery.Services;
-
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Handlers;
 
+/// <summary>
+/// A base handler for a request
+/// </summary>
+/// <typeparam name="TRequest">The type of request being handled.</typeparam>
+/// <typeparam name="TResponse">The type of response from the handler.</typeparam>
+/// <seealso cref="MediatR.IRequestHandler{TRequest, TResponse}" />
 public abstract partial class RequestHandlerBase<TRequest, TResponse> : IRequestHandler<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
 {
@@ -21,13 +25,28 @@ public abstract partial class RequestHandlerBase<TRequest, TResponse> : IRequest
         _name = type.Name;
     }
 
+    /// <summary>
+    /// Gets the logger.
+    /// </summary>
+    /// <value>
+    /// The logger.
+    /// </value>
     protected ILogger Logger { get; }
 
+    /// <summary>
+    /// Handles a request
+    /// </summary>
+    /// <param name="request">The request</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>
+    /// Response from the request
+    /// </returns>
+    /// <exception cref="System.ArgumentNullException">When request is null</exception>
     public virtual async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var startTime = ActivityTimer.GetTimestamp();
+        var startTime = Stopwatch.GetTimestamp();
         try
         {
             LogStart(Logger, _name, request);
@@ -35,11 +54,17 @@ public abstract partial class RequestHandlerBase<TRequest, TResponse> : IRequest
         }
         finally
         {
-            var elapsed = ActivityTimer.GetElapsedTime(startTime);
+            var elapsed = Stopwatch.GetElapsedTime(startTime);
             LogFinish(Logger, _name, request, elapsed.TotalMilliseconds);
         }
     }
 
+    /// <summary>
+    /// Processes the specified request.
+    /// </summary>
+    /// <param name="request">The request to process.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>Response from the request</returns>
     protected abstract Task<TResponse> Process(TRequest request, CancellationToken cancellationToken);
 
 

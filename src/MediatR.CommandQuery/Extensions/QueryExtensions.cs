@@ -5,8 +5,18 @@ using MediatR.CommandQuery.Queries;
 
 namespace MediatR.CommandQuery.Extensions;
 
+/// <summary>
+/// <see cref="IQueryable{T}"/> extensions methods
+/// </summary>
 public static class QueryExtensions
 {
+    /// <summary>
+    /// Applies the specified <paramref name="sort"/> to the provided <paramref name="query"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the data in the query</typeparam>
+    /// <param name="query">The query to apply the sort.</param>
+    /// <param name="sort">The sort to apply.</param>
+    /// <returns>An <see cref="IQueryable{T}"/> with the sort applied.</returns>
     public static IQueryable<T> Sort<T>(this IQueryable<T> query, EntitySort? sort)
     {
         if (sort == null)
@@ -15,6 +25,13 @@ public static class QueryExtensions
         return Sort(query, [sort]);
     }
 
+    /// <summary>
+    /// Applies the specified <paramref name="sorts"/> to the provided <paramref name="query"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the data in the query</typeparam>
+    /// <param name="query">The query to apply the sort.</param>
+    /// <param name="sorts">The sorts to apply.</param>
+    /// <returns>An <see cref="IQueryable{T}"/> with the sorts applied.</returns>
     public static IQueryable<T> Sort<T>(this IQueryable<T> query, IEnumerable<EntitySort>? sorts)
     {
         if (sorts?.Any() != true)
@@ -27,7 +44,7 @@ public static class QueryExtensions
         foreach (var sort in sorts)
         {
             if (builder.Length > 0)
-                builder.Append(",");
+                builder.Append(',');
 
             builder.Append(sort.Name).Append(' ');
 
@@ -40,6 +57,13 @@ public static class QueryExtensions
         return query.OrderBy(builder.ToString());
     }
 
+    /// <summary>
+    /// Applies the specified <paramref name="filter"/> to the provided <paramref name="query"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the data in the query</typeparam>
+    /// <param name="query">The query to apply the sort.</param>
+    /// <param name="filter">The filter to apply.</param>
+    /// <returns>An <see cref="IQueryable{T}"/> with the filter applied.</returns>
     public static IQueryable<T> Filter<T>(this IQueryable<T> query, EntityFilter filter)
     {
         if (filter is null)

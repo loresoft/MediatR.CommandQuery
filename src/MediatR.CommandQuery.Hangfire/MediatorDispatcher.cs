@@ -3,8 +3,6 @@ using System.Diagnostics;
 using Hangfire;
 using Hangfire.Server;
 
-using MediatR.CommandQuery.Services;
-
 using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Hangfire;
@@ -28,7 +26,7 @@ public partial class MediatorDispatcher : IMediatorDispatcher
 
         var scope = _logger.BeginScope("Hangfire Job Id: {JobId}", context?.BackgroundJob?.Id);
 
-        var startTime = ActivityTimer.GetTimestamp();
+        var startTime = Stopwatch.GetTimestamp();
         try
         {
             LogStart(_logger, request);
@@ -46,7 +44,7 @@ public partial class MediatorDispatcher : IMediatorDispatcher
         }
         finally
         {
-            var elapsed = ActivityTimer.GetElapsedTime(startTime);
+            var elapsed = Stopwatch.GetElapsedTime(startTime);
             LogFinish(_logger, request, elapsed.TotalMilliseconds);
 
             scope?.Dispose();

@@ -5,11 +5,23 @@ using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Behaviors;
 
+/// <summary>
+/// A behavior for caching the response of a query to <see cref="HybridCache"/>.
+/// <typeparamref name="TRequest"/> must implement <see cref="ICacheResult"/> for the response to be cached.
+/// </summary>
+/// <typeparam name="TRequest">The type of the request.</typeparam>
+/// <typeparam name="TResponse">The type of the response.</typeparam>
 public partial class HybridCacheQueryBehavior<TRequest, TResponse> : PipelineBehaviorBase<TRequest, TResponse>
     where TRequest : class, IRequest<TResponse>
 {
     private readonly HybridCache _hybridCache;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="HybridCacheQueryBehavior{TRequest, TResponse}"/> class.
+    /// </summary>
+    /// <param name="loggerFactory">The logger factory.</param>
+    /// <param name="hybridCache">The hybrid cache.</param>
+    /// <exception cref="System.ArgumentNullException">hybridCache</exception>
     public HybridCacheQueryBehavior(
         ILoggerFactory loggerFactory,
         HybridCache hybridCache)
@@ -18,6 +30,7 @@ public partial class HybridCacheQueryBehavior<TRequest, TResponse> : PipelineBeh
         _hybridCache = hybridCache ?? throw new ArgumentNullException(nameof(hybridCache));
     }
 
+    /// <inheritdoc />
     protected override async Task<TResponse> Process(
         TRequest request,
         RequestHandlerDelegate<TResponse> next,

@@ -1,8 +1,12 @@
+using System.Security.Claims;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace MediatR.CommandQuery.Converters;
 
+/// <summary>
+/// <see cref="JsonConverter{T}"/> for a generic type
+/// </summary>
 public class PolymorphicConverter<T> : JsonConverter<T>
     where T : class
 {
@@ -11,11 +15,13 @@ public class PolymorphicConverter<T> : JsonConverter<T>
     private static readonly JsonEncodedText TypeDiscriminator = JsonEncodedText.Encode("$type");
     private static readonly JsonEncodedText TypeInstance = JsonEncodedText.Encode("$instance");
 
+    /// <inheritdoc />
     public override bool CanConvert(Type typeToConvert)
     {
         return typeof(T) == typeToConvert;
     }
 
+    /// <inheritdoc />
     public override T Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.StartObject)
@@ -58,6 +64,7 @@ public class PolymorphicConverter<T> : JsonConverter<T>
         return (instance as T)!;
     }
 
+    /// <inheritdoc />
     public override void Write(Utf8JsonWriter writer, T value, JsonSerializerOptions options)
     {
         writer.WriteStartObject();

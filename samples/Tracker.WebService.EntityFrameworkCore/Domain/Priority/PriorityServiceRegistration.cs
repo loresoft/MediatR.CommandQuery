@@ -16,9 +16,9 @@ public class PriorityServiceRegistration
     [RegisterServices]
     public void Register(IServiceCollection services)
     {
-        services.AddEntityQueries<Tracker.WebService.Data.TrackerServiceContext, Tracker.WebService.Data.Entities.Priority, Guid, PriorityReadModel>();
+        services.AddEntityQueries<Data.TrackerServiceContext, Data.Entities.Priority, Guid, PriorityReadModel>();
 
-        services.AddEntityCommands<Tracker.WebService.Data.TrackerServiceContext, Tracker.WebService.Data.Entities.Priority, Guid, PriorityReadModel, PriorityCreateModel, PriorityUpdateModel>();
+        services.AddEntityCommands<Data.TrackerServiceContext, Data.Entities.Priority, Guid, PriorityReadModel, PriorityCreateModel, PriorityUpdateModel>();
 
     }
 

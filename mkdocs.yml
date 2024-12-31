@@ -1,6 +1,9 @@
 site_name: MediatR CommandQuery
-theme: material
+site_url: https://loresoft.com/MediatR.CommandQuery/
 repo_url: https://github.com/loresoft/MediatR.CommandQuery
+
+theme:
+  name: material
 
 nav:
   - Home: index.md
@@ -39,7 +42,9 @@ nav:
 
   - Script Templates: scripts.md
 markdown_extensions:
+  - admonition
   - tables
+  - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span

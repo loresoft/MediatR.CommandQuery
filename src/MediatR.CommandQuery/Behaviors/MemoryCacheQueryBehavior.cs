@@ -5,6 +5,12 @@ using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Behaviors;
 
+/// <summary>
+/// A behavior for caching the response of a query to <see cref="IMemoryCache"/>.
+/// <typeparamref name="TRequest"/> must implement <see cref="ICacheResult"/> for the response to be cached.
+/// </summary>
+/// <typeparam name="TRequest">The type of the request.</typeparam>
+/// <typeparam name="TResponse">The type of the response.</typeparam>
 public partial class MemoryCacheQueryBehavior<TRequest, TResponse> : PipelineBehaviorBase<TRequest, TResponse>
     where TRequest : class, IRequest<TResponse>
 {

@@ -5,12 +5,24 @@ using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Behaviors;
 
+/// <summary>
+/// A behavior for sending change notifications
+/// </summary>
+/// <typeparam name="TKey">The type of the key.</typeparam>
+/// <typeparam name="TEntityModel">The type of the entity model.</typeparam>
+/// <typeparam name="TResponse">The type of the response.</typeparam>
 public class EntityChangeNotificationBehavior<TKey, TEntityModel, TResponse>
     : PipelineBehaviorBase<PrincipalCommandBase<TResponse>, TResponse>
     where TEntityModel : class
 {
     private readonly IMediator _mediator;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EntityChangeNotificationBehavior{TKey, TEntityModel, TResponse}"/> class.
+    /// </summary>
+    /// <param name="loggerFactory">The logger factory.</param>
+    /// <param name="mediator">The mediator.</param>
+    /// <exception cref="System.ArgumentNullException"></exception>
     public EntityChangeNotificationBehavior(ILoggerFactory loggerFactory, IMediator mediator) : base(loggerFactory)
     {
         ArgumentNullException.ThrowIfNull(mediator);
@@ -18,6 +30,7 @@ public class EntityChangeNotificationBehavior<TKey, TEntityModel, TResponse>
         _mediator = mediator;
     }
 
+    /// <inheritdoc />
     protected override async Task<TResponse> Process(
         PrincipalCommandBase<TResponse> request,
         RequestHandlerDelegate<TResponse> next,

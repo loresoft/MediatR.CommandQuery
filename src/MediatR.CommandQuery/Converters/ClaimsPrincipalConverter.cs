@@ -4,6 +4,9 @@ using System.Text.Json.Serialization;
 
 namespace MediatR.CommandQuery.Converters;
 
+/// <summary>
+/// <see cref="JsonConverter{T}"/> for <see cref="ClaimsPrincipal"/>
+/// </summary>
 public class ClaimsPrincipalConverter : JsonConverter<ClaimsPrincipal>
 {
     private static readonly JsonEncodedText AuthenticationType = JsonEncodedText.Encode("authenticationType");
@@ -13,6 +16,7 @@ public class ClaimsPrincipalConverter : JsonConverter<ClaimsPrincipal>
     private static readonly JsonEncodedText ClaimType = JsonEncodedText.Encode("type");
     private static readonly JsonEncodedText ClaimValue = JsonEncodedText.Encode("value");
 
+    /// <inheritdoc />
     public override ClaimsPrincipal? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.TokenType != JsonTokenType.StartObject)
@@ -53,6 +57,7 @@ public class ClaimsPrincipalConverter : JsonConverter<ClaimsPrincipal>
         return new ClaimsPrincipal(identity);
     }
 
+    /// <inheritdoc />
     public override void Write(Utf8JsonWriter writer, ClaimsPrincipal value, JsonSerializerOptions options)
     {
         if (value.Identity is not ClaimsIdentity identity)

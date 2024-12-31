@@ -1,5 +1,8 @@
 namespace MediatR.CommandQuery.Extensions;
 
+/// <summary>
+/// <see cref="Type"/> extensions methods
+/// </summary>
 public static class TypeExtensions
 {
     /// <summary>

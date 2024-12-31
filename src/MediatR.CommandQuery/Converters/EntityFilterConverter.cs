@@ -5,6 +5,9 @@ using MediatR.CommandQuery.Queries;
 
 namespace MediatR.CommandQuery.Converters;
 
+/// <summary>
+/// <see cref="JsonConverter{T}"/> for <see cref="EntityFilter"/>
+/// </summary>
 public sealed class EntityFilterConverter : JsonConverter<EntityFilter>
 {
     private static readonly JsonEncodedText Name = JsonEncodedText.Encode("name");
@@ -13,6 +16,7 @@ public sealed class EntityFilterConverter : JsonConverter<EntityFilter>
     private static readonly JsonEncodedText Logic = JsonEncodedText.Encode("logic");
     private static readonly JsonEncodedText Filters = JsonEncodedText.Encode("filters");
 
+    /// <inheritdoc />
     public override EntityFilter Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var filter = new EntityFilter();
@@ -29,6 +33,7 @@ public sealed class EntityFilterConverter : JsonConverter<EntityFilter>
         return filter;
     }
 
+    /// <inheritdoc />
     public override void Write(Utf8JsonWriter writer, EntityFilter value, JsonSerializerOptions options)
     {
         writer.WriteStartObject();
