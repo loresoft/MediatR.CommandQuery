@@ -1,0 +1,62 @@
+items:
+  - name: Quick Start
+    href: quickStart.md
+
+  - name: Queries
+    items:
+      - name: Identifier Query
+        href: queries/identifier.md
+      - name: Identifiers Query
+        href: queries/identifiers.md
+      - name: Paged Query
+        href: queries/paged.md
+      - name: List Query
+        href: queries/list.md
+      - name: Filters
+        href: queries/filters.md
+      - name: Result Caching
+        href: queries/caching.md
+      - name: Base Queries
+        href: queries/abstracts.md
+
+  - name: Commands
+    items:
+      - name: Create Command
+        href: commands/create.md
+      - name: Delete Command
+        href: commands/delete.md
+      - name: Patch Command
+        href: commands/patch.md
+      - name: Update Command
+        href: commands/update.md
+      - name: Upsert Command
+        href: commands/upsert.md
+      - name: Base Command
+        href: commands/abstracts.md
+
+  - name: Handlers
+    items:
+      - name: Entity Framework Core
+        href: handlers/entityFramework.md
+      - name: Mongo DB
+        href: handlers/mongo.md
+      - name: Cosmos DB
+        href: handlers/cosmos.md
+
+  - name: Behaviors
+    items:
+      - name: Soft Delete
+        href: behaviors/delete.md
+      - name: Result Caching
+        href: behaviors/caching.md
+      - name: Tenant
+        href: behaviors/tenant.md
+      - name: Audit
+        href: behaviors/audit.md
+      - name: Validation
+        href: behaviors/validation.md
+      - name: Base Behaviors
+        href: behaviors/abstracts.md
+
+  - name: Script Templates
+    href: scripts.md

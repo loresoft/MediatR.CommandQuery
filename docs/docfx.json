@@ -1,0 +1,52 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "**/*.csproj"
+          ],
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "reference",
+      "properties": {
+        "TargetFramework": "net8.0"
+      }
+    }
+  ],
+  "build": {
+    "content": [
+      "**/*.{md,yml}"
+    ],
+    "resource": [
+      "**/assets/**"
+    ],
+    "postProcessors": [
+      "ExtractSearchIndex"
+    ],
+    "globalMetadata": {
+      "_appTitle": "MediatR.CommandQuery",
+      "_appName": "MediatR.CommandQuery",
+      "_appFooter": "Copyright &copy; 2025 LoreSoft",
+      "_appLogoPath": "assets/logo.png",
+      "_appFaviconPath": "assets/logo.png",
+      "_enableSearch": true
+    },
+    "sitemap": {
+      "baseUrl": "https://loresoft.com/MediatR.CommandQuery",
+      "priority": 0.5,
+      "changefreq": "daily"
+    },
+    "output": "_site",
+    "template": [
+      "default",
+      "modern",
+      "template"
+    ]
+  }
+}

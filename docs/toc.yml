@@ -1,0 +1,5 @@
+- name: User Guide
+  href: guide/
+- name: Reference
+  href: reference/
+  homepage: reference/index.md
