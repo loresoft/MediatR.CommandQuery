@@ -24,25 +24,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      mongodb:
-        image: mongo:latest
-        ports:
-          - 27017:27017
-        volumes:
-          - mongo_data:/data/db
-          - mongo_config:/data/configdb
-
-      mssql:
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        env:
-          MSSQL_SA_PASSWORD: "!P@ssw0rd"
-          ACCEPT_EULA: "Y"
-        ports:
-          - 1433:1433
-        volumes:
-          - mssql_data:/var/opt/mssql
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
