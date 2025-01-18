@@ -7,12 +7,12 @@ namespace MediatR.CommandQuery.Queries;
 
 public record EntityIdentifiersQuery<TKey, TReadModel> : CacheableQueryBase<IReadOnlyCollection<TReadModel>>
 {
-    public EntityIdentifiersQuery(ClaimsPrincipal? principal, [NotNull] IEnumerable<TKey> ids)
+    public EntityIdentifiersQuery(ClaimsPrincipal? principal, [NotNull] IReadOnlyCollection<TKey> ids)
         : base(principal)
     {
         ArgumentNullException.ThrowIfNull(ids);
 
-        Ids = ids.ToList();
+        Ids = ids;
     }
 
     [NotNull]

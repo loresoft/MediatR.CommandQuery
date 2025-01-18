@@ -41,7 +41,7 @@ public class DispatcherDataService : IDispatcherDataService
     {
         var user = await GetUser(cancellationToken).ConfigureAwait(false);
 
-        var command = new EntityIdentifiersQuery<TKey, TModel>(user, ids);
+        var command = new EntityIdentifiersQuery<TKey, TModel>(user, ids.ToList());
         command.Cache(cacheTime);
 
         var result = await Dispatcher.Send(command, cancellationToken).ConfigureAwait(false);

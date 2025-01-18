@@ -17,12 +17,12 @@ public abstract record EntityIdentifiersCommand<TKey, TResponse>
     /// <param name="principal">the <see cref="ClaimsPrincipal"/> this command is run for</param>
     /// <param name="ids">The list of identifiers for this command.</param>
     /// <exception cref="System.ArgumentNullException">When <paramref name="ids"/> is null</exception>
-    protected EntityIdentifiersCommand(ClaimsPrincipal? principal, [NotNull] IEnumerable<TKey> ids)
+    protected EntityIdentifiersCommand(ClaimsPrincipal? principal, [NotNull] IReadOnlyCollection<TKey> ids)
         : base(principal)
     {
         ArgumentNullException.ThrowIfNull(ids);
 
-        Ids = ids.ToList();
+        Ids = ids;
     }
 
     /// <summary>
