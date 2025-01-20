@@ -20,4 +20,20 @@ public class CompleteModel
     /// The operation result message.
     /// </value>
     public string? Message { get; set; }
+
+    /// <summary>
+    /// Creates a success result with the specified message.
+    /// </summary>
+    /// <param name="message">The message associated with the success</param>
+    /// <returns>A new instance representing a success result</returns>
+    public static CompleteModel Success(string? message = null)
+        => new() { Successful = true, Message = message };
+
+    /// <summary>
+    /// Creates a failed result with the given error message
+    /// </summary>
+    /// <param name="message">The error message associated with the failure.</param>
+    /// <returns>A new instance representing a failed result with the specified error message</returns>
+    public static CompleteModel Fail(string? message = null)
+        => new() { Successful = false, Message = message };
 }
