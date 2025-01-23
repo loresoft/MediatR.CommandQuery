@@ -14,17 +14,14 @@ namespace MediatR.CommandQuery.Endpoints;
 
 public class DispatcherEndpoint : IFeatureEndpoint
 {
-    private readonly ISender _sender;
     private readonly DispatcherOptions _dispatcherOptions;
     private readonly ILogger<DispatcherEndpoint> _logger;
 
-    public DispatcherEndpoint(ILogger<DispatcherEndpoint> logger, ISender sender, IOptions<DispatcherOptions> dispatcherOptions)
+    public DispatcherEndpoint(ILogger<DispatcherEndpoint> logger, IOptions<DispatcherOptions> dispatcherOptions)
     {
         ArgumentNullException.ThrowIfNull(logger);
-        ArgumentNullException.ThrowIfNull(sender);
         ArgumentNullException.ThrowIfNull(dispatcherOptions);
 
-        _sender = sender;
         _dispatcherOptions = dispatcherOptions.Value;
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
@@ -44,6 +41,7 @@ public class DispatcherEndpoint : IFeatureEndpoint
 
     protected virtual async Task<Results<Ok<object>, ProblemHttpResult>> Send(
         [FromBody] DispatchRequest dispatchRequest,
+        [FromServices] ISender sender,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
     {
@@ -51,7 +49,7 @@ public class DispatcherEndpoint : IFeatureEndpoint
         {
             var request = dispatchRequest.Request;
 
-            var result = await _sender.Send(request, cancellationToken).ConfigureAwait(false);
+            var result = await sender.Send(request, cancellationToken).ConfigureAwait(false);
             return TypedResults.Ok(result);
         }
         catch (Exception ex)
