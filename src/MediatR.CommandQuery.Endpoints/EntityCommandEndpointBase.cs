@@ -18,8 +18,8 @@ namespace MediatR.CommandQuery.Endpoints;
 public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TCreateModel, TUpdateModel>
     : EntityQueryEndpointBase<TKey, TListModel, TReadModel>
 {
-    protected EntityCommandEndpointBase(ILoggerFactory loggerFactory, IMediator mediator, string entityName, string? routePrefix = null)
-        : base(loggerFactory, mediator, entityName, routePrefix)
+    protected EntityCommandEndpointBase(ILoggerFactory loggerFactory, string entityName, string? routePrefix = null)
+        : base(loggerFactory, entityName, routePrefix)
     {
     }
 
@@ -71,6 +71,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
     }
 
     protected virtual async Task<Results<Ok<TUpdateModel>, ProblemHttpResult>> GetUpdateQuery(
+        [FromServices] ISender sender,
         [FromRoute] TKey id,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
@@ -78,7 +79,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
         try
         {
             var command = new EntityIdentifierQuery<TKey, TUpdateModel>(user, id);
-            var result = await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
+            var result = await sender.Send(command, cancellationToken).ConfigureAwait(false);
 
             return TypedResults.Ok(result);
         }
@@ -92,6 +93,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
     }
 
     protected virtual async Task<Results<Ok<TReadModel>, ProblemHttpResult>> CreateCommand(
+        [FromServices] ISender sender,
         [FromBody] TCreateModel createModel,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
@@ -99,7 +101,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
         try
         {
             var command = new EntityCreateCommand<TCreateModel, TReadModel>(user, createModel);
-            var result = await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
+            var result = await sender.Send(command, cancellationToken).ConfigureAwait(false);
 
             return TypedResults.Ok(result);
         }
@@ -113,6 +115,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
     }
 
     protected virtual async Task<Results<Ok<TReadModel>, ProblemHttpResult>> UpdateCommand(
+        [FromServices] ISender sender,
         [FromRoute] TKey id,
         [FromBody] TUpdateModel updateModel,
         ClaimsPrincipal? user = default,
@@ -121,7 +124,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
         try
         {
             var command = new EntityUpdateCommand<TKey, TUpdateModel, TReadModel>(user, id, updateModel);
-            var result = await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
+            var result = await sender.Send(command, cancellationToken).ConfigureAwait(false);
 
             return TypedResults.Ok(result);
         }
@@ -135,6 +138,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
     }
 
     protected virtual async Task<Results<Ok<TReadModel>, ProblemHttpResult>> UpsertCommand(
+        [FromServices] ISender sender,
         [FromRoute] TKey id,
         [FromBody] TUpdateModel updateModel,
         ClaimsPrincipal? user = default,
@@ -143,7 +147,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
         try
         {
             var command = new EntityUpsertCommand<TKey, TUpdateModel, TReadModel>(user, id, updateModel);
-            var result = await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
+            var result = await sender.Send(command, cancellationToken).ConfigureAwait(false);
 
             return TypedResults.Ok(result);
         }
@@ -157,6 +161,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
     }
 
     protected virtual async Task<Results<Ok<TReadModel>, ProblemHttpResult>> PatchCommand(
+        [FromServices] ISender sender,
         [FromRoute] TKey id,
         [FromBody] JsonPatchDocument jsonPatch,
         ClaimsPrincipal? user = default,
@@ -165,7 +170,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
         try
         {
             var command = new EntityPatchCommand<TKey, TReadModel>(user, id, jsonPatch);
-            var result = await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
+            var result = await sender.Send(command, cancellationToken).ConfigureAwait(false);
 
             return TypedResults.Ok(result);
         }
@@ -179,6 +184,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
     }
 
     protected virtual async Task<Results<Ok<TReadModel>, ProblemHttpResult>> DeleteCommand(
+        [FromServices] ISender sender,
         [FromRoute] TKey id,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
@@ -186,7 +192,7 @@ public abstract class EntityCommandEndpointBase<TKey, TListModel, TReadModel, TC
         try
         {
             var command = new EntityDeleteCommand<TKey, TReadModel>(user, id);
-            var result = await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
+            var result = await sender.Send(command, cancellationToken).ConfigureAwait(false);
 
             return TypedResults.Ok(result);
         }

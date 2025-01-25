@@ -11,8 +11,8 @@ namespace Tracker.WebService.Endpoints;
 [RegisterTransient<IFeatureEndpoint>(Duplicate = DuplicateStrategy.Append)]
 public class UserLoginEndpoint : EntityCommandEndpointBase<Guid, UserLoginReadModel, UserLoginReadModel, UserLoginCreateModel, UserLoginUpdateModel>
 {
-    public UserLoginEndpoint(ILoggerFactory loggerFactory, IMediator mediator)
-        : base(loggerFactory, mediator, "UserLogin")
+    public UserLoginEndpoint(ILoggerFactory loggerFactory)
+        : base(loggerFactory, "UserLogin")
     {
 
     }

@@ -11,8 +11,8 @@ namespace Tracker.WebService.Endpoints;
 [RegisterTransient<IFeatureEndpoint>(Duplicate = DuplicateStrategy.Append)]
 public class RoleEndpoint : EntityCommandEndpointBase<Guid, RoleReadModel, RoleReadModel, RoleCreateModel, RoleUpdateModel>
 {
-    public RoleEndpoint(ILoggerFactory loggerFactory, IMediator mediator)
-        : base(loggerFactory, mediator, "Role")
+    public RoleEndpoint(ILoggerFactory loggerFactory)
+        : base(loggerFactory, "Role")
     {
 
     }

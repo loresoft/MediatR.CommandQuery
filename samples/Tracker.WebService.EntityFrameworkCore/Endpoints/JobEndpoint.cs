@@ -1,4 +1,3 @@
-using System;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,7 +5,6 @@ using System.Threading.Tasks;
 using MediatR;
 using MediatR.CommandQuery.Endpoints;
 using MediatR.CommandQuery.Hangfire;
-using MediatR.CommandQuery.Models;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -18,9 +16,9 @@ using Tracker.WebService.Domain.Commands;
 namespace Tracker.WebService.Endpoints;
 
 [RegisterTransient<IFeatureEndpoint>(Duplicate = DuplicateStrategy.Append)]
-public class JobEndpoint : MediatorEndpointBase
+public class JobEndpoint : FeatureEndpointBase
 {
-    public JobEndpoint(IMediator mediator) : base(mediator)
+    public JobEndpoint() : base()
     {
         EntityName = "Jobs";
         RoutePrefix = $"/api/{EntityName}";
@@ -49,11 +47,12 @@ public class JobEndpoint : MediatorEndpointBase
     }
 
     private async Task RunJob(
+        [FromServices] ISender sender,
         [FromRoute] int id,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
     {
         var command = new BackgroundUpdateCommand(id);
-        await Mediator.Enqueue(command, cancellationToken);
+        await sender.Enqueue(command, cancellationToken);
     }
 }

@@ -11,8 +11,8 @@ namespace Tracker.WebService.Endpoints;
 [RegisterTransient<IFeatureEndpoint>(Duplicate = DuplicateStrategy.Append)]
 public class AuditEndpoint : EntityCommandEndpointBase<Guid, AuditReadModel, AuditReadModel, AuditCreateModel, AuditUpdateModel>
 {
-    public AuditEndpoint(ILoggerFactory loggerFactory, IMediator mediator)
-        : base(loggerFactory, mediator, "Audit")
+    public AuditEndpoint(ILoggerFactory loggerFactory)
+        : base(loggerFactory, "Audit")
     {
 
     }

@@ -10,8 +10,8 @@ namespace Tracker.WebService.Endpoints;
 [RegisterTransient<IFeatureEndpoint>(Duplicate = DuplicateStrategy.Append)]
 public class PriorityEndpoint : EntityCommandEndpointBase<Guid, PriorityReadModel, PriorityReadModel, PriorityCreateModel, PriorityUpdateModel>
 {
-    public PriorityEndpoint(ILoggerFactory loggerFactory, IMediator mediator)
-        : base(loggerFactory, mediator, "Priority")
+    public PriorityEndpoint(ILoggerFactory loggerFactory)
+        : base(loggerFactory, "Priority")
     {
 
     }

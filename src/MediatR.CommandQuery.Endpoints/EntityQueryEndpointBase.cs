@@ -17,14 +17,11 @@ using Microsoft.Extensions.Logging;
 
 namespace MediatR.CommandQuery.Endpoints;
 
-public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
-    : MediatorEndpointBase
+public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel> : FeatureEndpointBase
 {
-    protected EntityQueryEndpointBase(ILoggerFactory loggerFactory, IMediator mediator, string entityName, string? routePrefix = null)
-        : base(mediator)
+    protected EntityQueryEndpointBase(ILoggerFactory loggerFactory, string entityName, string? routePrefix = null)
     {
         ArgumentNullException.ThrowIfNull(loggerFactory);
-        ArgumentNullException.ThrowIfNull(mediator);
         ArgumentException.ThrowIfNullOrEmpty(entityName);
 
         Logger = loggerFactory.CreateLogger(GetType());
@@ -103,6 +100,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
 
 
     protected virtual async Task<Results<Ok<TReadModel>, ProblemHttpResult>> GetQuery(
+        [FromServices] ISender sender,
         [FromRoute] TKey id,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
@@ -111,7 +109,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
         {
             var command = new EntityIdentifierQuery<TKey, TReadModel>(user, id);
 
-            var result = await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
+            var result = await sender.Send(command, cancellationToken).ConfigureAwait(false);
 
             return TypedResults.Ok(result);
         }
@@ -125,6 +123,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
     }
 
     protected virtual async Task<Results<Ok<EntityPagedResult<TListModel>>, ProblemHttpResult>> GetPagedQuery(
+        [FromServices] ISender sender,
         [FromQuery] string? q = null,
         [FromQuery] string? sort = null,
         [FromQuery] int? page = 1,
@@ -137,7 +136,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
             var entityQuery = new EntityQuery(q, page ?? 1, size ?? 20, sort);
             var command = new EntityPagedQuery<TListModel>(user, entityQuery);
 
-            var result = await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
+            var result = await sender.Send(command, cancellationToken).ConfigureAwait(false);
 
             return TypedResults.Ok(result);
         }
@@ -152,6 +151,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
     }
 
     protected virtual async Task<Results<Ok<EntityPagedResult<TListModel>>, ProblemHttpResult>> PostPagedQuery(
+        [FromServices] ISender sender,
         [FromBody] EntityQuery entityQuery,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
@@ -160,7 +160,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
         {
             var command = new EntityPagedQuery<TListModel>(user, entityQuery);
 
-            var result = await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
+            var result = await sender.Send(command, cancellationToken).ConfigureAwait(false);
 
             return TypedResults.Ok(result);
         }
@@ -175,6 +175,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
     }
 
     protected virtual async Task<Results<Ok<IReadOnlyCollection<TListModel>>, ProblemHttpResult>> GetSelectQuery(
+        [FromServices] ISender sender,
         [FromQuery] string? q = null,
         [FromQuery] string? sort = null,
         ClaimsPrincipal? user = default,
@@ -186,7 +187,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
 
             var command = new EntitySelectQuery<TListModel>(user, entitySelect);
 
-            var result = await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
+            var result = await sender.Send(command, cancellationToken).ConfigureAwait(false);
 
             return TypedResults.Ok(result);
         }
@@ -201,6 +202,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
     }
 
     protected virtual async Task<Results<Ok<IReadOnlyCollection<TListModel>>, ProblemHttpResult>> PostSelectQuery(
+        [FromServices] ISender sender,
         [FromBody] EntitySelect entitySelect,
         ClaimsPrincipal? user = default,
         CancellationToken cancellationToken = default)
@@ -209,7 +211,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
         {
             var command = new EntitySelectQuery<TListModel>(user, entitySelect);
 
-            var result = await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
+            var result = await sender.Send(command, cancellationToken).ConfigureAwait(false);
 
             return TypedResults.Ok(result);
         }
@@ -224,6 +226,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
     }
 
     protected virtual async Task<Results<FileContentHttpResult, ProblemHttpResult>> PostExportQuery(
+        [FromServices] ISender sender,
         [FromBody] EntitySelect entitySelect,
         [FromServices] CsvConfiguration? csvConfiguration = default,
         ClaimsPrincipal? user = default,
@@ -232,7 +235,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
         try
         {
             var command = new EntitySelectQuery<TListModel>(user, entitySelect);
-            var results = await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
+            var results = await sender.Send(command, cancellationToken).ConfigureAwait(false);
 
             csvConfiguration ??= new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = true };
 
@@ -251,6 +254,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
     }
 
     protected virtual async Task<Results<FileContentHttpResult, ProblemHttpResult>> GetExportQuery(
+        [FromServices] ISender sender,
         [FromQuery] string? encodedQuery = null,
         [FromServices] CsvConfiguration? csvConfiguration = default,
         [FromServices] JsonSerializerOptions? jsonSerializerOptions = default,
@@ -263,7 +267,7 @@ public abstract class EntityQueryEndpointBase<TKey, TListModel, TReadModel>
 
             var entitySelect = QueryStringEncoder.Decode<EntitySelect>(encodedQuery, jsonSerializerOptions) ?? new EntitySelect();
             var command = new EntitySelectQuery<TListModel>(user, entitySelect);
-            var results = await Mediator.Send(command, cancellationToken).ConfigureAwait(false);
+            var results = await sender.Send(command, cancellationToken).ConfigureAwait(false);
 
             csvConfiguration ??= new CsvConfiguration(CultureInfo.InvariantCulture) { HasHeaderRecord = true };
 
