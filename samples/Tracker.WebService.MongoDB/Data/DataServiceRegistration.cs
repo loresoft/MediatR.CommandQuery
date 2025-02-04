@@ -1,6 +1,5 @@
 using Injectio.Attributes;
 
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using MongoDB.Abstracts;
@@ -14,13 +13,7 @@ public class DataServiceRegistration
     [RegisterServices]
     public void Register(IServiceCollection services)
     {
-        services.AddSingleton(sp =>
-        {
-            var configuration = sp.GetRequiredService<IConfiguration>();
-            return MongoFactory.GetDatabaseFromConnectionString(configuration.GetConnectionString("Tracker"));
-        });
-
-        services.AddSingleton(typeof(IMongoEntityRepository<>), typeof(MongoEntityRepository<>));
+        services.AddMongoRepository("Tracker");
 
         services.AddSingleton<AuditRepository>();
         services.AddSingleton<PriorityRepository>();

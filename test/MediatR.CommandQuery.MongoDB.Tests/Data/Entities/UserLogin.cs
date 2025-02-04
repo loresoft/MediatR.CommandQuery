@@ -8,7 +8,7 @@ public class UserLogin : MongoEntity, IHaveIdentifier<string>, ITrackCreated, IT
 {
     public string EmailAddress { get; set; }
 
-    public Guid? UserId { get; set; }
+    public string UserId { get; set; }
 
     public string UserAgent { get; set; }
 

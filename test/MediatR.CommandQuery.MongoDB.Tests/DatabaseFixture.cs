@@ -56,14 +56,7 @@ public class DatabaseFixture : TestApplicationFixture, IAsyncLifetime
 
         services.TryAddTransient<ITenantResolver<string>, MockTenantResolver>();
 
-        services.AddSingleton(sp =>
-        {
-            var configuration = sp.GetRequiredService<IConfiguration>();
-            var connectionString = configuration.GetConnectionString("Tracker");
-
-            return MongoFactory.GetDatabaseFromConnectionString(connectionString);
-        });
-        services.AddSingleton(typeof(IMongoEntityRepository<>), typeof(MongoEntityRepository<>));
+        services.AddMongoRepository("Tracker");
 
         services.AddAutoMapper(typeof(DatabaseFixture).Assembly);
         services.AddMediator();

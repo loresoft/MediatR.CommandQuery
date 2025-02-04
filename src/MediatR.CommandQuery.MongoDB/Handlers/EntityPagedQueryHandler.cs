@@ -67,11 +67,7 @@ public class EntityPagedQueryHandler<TRepository, TEntity, TKey, TReadModel>
 
     protected virtual async Task<int> QueryTotal(EntityPagedQuery<TReadModel> request, IQueryable<TEntity> query, CancellationToken cancellationToken)
     {
-        var mongoQuery = query as IMongoQueryable<TEntity>;
-
-        return mongoQuery != null
-            ? await mongoQuery.CountAsync(cancellationToken).ConfigureAwait(false)
-            : query.Count();
+        return await query.CountAsync(cancellationToken).ConfigureAwait(false);
     }
 
     protected virtual async Task<IReadOnlyCollection<TReadModel>> QueryPaged(EntityPagedQuery<TReadModel> request, IQueryable<TEntity> query, CancellationToken cancellationToken)
@@ -84,11 +80,7 @@ public class EntityPagedQueryHandler<TRepository, TEntity, TKey, TReadModel>
         if (entityQuery.Page > 0 && entityQuery.PageSize > 0)
             queryable = queryable.Page(entityQuery.Page, entityQuery.PageSize);
 
-        var mongoQuery = queryable as IMongoQueryable<TEntity>;
-
-        var results = mongoQuery != null
-            ? await mongoQuery.ToListAsync(cancellationToken).ConfigureAwait(false)
-            : queryable.ToList();
+        var results = await queryable.ToListAsync(cancellationToken).ConfigureAwait(false);
 
         return Mapper.Map<IList<TEntity>, IReadOnlyCollection<TReadModel>>(results);
     }
