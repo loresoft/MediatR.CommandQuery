@@ -29,6 +29,8 @@ public abstract class EntityDataContextHandlerBase<TContext, TEntity, TKey, TRea
         var model = await DataContext
             .Set<TEntity>()
             .AsNoTracking()
+            .TagWith($"EntityDataContextHandlerBase; Context:{typeof(TContext).Name}, Entity:{typeof(TEntity).Name}, Model:{typeof(TReadModel).Name}")
+            .TagWithCallSite()
             .Where(p => Equals(p.Id, key))
             .ProjectTo<TReadModel>(Mapper.ConfigurationProvider)
             .FirstOrDefaultAsync(cancellationToken)

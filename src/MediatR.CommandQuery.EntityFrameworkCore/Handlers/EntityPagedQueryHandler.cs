@@ -29,7 +29,8 @@ public class EntityPagedQueryHandler<TContext, TEntity, TReadModel>
 
         var query = DataContext
             .Set<TEntity>()
-            .AsNoTracking();
+            .AsNoTracking()
+            .TagWith($"EntityPagedQueryHandler; Context:{typeof(TContext).Name}, Entity:{typeof(TEntity).Name}, Model:{typeof(TReadModel).Name}");
 
         // build query from filter
         query = BuildQuery(request, query);
@@ -73,6 +74,7 @@ public class EntityPagedQueryHandler<TContext, TEntity, TReadModel>
     protected virtual async Task<int> QueryTotal(EntityPagedQuery<TReadModel> request, IQueryable<TEntity> query, CancellationToken cancellationToken)
     {
         return await query
+            .TagWithCallSite()
             .CountAsync(cancellationToken)
             .ConfigureAwait(false);
     }
@@ -88,6 +90,7 @@ public class EntityPagedQueryHandler<TContext, TEntity, TReadModel>
             queryable = queryable.Page(entityQuery.Page, entityQuery.PageSize);
 
         return await queryable
+            .TagWithCallSite()
             .ProjectTo<TReadModel>(Mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken)
             .ConfigureAwait(false);

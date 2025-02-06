@@ -28,6 +28,8 @@ public class EntityIdentifiersQueryHandler<TContext, TEntity, TKey, TReadModel>
         var models = await DataContext
             .Set<TEntity>()
             .AsNoTracking()
+            .TagWith($"EntityIdentifiersQueryHandler; Context:{typeof(TContext).Name}, Entity:{typeof(TEntity).Name}, Model:{typeof(TReadModel).Name}")
+            .TagWithCallSite()
             .Where(p => request.Ids.Contains(p.Id))
             .ProjectTo<TReadModel>(Mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken)
