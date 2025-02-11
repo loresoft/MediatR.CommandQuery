@@ -1,12 +1,9 @@
 using Cosmos.Abstracts;
 
-using MediatR.CommandQuery.Behaviors;
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Cosmos.Handlers;
 using MediatR.CommandQuery.Definitions;
-using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.Queries;
-using MediatR.CommandQuery.Services;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -28,20 +25,7 @@ public static class DomainServiceExtensions
         services.TryAddTransient<IRequestHandler<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>, EntityPagedQueryHandler<TRepository, TEntity, TReadModel>>();
         services.TryAddTransient<IRequestHandler<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>, EntitySelectQueryHandler<TRepository, TEntity, TReadModel>>();
 
-        // pipeline registration, run in order registered
-        bool supportsTenant = typeof(TReadModel).Implements<IHaveTenant<string>>();
-        if (supportsTenant)
-        {
-            services.AddTransient<IPipelineBehavior<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>, TenantPagedQueryBehavior<string, TReadModel>>();
-            services.AddTransient<IPipelineBehavior<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>, TenantSelectQueryBehavior<string, TReadModel>>();
-        }
-
-        bool supportsDeleted = typeof(TReadModel).Implements<ITrackDeleted>();
-        if (supportsDeleted)
-        {
-            services.AddTransient<IPipelineBehavior<EntityPagedQuery<TReadModel>, EntityPagedResult<TReadModel>>, DeletedPagedQueryBehavior<TReadModel>>();
-            services.AddTransient<IPipelineBehavior<EntitySelectQuery<TReadModel>, IReadOnlyCollection<TReadModel>>, DeletedSelectQueryBehavior<TReadModel>>();
-        }
+        services.AddEntityQueryBehaviors<string, TReadModel>();
 
         return services;
     }
@@ -77,20 +61,7 @@ public static class DomainServiceExtensions
         services.TryAddTransient<IRequestHandler<EntityCreateCommand<TCreateModel, TReadModel>, TReadModel>, EntityCreateCommandHandler<TRepository, TEntity, TCreateModel, TReadModel>>();
 
         // pipeline registration, run in order registered
-        var createType = typeof(TCreateModel);
-        bool supportsTenant = createType.Implements<IHaveTenant<string>>();
-        if (supportsTenant)
-        {
-            services.AddTransient<IPipelineBehavior<EntityCreateCommand<TCreateModel, TReadModel>, TReadModel>, TenantDefaultCommandBehavior<string, TCreateModel, TReadModel>>();
-            services.AddTransient<IPipelineBehavior<EntityCreateCommand<TCreateModel, TReadModel>, TReadModel>, TenantAuthenticateCommandBehavior<string, TCreateModel, TReadModel>>();
-        }
-
-        bool supportsTracking = createType.Implements<ITrackCreated>();
-        if (supportsTracking)
-            services.AddTransient<IPipelineBehavior<EntityCreateCommand<TCreateModel, TReadModel>, TReadModel>, TrackChangeCommandBehavior<TCreateModel, TReadModel>>();
-
-        services.AddTransient<IPipelineBehavior<EntityCreateCommand<TCreateModel, TReadModel>, TReadModel>, ValidateEntityModelCommandBehavior<TCreateModel, TReadModel>>();
-        services.AddTransient<IPipelineBehavior<EntityCreateCommand<TCreateModel, TReadModel>, TReadModel>, EntityChangeNotificationBehavior<string, TCreateModel, TReadModel>>();
+        services.AddEntityCreateBehaviors<string, TReadModel, TCreateModel>();
 
         return services;
     }
@@ -109,21 +80,7 @@ public static class DomainServiceExtensions
         // standard crud commands
         services.TryAddTransient<IRequestHandler<EntityUpdateCommand<string, TUpdateModel, TReadModel>, TReadModel>, EntityUpdateCommandHandler<TRepository, TEntity, TUpdateModel, TReadModel>>();
 
-        // pipeline registration, run in order registered
-        var updateType = typeof(TUpdateModel);
-        bool supportsTenant = updateType.Implements<IHaveTenant<string>>();
-        if (supportsTenant)
-        {
-            services.AddTransient<IPipelineBehavior<EntityUpdateCommand<string, TUpdateModel, TReadModel>, TReadModel>, TenantDefaultCommandBehavior<string, TUpdateModel, TReadModel>>();
-            services.AddTransient<IPipelineBehavior<EntityUpdateCommand<string, TUpdateModel, TReadModel>, TReadModel>, TenantAuthenticateCommandBehavior<string, TUpdateModel, TReadModel>>();
-        }
-
-        bool supportsTracking = updateType.Implements<ITrackUpdated>();
-        if (supportsTracking)
-            services.AddTransient<IPipelineBehavior<EntityUpdateCommand<string, TUpdateModel, TReadModel>, TReadModel>, TrackChangeCommandBehavior<TUpdateModel, TReadModel>>();
-
-        services.AddTransient<IPipelineBehavior<EntityUpdateCommand<string, TUpdateModel, TReadModel>, TReadModel>, ValidateEntityModelCommandBehavior<TUpdateModel, TReadModel>>();
-        services.AddTransient<IPipelineBehavior<EntityUpdateCommand<string, TUpdateModel, TReadModel>, TReadModel>, EntityChangeNotificationBehavior<string, TUpdateModel, TReadModel>>();
+        services.AddEntityUpdateBehaviors<string, TReadModel, TUpdateModel>();
 
         return services;
     }
@@ -138,21 +95,7 @@ public static class DomainServiceExtensions
         // standard crud commands
         services.TryAddTransient<IRequestHandler<EntityUpsertCommand<string, TUpdateModel, TReadModel>, TReadModel>, EntityUpsertCommandHandler<TRepository, TEntity, TUpdateModel, TReadModel>>();
 
-        // pipeline registration, run in order registered
-        var updateType = typeof(TUpdateModel);
-        bool supportsTenant = updateType.Implements<IHaveTenant<string>>();
-        if (supportsTenant)
-        {
-            services.AddTransient<IPipelineBehavior<EntityUpsertCommand<string, TUpdateModel, TReadModel>, TReadModel>, TenantDefaultCommandBehavior<string, TUpdateModel, TReadModel>>();
-            services.AddTransient<IPipelineBehavior<EntityUpsertCommand<string, TUpdateModel, TReadModel>, TReadModel>, TenantAuthenticateCommandBehavior<string, TUpdateModel, TReadModel>>();
-        }
-
-        bool supportsTracking = updateType.Implements<ITrackUpdated>();
-        if (supportsTracking)
-            services.AddTransient<IPipelineBehavior<EntityUpsertCommand<string, TUpdateModel, TReadModel>, TReadModel>, TrackChangeCommandBehavior<TUpdateModel, TReadModel>>();
-
-        services.AddTransient<IPipelineBehavior<EntityUpsertCommand<string, TUpdateModel, TReadModel>, TReadModel>, ValidateEntityModelCommandBehavior<TUpdateModel, TReadModel>>();
-        services.AddTransient<IPipelineBehavior<EntityUpsertCommand<string, TUpdateModel, TReadModel>, TReadModel>, EntityChangeNotificationBehavior<string, TUpdateModel, TReadModel>>();
+        services.AddEntityUpsertBehaviors<string, TReadModel, TUpdateModel>();
 
         return services;
     }
@@ -166,8 +109,7 @@ public static class DomainServiceExtensions
         // standard crud commands
         services.TryAddTransient<IRequestHandler<EntityPatchCommand<string, TReadModel>, TReadModel>, EntityPatchCommandHandler<TRepository, TEntity, TReadModel>>();
 
-        // pipeline registration, run in order registered
-        services.AddTransient<IPipelineBehavior<EntityPatchCommand<string, TReadModel>, TReadModel>, EntityChangeNotificationBehavior<string, TEntity, TReadModel>>();
+        services.AddEntityPatchBehaviors<string, TEntity, TReadModel>();
 
         return services;
     }
@@ -181,8 +123,7 @@ public static class DomainServiceExtensions
         // standard crud commands
         services.TryAddTransient<IRequestHandler<EntityDeleteCommand<string, TReadModel>, TReadModel>, EntityDeleteCommandHandler<TRepository, TEntity, TReadModel>>();
 
-        // pipeline registration, run in order registered
-        services.AddTransient<IPipelineBehavior<EntityDeleteCommand<string, TReadModel>, TReadModel>, EntityChangeNotificationBehavior<string, TEntity, TReadModel>>();
+        services.AddEntityDeleteBehaviors<string, TEntity, TReadModel>();
 
         return services;
     }
