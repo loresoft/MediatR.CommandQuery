@@ -13,6 +13,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{63F0C18C-13A5-4D95-9365-47215BCDADF4}"
 	ProjectSection(SolutionItems) = preProject
 		coverlet.runsettings = coverlet.runsettings
+		.github\dependabot.yml = .github\dependabot.yml
 		src\Directory.Build.props = src\Directory.Build.props
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		README.md = README.md
