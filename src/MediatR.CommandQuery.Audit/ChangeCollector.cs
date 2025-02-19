@@ -122,7 +122,7 @@ public partial class ChangeCollector<TKey, TEntity> : IChangeCollector<TKey, TEn
         TEntity? previous = default;
         int index = 0;
 
-        var displayName = entityName.ToSpacedWords();
+        var displayName = entityName.ToTitle();
 
         foreach (var current in entityList)
         {

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EntityChange" Version="5.3.2" />
+    <PackageReference Include="EntityChange" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
