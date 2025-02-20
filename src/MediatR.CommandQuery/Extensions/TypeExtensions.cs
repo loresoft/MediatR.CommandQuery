@@ -10,7 +10,7 @@ public static class TypeExtensions
     /// </summary>
     /// <typeparam name="TInterface">The type of the interface.</typeparam>
     /// <param name="type">The type to check.</param>
-    /// <returns><c>true</c> if type implements the interface; otherwise <c>false</c></returns>
+    /// <returns><see langword="true"/> if type implements the interface; otherwise <see langword="false"/></returns>
     /// <exception cref="InvalidOperationException">Only interfaces can be implemented.</exception>
     public static bool Implements<TInterface>(this Type type)
         where TInterface : class
