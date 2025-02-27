@@ -99,11 +99,19 @@ public static partial class StringExtensions
         if (string.IsNullOrEmpty(second))
             return first;
 
-        bool hasSeparator = first[^1] == separator || second[0] == separator;
+        var firstEndsWith = first[^1] == separator;
+        var secondStartsWith = second[0] == separator;
 
-        return hasSeparator
-            ? string.Concat(first, second)
-            : $"{first}{separator}{second}";
+        if (firstEndsWith && !secondStartsWith)
+            return string.Concat(first, second);
+
+        if (!firstEndsWith && secondStartsWith)
+            return string.Concat(first, second);
+
+        if (firstEndsWith && secondStartsWith)
+            return string.Concat(first, second[1..]);
+
+        return $"{first}{separator}{second}";
     }
 
     /// <summary>
