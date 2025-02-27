@@ -2,6 +2,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
 
+using MediatR.CommandQuery.Services;
+
 namespace MediatR.CommandQuery.Extensions;
 
 /// <summary>
@@ -127,7 +129,7 @@ public static partial class StringExtensions
 
         var words = WordsExpression().Matches(text);
 
-        var builder = new StringBuilder();
+        var builder = StringBuilderCache.Acquire(text.Length + 10);
         foreach (Match word in words)
         {
             if (builder.Length > 0)
@@ -136,6 +138,6 @@ public static partial class StringExtensions
             builder.Append(word.Value);
         }
 
-        return builder.ToString();
+        return StringBuilderCache.ToString(builder);
     }
 }
