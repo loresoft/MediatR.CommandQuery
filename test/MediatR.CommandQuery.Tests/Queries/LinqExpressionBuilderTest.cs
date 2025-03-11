@@ -25,11 +25,11 @@ public class LinqExpressionBuilderTest
         var entityFilter = new EntityFilter
         {
             Logic = "or",
-            Filters = new List<EntityFilter>
-            {
+            Filters =
+            [
                 new EntityFilter{ Name = "Rank", Value = 7 },
                 new EntityFilter{ Name = "Name", Value = "Apple" }
-            }
+            ]
         };
 
         var builder = new LinqExpressionBuilder();
@@ -48,11 +48,11 @@ public class LinqExpressionBuilderTest
     {
         var entityFilter = new EntityFilter
         {
-            Filters = new List<EntityFilter>
-            {
+            Filters =
+            [
                 new EntityFilter{ Name = "Rank", Value = 7 },
                 new EntityFilter{ Name = "Name", Value = "Blueberry" }
-            }
+            ]
 
         };
 
@@ -68,23 +68,46 @@ public class LinqExpressionBuilderTest
     }
 
     [Fact]
+    public void FilterLogicalAndEmpty()
+    {
+        var entityFilter = new EntityFilter
+        {
+            Filters =
+            [
+                new EntityFilter(),
+                new EntityFilter{ Name = "Name", Value = "Blueberry" }
+            ]
+
+        };
+
+        var builder = new LinqExpressionBuilder();
+        builder.Build(entityFilter);
+
+        builder.Expression.Should().NotBeEmpty();
+        builder.Expression.Should().Be("(Name == @0)");
+
+        builder.Parameters.Count.Should().Be(1);
+        builder.Parameters[0].Should().Be("Blueberry");
+    }
+
+    [Fact]
     public void FilterComplex()
     {
         var entityFilter = new EntityFilter
         {
-            Filters = new List<EntityFilter>
-            {
+            Filters =
+            [
                 new EntityFilter{ Name = "Rank", Operator = ">", Value = 5 },
                 new EntityFilter
                 {
                     Logic = "or",
-                    Filters = new List<EntityFilter>
-                    {
+                    Filters =
+                    [
                         new EntityFilter{ Name = "Name", Value = "Strawberry" },
                         new EntityFilter{ Name = "Name", Value = "Blueberry" }
-                    }
+                    ]
                 }
-            }
+            ]
         };
 
         var builder = new LinqExpressionBuilder();
@@ -97,6 +120,36 @@ public class LinqExpressionBuilderTest
         builder.Parameters[0].Should().Be(5);
         builder.Parameters[1].Should().Be("Strawberry");
         builder.Parameters[2].Should().Be("Blueberry");
+    }
+
+    [Fact]
+    public void FilterComplexEmpty()
+    {
+        var entityFilter = new EntityFilter
+        {
+            Filters =
+            [
+                new EntityFilter{ Name = "Rank", Operator = ">", Value = 5 },
+                new EntityFilter
+                {
+                    Logic = "or",
+                    Filters =
+                    [
+                        new EntityFilter(),
+                        new EntityFilter()
+                    ]
+                }
+            ]
+        };
+
+        var builder = new LinqExpressionBuilder();
+        builder.Build(entityFilter);
+
+        builder.Expression.Should().NotBeEmpty();
+        builder.Expression.Should().Be("(Rank > @0)");
+
+        builder.Parameters.Count.Should().Be(1);
+        builder.Parameters[0].Should().Be(5);
     }
 
     [Fact]

@@ -26,7 +26,7 @@ public class LinqExpressionBuilder
     };
 
     private readonly StringBuilder _expression = new();
-    private readonly List<object?> _values = new();
+    private readonly List<object?> _values = [];
 
     /// <summary>
     /// Gets the expression parameters.
@@ -68,6 +68,7 @@ public class LinqExpressionBuilder
         WriteExpression(entityFilter);
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "MA0051:Method is too long", Justification = "Expression Logic")]
     private void WriteExpression(EntityFilter entityFilter)
     {
         // name require for expression
@@ -137,10 +138,8 @@ public class LinqExpressionBuilder
     private bool WriteGroup(EntityFilter entityFilter)
     {
         // check for group start
-        var filters = entityFilter.Filters;
-
-        var hasGroup = filters?.Count > 0;
-        if (!hasGroup)
+        var filters = entityFilter.Filters?.Where(f => f.IsValid());
+        if (filters?.Any() != true)
             return false;
 
         var logic = string.IsNullOrWhiteSpace(entityFilter.Logic)
@@ -148,9 +147,6 @@ public class LinqExpressionBuilder
             : entityFilter.Logic;
 
         var wroteFirst = false;
-
-        if (filters == null)
-            return false;
 
         _expression.Append('(');
         foreach (var filter in filters)

@@ -22,6 +22,7 @@ public class EntityFilter
     [JsonPropertyName("filters")]
     public IList<EntityFilter>? Filters { get; set; }
 
+    public bool IsValid() => (Filters?.Any(f => f.IsValid()) == true) || (Name is not null);
 
     public override int GetHashCode()
     {
