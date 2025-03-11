@@ -14,4 +14,5 @@ public static class EntityFilterOperators
     public const string In = "in";
     public const string IsNull = "IsNull";
     public const string IsNotNull = "IsNotNull";
+    public const string Expression = "Expression";
 }

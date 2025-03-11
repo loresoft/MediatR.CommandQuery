@@ -117,6 +117,15 @@ public class LinqExpressionBuilder
             _expression.Append(negation).Append("it.").Append(name).Append(" in @").Append(index);
             _values.Add(value);
         }
+        else if (comparison.EndsWith(EntityFilterOperators.Expression, StringComparison.OrdinalIgnoreCase))
+        {
+            // clean up parameter
+            var expression = index == 0 ? name : name.Replace("@0", $"@{index}", StringComparison.OrdinalIgnoreCase);
+
+            // use raw expression
+            _expression.Append(negation).Append(expression);
+            _values.Add(value);
+        }
         else
         {
             _expression.Append(name).Append(' ').Append(comparison).Append(" @").Append(index);

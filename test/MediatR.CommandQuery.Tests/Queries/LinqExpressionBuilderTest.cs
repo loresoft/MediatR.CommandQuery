@@ -289,4 +289,57 @@ public class LinqExpressionBuilderTest
 
         builder.Parameters.Count.Should().Be(0);
     }
+
+    [Fact]
+    public void FilterExpression()
+    {
+        var entityFilter = new EntityFilter
+        {
+            Name = "Locations.Any(it.Id in @0)",
+            Operator = EntityFilterOperators.Expression,
+            Value = new[] { 100, 200 }
+        };
+        var builder = new LinqExpressionBuilder();
+        builder.Build(entityFilter);
+
+        builder.Expression.Should().NotBeEmpty();
+        builder.Expression.Should().Be("Locations.Any(it.Id in @0)");
+
+        builder.Parameters.Count.Should().Be(1);
+        builder.Parameters[0].Should().BeOfType<int[]>();
+    }
+
+    [Fact]
+    public void FilterExpressionComplex()
+    {
+        var entityFilter = new EntityFilter
+        {
+            Logic = EntityFilterLogic.And,
+            Filters =
+            [
+                new EntityFilter
+                {
+                    Name = "Id",
+                    Value = new[] { 1000, 1001 },
+                    Operator = EntityFilterOperators.In
+                },
+                new EntityFilter
+                {
+                    Name = "Locations.Any(it.Id in @0)",
+                    Value = new[] { 100, 200 },
+                    Operator = EntityFilterOperators.Expression
+                }
+            ]
+        };
+
+        var builder = new LinqExpressionBuilder();
+        builder.Build(entityFilter);
+
+        builder.Expression.Should().NotBeEmpty();
+        builder.Expression.Should().Be("(it.Id in @0 and Locations.Any(it.Id in @1))");
+
+        builder.Parameters.Count.Should().Be(2);
+        builder.Parameters[0].Should().BeOfType<int[]>();
+        builder.Parameters[1].Should().BeOfType<int[]>();
+    }
 }

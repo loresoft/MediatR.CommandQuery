@@ -6,37 +6,37 @@ namespace MediatR.CommandQuery.Services;
 
 public static class QueryStringEncoder
 {
-    public static string? Encode<T>(T value, JsonSerializerOptions? jsonSerializerOptions = null)
+    public static string? Encode<T>(T value, JsonSerializerOptions? options = null)
     {
         if (value is null)
             return null;
 
-        jsonSerializerOptions ??= new JsonSerializerOptions(JsonSerializerDefaults.Web);
+        options ??= new JsonSerializerOptions(JsonSerializerDefaults.Web);
 
         using var outputStream = new MemoryStream();
         using var compressionStream = new GZipStream(outputStream, CompressionMode.Compress);
         using var jsonWriter = new Utf8JsonWriter(compressionStream);
 
-        JsonSerializer.Serialize(jsonWriter, value);
+        JsonSerializer.Serialize(jsonWriter, value, options);
 
         var jsonBytes = outputStream.ToArray();
 
         return Base64UrlEncode(jsonBytes);
     }
 
-    public static T? Decode<T>(string? encodedQueryString, JsonSerializerOptions? jsonSerializerOptions = null)
+    public static T? Decode<T>(string? encodedQueryString, JsonSerializerOptions? options = null)
     {
         if (string.IsNullOrWhiteSpace(encodedQueryString))
             return default;
 
         var jsonBytes = Base64UrlDecode(encodedQueryString);
 
-        jsonSerializerOptions ??= new JsonSerializerOptions(JsonSerializerDefaults.Web);
+        options ??= new JsonSerializerOptions(JsonSerializerDefaults.Web);
 
         using var inputStream = new MemoryStream(jsonBytes);
         using var compressionStream = new GZipStream(inputStream, CompressionMode.Decompress);
 
-        return JsonSerializer.Deserialize<T>(compressionStream, jsonSerializerOptions);
+        return JsonSerializer.Deserialize<T>(compressionStream, options);
     }
 
 
