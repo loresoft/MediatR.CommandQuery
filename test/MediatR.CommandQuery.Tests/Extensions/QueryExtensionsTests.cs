@@ -170,9 +170,11 @@ public class QueryExtensionsTests
         var fruits = Fruit.Data();
         fruits.Should().NotBeEmpty();
 
+        EntitySort? sort = null;
+
         var list = fruits
             .AsQueryable()
-            .Sort((EntitySort)null)
+            .Sort(sort)
             .ToList();
 
         list.Should().NotBeEmpty();

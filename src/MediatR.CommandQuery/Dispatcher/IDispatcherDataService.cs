@@ -41,6 +41,7 @@ public interface IDispatcherDataService
 
     Task<IEnumerable<TModel>> Search<TModel>(
         string searchText,
+        EntityFilter? entityFilter = null,
         CancellationToken cancellationToken = default)
         where TModel : class, ISupportSearch;
 

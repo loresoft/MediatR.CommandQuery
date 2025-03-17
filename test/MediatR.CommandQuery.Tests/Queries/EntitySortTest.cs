@@ -14,7 +14,7 @@ public class EntitySortTest : UnitTestBase
     [InlineData("Name : Descending", "Name", "Descending")]
     [InlineData("Name", "Name", null)]
     [InlineData("", null, null)]
-    public void Parse(string source, string name, string direction)
+    public void Parse(string source, string? name, string? direction)
     {
         var sort = EntitySort.Parse(source);
 

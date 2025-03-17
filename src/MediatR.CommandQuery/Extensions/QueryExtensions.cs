@@ -64,7 +64,7 @@ public static class QueryExtensions
     /// <param name="query">The query to apply the sort.</param>
     /// <param name="filter">The filter to apply.</param>
     /// <returns>An <see cref="IQueryable{T}"/> with the filter applied.</returns>
-    public static IQueryable<T> Filter<T>(this IQueryable<T> query, EntityFilter filter)
+    public static IQueryable<T> Filter<T>(this IQueryable<T> query, EntityFilter? filter)
     {
         if (filter is null)
             return query;

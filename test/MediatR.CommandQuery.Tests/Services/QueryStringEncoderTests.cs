@@ -18,7 +18,7 @@ public class QueryStringEncoderTests
 
         var resultSelect = QueryStringEncoder.Decode<EntitySelect>(queryString);
         resultSelect.Should().NotBeNull();
-
+        resultSelect.Filter.Should().NotBeNull();
         resultSelect.Filter.Name.Should().Be("Description");
         resultSelect.Filter.Operator.Should().Be("IsNull");
 

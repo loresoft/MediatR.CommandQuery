@@ -8,7 +8,7 @@ public class EntityUpdateCommandTests
     [Fact]
     public void ConstructorNullModel()
     {
-        Action act = () => new EntityUpdateCommand<Guid, LocationUpdateModel, LocationReadModel>(null, Guid.Empty, null);
+        Action act = () => new EntityUpdateCommand<Guid, LocationUpdateModel, LocationReadModel>(null, Guid.Empty, null!);
         act.Should().Throw<ArgumentNullException>();
     }
 

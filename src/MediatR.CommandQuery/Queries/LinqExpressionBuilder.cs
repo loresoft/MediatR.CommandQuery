@@ -49,7 +49,7 @@ public class LinqExpressionBuilder
     /// Builds a string base Linq expression from the specified <see cref="EntityFilter"/>.
     /// </summary>
     /// <param name="entityFilter">The entity filter to build expression from.</param>
-    public void Build(EntityFilter entityFilter)
+    public void Build(EntityFilter? entityFilter)
     {
         _expression.Length = 0;
         _values.Clear();

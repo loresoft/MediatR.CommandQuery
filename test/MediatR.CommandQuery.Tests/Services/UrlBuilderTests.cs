@@ -1,4 +1,4 @@
-﻿namespace MediatR.CommandQuery.Services.Tests;
+namespace MediatR.CommandQuery.Services.Tests;
 
 public class UrlBuilderTests
 {
@@ -52,7 +52,7 @@ public class UrlBuilderTests
     [InlineData("http://foo/bar/baz?date=today", "?", "http://foo/bar/baz")]
     [InlineData("http://foo/bar/baz?date=today", "&", "http://foo/bar/baz?=&=")]
     [InlineData("foo/bar/baz?date=today", "&", "foo/bar/baz?=&=")]
-    public void SetQueryEmpty(string url, string query, string expected)
+    public void SetQueryEmpty(string url, string? query, string expected)
     {
         var builder = new UrlBuilder(url);
         builder.Should().NotBeNull();
@@ -122,7 +122,7 @@ public class UrlBuilderTests
     [InlineData("http://foo.com/bar/baz", null, "http://foo.com/")]
     [InlineData("http://foo.com/bar/baz", "", "http://foo.com/")]
     [InlineData("http://foo.com/bar/baz", "/", "http://foo.com/")]
-    public void SetPathEmpty(string url, string path, string expected)
+    public void SetPathEmpty(string url, string? path, string expected)
     {
         var builder = new UrlBuilder(url);
         builder.Should().NotBeNull();

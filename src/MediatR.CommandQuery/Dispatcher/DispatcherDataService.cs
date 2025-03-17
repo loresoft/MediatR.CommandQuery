@@ -2,6 +2,7 @@ using System.Security.Claims;
 
 using MediatR.CommandQuery.Commands;
 using MediatR.CommandQuery.Definitions;
+using MediatR.CommandQuery.Extensions;
 using MediatR.CommandQuery.Queries;
 
 namespace MediatR.CommandQuery.Dispatcher;
@@ -100,13 +101,16 @@ public class DispatcherDataService : IDispatcherDataService
 
     public async Task<IEnumerable<TModel>> Search<TModel>(
         string searchText,
+        EntityFilter? entityFilter = null,
         CancellationToken cancellationToken = default)
         where TModel : class, ISupportSearch
     {
-        var filter = EntityFilterBuilder.CreateSearchFilter(TModel.SearchFields(), searchText);
+        var searchFilter = EntityFilterBuilder.CreateSearchFilter(TModel.SearchFields(), searchText);
         var sort = new EntitySort { Name = TModel.SortField() };
 
-        var select = new EntitySelect(filter, sort);
+        var groupFilter = EntityFilterBuilder.CreateGroup(entityFilter, searchFilter);
+
+        var select = new EntitySelect(groupFilter, sort);
 
         var user = await GetUser(cancellationToken).ConfigureAwait(false);
 

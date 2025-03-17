@@ -13,6 +13,7 @@ public class EntityFilterJsonTests
 
         var filter = JsonSerializer.Deserialize<EntityFilter>(json);
 
+        filter.Should().NotBeNull();
         filter.Name.Should().Be("Name");
         filter.Operator.Should().Be("eq");
 
@@ -27,6 +28,7 @@ public class EntityFilterJsonTests
 
         var filter = JsonSerializer.Deserialize<EntityFilter>(json);
 
+        filter.Should().NotBeNull();
         filter.Value.Should().BeOfType<bool>();
         filter.Value.Should().Be(true);
     }
@@ -38,6 +40,7 @@ public class EntityFilterJsonTests
 
         var filter = JsonSerializer.Deserialize<EntityFilter>(json);
 
+        filter.Should().NotBeNull();
         filter.Value.Should().BeOfType<double>();
         filter.Value.Should().Be(123);
     }
@@ -48,6 +51,8 @@ public class EntityFilterJsonTests
     {
         var json = "{\"page\":1,\"pageSize\":20,\"sort\":[{\"name\":\"Name\",\"direction\":\"asc\"}],\"filter\":{\"logic\":\"or\",\"filters\":[{\"name\":\"Name\",\"operator\":\"eq\",\"value\":\"test\"},{\"name\":\"Description\",\"operator\":\"eq\",\"value\":\"test\"}]}}";
         var query = JsonSerializer.Deserialize<EntityQuery>(json);
+
+        query.Should().NotBeNull();
 
         query.Page.Should().Be(1);
         query.PageSize.Should().Be(20);

@@ -10,7 +10,7 @@ public class EntityPatchCommandTests
     [Fact]
     public void ConstructorNullModel()
     {
-        Action act = () => new EntityPatchCommand<Guid, LocationReadModel>(null, Guid.Empty, null);
+        Action act = () => new EntityPatchCommand<Guid, LocationReadModel>(null, Guid.Empty, null!);
         act.Should().Throw<ArgumentNullException>();
     }
 

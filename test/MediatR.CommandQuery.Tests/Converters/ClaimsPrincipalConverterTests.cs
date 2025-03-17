@@ -22,8 +22,9 @@ public class ClaimsPrincipalConverterTests
         var result = JsonSerializer.Deserialize<ClaimsPrincipal>(json, options);
         result.Should().NotBeNull();
 
-        result.Identity.AuthenticationType.Should().Be(principal.Identity.AuthenticationType);
-        result.Identity.Name.Should().Be(principal.Identity.Name);
+        result.Identity.Should().NotBeNull();
+        result.Identity.AuthenticationType.Should().Be(principal.Identity?.AuthenticationType);
+        result.Identity.Name.Should().Be(principal.Identity?.Name);
         result.Claims.Should().HaveCount(principal.Claims.Count());
     }
 
@@ -41,8 +42,9 @@ public class ClaimsPrincipalConverterTests
         var result = JsonSerializer.Deserialize<ClaimsPrincipal>(json, options);
         result.Should().NotBeNull();
 
-        result.Identity.AuthenticationType.Should().Be(principal.Identity.AuthenticationType);
-        result.Identity.Name.Should().Be(principal.Identity.Name);
+        result.Identity.Should().NotBeNull();
+        result.Identity.AuthenticationType.Should().Be(principal.Identity?.AuthenticationType);
+        result.Identity.Name.Should().Be(principal.Identity?.Name);
         result.Claims.Should().HaveCount(principal.Claims.Count());
     }
 }

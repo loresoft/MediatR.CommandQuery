@@ -8,7 +8,7 @@ public class EntityCreateCommandTests
     [Fact]
     public void ConstructorNullModel()
     {
-        Action act = () => new EntityCreateCommand<LocationCreateModel, LocationReadModel>(null, null);
+        Action act = () => new EntityCreateCommand<LocationCreateModel, LocationReadModel>(null, null!);
         act.Should().Throw<ArgumentNullException>();
     }
 
