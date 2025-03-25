@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace MediatR.CommandQuery.Notifications;
 
 /// <summary>
@@ -25,6 +27,7 @@ public class EntityChangeNotification<TEntityModel> : INotification
     /// <value>
     /// The model that has changed.
     /// </value>
+    [JsonPropertyName("model")]
     public TEntityModel Model { get; }
 
     /// <summary>
@@ -33,5 +36,7 @@ public class EntityChangeNotification<TEntityModel> : INotification
     /// <value>
     /// The type of change operation.
     /// </value>
+    [JsonPropertyName("operation")]
+    [JsonConverter(typeof(JsonStringEnumConverter<EntityChangeOperation>))]
     public EntityChangeOperation Operation { get; }
 }

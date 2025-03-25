@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
 
 namespace MediatR.CommandQuery.Commands;
 
@@ -31,5 +32,6 @@ public abstract record EntityIdentifiersCommand<TKey, TResponse>
     /// <value>
     /// The list of identifiers for this command.
     /// </value>
+    [JsonPropertyName("ids")]
     public IReadOnlyCollection<TKey> Ids { get; }
 }

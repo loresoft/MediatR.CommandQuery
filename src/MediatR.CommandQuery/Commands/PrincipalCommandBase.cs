@@ -31,7 +31,9 @@ public abstract record PrincipalCommandBase<TResponse> : IRequest<TResponse>
     /// <value>
     /// The <see cref="ClaimsPrincipal"/> this command is run for.
     /// </value>
+    [JsonPropertyName("principal")]
     [JsonConverter(typeof(ClaimsPrincipalConverter))]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ClaimsPrincipal? Principal { get; }
 
     /// <summary>

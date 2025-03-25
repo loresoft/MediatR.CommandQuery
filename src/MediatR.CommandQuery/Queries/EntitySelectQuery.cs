@@ -35,6 +35,7 @@ public record EntitySelectQuery<TReadModel> : CacheableQueryBase<IReadOnlyCollec
         Select = select ?? new EntitySelect();
     }
 
+    [JsonPropertyName("select")]
     public EntitySelect Select { get; }
 
 

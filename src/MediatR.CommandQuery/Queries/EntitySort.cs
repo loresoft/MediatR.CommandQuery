@@ -8,6 +8,7 @@ public class EntitySort
     public string Name { get; set; } = null!;
 
     [JsonPropertyName("direction")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Direction { get; set; }
 
 

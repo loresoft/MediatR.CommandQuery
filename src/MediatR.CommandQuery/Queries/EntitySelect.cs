@@ -41,12 +41,15 @@ public class EntitySelect
     }
 
     [JsonPropertyName("query")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Query { get; set; }
 
     [JsonPropertyName("sort")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IList<EntitySort>? Sort { get; set; }
 
     [JsonPropertyName("filter")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public EntityFilter? Filter { get; set; }
 
     public override int GetHashCode()

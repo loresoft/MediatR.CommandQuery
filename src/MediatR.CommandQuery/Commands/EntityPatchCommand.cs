@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
 
 using MediatR.CommandQuery.Definitions;
 using MediatR.CommandQuery.Services;
@@ -38,6 +39,7 @@ public record EntityPatchCommand<TKey, TReadModel>
     /// <value>
     /// The patch.
     /// </value>
+    [JsonPropertyName("patch")]
     public JsonPatchDocument Patch { get; }
 
     /// <inheritdoc />

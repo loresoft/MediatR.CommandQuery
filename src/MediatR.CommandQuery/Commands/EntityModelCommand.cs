@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
 
 namespace MediatR.CommandQuery.Commands;
 
@@ -34,5 +35,6 @@ public abstract record EntityModelCommand<TEntityModel, TReadModel>
     /// The view model to use for this command.
     /// </value>
     [NotNull]
+    [JsonPropertyName("model")]
     public TEntityModel Model { get; }
 }

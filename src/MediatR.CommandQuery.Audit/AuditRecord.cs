@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 using EntityChange;
 
@@ -16,7 +17,9 @@ public class AuditRecord<TKey>
     /// <value>
     /// The key for the entity.
     /// </value>
-    [NotNull] public TKey Key { get; set; } = default!;
+    [NotNull]
+    [JsonPropertyName("key")]
+    public TKey Key { get; set; } = default!;
 
     /// <summary>
     /// Gets or sets the entity name.
@@ -24,6 +27,7 @@ public class AuditRecord<TKey>
     /// <value>
     /// The entity name.
     /// </value>
+    [JsonPropertyName("entity")]
     public string Entity { get; set; } = null!;
 
     /// <summary>
@@ -32,6 +36,8 @@ public class AuditRecord<TKey>
     /// <value>
     /// The entity display name.
     /// </value>
+    [JsonPropertyName("displayName")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? DisplayName { get; set; }
 
     /// <summary>
@@ -40,22 +46,27 @@ public class AuditRecord<TKey>
     /// <value>
     /// The description of the entity.
     /// </value>
+    [JsonPropertyName("description")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Gets or sets the date the change activity occured.
+    /// Gets or sets the date the change activity occurred.
     /// </summary>
     /// <value>
-    /// The date the change activity occured.
+    /// The date the change activity occurred.
     /// </value>
+    [JsonPropertyName("activityDate")]
     public DateTimeOffset ActivityDate { get; set; }
 
     /// <summary>
-    /// Gets or sets the username that initiated the activity.
+    /// Gets or sets the user name that initiated the activity.
     /// </summary>
     /// <value>
-    /// The username that initiated the activity.
+    /// The user name that initiated the activity.
     /// </value>
+    [JsonPropertyName("activityBy")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ActivityBy { get; set; }
 
     /// <summary>
@@ -64,6 +75,8 @@ public class AuditRecord<TKey>
     /// <value>
     /// The type of operation.
     /// </value>
+    [JsonPropertyName("operation")]
+    [JsonConverter(typeof(JsonStringEnumConverter<AuditOperation>))]
     public AuditOperation Operation { get; set; }
 
     /// <summary>
@@ -72,6 +85,7 @@ public class AuditRecord<TKey>
     /// <value>
     /// The list of changes.
     /// </value>
+    [JsonPropertyName("changes")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IReadOnlyCollection<ChangeRecord>? Changes { get; set; }
-
 }

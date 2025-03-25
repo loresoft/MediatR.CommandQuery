@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
 
 using MediatR.CommandQuery.Services;
 
@@ -16,6 +17,7 @@ public record EntityIdentifiersQuery<TKey, TReadModel> : CacheableQueryBase<IRea
     }
 
     [NotNull]
+    [JsonPropertyName("ids")]
     public IReadOnlyCollection<TKey> Ids { get; }
 
     public override string GetCacheKey()

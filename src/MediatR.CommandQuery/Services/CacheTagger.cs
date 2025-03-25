@@ -40,6 +40,7 @@ public static class CacheTagger
         public const string Identifier = "id";
         public const string Identifiers = "ids";
         public const string Paged = "page";
+        public const string Continuation = "continue";
         public const string List = "list";
     }
 }

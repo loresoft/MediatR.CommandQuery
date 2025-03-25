@@ -19,7 +19,7 @@ public class EntityQuery : EntitySelect
     }
 
     public EntityQuery(EntityFilter? filter, int page = 1, int pageSize = 20)
-        : this(filter, Enumerable.Empty<EntitySort>(), page, pageSize)
+        : this(filter, [], page, pageSize)
     {
     }
 
@@ -40,7 +40,6 @@ public class EntityQuery : EntitySelect
 
     [JsonPropertyName("pageSize")]
     public int PageSize { get; set; }
-
 
     public override int GetHashCode()
     {

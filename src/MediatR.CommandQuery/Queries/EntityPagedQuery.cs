@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Text.Json.Serialization;
 
 using MediatR.CommandQuery.Services;
 
@@ -12,6 +13,7 @@ public record EntityPagedQuery<TReadModel> : CacheableQueryBase<EntityPagedResul
         Query = query ?? new EntityQuery();
     }
 
+    [JsonPropertyName("query")]
     public EntityQuery Query { get; }
 
 

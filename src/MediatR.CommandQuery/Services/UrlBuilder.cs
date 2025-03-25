@@ -1,4 +1,5 @@
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -112,7 +113,7 @@ public sealed partial class UrlBuilder
     /// <value>
     /// The path segment collection to the resource referenced by the Url.
     /// </value>
-    public List<string> Path { get; } = [];
+    public IList<string> Path { get; } = [];
 
     /// <summary>
     /// Gets the query string dictionary information included in the Url.
@@ -226,7 +227,7 @@ public sealed partial class UrlBuilder
     /// <returns></returns>
     public UrlBuilder SetPort(string? value)
     {
-        if (!string.IsNullOrEmpty(value) && int.TryParse(value, out int port))
+        if (!string.IsNullOrEmpty(value) && int.TryParse(value, CultureInfo.InvariantCulture, out int port))
             return SetPort(port);
 
         Port = null;

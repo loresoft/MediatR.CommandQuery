@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
 
 namespace MediatR.CommandQuery.Commands;
 
@@ -32,5 +33,6 @@ public abstract record EntityIdentifierCommand<TKey, TResponse>
     /// The identifier for this command.
     /// </value>
     [NotNull]
+    [JsonPropertyName("id")]
     public TKey Id { get; }
 }

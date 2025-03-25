@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 using MediatR.CommandQuery.Definitions;
 
@@ -13,5 +14,7 @@ public class EntityIdentifierModel<TKey> : IHaveIdentifier<TKey>
 {
     /// <inheritdoc />
     [NotNull]
+    [JsonPropertyName("id")]
+    [JsonPropertyOrder(-9999)]
     public TKey Id { get; set; } = default!;
 }

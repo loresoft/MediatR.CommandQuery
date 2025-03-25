@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace MediatR.CommandQuery.Models;
 
 /// <summary>
@@ -11,6 +13,7 @@ public class CompleteModel
     /// <value>
     ///   <c>true</c> if was successful; otherwise, <c>false</c>.
     /// </value>
+    [JsonPropertyName("successful")]
     public bool Successful { get; set; }
 
     /// <summary>
@@ -19,6 +22,8 @@ public class CompleteModel
     /// <value>
     /// The operation result message.
     /// </value>
+    [JsonPropertyName("message")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Message { get; set; }
 
     /// <summary>

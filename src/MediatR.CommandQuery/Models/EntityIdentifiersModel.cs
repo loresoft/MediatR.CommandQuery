@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace MediatR.CommandQuery.Models;
 
@@ -15,5 +16,6 @@ public class EntityIdentifiersModel<TKey>
     /// The list of identifiers.
     /// </value>
     [NotNull]
+    [JsonPropertyName("ids")]
     public IReadOnlyCollection<TKey> Ids { get; set; } = null!;
 }
