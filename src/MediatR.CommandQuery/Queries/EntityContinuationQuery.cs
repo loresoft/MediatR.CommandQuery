@@ -7,15 +7,19 @@ namespace MediatR.CommandQuery.Queries;
 
 public record EntityContinuationQuery<TReadModel> : CacheableQueryBase<EntityContinuationResult<TReadModel>>
 {
-    public EntityContinuationQuery(ClaimsPrincipal? principal, EntitySelect? query, string? continuationToken = null)
+    public EntityContinuationQuery(ClaimsPrincipal? principal, EntitySelect? query, int pageSize = 10, string? continuationToken = null)
         : base(principal)
     {
         Query = query ?? new EntitySelect();
+        PageSize = pageSize;
         ContinuationToken = continuationToken;
     }
 
     [JsonPropertyName("query")]
     public EntitySelect Query { get; }
+
+    [JsonPropertyName("pageSize")]
+    public int PageSize { get; }
 
     [JsonPropertyName("continuationToken")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -25,7 +29,7 @@ public record EntityContinuationQuery<TReadModel> : CacheableQueryBase<EntityCon
         => CacheTagger.GetKey<TReadModel, int>
         (
             bucket: CacheTagger.Buckets.Continuation,
-            value: HashCode.Combine(Query.GetHashCode(), ContinuationToken)
+            value: HashCode.Combine(Query.GetHashCode(), PageSize, ContinuationToken)
         );
 
     public override string? GetCacheTag()

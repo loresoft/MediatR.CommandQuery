@@ -4,10 +4,6 @@ namespace MediatR.CommandQuery.Queries;
 
 public class EntityContinuationResult<TReadModel>
 {
-    [JsonPropertyName("previousToken")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public string? PreviousToken { get; set; }
-
     [JsonPropertyName("continuationToken")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ContinuationToken { get; set; }
