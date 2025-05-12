@@ -1,15 +1,18 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <IsPackable>false</IsPackable>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <NoWarn>1591</NoWarn>
+    <Nullable>enable</Nullable>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Handlers\" />
-    <Folder Include="Commands\" />
-    <Folder Include="Queries\" />
+    <ProjectReference Include="..\MediatR.CommandQuery.EntityFrameworkCore\MediatR.CommandQuery.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
 </Project>

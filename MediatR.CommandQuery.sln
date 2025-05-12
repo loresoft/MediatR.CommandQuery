@@ -8,7 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0EE0FE20
 		test\Directory.Build.props = test\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Tests", "test\MediatR.CommandQuery.Tests\MediatR.CommandQuery.Tests.csproj", "{22432F49-0412-4979-8C05-62768A48CA2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Tests", "D:\Projects\GitHub\MediatR.CommandQuery\test\MediatR.CommandQuery.Tests\MediatR.CommandQuery.Tests.csproj", "{22432F49-0412-4979-8C05-62768A48CA2E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{63F0C18C-13A5-4D95-9365-47215BCDADF4}"
 	ProjectSection(SolutionItems) = preProject
@@ -19,36 +19,36 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{63F0C18C
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests", "test\MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests\MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.csproj", "{88E3A397-8D0C-40D8-8999-297914CCAA8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests", "D:\Projects\GitHub\MediatR.CommandQuery\test\MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests\MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.csproj", "{88E3A397-8D0C-40D8-8999-297914CCAA8A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery", "src\MediatR.CommandQuery\MediatR.CommandQuery.csproj", "{5F3A61BB-966E-4575-8831-656654B810C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery", "D:\Projects\GitHub\MediatR.CommandQuery\src\MediatR.CommandQuery\MediatR.CommandQuery.csproj", "{5F3A61BB-966E-4575-8831-656654B810C6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.EntityFrameworkCore", "src\MediatR.CommandQuery.EntityFrameworkCore\MediatR.CommandQuery.EntityFrameworkCore.csproj", "{E4F35D15-9710-44F1-AD0E-667EA26448C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.EntityFrameworkCore", "D:\Projects\GitHub\MediatR.CommandQuery\src\MediatR.CommandQuery.EntityFrameworkCore\MediatR.CommandQuery.EntityFrameworkCore.csproj", "{E4F35D15-9710-44F1-AD0E-667EA26448C1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.EntityFrameworkCore.Tests", "test\MediatR.CommandQuery.EntityFrameworkCore.Tests\MediatR.CommandQuery.EntityFrameworkCore.Tests.csproj", "{AA278D3F-D266-4B98-B9A8-DA6078CCB704}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.EntityFrameworkCore.Tests", "D:\Projects\GitHub\MediatR.CommandQuery\test\MediatR.CommandQuery.EntityFrameworkCore.Tests\MediatR.CommandQuery.EntityFrameworkCore.Tests.csproj", "{AA278D3F-D266-4B98-B9A8-DA6078CCB704}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Mvc", "src\MediatR.CommandQuery.Mvc\MediatR.CommandQuery.Mvc.csproj", "{51360C3E-FA9C-4F62-B009-F4CEC53C0B27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Mvc", "D:\Projects\GitHub\MediatR.CommandQuery\src\MediatR.CommandQuery.Mvc\MediatR.CommandQuery.Mvc.csproj", "{51360C3E-FA9C-4F62-B009-F4CEC53C0B27}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Audit", "src\MediatR.CommandQuery.Audit\MediatR.CommandQuery.Audit.csproj", "{CADD4D16-6114-44F6-8012-409EC0B4B880}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Audit", "D:\Projects\GitHub\MediatR.CommandQuery\src\MediatR.CommandQuery.Audit\MediatR.CommandQuery.Audit.csproj", "{CADD4D16-6114-44F6-8012-409EC0B4B880}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Hangfire", "src\MediatR.CommandQuery.Hangfire\MediatR.CommandQuery.Hangfire.csproj", "{7E9D6A95-BB24-47A0-8667-D3A709F5F502}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Hangfire", "D:\Projects\GitHub\MediatR.CommandQuery\src\MediatR.CommandQuery.Hangfire\MediatR.CommandQuery.Hangfire.csproj", "{7E9D6A95-BB24-47A0-8667-D3A709F5F502}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Cosmos", "src\MediatR.CommandQuery.Cosmos\MediatR.CommandQuery.Cosmos.csproj", "{4F60454F-F7F0-4E61-9BAA-8229F81F3BE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Cosmos", "D:\Projects\GitHub\MediatR.CommandQuery\src\MediatR.CommandQuery.Cosmos\MediatR.CommandQuery.Cosmos.csproj", "{4F60454F-F7F0-4E61-9BAA-8229F81F3BE9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Cosmos.Tests", "test\MediatR.CommandQuery.Cosmos.Tests\MediatR.CommandQuery.Cosmos.Tests.csproj", "{5D5D4A8F-990E-458F-A2CF-C88F8C7DE029}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Cosmos.Tests", "D:\Projects\GitHub\MediatR.CommandQuery\test\MediatR.CommandQuery.Cosmos.Tests\MediatR.CommandQuery.Cosmos.Tests.csproj", "{5D5D4A8F-990E-458F-A2CF-C88F8C7DE029}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.MongoDB", "src\MediatR.CommandQuery.MongoDB\MediatR.CommandQuery.MongoDB.csproj", "{9E997905-81C6-45DF-8FA4-3EBCFA7D40A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.MongoDB", "D:\Projects\GitHub\MediatR.CommandQuery\src\MediatR.CommandQuery.MongoDB\MediatR.CommandQuery.MongoDB.csproj", "{9E997905-81C6-45DF-8FA4-3EBCFA7D40A9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.MongoDB.Tests", "test\MediatR.CommandQuery.MongoDB.Tests\MediatR.CommandQuery.MongoDB.Tests.csproj", "{ADCC6D4F-E6A0-4736-80FE-918E2592A9FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.MongoDB.Tests", "D:\Projects\GitHub\MediatR.CommandQuery\test\MediatR.CommandQuery.MongoDB.Tests\MediatR.CommandQuery.MongoDB.Tests.csproj", "{ADCC6D4F-E6A0-4736-80FE-918E2592A9FF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{2E91BC5A-6D57-4EFD-A693-4D96B295FDB5}"
 	ProjectSection(SolutionItems) = preProject
 		samples\TrackerService.sql = samples\TrackerService.sql
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker.WebService.MongoDB", "samples\Tracker.WebService.MongoDB\Tracker.WebService.MongoDB.csproj", "{10338169-75AF-4E52-818A-E656C77CAA90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker.WebService.MongoDB", "D:\Projects\GitHub\MediatR.CommandQuery\samples\Tracker.WebService.MongoDB\Tracker.WebService.MongoDB.csproj", "{10338169-75AF-4E52-818A-E656C77CAA90}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker.WebService.EntityFrameworkCore", "samples\Tracker.WebService.EntityFrameworkCore\Tracker.WebService.EntityFrameworkCore.csproj", "{29537166-4CA5-4201-845C-8BC5B39D0966}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker.WebService.EntityFrameworkCore", "D:\Projects\GitHub\MediatR.CommandQuery\samples\Tracker.WebService.EntityFrameworkCore\Tracker.WebService.EntityFrameworkCore.csproj", "{29537166-4CA5-4201-845C-8BC5B39D0966}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{178BF52C-04A0-4B7D-89CA-41E14912A2D5}"
 	ProjectSection(SolutionItems) = preProject
@@ -58,7 +58,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{
 		templates\EntityEndpoint.csx = templates\EntityEndpoint.csx
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Endpoints", "src\MediatR.CommandQuery.Endpoints\MediatR.CommandQuery.Endpoints.csproj", "{C07AB804-A503-45A3-A874-01175332E666}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediatR.CommandQuery.Endpoints", "D:\Projects\GitHub\MediatR.CommandQuery\src\MediatR.CommandQuery.Endpoints\MediatR.CommandQuery.Endpoints.csproj", "{C07AB804-A503-45A3-A874-01175332E666}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediatR.CommandQuery.Identity.Tests", "D:\Projects\GitHub\MediatR.CommandQuery\test\MediatR.CommandQuery.Identity.Tests\MediatR.CommandQuery.Identity.Tests.csproj", "{AFCCDDFE-8B4C-6F3C-8B7D-98031970871E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -250,6 +252,18 @@ Global
 		{C07AB804-A503-45A3-A874-01175332E666}.Release|x64.Build.0 = Release|Any CPU
 		{C07AB804-A503-45A3-A874-01175332E666}.Release|x86.ActiveCfg = Release|Any CPU
 		{C07AB804-A503-45A3-A874-01175332E666}.Release|x86.Build.0 = Release|Any CPU
+		{AFCCDDFE-8B4C-6F3C-8B7D-98031970871E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFCCDDFE-8B4C-6F3C-8B7D-98031970871E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFCCDDFE-8B4C-6F3C-8B7D-98031970871E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AFCCDDFE-8B4C-6F3C-8B7D-98031970871E}.Debug|x64.Build.0 = Debug|Any CPU
+		{AFCCDDFE-8B4C-6F3C-8B7D-98031970871E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AFCCDDFE-8B4C-6F3C-8B7D-98031970871E}.Debug|x86.Build.0 = Debug|Any CPU
+		{AFCCDDFE-8B4C-6F3C-8B7D-98031970871E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFCCDDFE-8B4C-6F3C-8B7D-98031970871E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFCCDDFE-8B4C-6F3C-8B7D-98031970871E}.Release|x64.ActiveCfg = Release|Any CPU
+		{AFCCDDFE-8B4C-6F3C-8B7D-98031970871E}.Release|x64.Build.0 = Release|Any CPU
+		{AFCCDDFE-8B4C-6F3C-8B7D-98031970871E}.Release|x86.ActiveCfg = Release|Any CPU
+		{AFCCDDFE-8B4C-6F3C-8B7D-98031970871E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -262,6 +276,7 @@ Global
 		{ADCC6D4F-E6A0-4736-80FE-918E2592A9FF} = {0EE0FE20-53A5-41C9-BBAE-B2EC1B3808F8}
 		{10338169-75AF-4E52-818A-E656C77CAA90} = {2E91BC5A-6D57-4EFD-A693-4D96B295FDB5}
 		{29537166-4CA5-4201-845C-8BC5B39D0966} = {2E91BC5A-6D57-4EFD-A693-4D96B295FDB5}
+		{AFCCDDFE-8B4C-6F3C-8B7D-98031970871E} = {0EE0FE20-53A5-41C9-BBAE-B2EC1B3808F8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BCEE5756-6B14-4B7A-818B-3183A7286B3C}

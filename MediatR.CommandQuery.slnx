@@ -1,0 +1,43 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Build/">
+    <File Path=".github/dependabot.yml" />
+    <File Path=".github/workflows/dotnet.yml" />
+    <File Path="coverlet.runsettings" />
+    <File Path="README.md" />
+    <File Path="src/Directory.Build.props" />
+  </Folder>
+  <Folder Name="/Samples/">
+    <File Path="samples/TrackerService.sql" />
+    <Project Path="samples/Tracker.WebService.EntityFrameworkCore/Tracker.WebService.EntityFrameworkCore.csproj" />
+    <Project Path="samples/Tracker.WebService.MongoDB/Tracker.WebService.MongoDB.csproj" />
+  </Folder>
+  <Folder Name="/Templates/">
+    <File Path="templates/DomainJsonContext.csx" />
+    <File Path="templates/DomainServiceRegistration.csx" />
+    <File Path="templates/EntityController.csx" />
+    <File Path="templates/EntityEndpoint.csx" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <File Path="test/Directory.Build.props" />
+    <Project Path="test/MediatR.CommandQuery.Cosmos.Tests/MediatR.CommandQuery.Cosmos.Tests.csproj" />
+    <Project Path="test/MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests/MediatR.CommandQuery.EntityFrameworkCore.SqlServer.Tests.csproj" />
+    <Project Path="test/MediatR.CommandQuery.EntityFrameworkCore.Tests/MediatR.CommandQuery.EntityFrameworkCore.Tests.csproj" />
+    <Project Path="test/MediatR.CommandQuery.Identity.Tests/MediatR.CommandQuery.Identity.Tests.csproj" />
+    <Project Path="test/MediatR.CommandQuery.MongoDB.Tests/MediatR.CommandQuery.MongoDB.Tests.csproj" />
+    <Project Path="test/MediatR.CommandQuery.Tests/MediatR.CommandQuery.Tests.csproj" />
+  </Folder>
+  <Project Path="src/MediatR.CommandQuery.Audit/MediatR.CommandQuery.Audit.csproj" />
+  <Project Path="src/MediatR.CommandQuery.Cosmos/MediatR.CommandQuery.Cosmos.csproj" />
+  <Project Path="src/MediatR.CommandQuery.Endpoints/MediatR.CommandQuery.Endpoints.csproj" />
+  <Project Path="src/MediatR.CommandQuery.EntityFrameworkCore/MediatR.CommandQuery.EntityFrameworkCore.csproj" />
+  <Project Path="src/MediatR.CommandQuery.Hangfire/MediatR.CommandQuery.Hangfire.csproj" />
+  <Project Path="src/MediatR.CommandQuery.Identity/MediatR.CommandQuery.Identity.csproj" />
+  <Project Path="src/MediatR.CommandQuery.MongoDB/MediatR.CommandQuery.MongoDB.csproj" />
+  <Project Path="src/MediatR.CommandQuery.Mvc/MediatR.CommandQuery.Mvc.csproj" />
+  <Project Path="src/MediatR.CommandQuery/MediatR.CommandQuery.csproj" />
+</Solution>
