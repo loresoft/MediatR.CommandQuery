@@ -1,3 +1,8 @@
+> [!CAUTION]
+> Due to the [commercialization](https://www.jimmybogard.com/automapper-and-mediatr-going-commercial/) of [MediatR](https://github.com/LuckyPennySoftware/MediatR) and [AutoMapper](https://github.com/LuckyPennySoftware/AutoMapper), this project has been restructured and is now maintained under the [Arbiter](https://github.com/loresoft/Arbiter) repository with those dependencies removed.
+>
+> This repository is now archived and will no longer receive updates. Please migrate to the [Arbiter](https://github.com/loresoft/Arbiter) project for continued support and improvements. You can find the migration guide [here](https://loresoft.com/Arbiter/guide/migration.html).
+
 # MediatR.CommandQuery
 
 CQRS framework using MediatR, AutoMapper and FluentValidation
